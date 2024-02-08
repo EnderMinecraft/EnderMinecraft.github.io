@@ -2,4 +2,14 @@
 <p style="text-align: center;"><a title="Mini game" href="https://enderminecraft.github.io/minigame.html">Game</a></p>
 <p style="text-align: center;"><a title="Boxmove game" href="https://enderminecraft.github.io/minigame2.html">Boxmove game</a></p>
 <p style="text-align: center;"><a title="My AmogusClick game" href="https://github.com/enderMinecraft/AmogusCLICK/releases/latest/download/Installer.exe">My AmogusClick game</a></p>
-<iframe src="http://EnderMinecraft.github.io/ver.txt"></iframe> 
+<div id="data"></div> 
+ <script> 
+  var xhr = new XMLHttpRequest(); 
+  xhr.onreadystatechange = function() { 
+    if (xhr.readyState == 4 && xhr.status == 200) { 
+      document.getElementById("data").innerHTML = xhr.responseText; 
+    } 
+  }; 
+  xhr.open("GET", "https://enderminecraft.github.io/ver.txt", true); 
+  xhr.send(); 
+</script> 
