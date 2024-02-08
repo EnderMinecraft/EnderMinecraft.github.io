@@ -19,8 +19,7 @@ body {
     color: blue;
 	
     font-family: "Source Sans Pro", sans-serif;
-	
-	background-image: url("files/images/background.jpg");
+	background-color: #FF0008;
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -145,7 +144,7 @@ a.navbar-icon:hover {
 
 a.navbar-item.rainbow,
 a.navbar-item.rainbow:hover {
-	margin-top: -4px;	/* Andrew Fix™️ */
+	margin-top: -4px;
 	
     border-bottom: none;
     clip-path: none;
