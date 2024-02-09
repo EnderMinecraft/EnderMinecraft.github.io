@@ -1,8 +1,5 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" async></script>
-	<script type="text/javascript" src="https://EnderMinecraft.github.io/files/scripts/randombg.js" async></script>
-	<script type="text/javascript" src="https://EnderMinecraft.github.io/files/scripts/getver.js" async></script>
    	<title>ヾ(＾∇＾)</title>
     	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="theme-color" content="#489FDF">
@@ -76,4 +73,19 @@
             </div>
         </div>
     </div>
+	<script async>
+		var xhr = new XMLHttpRequest(); 
+ 		xhr.onreadystatechange = function() { 
+    		if (xhr.readyState == 4 && xhr.status == 200) { 
+      			document.getElementById("data").innerHTML = "("+ xhr.responseText+")"; 
+    		} 
+  		}; 
+  		xhr.open("GET", "https://enderminecraft.github.io/ver.txt", true); 
+  		xhr.send(); 
+	</script>
+	<script async>
+		var images = ["bg1.jpg","bg2.jpg","bg3.jpg"];
+		$('body').css({'background-image' : 'url(https://enderminecraft.github.io/files/images/' + images[Math.floor(Math.random() * images.length)] + ')'});
+	</script>
+	<script type="text/javascript" src="https://EnderMinecraft.github.io/files/scripts/getver.js" async></script>
 </body></html>
