@@ -98,13 +98,11 @@ ul.navbar-links.main {
     flex: 1;
 	list-style-type: none;
 }
-@media only screen and (max-width: 1039px) {
-  	ul.navbar-links.logo {
-    	padding-left: 10px;
-	list-style-type: none;
-	}
-}
 
+ul.navbar-links.logo {
+	padding-left: 10px;
+	list-style-type: none;
+}
 
 ul.navbar-links li.navbar-link {
     display: inline-flex;
@@ -201,9 +199,16 @@ a.navbar-item:not(.logo).is-active {
     clip-path: polygon(0 -100%, 100% -100%, 100% 100%, 0 100%);
 }
 
+@media only screen and (min-width: 1039px) {
 img.icon {
     width: auto;
     height: 90px
+	}
+}
+@media only screen and (max-width: 1038px) {
+img.icon {
+    display:none;
+	}
 }
 
 ul.navbar-links li.dummy-height-setter {
