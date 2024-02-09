@@ -101,10 +101,6 @@ ul.navbar-links.logo {
     padding-left: 10px;
 }
 
-ul.navbar-links.donate {
-    padding-right: 10px;
-}
-
 ul.navbar-links li.navbar-link {
     display: inline-flex;
     vertical-align: middle;
@@ -261,25 +257,6 @@ body .container {
 	
     min-height: 0;
     height: calc(100vh - 91px)
-}
-
-body .container .side-panel {
-	display: flex;
-    flex-direction: column;
-	
-    flex-shrink: 3;
-	
-	padding-left: 10px;
-    padding-right: 10px;
-	
-    background: #0004;
-
-    /*border-right: 1px solid #fff;*/
-    width: 350px;
-}
-
-body .container .side-panel.is-reveal-button {
-    display: none
 }
 
 body .container .is-show-more-button {
