@@ -267,9 +267,6 @@ div.boxes .box.horizontal {
 div.boxes.horizontal {
     flex-direction: column;
 }
-div.content-links {
-    display: flex;
-}
 div.content-title {
     justify-content: space-between;
 }
@@ -291,31 +288,17 @@ div.boxes .box:not(.horizontal).horizontal-center {
 div.boxes .box.horizontal.horizontal-center {
     align-items: center;
 }
-div.latest-video-heading h1 {
-    margin: 0;
-}
+
 div.landing-boxes {
     flex: 1;
 }
 div.half {
     display: inline-block;
+    
     width: 45%;
 }
 div.text {
     width: 75%;
-}
-img.clickable {
-    cursor: pointer;
-}
-div.landing-page-box iframe {
-    width: 100%;
-    height: 225px;
-    max-width: 400px;
-    max-height: 225px;
-}
-.slide {
-    line-height: 0;
-    user-select: none;
 }
 a.no-link-highlight {
     color: white;
@@ -333,7 +316,6 @@ hr.gradient {
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: left top, left bottom;
-    
     -webkit-mask-image: -webkit-gradient(linear, left top, right top, from(#000), to(transparent));
     -webkit-mask-image: linear-gradient(90deg, #000, transparent);
     -webkit-mask-size: 100%;
@@ -377,6 +359,7 @@ div.profile.hidden {
 .button {
     border: solid 2px white;
     padding: 10px;
+    
     user-select: none;
 }
 .button:hover {
