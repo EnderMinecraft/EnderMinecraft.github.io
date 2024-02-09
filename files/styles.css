@@ -98,10 +98,10 @@ ul.navbar-links.main {
     flex: 1;
 	list-style-type: none;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 1039px) {
   	ul.navbar-links.logo {
-    		padding-left: 10px;
-		list-style-type: none;
+    	padding-left: 10px;
+	list-style-type: none;
 	}
 }
 
