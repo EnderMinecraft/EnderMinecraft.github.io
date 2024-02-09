@@ -70,6 +70,8 @@ div.navbar {
 
 a.navbar-item {
     text-decoration: none;
+	list-style-type: none;
+	
 }
 
 div.navbar-items {
@@ -77,8 +79,8 @@ div.navbar-items {
 	
     flex-direction: row;
     flex: 1;
-	
     vertical-align: middle;
+	list-style-type: none;
 	
     max-height: 90px;
 }
@@ -88,27 +90,30 @@ ul.navbar-links {
     padding: 0;
 	
     flex-wrap: wrap;
-	
+	list-style-type: none;
     line-height: 30px;
 	list-style-type: none;
 }
 
 ul.navbar-links.main {
     flex: 1;
+	list-style-type: none;
 }
 
 ul.navbar-links.logo {
     padding-left: 10px;
+	list-style-type: none;
 }
 
 ul.navbar-links li.navbar-link {
     display: inline-flex;
     vertical-align: middle;
+	list-style-type: none;
 }
 
 a.navbar-item {
 	display: flex;
-	
+	list-style-type: none;
 	padding: 0 10px 5px;
 	align-items: center;
 	
