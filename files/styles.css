@@ -76,7 +76,6 @@ a.navbar-item {
 
 div.navbar-items {
     display: flex;
-	
     flex-direction: row;
     flex: 1;
     vertical-align: middle;
@@ -99,11 +98,13 @@ ul.navbar-links.main {
     flex: 1;
 	list-style-type: none;
 }
-
-ul.navbar-links.logo {
-    padding-left: 10px;
-	list-style-type: none;
+@media only screen and (max-width: 600px) {
+  	ul.navbar-links.logo {
+    		padding-left: 10px;
+		list-style-type: none;
+	}
 }
+
 
 ul.navbar-links li.navbar-link {
     display: inline-flex;
