@@ -109,7 +109,8 @@ ul.navbar-links li.navbar-link {
     vertical-align: middle;
 	list-style-type: none;
 }
-
+@media only screen and (min-width: 687px)
+{
 a.navbar-item {
 	display: flex;
 	list-style-type: none;
@@ -123,6 +124,24 @@ a.navbar-item {
     clip-path: polygon(0 -100%, 100% -100%, 100% calc(100% - 3px), 0 calc(100% - 3px));
 	
     transition: clip-path .25s ease-in-out;
+}
+}
+@media only screen and (max-width: 686px)
+{
+a.navbar-item {
+	display: flex;
+	list-style-type: none;
+	padding: 0 5px 5px;
+	align-items: center;
+	
+    font-size: 23px;
+    color: white;
+	
+    border-bottom: 3px solid;
+    clip-path: polygon(0 -100%, 100% -100%, 100% calc(100% - 3px), 0 calc(100% - 3px));
+	
+    transition: clip-path .25s ease-in-out;
+}
 }
 
 a.navbar-icon,
@@ -185,9 +204,19 @@ h1.heading .icon-text+span {
 h1.error-heading {
 	justify-content: center;
 }
+@media only screen and (max-width: 686px)
+{
+	a.navbar-item .navbar-icon+span {
+	    padding-left: 2px;
+		transform: scale(.75);
+	}
+}
 
-a.navbar-item .navbar-icon+span {
-    padding-left: 7.5px;
+@media only screen and (min-width: 687px)
+{
+	a.navbar-item .navbar-icon+span {
+	    padding-left: 7.5px;
+	}
 }
 
 a.navbar-item.logo {
@@ -199,13 +228,13 @@ a.navbar-item:not(.logo).is-active {
     clip-path: polygon(0 -100%, 100% -100%, 100% 100%, 0 100%);
 }
 
-@media only screen and (min-width: 1039px) {
+@media only screen and (min-width: 687px) {
 img.icon {
     width: auto;
     height: 90px
 	}
 }
-@media only screen and (max-width: 1038px) {
+@media only screen and (max-width: 686px) {
 img.icon {
     display:none;
 	}
