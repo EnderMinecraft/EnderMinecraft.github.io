@@ -9,36 +9,67 @@
 <body>
 
     <header class="navbar">
-        <h1>Page title</h1>
+        <h1 class="rainbow-title">Yen Vien High School wiki</h1>
     </header>
 
     <div class="container">
         <main class="content">
             <article>
-                <h2>Heading</h2>
-                <p class="meta">Date | Author</p>
+                <h2>What is Yen Vien High School? Discover Now👇👇👇👇</h2>
+                <p class="meta">6/7/2026 | Not a scammer</p>
                 
                 <div class="video-container">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=hNpZvth1IoDW1B26" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/AzgtP42AhZg?si=aeeW6LQhjXJxllSl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
 
-                <p>Text content</p>
-                <p>Text content 2</p>
+                <p>Yen Vien High School is a prestigious educational institution located in Hanoi, Vietnam. It is known for its excellent academic programs and dedicated faculty.</p>
+                <p>Yen Vien High School has a long history of academic excellence and has produced many successful graduates who have gone on to pursue higher education and careers in various fields.</p>
             </article>
         </main>
 
         <aside class="sidebar">
-            <div class="ad-box">
+            <div class="ad-box ad-clickable">
                 <p>ADS</p>
                 <img src=".//ad1.png" alt="Advertisement">
             </div>
             
-            <div class="ad-box">
+            <div class="ad-box ad-clickable">
                 <p>ADS</p>
                 <img src="./ad2.jpg" alt="Advertisement">
             </div>
         </aside>
     </div>
-
+<div id="adModal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h3>LOLOLOLOLOLOLOL</h3>
+        <p>You have been fooled. Thanks for the credit infomation lol. Imma go n buy 500 cigarettes</p>
+        <button class="cta-button">go cryin'</button>
+    </div>
+</div>
 </body>
 </html>
+<script>
+    const modal = document.getElementById("adModal");
+    const closeBtn = document.querySelector(".close-btn");
+    const ads = document.querySelectorAll(".ad-clickable");
+
+    // Open modal when any ad is clicked
+    ads.forEach(ad => {
+        ad.addEventListener("click", () => {
+            modal.style.display = "block";
+        });
+    });
+
+    // Close modal when "X" is clicked
+    closeBtn.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // Close modal if user clicks anywhere outside of the white box
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
