@@ -294,9 +294,11 @@ div.landing-boxes {
    HERO
    ============================================ */
 .hero {
+    position: relative;
     padding: 60px 24px 20px;
     text-align: center;
 }
+
 
 .hero .kicker {
     display: inline-block;
@@ -332,6 +334,125 @@ div.landing-boxes {
     font-size: 1.15rem;
     max-width: 560px;
     margin: 24px auto 0;
+}
+
+/* ============================================
+   FLOATING COINS (desktop only, parallax via JS)
+   ============================================ */
+.floaters {
+    display: none;
+}
+
+@media only screen and (min-width: 781px) {
+    .floaters {
+        display: block;
+    }
+
+    .coin-wrap {
+        position: absolute;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .coin {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: transparent;
+        border: 4px solid transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-display);
+        font-size: 89px;
+        color: var(--black);
+        animation: coin-float 6s ease-in-out infinite;
+        transition: transform .2s ease;
+        pointer-events: auto;
+    }
+
+    .coin::before {
+        content: "";
+        position: absolute;
+        top: 10px;
+        left: 14px;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: transparent;
+        border: 4px solid transparent;
+        z-index: -1;
+    }
+
+    .coin:hover {
+        transform: scale(2.12) rotate(-6deg);
+    }
+
+    .coin-1 {
+        top: 0px;
+        left: 10%;
+        rotate: -18deg;
+    }
+    .coin-1 .coin {
+        background: transparent;
+        animation-delay: 0s;
+    }
+    .coin-1 .coin::before {
+        background: transparent;
+    }
+
+    .coin-2 {
+        top: 0px;
+        right: 10%;
+        rotate: 12deg;
+    }
+    .coin-2 .coin {
+        background:transparent;
+        animation-delay: 0s;
+    }
+    .coin-2 .coin::before {
+        background: transparent;
+    }
+
+    .coin-3 {
+        bottom: 10%;
+        left: 10%;
+        rotate: -8deg;
+    }
+    .coin-3 .coin {
+        width: 40px;
+        height: 40px;
+        font-size: 89px;
+        background: transparent;
+        animation-delay: 0s;
+    }
+    .coin-3 .coin::before {
+        width: 40px;
+        height: 0px;
+        background: transparent;
+    }
+    .coin-4 {
+        bottom: 0px;
+        right: 10%;
+        rotate: -8deg;
+    }
+    .coin-4 .coin {
+        background: transparent;
+        animation-delay: 0s;
+    }
+    .coin-4 .coin::before {
+        background: transparent;
+    }
+}
+
+@keyframes coin-float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-16px);
+    }
 }
 
 /* ============================================
@@ -407,7 +528,7 @@ div.landing-boxes {
 }
 
 .brutal-card .card-link {
-    margin-top: auto;
+    margin-top: 0;
     display: inline-flex;
     align-items: center;
     justify-content: center;
