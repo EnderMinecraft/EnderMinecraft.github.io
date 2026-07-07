@@ -387,6 +387,10 @@ div.landing-boxes {
     .coin-symbol {
         display: inline-block;
         transition: transform .2s ease;
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
     }
     .coin:hover {
         transform: scale(2.12) rotate(-6deg);
