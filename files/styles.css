@@ -351,7 +351,8 @@ div.landing-boxes {
     .coin-wrap {
         position: absolute;
         z-index: 1;
-        pointer-events: none;
+        pointer-events: auto;
+        /*transition: transform 0.15s ease-out;*/
     }
 
     .coin {
@@ -368,7 +369,6 @@ div.landing-boxes {
         font-size: 89px;
         color: var(--black);
         animation: coin-float 6s ease-in-out infinite;
-        transition: transform .2s ease;
         pointer-events: auto;
     }
 
@@ -384,11 +384,16 @@ div.landing-boxes {
         border: 4px solid transparent;
         z-index: -1;
     }
-
+    .coin-symbol {
+        display: inline-block;
+        transition: transform .2s ease;
+    }
     .coin:hover {
         transform: scale(2.12) rotate(-6deg);
     }
-
+    .coin-wrap:hover .coin-symbol {
+        transform: scale(2.12) rotate(-6deg);
+    }
     .coin-1 {
         top: 0px;
         left: 10%;
