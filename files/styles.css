@@ -671,7 +671,7 @@ div.landing-boxes {
         display: none;
     }
     body.page-main a.navbar-item {
-        padding: 5px;
+        padding: 3px;
         display: flex;
         overflow-x:none;
         overflow-y:none;
@@ -679,7 +679,7 @@ div.landing-boxes {
         white-space: nowrap;
     }
     body.page-main a.navbar-item.navbar-icon {
-        padding: 7px;
+        padding: 3px;
     }
     body.page-main .hero {
         padding: 40px 16px 10px;
