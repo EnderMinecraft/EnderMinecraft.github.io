@@ -735,14 +735,12 @@ div.landing-boxes {
    POST PAGE
    ============================================ */
 .post-layout {
-    display: grid;
-    grid-template-columns: 0.75fr 2.2fr;
-    gap: 40px;
-    max-width: 1100px;
+    display: block;
+    max-width: 760px;
     margin: 40px auto 60px;
     padding: 0 24px;
-    align-items: start;
 }
+
 
 .post-main {
     background: var(--white);
@@ -787,15 +785,46 @@ div.landing-boxes {
     font-weight: 500;
     font-style: italic;
 }
-
-.post-sidebar {
+.sidebar-toggle {
+    position: fixed;
+    top: 100px;
+    left: 20px;
+    z-index: 50;
+    width: 48px;
+    height: 48px;
+    background: var(--pink);
+    border: var(--border-thick);
+    box-shadow: var(--shadow-sm);
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    position: sticky;
-    top: 20px;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
 }
-
+.sidebar-toggle span {
+    width: 22px;
+    height: 3px;
+    background: var(--black);
+}
+.post-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: min(320px, 85vw);
+    background: var(--white);
+    border-right: var(--border-thick);
+    box-shadow: 6px 0 0 var(--black);
+    padding: 90px 20px 20px;
+    transform: translateX(-100%);
+    transition: transform .25s ease;
+    z-index: 60;
+    overflow-y: auto;
+}
+.post-sidebar.open {
+    transform: translateX(0);
+}
 .sidebar-card {
     position: relative;
     background: var(--lime);
@@ -819,7 +848,19 @@ div.landing-boxes {
     font-size: 0.9rem;
     margin: 0 0 12px;
 }
-
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s ease;
+    z-index: 55;
+}
+.sidebar-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
 .card-link.secondary {
     background: transparent;
     color: var(--black);
@@ -827,14 +868,7 @@ div.landing-boxes {
     font: inherit;
 }
 
-@media only screen and (max-width: 780px) {
-    .post-layout {
-        grid-template-columns: 1fr;
-    }
-    .post-sidebar {
-        position: static;
-    }
-}
+
 
 @media only screen and (max-width: 814px) {
     body.page-misc ul.navbar-links.main {
@@ -885,4 +919,36 @@ div.landing-boxes {
     body.page-misc .brutal-card:nth-child(n) {
         transform: rotate(0deg);
     }
+}
+/* Explicit row/column control for the blog grid */
+@media only screen and (min-width: 1000px) {
+    body.page-blog .card-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media only screen and (min-width: 620px) and (max-width: 999px) {
+    body.page-blog .card-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media only screen and (max-width: 619px) {
+    body.page-blog ul.navbar-links.main { gap: 8px; }
+    body.page-blog a.navbar-item.logo { width: 48px; height: 48px; font-size: 16px; }
+    body.page-blog a.navbar-item span { display: none; }
+    body.page-blog a.navbar-item { padding: 5px; }
+    body.page-blog .hero { padding: 40px 16px 10px; }
+    body.page-blog .card-grid {
+        grid-template-columns: 1fr;
+    }
+    body.page-blog .brutal-card:nth-child(n) {
+        transform: rotate(0deg);
+    }
+    body.page-blog .featured-card {
+        padding: 20px;
+    }
+a, button, .card-link, .sidebar-toggle, .brutal-card {
+    touch-action: manipulation;
+}    
 }
