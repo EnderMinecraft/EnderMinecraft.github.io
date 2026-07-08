@@ -30,4 +30,24 @@ document.addEventListener("DOMContentLoaded", function () {
     pickRandomPost();
     var btn = document.getElementById("shuffleBtn");
     if (btn) btn.addEventListener("click", pickRandomPost);
+    var toggle = document.getElementById("sidebarToggle");
+    var sidebar = document.getElementById("postSidebar");
+    var overlay = document.getElementById("sidebarOverlay");
+    if (!toggle || !sidebar || !overlay) return;
+
+    function closeSidebar() {
+        sidebar.classList.remove("open");
+        overlay.classList.remove("active");
+        toggle.setAttribute("aria-expanded", "false");
+    }
+    function openSidebar() {
+        sidebar.classList.add("open");
+        overlay.classList.add("active");
+        toggle.setAttribute("aria-expanded", "true");
+    }
+
+    toggle.addEventListener("click", function () {
+        sidebar.classList.contains("open") ? closeSidebar() : openSidebar();
+    });
+    overlay.addEventListener("click", closeSidebar);
 });
