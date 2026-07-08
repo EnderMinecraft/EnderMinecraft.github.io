@@ -643,7 +643,7 @@ div.landing-boxes {
    ============================================ */
 @media only screen and (max-width: 780px) {
     body.page-main ul.navbar-links.main {
-        gap: 8px;
+        gap: 7px;
         /*overflow-x: auto;*/
     }
     body.page-main a.navbar-item.logo {
@@ -658,7 +658,7 @@ div.landing-boxes {
         width: 48px;
         height: 48px;
         font-size: 16px;
-        padding: 11px;
+        padding: 7px;
     }
 
     body.page-main a.navbar-item.navbar-icon img.navbar-icon {
