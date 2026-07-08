@@ -643,20 +643,20 @@ div.landing-boxes {
    ============================================ */
 @media only screen and (max-width: 780px) {
     body.page-main ul.navbar-links.main {
-        gap: 7px;
+        gap: 4px;
         /*overflow-x: auto;*/
     }
     body.page-main a.navbar-item.logo {
         flex-shrink: 1;
-        width: 36px;
-        height: 36px;
+        width: 48px;
+        height: 48px;
         font-size: 16px;
     }
 
     body.page-main a.navbar-item.home {
         flex-shrink: 1;
-        width: 36px;
-        height: 36px;
+        width: 48px;
+        height: 48px;
         font-size: 16px;
         padding: 7px;
     }
@@ -664,6 +664,7 @@ div.landing-boxes {
     body.page-main a.navbar-item.navbar-icon img.navbar-icon {
     width: 20px;
     height: 20px;
+    /*might need to change*/ 
     }
 
     body.page-main a.navbar-item span {
