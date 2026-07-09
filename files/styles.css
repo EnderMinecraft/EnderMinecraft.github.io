@@ -641,7 +641,7 @@ div.landing-boxes {
 /* ============================================
    RESPONSIVE
    ============================================ */
-@media only screen and (max-width: 780px) {
+@media only screen and (max-width: 904px) {
     body.page-main ul.navbar-links.main {
         gap: 3px;
         padding: 8px
