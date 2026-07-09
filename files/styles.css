@@ -289,7 +289,38 @@ div.boxes {
 div.landing-boxes {
     flex: 1;
 }
+.site-footer {
+    background: var(--black);
+    color: var(--white);
+    text-align: center;
+    padding: 24px;
+    margin-top: 20px;
+}
 
+.site-footer p {
+    margin: 0 0 10px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.footer-links a {
+    color: var(--white);
+    font-size: 0.85rem;
+    font-weight: 700;
+    opacity: 0.8;
+    transition: opacity .15s ease;
+}
+
+.footer-links a:hover {
+    opacity: 1;
+}
 /* ============================================
    HERO
    ============================================ */
