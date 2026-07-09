@@ -295,6 +295,8 @@ div.landing-boxes {
     text-align: center;
     padding: 24px;
     margin-top: 20px;
+    margin-left: -10px;
+    margin-right: -10px;
 }
 
 .site-footer p {
