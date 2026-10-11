@@ -1,7 +1,7 @@
 # 📚 Revision Desk 
 
 <p align="center">
-  <b>A macOS-native, single-file web dashboard for smart study management and AI-powered revision packs.</b>
+  <b>A Web-native, single-file web dashboard for smart study management and AI-powered revision packs.</b>
 </p>
 
 <p align="center">
@@ -21,7 +21,7 @@
 * **Local-First Persistence:** Mọi tiến trình học tập, trạng thái flashcard, bộ đếm thời gian và lịch sử tệp đều được lưu trữ bảo mật cục bộ thông qua trình duyệt (`localStorage`).
 
 ### 🤖 AI Study Pack Integration & Quick Launchers
-* **AI Tool Launchers:** Tích hợp trực tiếp các nút chuyển hướng nhanh kèm logo thương hiệu cho **ChatGPT**, **Claude** và **Gemini** ngay tại tab *Make a pack*.
+* **AI Tool Launchers:** Tích hợp trực tiếp các nút chuyển hướng nhanh cho **ChatGPT**, **Claude** và **Gemini** ngay tại tab *Make a pack*.
 * **Smart Prompt Encoding:** Tự động mã hóa hệ thống prompt tiêu chuẩn vào đường dẫn URL giúp người dùng mở nhanh trang AI với đầy đủ ngữ cảnh để chuyển đổi tài liệu Word/PDF thành tệp `.json` chuẩn xác.
 * **System Prompt Generator:** Cung cấp sẵn một bộ quy tắc prompt khắt khe để đảm bảo cấu trúc dữ liệu JSON đầu ra luôn đồng nhất (gồm Notes, Key Terms, Flashcards và Questions đủ các cấp độ).
 
@@ -56,6 +56,6 @@
 ### 💎 UI/UX Polish
 * **Smooth Micro-Interactions:** Hiệu ứng tỏa sáng theo con trỏ chuột (`mouse-following radial glow`) trên các thẻ nội dung và hàng danh sách.
 * **View Transitions:** Hiệu ứng chuyển cảnh trượt nhẹ (`fade & slide`) tinh tế giữa các tab và trang.
-* **Bilingual Localization:** Hỗ trợ đa ngôn ngữ hoàn chỉnh gồm **Tiếng Anh (EN)** và **Tiếng Việt (VI)** với cơ chế dịch thuật tức thì.
+* **Bilingual Localization:** Hỗ trợ đa ngôn ngữ hoàn chỉnh gồm **Tiếng Anh (EN)** và **Tiếng Việt (VI)**.
 
 ---
