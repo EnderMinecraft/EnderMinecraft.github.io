@@ -1,0 +1,2078 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Revision Desk</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+/* Layout: sticky top bar (language, theme, focus timer); below it a topic rail on the left and one working column. A fixed sky sits behind the page: a sun with drifting clouds by day, a crescent moon with twinkling stars by night. Marker-yellow underlines flag key terms, like a highlighter on a printed handout. */
+:root {
+  --bg: #F2F5E9; --surface: #FFFFFF; --ink: #14251A; --muted: #566559; --line: #D8DFCB; --soft: #E5EDD6;
+  --accent: darkgreen; --accent-ink: #FFFFFF; --mark: #FFE15A;
+  --good: #17784F; --good-bg: #DCF1E3; --warn: #9A5B00; --warn-bg: #FBEBCB; --bad: #B8362B; --bad-bg: #F9DEDA;
+  --sun-ink: #C77D00; --moon-ink: #C9D3FF;
+  --sun-glow: rgb(255 206 84 / 0.4); --moon-glow: rgb(132 153 255 / 0.2);
+  --beam: rgb(255 208 80 / 0.14); --cloud: #FFFFFF; --cloud-shadow: rgb(40 90 50 / 0.1);
+  --font-ui: 'Schibsted Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-read: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --font-mono: 'DM Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0C1222; --surface: #141C32; --ink: #E6EAF7; --muted: #93A0C3; --line: #26304D; --soft: #1B2542;
+    --accent: #8499FF; --accent-ink: #0C1222; --mark: #6F5F0E;
+    --good: #4CCB9F; --good-bg: #12362D; --warn: #E8AE4B; --warn-bg: #3A2D12; --bad: #F2857A; --bad-bg: #3D1F24;
+    --sun-ink: #C77D00; --moon-ink: #C9D3FF;
+    --sun-glow: rgb(255 206 84 / 0.4); --moon-glow: rgb(132 153 255 / 0.2);
+    --beam: rgb(255 208 80 / 0.14); --cloud: #FFFFFF; --cloud-shadow: rgb(40 90 50 / 0.1);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0C1222; --surface: #141C32; --ink: #E6EAF7; --muted: #93A0C3; --line: #26304D; --soft: #1B2542;
+  --accent: #8499FF; --accent-ink: #0C1222; --mark: #6F5F0E;
+  --good: #4CCB9F; --good-bg: #12362D; --warn: #E8AE4B; --warn-bg: #3A2D12; --bad: #F2857A; --bad-bg: #3D1F24;
+  --sun-ink: #C77D00; --moon-ink: #C9D3FF;
+  --sun-glow: rgb(255 206 84 / 0.4); --moon-glow: rgb(132 153 255 / 0.2);
+  --beam: rgb(255 208 80 / 0.14); --cloud: #FFFFFF; --cloud-shadow: rgb(40 90 50 / 0.1);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 var(--font-ui); -webkit-font-smoothing: antialiased; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.15; text-wrap: balance; letter-spacing: -0.01em; }
+p { margin: 0; }
+.muted { color: var(--muted); }
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 16px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+mark { background: linear-gradient(to top, var(--mark) 0 48%, transparent 48%); color: inherit; padding: 0 0.1em; }
+.scroll { overflow-x: auto; }
+
+/* top bar */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); border-bottom: 1px solid var(--line); }
+@supports (background: color-mix(in srgb, red 50%, transparent)) {
+  .top { background: color-mix(in srgb, var(--bg) 84%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+}
+#app { position: relative; z-index: 1; }
+.logo-bg { fill: var(--ink); }
+.logo-lines { stroke: var(--bg); }
+.logo-mark { fill: var(--mark); }
+.tools { display: flex; align-items: center; gap: 10px; flex: none; }
+.seg { position: relative; display: inline-grid; grid-template-columns: 1fr 1fr; height: 40px; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
+.seg::before { content: ""; position: absolute; top: 3px; bottom: 3px; left: 3px; width: calc(50% - 3px); border-radius: 999px; background: var(--accent); transition: transform 0.35s cubic-bezier(0.65, 0, 0.35, 1), background-color 0.8s !important; }
+.seg[data-lang="en"]::before { transform: translateX(100%); }
+.seg button { position: relative; z-index: 1; border: 0; background: none; padding: 0 12px; border-radius: 999px; font: 600 12px var(--font-mono); letter-spacing: 0.06em; color: var(--muted); transition: color 0.3s; }
+.seg button[aria-pressed="true"] { color: var(--accent-ink); }
+.tbtn { position: relative; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); display: grid; place-items: center; overflow: hidden; padding: 0; }
+.tbtn:hover { border-color: var(--accent); }
+.tbtn svg { grid-area: 1 / 1; width: 22px; height: 22px; transition: transform 0.7s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.45s ease !important; }
+.ti-sun { color: var(--sun-ink); }
+.ti-moon { color: var(--moon-ink); transform: rotate(-110deg) scale(0.2); opacity: 0; }
+.tbtn[data-dark="true"] .ti-sun { transform: rotate(110deg) scale(0.2); opacity: 0; }
+.tbtn[data-dark="true"] .ti-moon { transform: none; opacity: 1; }
+.tbtn[data-dark="true"] { background: var(--soft); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 58px; }
+.brand { display: flex; align-items: center; gap: 10px; min-width: 0; background: none; border: 0; padding: 6px 0; text-align: left; }
+.brand b { font-size: 17px; letter-spacing: -0.01em; white-space: nowrap; }
+.brand .pn { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; max-width: 36ch; padding-left: 10px; border-left: 1px solid var(--line); }
+.timer-wrap { position: relative; flex: none; }
+.chip { display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px 0 8px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
+.chip svg { width: 26px; height: 26px; transform: rotate(-90deg); }
+.chip .trk { stroke: var(--line); fill: none; }
+.chip .prg { stroke: var(--accent); fill: none; stroke-linecap: round; transition: stroke-dashoffset 0.3s linear; }
+.chip.on { border-color: var(--accent); }
+.chip[data-mode="break"] .prg { stroke: var(--warn); }
+.chip.alert { animation: pulse 1.2s ease-in-out infinite; }
+#chipText { font: 500 15px var(--font-mono); font-variant-numeric: tabular-nums; }
+.chip small { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; }
+@keyframes pulse { 50% { box-shadow: 0 0 0 5px var(--soft); } }
+
+#timerPanel { position: absolute; right: 0; top: calc(100% + 10px); width: min(340px, calc(100vw - 32px)); background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; box-shadow: 0 14px 34px rgb(10 20 50 / 0.18); display: grid; gap: 14px; }
+.t-head { display: flex; justify-content: space-between; align-items: baseline; }
+.eyebrow { font: 500 12px/1 var(--font-mono); text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+#tBig { font: 500 60px/1 var(--font-mono); font-variant-numeric: tabular-nums; letter-spacing: -0.03em; text-align: center; padding-block: 4px; }
+.t-btns { display: grid; grid-template-columns: 1fr auto auto; gap: 8px; }
+.presets { display: flex; flex-wrap: wrap; gap: 6px; }
+.pill { border: 1px solid var(--line); background: var(--bg); border-radius: 999px; padding: 5px 12px; font-size: 13px; }
+.pill:hover { border-color: var(--accent); }
+.t-custom { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.t-custom label { display: grid; gap: 4px; font-size: 12px; color: var(--muted); }
+.t-custom input { width: 100%; padding: 7px 9px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); font: 500 15px var(--font-mono); }
+#tStats { font-size: 13px; color: var(--muted); }
+#tMsg { font-size: 14px; background: var(--good-bg); color: var(--ink); border-radius: 8px; padding: 9px 11px; }
+
+/* buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid var(--line); background: var(--surface); border-radius: 9px; padding: 9px 16px; font-weight: 600; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn.again { border-color: var(--warn); color: var(--warn); }
+.btn:disabled { opacity: 0.5; cursor: default; }
+.link { background: none; border: 0; padding: 0; color: var(--accent); text-decoration: underline; text-underline-offset: 3px; font-weight: 600; }
+
+/* shell */
+.shell { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 40px; padding-block: 28px 72px; align-items: start; }
+.rail { position: sticky; top: calc(76px + env(safe-area-inset-top, 0px)); display: flex; flex-direction: column; gap: 2px; max-height: calc(100vh - 100px); overflow: auto; }
+.rail-h { margin: 18px 10px 6px; font: 500 12px/1 var(--font-mono); text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+.rail-list { display: flex; flex-direction: column; gap: 2px; }
+.nav-i { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; text-align: left; background: none; border: 0; border-radius: 8px; padding: 8px 10px; color: var(--ink); }
+.nav-i:hover { background: var(--soft); }
+.nav-i.cur { background: var(--ink); color: var(--bg); font-weight: 600; }
+.dot { flex: none; width: 16px; height: 16px; border-radius: 50%; background: conic-gradient(var(--accent) calc(var(--p) * 1%), var(--line) 0); -webkit-mask: radial-gradient(circle, transparent 4.5px, #000 5.5px); mask: radial-gradient(circle, transparent 4.5px, #000 5.5px); }
+.nav-i.cur .dot { background: conic-gradient(var(--bg) calc(var(--p) * 1%), color-mix(in srgb, var(--bg) 28%, transparent) 0); }
+.main { min-width: 0; }
+
+.page-h { font-size: clamp(27px, 4.4vw, 42px); margin: 10px 0 8px; }
+.lede { color: var(--muted); max-width: 62ch; }
+.tag { font: 500 11px/1 var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; background: var(--mark); color: var(--ink); padding: 3px 6px; border-radius: 4px; margin-left: 6px; }
+.note { margin-top: 16px; padding: 12px 14px; border: 1px dashed var(--line); border-radius: 10px; background: var(--surface); max-width: 70ch; }
+.note details summary { cursor: pointer; font-weight: 600; }
+.note ul { margin: 8px 0 0; padding-left: 1.2em; color: var(--muted); }
+.note.err { border-style: solid; border-color: var(--bad); background: var(--bad-bg); }
+
+/* overview */
+.prog { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 28px; align-items: center; margin-top: 24px; padding: 22px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+.big { font: 700 68px/1 var(--font-ui); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+.big span { font-size: 30px; color: var(--muted); letter-spacing: 0; }
+.bar { height: 10px; background: var(--line); border-radius: 5px; overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--accent); }
+.stats { display: flex; flex-wrap: wrap; gap: 8px 28px; margin: 14px 0 16px; }
+.stats div { display: grid; }
+.stats dt { font-size: 12px; color: var(--muted); }
+.stats dd { margin: 0; font: 500 18px var(--font-mono); font-variant-numeric: tabular-nums; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.sec-h { margin: 34px 0 12px; font-size: 20px; }
+.tlist { display: grid; gap: 8px; }
+.trow { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 16px; width: 100%; text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; align-items: center; }
+.trow:hover { border-color: var(--accent); }
+.trow h3 { font-size: 17px; margin-bottom: 3px; }
+.trow p { color: var(--muted); font-size: 13.5px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.meters { display: grid; gap: 7px; }
+.m { display: grid; grid-template-columns: 62px minmax(0, 1fr) 70px; gap: 10px; align-items: center; font-size: 12px; }
+.m-l { color: var(--muted); }
+.m-b { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
+.m-b i { display: block; height: 100%; background: var(--accent); }
+.m-v { font-family: var(--font-mono); text-align: right; font-variant-numeric: tabular-nums; }
+.m.na .m-v { color: var(--muted); }
+.foot { margin-top: 28px; font-size: 13px; color: var(--muted); }
+
+/* tabs */
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin: 20px 0 24px; overflow-x: auto; }
+.tab { background: none; border: 0; padding: 10px 14px; border-bottom: 2px solid transparent; margin-bottom: -1px; color: var(--muted); font-weight: 600; white-space: nowrap; }
+.tab:hover { color: var(--ink); }
+.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+
+/* notes */
+.notes { max-width: 68ch; }
+.notes .sum { font: 19px/1.55 var(--font-read); color: var(--muted); margin-bottom: 8px; }
+.notes h3 { font-size: 19px; margin: 30px 0 10px; }
+.notes ul { margin: 0; padding-left: 1.2em; font: 17px/1.65 var(--font-read); }
+.notes li + li { margin-top: 8px; }
+.terms { display: grid; grid-template-columns: minmax(0, max-content) minmax(0, 1fr); gap: 10px 22px; margin: 0; max-width: 68ch; }
+.terms dt { font-weight: 700; }
+.terms dd { margin: 0; font: 16px/1.55 var(--font-read); }
+.done-row { margin-top: 32px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+
+/* flashcards */
+.deck { display: grid; gap: 16px; max-width: 640px; }
+.ctrl { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; font-size: 14px; }
+.ctrl label { display: inline-flex; gap: 8px; align-items: center; }
+.ctrl .sp { margin-left: auto; }
+.prog-line { display: flex; justify-content: space-between; font: 500 13px var(--font-mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.card-wrap { perspective: 1200px; }
+.card { width: 100%; cursor: pointer; }
+.inner { display: grid; transition: transform 0.45s; transform-style: preserve-3d; }
+.card.flipped .inner { transform: rotateY(180deg); }
+.face { grid-area: 1 / 1; backface-visibility: hidden; -webkit-backface-visibility: hidden; min-height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 28px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; font: 600 clamp(19px, 3.4vw, 24px) / 1.35 var(--font-ui); text-align: center; overflow-wrap: anywhere; }
+.face.back { transform: rotateY(180deg); background: var(--soft); }
+.face small { font: 500 11px/1 var(--font-mono); text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+.hint { text-align: center; color: var(--muted); font-size: 13px; }
+.rate { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.rate .btn { padding: 13px; }
+.empty { padding: 36px 20px; text-align: center; background: var(--surface); border: 1px dashed var(--line); border-radius: 14px; display: grid; gap: 12px; justify-items: center; }
+
+/* quiz */
+.qset { display: grid; gap: 16px; max-width: 520px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px; }
+.qset label { display: grid; gap: 6px; font-weight: 600; font-size: 14px; }
+.qset select { padding: 9px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); }
+.qset .chk { display: flex; align-items: center; gap: 8px; font-weight: 500; }
+.quiz { max-width: 720px; display: grid; gap: 16px; }
+.q-top { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; font: 500 13px var(--font-mono); color: var(--muted); }
+.q-top .grow { flex: 1; }
+.qtimer { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); }
+.qtimer .bar { width: 90px; height: 6px; }
+.qtimer .bar i { background: var(--warn); transition: width 0.2s linear; }
+.q-prog { display: flex; gap: 3px; }
+.q-prog i { flex: 1; height: 4px; border-radius: 2px; background: var(--line); }
+.q-prog i.d { background: var(--accent); }
+.q-prog i.w { background: var(--bad); }
+.q-p { font-size: clamp(20px, 3.4vw, 26px); line-height: 1.3; letter-spacing: -0.01em; }
+.opts { display: grid; gap: 8px; }
+.opt { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 10px; align-items: center; text-align: left; width: 100%; padding: 13px 14px; border: 1px solid var(--line); border-radius: 11px; background: var(--surface); }
+.opt:hover:not(:disabled) { border-color: var(--accent); }
+.opt:disabled { cursor: default; }
+.opt .k { font: 500 12px var(--font-mono); width: 24px; height: 24px; border: 1px solid var(--line); border-radius: 6px; display: grid; place-items: center; color: var(--muted); }
+.opt .lab { font: 600 11px/1 var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; }
+.opt.ok { border-color: var(--good); background: var(--good-bg); }
+.opt.ok .lab { color: var(--good); }
+.opt.bad { border-color: var(--bad); background: var(--bad-bg); }
+.opt.bad .lab { color: var(--bad); }
+.typed { width: 100%; min-height: 96px; padding: 11px 13px; border: 1px solid var(--line); border-radius: 11px; background: var(--surface); resize: vertical; }
+.fb { display: grid; gap: 10px; padding: 14px 16px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); }
+.fb.ok { border-color: var(--good); }
+.fb.bad { border-color: var(--bad); }
+.fb h3 { font-size: 16px; }
+.fb.ok h3 { color: var(--good); }
+.fb.bad h3 { color: var(--bad); }
+.model { font: 16px/1.55 var(--font-read); padding: 10px 12px; background: var(--soft); border-radius: 8px; }
+.score { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+.score .big { font-size: 72px; }
+.res-list { display: grid; gap: 10px; margin-top: 8px; }
+.res-i { padding: 12px 14px; border: 1px solid var(--line); border-radius: 11px; background: var(--surface); display: grid; gap: 6px; }
+.res-i p { font-size: 14px; color: var(--muted); }
+.by { display: grid; gap: 6px; max-width: 520px; }
+
+/* load + teacher */
+.drop { border: 2px dashed var(--line); border-radius: 14px; padding: 34px 20px; text-align: center; background: var(--surface); display: grid; gap: 12px; justify-items: center; }
+.drop.over { border-color: var(--accent); background: var(--soft); }
+.narrow { max-width: 720px; display: grid; gap: 22px; margin-top: 22px; }
+.paste { width: 100%; min-height: 130px; padding: 12px; border: 1px solid var(--line); border-radius: 11px; background: var(--surface); font: 13px/1.5 var(--font-mono); resize: vertical; }
+.steps { margin: 0; padding-left: 1.3em; display: grid; gap: 8px; max-width: 70ch; }
+pre.prompt { margin: 0; max-height: 380px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font: 12.5px/1.6 var(--font-mono); background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+.row-btns { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+table.f { border-collapse: collapse; min-width: 560px; width: 100%; font-size: 14px; background: var(--surface); }
+table.f th, table.f td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+table.f th { font: 500 12px var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+table.f code { font-family: var(--font-mono); font-size: 13px; }
+
+@media (max-width: 860px) {
+  .shell { grid-template-columns: minmax(0, 1fr); gap: 18px; padding-block: 16px 56px; }
+  .rail { position: static; flex-direction: row; overflow-x: auto; max-height: none; padding-bottom: 6px; gap: 6px; }
+  .rail-h { display: none; }
+  .rail-list { display: contents; }
+  .nav-i { width: auto; white-space: nowrap; border: 1px solid var(--line); background: var(--surface); }
+  .nav-i.cur { background: var(--ink); }
+  .nav-i:hover { background: var(--soft); }
+  .nav-i.cur:hover { background: var(--ink); }
+  .trow { grid-template-columns: minmax(0, 1fr); }
+  .prog { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+}
+@media (max-width: 560px) {
+  .brand .pn { display: none; }
+  .chip small { display: none; }
+  .terms { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .terms dd { margin-bottom: 10px; }
+  .big { font-size: 56px; }
+}
+@media (max-width: 480px) {
+  .brand b { display: none; }
+  .tools { gap: 8px; }
+  .seg button { padding: 0 10px; }
+}
+
+/* sky: sun and moon ride opposite ends of one rotating arm, so switching theme sets one and raises the other */
+.sky { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; --R: min(78vh, 700px); --s: 132px; }
+.wash { position: absolute; inset: 0; transition: opacity 1.1s ease !important; }
+.wash.sun { background: radial-gradient(70vmax 55vmax at 92% 2%, var(--sun-glow), transparent 62%); }
+.wash.moon { background: radial-gradient(70vmax 55vmax at 92% 2%, var(--moon-glow), transparent 62%); opacity: 0; }
+.sky.dark .wash.sun { opacity: 0; }
+.sky.dark .wash.moon { opacity: 1; }
+
+.orbit { position: absolute; right: max(6vw, 84px); top: calc(128px + var(--R)); width: 0; height: 0; }
+.orb { position: absolute; width: var(--s); height: var(--s); left: calc(var(--s) / -2); top: calc(var(--s) / -2); }
+.orb svg { width: 100%; height: 100%; overflow: visible; animation: bob 8s ease-in-out infinite; }
+.orb.sun { transform: translateY(calc(-1 * var(--R))) rotate(0deg); }
+.orb.moon { transform: translateY(var(--R)) rotate(0deg); }
+.sky.dark .orbit { transform: rotate(180deg); }
+.sky.dark .orb.sun { transform: translateY(calc(-1 * var(--R))) rotate(-180deg); }
+.sky.dark .orb.moon { transform: translateY(var(--R)) rotate(-180deg); }
+.sky.ready .orbit, .sky.ready .orb { transition: transform 1.5s cubic-bezier(0.6, 0, 0.3, 1) !important; }
+.rays { animation: spin 50s linear infinite; transform-origin: 0 0; }
+.beams { position: absolute; left: 50%; top: 50%; width: 1500px; height: 1500px; margin: -750px 0 0 -750px; border-radius: 50%; background: repeating-conic-gradient(var(--beam) 0 5deg, transparent 5deg 20deg); -webkit-mask: radial-gradient(circle, #000 0, transparent 66%); mask: radial-gradient(circle, #000 0, transparent 66%); animation: spin 180s linear infinite; }
+
+.clouds { position: absolute; inset: 0; transition: opacity 1s ease !important; }
+.sky.dark .clouds { opacity: 0; }
+.cloud { position: absolute; fill: var(--cloud); opacity: 0.85; filter: drop-shadow(0 8px 12px var(--cloud-shadow)); animation: drift 90s ease-in-out infinite alternate; }
+.cloud.c1 { width: 200px; top: 22%; left: 4%; }
+.cloud.c2 { width: 150px; top: 52%; right: 6%; animation-duration: 120s; animation-delay: -30s; opacity: 0.7; }
+.cloud.c3 { width: 270px; top: 76%; left: 28%; animation-duration: 140s; animation-delay: -60s; opacity: 0.6; }
+
+.stars { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s ease 0.35s !important; }
+.sky.dark .stars { opacity: 1; }
+.stars i { position: absolute; border-radius: 50%; background: #DDE4FF; opacity: 0.35; animation: twinkle var(--d, 4s) ease-in-out infinite; animation-delay: var(--dl, 0s); }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes bob { 50% { transform: translateY(-5px); } }
+@keyframes drift { to { transform: translateX(7vw); } }
+@keyframes twinkle { 50% { opacity: 1; transform: scale(1.6); } }
+
+/* colour change when the theme switches */
+:root.theme-anim *, :root.theme-anim *::before, :root.theme-anim *::after {
+  transition: background-color 0.8s ease, color 0.8s ease, border-color 0.8s ease, fill 0.8s ease, stroke 0.8s ease, box-shadow 0.8s ease;
+}
+
+@media (max-width: 860px) {
+  .sky { --s: 92px; }
+  .orbit { right: 58px; top: calc(112px + var(--R)); }
+  .cloud.c2 { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .inner, .chip .prg, .qtimer .bar i { transition: none; }
+  .chip.alert { animation: none; }
+  .rays, .beams, .cloud, .orb svg, .stars i { animation: none; }
+  .sky.ready .orbit, .sky.ready .orb, .tbtn svg, .seg::before, .wash, .clouds, .stars { transition: none !important; }
+  :root.theme-anim *, :root.theme-anim *::before, :root.theme-anim *::after { transition: none; }
+}
+
+</style>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="cloudShape" viewBox="0 0 120 70">
+      <circle cx="34" cy="44" r="18"/><circle cx="58" cy="32" r="24"/><circle cx="84" cy="42" r="19"/><rect x="20" y="42" width="84" height="22" rx="11"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="sky" id="sky" aria-hidden="true">
+  <div class="wash sun"></div>
+  <div class="wash moon"></div>
+  <div class="clouds">
+    <svg class="cloud c1" viewBox="0 0 120 70"><use href="#cloudShape"/></svg>
+    <svg class="cloud c2" viewBox="0 0 120 70"><use href="#cloudShape"/></svg>
+    <svg class="cloud c3" viewBox="0 0 120 70"><use href="#cloudShape"/></svg>
+  </div>
+  <div class="stars" id="stars"></div>
+  <div class="orbit">
+    <div class="orb sun">
+      <div class="beams"></div>
+      <svg viewBox="-60 -60 120 120">
+        <defs>
+          <radialGradient id="sunGlow"><stop offset="0" stop-color="#FFD25A" stop-opacity="0.65"/><stop offset="1" stop-color="#FFD25A" stop-opacity="0"/></radialGradient>
+          <radialGradient id="sunCore" cx="0.4" cy="0.35" r="0.75"><stop offset="0" stop-color="#FFEE9A"/><stop offset="1" stop-color="#F4A31F"/></radialGradient>
+        </defs>
+        <circle r="58" fill="url(#sunGlow)"/>
+        <g class="rays" stroke="#F4A31F" stroke-width="4" stroke-linecap="round">
+          <line y1="-36" y2="-52"/><line y1="-36" y2="-47" transform="rotate(30)"/><line y1="-36" y2="-52" transform="rotate(60)"/><line y1="-36" y2="-47" transform="rotate(90)"/>
+          <line y1="-36" y2="-52" transform="rotate(120)"/><line y1="-36" y2="-47" transform="rotate(150)"/><line y1="-36" y2="-52" transform="rotate(180)"/><line y1="-36" y2="-47" transform="rotate(210)"/>
+          <line y1="-36" y2="-52" transform="rotate(240)"/><line y1="-36" y2="-47" transform="rotate(270)"/><line y1="-36" y2="-52" transform="rotate(300)"/><line y1="-36" y2="-47" transform="rotate(330)"/>
+        </g>
+        <circle r="25" fill="url(#sunCore)"/>
+      </svg>
+    </div>
+    <div class="orb moon">
+      <svg viewBox="-60 -60 120 120">
+        <defs>
+          <radialGradient id="moonGlow"><stop offset="0" stop-color="#8499FF" stop-opacity="0.5"/><stop offset="1" stop-color="#8499FF" stop-opacity="0"/></radialGradient>
+          <linearGradient id="moonCore" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F4F6FF"/><stop offset="1" stop-color="#AEBBFF"/></linearGradient>
+          <mask id="crescent"><rect x="-60" y="-60" width="120" height="120" fill="#fff"/><circle cx="14" cy="-8" r="23" fill="#000"/></mask>
+        </defs>
+        <circle r="58" fill="url(#moonGlow)"/>
+        <circle r="28" fill="url(#moonCore)" mask="url(#crescent)"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<header class="top">
+  <div class="wrap">
+    <button class="brand" data-go="overview" data-i18n-attr="aria-label:brand_aria" aria-label="Revision Desk, back to overview">
+      <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><rect class="logo-bg" width="28" height="28" rx="7"/><path class="logo-lines" d="M8 9.5h12M8 14h12M8 18.5h7" stroke-width="2" stroke-linecap="round" fill="none"/><rect class="logo-mark" x="15" y="16.4" width="7" height="4.4" rx="1"/></svg>
+      <b>Revision Desk</b>
+      <span class="pn" id="packName"></span>
+    </button>
+    <div class="tools">
+      <div class="seg" id="langSeg" role="group" data-lang="en" data-i18n-attr="aria-label:lang_aria" aria-label="Language">
+        <button data-act="lang" data-l="vi" lang="vi" title="Tiếng Việt" aria-pressed="false">VI</button>
+        <button data-act="lang" data-l="en" lang="en" title="English" aria-pressed="true">EN</button>
+      </div>
+      <button class="tbtn" id="themeBtn" data-act="theme" data-dark="false" aria-label="Switch to dark mode" title="Switch to dark mode">
+        <svg class="ti-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5.3 5.3L7 7M17 17l1.7 1.7M5.3 18.7L7 17M17 7l1.7-1.7" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+        <svg class="ti-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor"/></svg>
+      </button>
+      <div class="timer-wrap">
+        <button class="chip" id="timerChip" aria-expanded="false" aria-controls="timerPanel" data-mode="focus">
+          <svg viewBox="0 0 26 26" aria-hidden="true"><circle class="trk" cx="13" cy="13" r="10" stroke-width="3"/><circle class="prg" id="chipRing" cx="13" cy="13" r="10" stroke-width="3" stroke-dasharray="62.83" stroke-dashoffset="0"/></svg>
+          <span id="chipText">25:00</span>
+          <small id="chipMode">Focus</small>
+        </button>
+        <section id="timerPanel" data-i18n-attr="aria-label:timer_aria" aria-label="Focus timer" hidden>
+          <div class="t-head"><span class="eyebrow" id="tMode">Focus session</span></div>
+          <div id="tBig" aria-live="off">25:00</div>
+          <div class="t-btns">
+            <button class="btn primary" id="tToggle">Start</button>
+            <button class="btn" id="tReset" data-i18n="t_reset">Reset</button>
+            <button class="btn" id="tSkip" data-i18n="t_skip" data-i18n-attr="title:t_skip_title" title="Switch between focus and break">Skip</button>
+          </div>
+          <div>
+            <div class="eyebrow" style="margin-bottom:8px" data-i18n="t_presets">Presets (focus / break)</div>
+            <div class="presets">
+              <button class="pill" data-preset="25,5">25 / 5</button>
+              <button class="pill" data-preset="45,10">45 / 10</button>
+              <button class="pill" data-preset="15,3">15 / 3</button>
+              <button class="pill" data-preset="50,15">50 / 15</button>
+            </div>
+          </div>
+          <div class="t-custom">
+            <label for="tFocus"><span data-i18n="t_focus_min">Focus (minutes)</span><input id="tFocus" type="number" min="1" max="180" value="25" inputmode="numeric"></label>
+            <label for="tBreak"><span data-i18n="t_break_min">Break (minutes)</span><input id="tBreak" type="number" min="1" max="60" value="5" inputmode="numeric"></label>
+          </div>
+          <p id="tStats"></p>
+          <p id="tMsg" role="status" hidden></p>
+        </section>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="wrap"><div id="app"></div></div>
+
+<script type="text/plain" id="promptText">
+You convert a teacher's Word document into a "Study Pack": one JSON file that a revision website loads. Follow every rule exactly so the output has the same shape every time.
+
+OUTPUT RULES
+1. Reply with one JSON object and nothing else. No introduction, no explanation, no Markdown code fence.
+2. The JSON must be valid: double quotes around every key and string, no trailing commas, no comments. Escape a double quote inside a string as \" and avoid line breaks inside strings.
+3. Use only information found in the document. Never add facts, dates, formulas or examples that are not in it. If the document has too little material for a target below, produce fewer items. Do not invent filler.
+4. Write the content in the same language as the document. Keep every field name and every "type" value in English, exactly as shown.
+5. If you would run out of space, stop adding topics and close the JSON properly. A shorter valid file is better than a long broken one. Only include complete topics.
+
+FIELD GUIDE
+Top level:
+- "format": always "studypack".
+- "version": always 1.
+- "title", "subject", "level", "language": strings. Use "" when unknown. "language" is a code such as "en" or "vi".
+- "topics": one topic per chapter or main heading of the document, in the document's order (usually 2 to 8).
+
+Each topic has these fields, all present:
+- "id": "t1", "t2", "t3", ... in order.
+- "title": short heading taken from the document.
+- "summary": one or two sentences, at most 40 words.
+- "notes": 2 to 5 sections. Each section is {"heading": string, "points": [2 to 6 strings]}. Each point is one complete sentence of at most 30 words. Put the most important term of a point inside **double asterisks**, at most two per point. This is the only formatting allowed.
+- "key_terms": 3 to 8 items {"term": string, "definition": string}. One-sentence definitions.
+- "flashcards": 5 to 12 items {"front": string, "back": string}. The front is a question or a term. The back is a short answer of at most 25 words. One idea per card.
+- "questions": 5 to 10 items, about 60% "mcq", 20% "truefalse", 20% "short", ordered from easy to hard. Question types:
+  - mcq: {"type": "mcq", "prompt": string, "options": [exactly 4 strings], "answer": 0-based index of the correct option, "explanation": string}. One option is clearly correct. Distractors are plausible and come from the same topic. Never use "all of the above" or "none of the above". Vary the position of the correct option from question to question.
+  - truefalse: {"type": "truefalse", "prompt": a full statement, "answer": true or false as a JSON boolean, "explanation": string}. Roughly half of the statements are false.
+  - short: {"type": "short", "prompt": string, "answer": model answer in one or two sentences, "explanation": string or ""}.
+  - Every question must be answerable from that topic's notes. Never write "according to the text" or refer to the document.
+  - "explanation" is one or two sentences saying why the answer is right.
+
+CONTENT FORMAT
+- Plain text only, apart from **bold** around key terms in notes points. No HTML, no LaTeX, no Markdown headings, bullets or tables inside strings.
+- Write formulas and units in plain text: CO2, H2O, m/s^2, x^2, 6CO2 + 6H2O -> C6H12O6 + 6O2.
+- Turn tables in the document into note points or flashcards.
+- Ignore pictures, page numbers, headers and footers.
+- Condense. Do not copy long passages word for word.
+
+CHECK BEFORE YOU REPLY (silently)
+- The reply starts with { and ends with }.
+- Every mcq has exactly 4 options and an integer "answer" from 0 to 3.
+- Every truefalse "answer" is true or false without quotation marks.
+- Topic ids are unique and no field is missing. Use "" or [] when a field is empty.
+- Nothing in the file is absent from the document.
+
+EXAMPLE OF THE EXACT SHAPE (one short topic; your file contains all topics)
+{
+  "format": "studypack",
+  "version": 1,
+  "title": "Cells and Energy",
+  "subject": "Biology",
+  "level": "Grade 10",
+  "language": "en",
+  "topics": [
+    {
+      "id": "t1",
+      "title": "Cell structure",
+      "summary": "Animal and plant cells share most parts. Plant cells also have a cell wall, a vacuole and chloroplasts.",
+      "notes": [
+        {
+          "heading": "Parts of the cell",
+          "points": [
+            "The **nucleus** contains DNA and controls the activities of the cell.",
+            "**Mitochondria** are where aerobic respiration releases energy."
+          ]
+        }
+      ],
+      "key_terms": [
+        {"term": "Nucleus", "definition": "The part of the cell that contains DNA and controls its activities."}
+      ],
+      "flashcards": [
+        {"front": "Where does aerobic respiration happen in a cell?", "back": "In the mitochondria."}
+      ],
+      "questions": [
+        {"type": "mcq", "prompt": "Which structure controls the activities of the cell?", "options": ["Cell wall", "Nucleus", "Chloroplast", "Cell membrane"], "answer": 1, "explanation": "The nucleus holds the DNA, which carries the instructions for the cell."},
+        {"type": "truefalse", "prompt": "Animal cells have a cell wall made of cellulose.", "answer": false, "explanation": "Only plant cells have a cellulose cell wall."},
+        {"type": "short", "prompt": "Name two structures found in plant cells but not in animal cells.", "answer": "Any two of: cell wall, permanent vacuole, chloroplasts.", "explanation": ""}
+      ]
+    }
+  ]
+}
+
+END OF INSTRUCTIONS. The Word document follows, attached or pasted below.
+
+</script>
+<script type="application/json" id="sampleEn">
+{
+  "format": "studypack",
+  "version": 1,
+  "title": "Cells and Energy (example)",
+  "subject": "Biology",
+  "level": "Secondary",
+  "language": "en",
+  "topics": [
+    {
+      "id": "t1",
+      "title": "Cell structure",
+      "summary": "Animal and plant cells share most parts. Plant cells also have a cell wall, a permanent vacuole and chloroplasts.",
+      "notes": [
+        {
+          "heading": "Animal and plant cells",
+          "points": [
+            "All living things are made of **cells**, the basic unit of life.",
+            "Animal and plant cells both have a **nucleus**, **cytoplasm**, a **cell membrane** and **mitochondria**.",
+            "Only plant cells have a **cell wall**, a **permanent vacuole** and **chloroplasts**."
+          ]
+        },
+        {
+          "heading": "What each part does",
+          "points": [
+            "The **nucleus** contains DNA and controls the activities of the cell.",
+            "The **cell membrane** controls which substances enter and leave the cell.",
+            "**Mitochondria** are where aerobic respiration releases energy.",
+            "**Chloroplasts** contain chlorophyll and absorb light for photosynthesis.",
+            "The **cell wall** is made of cellulose and supports the cell."
+          ]
+        }
+      ],
+      "key_terms": [
+        {"term": "Nucleus", "definition": "The part of the cell that contains DNA and controls its activities."},
+        {"term": "Cytoplasm", "definition": "The jelly-like substance where most chemical reactions in the cell happen."},
+        {"term": "Mitochondria", "definition": "Structures where aerobic respiration releases energy."},
+        {"term": "Chloroplast", "definition": "A structure containing chlorophyll where photosynthesis takes place."},
+        {"term": "Cell wall", "definition": "A rigid layer of cellulose outside the membrane of plant cells."}
+      ],
+      "flashcards": [
+        {"front": "What does the nucleus do?", "back": "It contains DNA and controls the activities of the cell."},
+        {"front": "Which structures are found only in plant cells?", "back": "Cell wall, permanent vacuole and chloroplasts."},
+        {"front": "What is the job of the cell membrane?", "back": "It controls which substances enter and leave the cell."},
+        {"front": "Where does aerobic respiration take place?", "back": "In the mitochondria."},
+        {"front": "What is the cell wall made of?", "back": "Cellulose."}
+      ],
+      "questions": [
+        {"type": "mcq", "prompt": "Which structure controls the activities of the cell?", "options": ["Cell wall", "Nucleus", "Chloroplast", "Cell membrane"], "answer": 1, "explanation": "The nucleus holds the DNA, which carries the instructions for the cell."},
+        {"type": "truefalse", "prompt": "Animal cells have a cell wall made of cellulose.", "answer": false, "explanation": "Only plant cells have a cellulose cell wall."},
+        {"type": "mcq", "prompt": "Where does aerobic respiration release most of its energy in a cell?", "options": ["Mitochondria", "Nucleus", "Chloroplasts", "Vacuole"], "answer": 0, "explanation": "Mitochondria are the site of aerobic respiration."},
+        {"type": "short", "prompt": "Name two structures found in plant cells but not in animal cells.", "answer": "Any two of: cell wall, permanent vacuole, chloroplasts.", "explanation": ""}
+      ]
+    },
+    {
+      "id": "t2",
+      "title": "Photosynthesis",
+      "summary": "Plants use light energy to turn carbon dioxide and water into glucose and oxygen.",
+      "notes": [
+        {
+          "heading": "The reaction",
+          "points": [
+            "**Photosynthesis** is the process plants use to make glucose using light energy.",
+            "Word equation: carbon dioxide + water -> glucose + oxygen, with light absorbed by **chlorophyll**.",
+            "Symbol equation: 6CO2 + 6H2O -> C6H12O6 + 6O2.",
+            "Gases move into and out of the leaf through the **stomata**."
+          ]
+        },
+        {
+          "heading": "Limiting factors",
+          "points": [
+            "The rate of photosynthesis is limited by light intensity, carbon dioxide concentration and temperature.",
+            "If one factor is in short supply it becomes the **limiting factor**, so raising the others does not increase the rate.",
+            "At high temperatures the enzymes involved **denature**, so the rate falls."
+          ]
+        },
+        {
+          "heading": "Uses of glucose",
+          "points": [
+            "Plants use glucose for respiration, store it as **starch**, or use it to make cellulose for cell walls."
+          ]
+        }
+      ],
+      "key_terms": [
+        {"term": "Photosynthesis", "definition": "The process in which plants use light energy to make glucose from carbon dioxide and water."},
+        {"term": "Chlorophyll", "definition": "The green pigment that absorbs light for photosynthesis."},
+        {"term": "Stomata", "definition": "Small pores in the leaf that let gases move in and out."},
+        {"term": "Limiting factor", "definition": "The factor in shortest supply, which sets the maximum rate of a reaction."}
+      ],
+      "flashcards": [
+        {"front": "Word equation for photosynthesis", "back": "Carbon dioxide + water -> glucose + oxygen (in light)."},
+        {"front": "Which pigment absorbs light for photosynthesis?", "back": "Chlorophyll."},
+        {"front": "Name three factors that can limit photosynthesis.", "back": "Light intensity, carbon dioxide concentration and temperature."},
+        {"front": "How do plants store spare glucose?", "back": "As starch."},
+        {"front": "What are stomata?", "back": "Pores in the leaf that let gases move in and out."}
+      ],
+      "questions": [
+        {"type": "mcq", "prompt": "Which gas does a plant take in for photosynthesis?", "options": ["Oxygen", "Nitrogen", "Carbon dioxide", "Hydrogen"], "answer": 2, "explanation": "Carbon dioxide is a reactant in photosynthesis."},
+        {"type": "mcq", "prompt": "Which substance made in photosynthesis is used by the plant as an energy source?", "options": ["Glucose", "Carbon dioxide", "Chlorophyll", "Water"], "answer": 0, "explanation": "Glucose is the product that the plant uses in respiration and stores as starch."},
+        {"type": "truefalse", "prompt": "Increasing the temperature always increases the rate of photosynthesis.", "answer": false, "explanation": "At high temperatures the enzymes denature and the rate falls."},
+        {"type": "mcq", "prompt": "Through which part of the leaf do gases move in and out?", "options": ["Xylem", "Stomata", "Cuticle", "Root hairs"], "answer": 1, "explanation": "Stomata are the pores that let gases pass."},
+        {"type": "short", "prompt": "Explain why the rate of photosynthesis can stop rising even when light intensity keeps increasing.", "answer": "Another factor, such as carbon dioxide concentration or temperature, has become the limiting factor.", "explanation": "Raising a factor that is not limiting has no further effect on the rate."}
+      ]
+    },
+    {
+      "id": "t3",
+      "title": "Respiration",
+      "summary": "Cells release energy from glucose, with oxygen (aerobic) or without it (anaerobic).",
+      "notes": [
+        {
+          "heading": "Aerobic respiration",
+          "points": [
+            "**Respiration** releases energy from glucose in every living cell.",
+            "Aerobic respiration needs oxygen: glucose + oxygen -> carbon dioxide + water, with energy released.",
+            "Symbol equation: C6H12O6 + 6O2 -> 6CO2 + 6H2O.",
+            "It takes place mainly in the **mitochondria**."
+          ]
+        },
+        {
+          "heading": "Anaerobic respiration",
+          "points": [
+            "**Anaerobic respiration** happens without oxygen and releases less energy.",
+            "In animal muscle cells, glucose is broken down to **lactic acid**.",
+            "In yeast, glucose is broken down to ethanol and carbon dioxide. This is called **fermentation**."
+          ]
+        }
+      ],
+      "key_terms": [
+        {"term": "Aerobic respiration", "definition": "Respiration that uses oxygen to release energy from glucose."},
+        {"term": "Anaerobic respiration", "definition": "Respiration without oxygen, which releases less energy."},
+        {"term": "Lactic acid", "definition": "The product of anaerobic respiration in animal muscle cells."},
+        {"term": "Fermentation", "definition": "Anaerobic respiration in yeast that produces ethanol and carbon dioxide."}
+      ],
+      "flashcards": [
+        {"front": "Word equation for aerobic respiration", "back": "Glucose + oxygen -> carbon dioxide + water (energy released)."},
+        {"front": "What is produced by anaerobic respiration in muscle cells?", "back": "Lactic acid."},
+        {"front": "What is produced by anaerobic respiration in yeast?", "back": "Ethanol and carbon dioxide."},
+        {"front": "Which type of respiration releases more energy?", "back": "Aerobic respiration."}
+      ],
+      "questions": [
+        {"type": "mcq", "prompt": "Which products form during aerobic respiration?", "options": ["Lactic acid and water", "Carbon dioxide and water", "Ethanol and carbon dioxide", "Glucose and oxygen"], "answer": 1, "explanation": "Glucose and oxygen react to give carbon dioxide and water."},
+        {"type": "truefalse", "prompt": "Anaerobic respiration in human muscles produces ethanol.", "answer": false, "explanation": "Human muscle cells produce lactic acid. Yeast produces ethanol."},
+        {"type": "mcq", "prompt": "Which substance builds up in muscles during vigorous exercise when oxygen supply is too low?", "options": ["Ethanol", "Lactic acid", "Starch", "Glucose"], "answer": 1, "explanation": "Without enough oxygen, muscle cells respire anaerobically and make lactic acid."},
+        {"type": "short", "prompt": "Give one similarity and one difference between aerobic and anaerobic respiration.", "answer": "Both release energy from glucose. Aerobic respiration uses oxygen and releases more energy; anaerobic does not use oxygen and releases less.", "explanation": ""}
+      ]
+    }
+  ]
+}
+
+</script>
+<script type="application/json" id="sampleVi">
+{
+  "format": "studypack",
+  "version": 1,
+  "title": "Tế bào và năng lượng (ví dụ)",
+  "subject": "Sinh học",
+  "level": "Trung học",
+  "language": "vi",
+  "topics": [
+    {
+      "id": "t1",
+      "title": "Cấu trúc tế bào",
+      "summary": "Tế bào động vật và thực vật có nhiều bộ phận giống nhau. Tế bào thực vật còn có thành tế bào, không bào lớn và lục lạp.",
+      "notes": [
+        {
+          "heading": "Tế bào động vật và tế bào thực vật",
+          "points": [
+            "Mọi sinh vật đều được cấu tạo từ **tế bào**, đơn vị cơ bản của sự sống.",
+            "Tế bào động vật và thực vật đều có **nhân**, **tế bào chất**, **màng tế bào** và **ty thể**.",
+            "Chỉ tế bào thực vật mới có **thành tế bào**, **không bào lớn** và **lục lạp**."
+          ]
+        },
+        {
+          "heading": "Chức năng của từng bộ phận",
+          "points": [
+            "**Nhân** chứa DNA và điều khiển các hoạt động của tế bào.",
+            "**Màng tế bào** kiểm soát các chất đi vào và ra khỏi tế bào.",
+            "**Ty thể** là nơi hô hấp hiếu khí giải phóng năng lượng.",
+            "**Lục lạp** chứa diệp lục và hấp thụ ánh sáng cho quá trình quang hợp.",
+            "**Thành tế bào** được cấu tạo từ xenlulozơ và có tác dụng nâng đỡ tế bào."
+          ]
+        }
+      ],
+      "key_terms": [
+        {"term": "Nhân", "definition": "Bộ phận của tế bào chứa DNA và điều khiển các hoạt động của tế bào."},
+        {"term": "Tế bào chất", "definition": "Chất dạng keo, nơi diễn ra phần lớn các phản ứng hóa học trong tế bào."},
+        {"term": "Ty thể", "definition": "Cấu trúc nơi hô hấp hiếu khí giải phóng năng lượng."},
+        {"term": "Lục lạp", "definition": "Cấu trúc chứa diệp lục, nơi diễn ra quang hợp."},
+        {"term": "Thành tế bào", "definition": "Lớp xenlulozơ cứng bao bên ngoài màng tế bào thực vật."}
+      ],
+      "flashcards": [
+        {"front": "Nhân có chức năng gì?", "back": "Chứa DNA và điều khiển các hoạt động của tế bào."},
+        {"front": "Những cấu trúc nào chỉ có ở tế bào thực vật?", "back": "Thành tế bào, không bào lớn và lục lạp."},
+        {"front": "Màng tế bào có nhiệm vụ gì?", "back": "Kiểm soát các chất đi vào và ra khỏi tế bào."},
+        {"front": "Hô hấp hiếu khí diễn ra ở đâu?", "back": "Ở ty thể."},
+        {"front": "Thành tế bào được cấu tạo từ chất gì?", "back": "Xenlulozơ."}
+      ],
+      "questions": [
+        {"type": "mcq", "prompt": "Cấu trúc nào điều khiển các hoạt động của tế bào?", "options": ["Thành tế bào", "Nhân", "Lục lạp", "Màng tế bào"], "answer": 1, "explanation": "Nhân chứa DNA, nơi mang các chỉ dẫn cho tế bào."},
+        {"type": "truefalse", "prompt": "Tế bào động vật có thành tế bào làm từ xenlulozơ.", "answer": false, "explanation": "Chỉ tế bào thực vật mới có thành tế bào bằng xenlulozơ."},
+        {"type": "mcq", "prompt": "Hô hấp hiếu khí giải phóng phần lớn năng lượng ở đâu trong tế bào?", "options": ["Ty thể", "Nhân", "Lục lạp", "Không bào"], "answer": 0, "explanation": "Ty thể là nơi diễn ra hô hấp hiếu khí."},
+        {"type": "short", "prompt": "Kể tên hai cấu trúc có ở tế bào thực vật nhưng không có ở tế bào động vật.", "answer": "Hai trong số: thành tế bào, không bào lớn, lục lạp.", "explanation": ""}
+      ]
+    },
+    {
+      "id": "t2",
+      "title": "Quang hợp",
+      "summary": "Thực vật dùng năng lượng ánh sáng để biến khí cacbonic và nước thành glucozơ và khí oxi.",
+      "notes": [
+        {
+          "heading": "Phản ứng quang hợp",
+          "points": [
+            "**Quang hợp** là quá trình thực vật tạo ra glucozơ nhờ năng lượng ánh sáng.",
+            "Phương trình chữ: khí cacbonic + nước -> glucozơ + khí oxi, với ánh sáng được **diệp lục** hấp thụ.",
+            "Phương trình hóa học: 6CO2 + 6H2O -> C6H12O6 + 6O2.",
+            "Các chất khí đi vào và ra khỏi lá qua **khí khổng**."
+          ]
+        },
+        {
+          "heading": "Các nhân tố giới hạn",
+          "points": [
+            "Tốc độ quang hợp bị giới hạn bởi cường độ ánh sáng, nồng độ khí cacbonic và nhiệt độ.",
+            "Nhân tố nào thiếu nhất sẽ trở thành **nhân tố giới hạn**, nên tăng các nhân tố còn lại cũng không làm tăng tốc độ.",
+            "Ở nhiệt độ cao, các enzim tham gia bị **biến tính**, nên tốc độ giảm."
+          ]
+        },
+        {
+          "heading": "Công dụng của glucozơ",
+          "points": [
+            "Thực vật dùng glucozơ cho hô hấp, dự trữ dưới dạng **tinh bột**, hoặc tạo xenlulozơ để xây dựng thành tế bào."
+          ]
+        }
+      ],
+      "key_terms": [
+        {"term": "Quang hợp", "definition": "Quá trình thực vật dùng năng lượng ánh sáng để tạo glucozơ từ khí cacbonic và nước."},
+        {"term": "Diệp lục", "definition": "Sắc tố màu xanh hấp thụ ánh sáng cho quang hợp."},
+        {"term": "Khí khổng", "definition": "Các lỗ nhỏ trên lá cho khí đi vào và ra."},
+        {"term": "Nhân tố giới hạn", "definition": "Nhân tố thiếu nhất, quyết định tốc độ tối đa của phản ứng."}
+      ],
+      "flashcards": [
+        {"front": "Phương trình chữ của quang hợp", "back": "Khí cacbonic + nước -> glucozơ + khí oxi (có ánh sáng)."},
+        {"front": "Sắc tố nào hấp thụ ánh sáng cho quang hợp?", "back": "Diệp lục."},
+        {"front": "Kể tên ba nhân tố có thể giới hạn quang hợp.", "back": "Cường độ ánh sáng, nồng độ khí cacbonic và nhiệt độ."},
+        {"front": "Thực vật dự trữ glucozơ dư thừa dưới dạng nào?", "back": "Tinh bột."},
+        {"front": "Khí khổng là gì?", "back": "Các lỗ nhỏ trên lá cho khí đi vào và ra."}
+      ],
+      "questions": [
+        {"type": "mcq", "prompt": "Thực vật hấp thụ khí nào cho quá trình quang hợp?", "options": ["Khí oxi", "Khí nitơ", "Khí cacbonic", "Khí hiđro"], "answer": 2, "explanation": "Khí cacbonic là chất tham gia của quang hợp."},
+        {"type": "mcq", "prompt": "Chất nào được tạo ra trong quang hợp và được cây dùng làm nguồn năng lượng?", "options": ["Glucozơ", "Khí cacbonic", "Diệp lục", "Nước"], "answer": 0, "explanation": "Glucozơ là sản phẩm mà cây dùng cho hô hấp và dự trữ dưới dạng tinh bột."},
+        {"type": "truefalse", "prompt": "Tăng nhiệt độ luôn làm tăng tốc độ quang hợp.", "answer": false, "explanation": "Ở nhiệt độ cao, enzim bị biến tính và tốc độ giảm."},
+        {"type": "mcq", "prompt": "Các chất khí đi vào và ra khỏi lá qua bộ phận nào?", "options": ["Mạch gỗ", "Khí khổng", "Lớp cutin", "Lông hút"], "answer": 1, "explanation": "Khí khổng là các lỗ cho khí đi qua."},
+        {"type": "short", "prompt": "Giải thích vì sao tốc độ quang hợp có thể ngừng tăng dù cường độ ánh sáng vẫn tăng.", "answer": "Một nhân tố khác, như nồng độ khí cacbonic hoặc nhiệt độ, đã trở thành nhân tố giới hạn.", "explanation": "Tăng một nhân tố không phải là nhân tố giới hạn thì không làm tốc độ tăng thêm."}
+      ]
+    },
+    {
+      "id": "t3",
+      "title": "Hô hấp",
+      "summary": "Tế bào giải phóng năng lượng từ glucozơ, có oxi (hiếu khí) hoặc không có oxi (kị khí).",
+      "notes": [
+        {
+          "heading": "Hô hấp hiếu khí",
+          "points": [
+            "**Hô hấp** giải phóng năng lượng từ glucozơ trong mọi tế bào sống.",
+            "Hô hấp hiếu khí cần oxi: glucozơ + khí oxi -> khí cacbonic + nước, kèm theo giải phóng năng lượng.",
+            "Phương trình hóa học: C6H12O6 + 6O2 -> 6CO2 + 6H2O.",
+            "Quá trình này diễn ra chủ yếu ở **ty thể**."
+          ]
+        },
+        {
+          "heading": "Hô hấp kị khí",
+          "points": [
+            "**Hô hấp kị khí** diễn ra khi không có oxi và giải phóng ít năng lượng hơn.",
+            "Ở tế bào cơ động vật, glucozơ bị phân giải thành **axit lactic**.",
+            "Ở nấm men, glucozơ bị phân giải thành etanol và khí cacbonic. Quá trình này gọi là **lên men**."
+          ]
+        }
+      ],
+      "key_terms": [
+        {"term": "Hô hấp hiếu khí", "definition": "Hô hấp dùng oxi để giải phóng năng lượng từ glucozơ."},
+        {"term": "Hô hấp kị khí", "definition": "Hô hấp không dùng oxi, giải phóng ít năng lượng hơn."},
+        {"term": "Axit lactic", "definition": "Sản phẩm của hô hấp kị khí trong tế bào cơ động vật."},
+        {"term": "Lên men", "definition": "Hô hấp kị khí ở nấm men, tạo ra etanol và khí cacbonic."}
+      ],
+      "flashcards": [
+        {"front": "Phương trình chữ của hô hấp hiếu khí", "back": "Glucozơ + khí oxi -> khí cacbonic + nước (giải phóng năng lượng)."},
+        {"front": "Hô hấp kị khí trong tế bào cơ tạo ra chất gì?", "back": "Axit lactic."},
+        {"front": "Hô hấp kị khí ở nấm men tạo ra chất gì?", "back": "Etanol và khí cacbonic."},
+        {"front": "Kiểu hô hấp nào giải phóng nhiều năng lượng hơn?", "back": "Hô hấp hiếu khí."}
+      ],
+      "questions": [
+        {"type": "mcq", "prompt": "Sản phẩm của hô hấp hiếu khí là gì?", "options": ["Axit lactic và nước", "Khí cacbonic và nước", "Etanol và khí cacbonic", "Glucozơ và khí oxi"], "answer": 1, "explanation": "Glucozơ phản ứng với oxi tạo ra khí cacbonic và nước."},
+        {"type": "truefalse", "prompt": "Hô hấp kị khí ở cơ người tạo ra etanol.", "answer": false, "explanation": "Tế bào cơ người tạo axit lactic. Nấm men mới tạo etanol."},
+        {"type": "mcq", "prompt": "Chất nào tích tụ trong cơ khi vận động mạnh mà không đủ oxi?", "options": ["Etanol", "Axit lactic", "Tinh bột", "Glucozơ"], "answer": 1, "explanation": "Thiếu oxi, tế bào cơ hô hấp kị khí và tạo ra axit lactic."},
+        {"type": "short", "prompt": "Nêu một điểm giống và một điểm khác nhau giữa hô hấp hiếu khí và hô hấp kị khí.", "answer": "Cả hai đều giải phóng năng lượng từ glucozơ. Hô hấp hiếu khí dùng oxi và giải phóng nhiều năng lượng hơn; hô hấp kị khí không dùng oxi và giải phóng ít năng lượng hơn.", "explanation": ""}
+      ]
+    }
+  ]
+}
+
+</script>
+<script>
+/* Interface text in English and Vietnamese. A value may be a string or [one, other] for plurals (chosen by the {n} variable). */
+var I18N = {
+  en: {
+    brand_aria: 'Revision Desk, back to overview',
+    lang_aria: 'Language',
+    theme_to_dark: 'Switch to dark mode',
+    theme_to_light: 'Switch to light mode',
+
+    timer_aria: 'Focus timer',
+    timer_focus: 'Focus',
+    timer_break: 'Break',
+    t_session_focus: 'Focus session',
+    t_session_break: 'Break',
+    t_start: 'Start',
+    t_pause: 'Pause',
+    t_resume: 'Resume',
+    t_reset: 'Reset',
+    t_skip: 'Skip',
+    t_skip_title: 'Switch between focus and break',
+    t_presets: 'Presets (focus / break)',
+    t_focus_min: 'Focus (minutes)',
+    t_break_min: 'Break (minutes)',
+    stats_none: 'No focus sessions finished today.',
+    stats_today: ['Today: {n} focus session, {m} minutes.', 'Today: {n} focus sessions, {m} minutes.'],
+    msg_focus_done: 'Focus session complete. Take a {m}-minute break.',
+    msg_break_done: 'Break over. Ready for the next focus session?',
+
+    nav_aria: 'Sections',
+    nav_overview: 'Overview',
+    nav_topics: 'Topics',
+    nav_files: 'Files',
+    nav_open: 'Open a file',
+    nav_make: 'Make a pack',
+    ready_pct: '{n}% ready',
+
+    eyebrow_pack: 'Study pack',
+    tag_example: 'Example',
+    topics_n: ['{n} topic', '{n} topics'],
+    note_example: 'This example pack lets you try every feature. {link} to replace it.',
+    open_own: 'Open your own file',
+    loaded_n: ['Loaded {n} topic', 'Loaded {n} topics'],
+    loaded_from: [' from {n} file', ' from {n} files'],
+    dismiss: 'Dismiss',
+    skipped_n: ['{n} item skipped or fixed', '{n} items skipped or fixed'],
+    progress_aria: 'Progress',
+    ready_to_revise: 'ready to revise',
+    stat_topics: 'Topics',
+    stat_cards: 'Cards known',
+    stat_q: 'Questions',
+    btn_quiz_all: 'Quiz me on everything',
+    btn_cards_all: 'All flashcards',
+    btn_focus: 'Start a focus session',
+    meter_notes: 'Notes',
+    meter_cards: 'Cards',
+    meter_quiz: 'Quiz',
+    read: 'Read',
+    to_read: 'To read',
+    not_yet: 'Not yet',
+    foot_saved: 'Progress is saved in this browser only.',
+    reset: 'Reset my progress',
+    reset_confirm: 'Click again to erase it',
+
+    eyebrow_topic: 'Topic',
+    eyebrow_all: 'Everything in this pack',
+    all_topics: 'All topics',
+    tab_notes: 'Notes',
+    tab_cards: 'Flashcards',
+    tab_quiz: 'Quiz',
+    no_notes: 'This topic has no notes.',
+    key_terms: 'Key terms',
+    mark_read: 'Mark notes as read',
+    marked_read: 'Marked as read. Undo',
+    practise: 'Practise flashcards',
+
+    shuffle: 'Shuffle',
+    skip_known: 'Skip cards I know',
+    restart_deck: 'Restart deck',
+    no_cards: 'There are no flashcards here.',
+    deck_done: 'Deck finished',
+    nothing_left: 'Nothing left to review',
+    marked_known: ['You marked {n} card as known this round.', 'You marked {n} cards as known this round.'],
+    known_all: 'You already know every card in this deck.',
+    review_again: 'Review all cards again',
+    left_n: '{n} left',
+    known_of: '{k} of {n} known',
+    flip_aria: 'Flip card',
+    face_q: 'Question',
+    face_a: 'Answer',
+    card_hint: 'Tap the card or press Space to flip. Left arrow: again. Right arrow: got it.',
+    btn_again: 'Again',
+    btn_gotit: 'Got it',
+
+    q_avail: ['{n} question available.', '{n} questions available.'],
+    best_so_far: ' Best score so far: {n}%.',
+    q_count: 'Number of questions',
+    all_n: 'All ({n})',
+    q_time: 'Time limit per question',
+    no_limit: 'No limit',
+    sec20: '20 seconds',
+    sec30: '30 seconds',
+    min1: '1 minute',
+    sec90: '90 seconds',
+    q_shuffle: 'Shuffle questions and answer options',
+    start_quiz: 'Start quiz',
+    q_of: 'Question {i} of {n}',
+    tf_true: 'True',
+    tf_false: 'False',
+    lab_correct: 'Correct answer',
+    lab_yours: 'Your answer',
+    ph_typed: 'Write your answer here, then reveal the model answer.',
+    ans_aria: 'Your answer',
+    show_model: 'Show model answer',
+    timesup_compare: "Time's up. Compare with the model answer.",
+    model_answer: 'Model answer',
+    your_answer_is: 'Your answer: {a}',
+    how_did: 'How did you do?',
+    had_it: 'I had it',
+    not_yet_btn: 'Not yet',
+    correct: 'Correct',
+    timesup: "Time's up",
+    notquite: 'Not quite',
+    next_q: 'Next question',
+    see_results: 'See results',
+    n_correct: '{k} of {n} correct',
+    time_taken: 'Time taken {t}',
+    retry_missed: ['Retry {n} missed question', 'Retry {n} missed questions'],
+    new_quiz: 'New quiz',
+    to_review: 'To review',
+    answer_is: 'Answer: {a}',
+
+    err_title: 'This file could not be opened.',
+    other_issues: ['{n} other issue', '{n} other issues'],
+    load_h: 'Open a study pack',
+    load_lede: 'Choose the file your teacher gave you. You can select several files to combine them, for example one per chapter.',
+    drop_h: 'Drop study pack files here',
+    drop_sub: '.json or .studypack.json',
+    choose_files: 'Choose files',
+    paste_label: 'Or paste the JSON text',
+    load_pasted: 'Load pasted text',
+    local_note: 'Files are read in your browser. Nothing is uploaded anywhere.',
+    use_example: 'Use the example pack',
+    pasted_name: 'Pasted text',
+
+    teach_eyebrow: 'For teachers',
+    teach_h: 'Make a study pack from a Word document',
+    teach_lede: 'A study pack is a small JSON file with notes, key terms, flashcards and questions for each topic. Any AI assistant can write it from your document if you give it the prompt below.',
+    s1: 'Copy the prompt below and paste it into the AI assistant.',
+    s2: 'Attach your Word document, or paste its text after the prompt. For long documents, convert one chapter at a time.',
+    s3: 'Save the reply as a file ending in {code}, for example {ex}.',
+    s4: 'Open it with {link} to check it. Warnings list anything that was skipped. Share the same files with your students.',
+    prompt_h: 'Prompt',
+    prompt_note: 'The prompt is in English and works for documents in any language, including Vietnamese. The AI writes the study pack in the language of your document.',
+    copy_prompt: 'Copy prompt',
+    copied: 'Copied',
+    selected: 'Selected. Press Ctrl+C',
+    contains_h: 'What the file contains',
+    th_field: 'Field',
+    th_type: 'Type',
+    th_meaning: 'Meaning',
+    type_text: 'text',
+    type_list: 'list',
+    row1: 'Describes the pack. Any can be empty.',
+    row2: 'One per chapter. Each needs a title.',
+    row3: 'Sections with a heading and points. **Bold** marks a key term.',
+    row4: 'Pairs of term and definition.',
+    row5: 'Pairs of front and back.',
+    row6: 'type is mcq, truefalse or short. mcq has options and a 0-based answer index.',
+
+    v_empty: 'The file is empty.',
+    v_badjson: 'This is not valid JSON ({d}). Ask the AI to reply again with the JSON only, or check that nothing was cut off at the end.',
+    v_notopics: 'The file needs a "topics" list with at least one topic.',
+    v_topic_obj: 'Topic {n} was skipped because it is not an object.',
+    v_topic_title: 'Topic {n} was skipped because it has no title.',
+    v_note_empty: 'Topic {n} ({t}), note section {s} has no points and was skipped.',
+    v_term_bad: 'Topic {n} ({t}), key term {s} needs both "term" and "definition" and was skipped.',
+    v_card_bad: 'Topic {n} ({t}), flashcard {s} needs both "front" and "back" and was skipped.',
+    v_q_obj: 'Topic {n} ({t}), question {s} was skipped because it is not an object.',
+    v_q_prompt: 'Topic {n} ({t}), question {s} has no "prompt" and was skipped.',
+    v_q_opts: 'Topic {n} ({t}), question {s} needs at least 2 options and was skipped.',
+    v_q_idx: 'Topic {n} ({t}), question {s} has an "answer" that is not a number from 0 to {max} and was skipped.',
+    v_q_tf: 'Topic {n} ({t}), question {s} needs "answer" to be true or false and was skipped.',
+    v_q_short: 'Topic {n} ({t}), question {s} has no model "answer" and was skipped.',
+    v_q_type: 'Topic {n} ({t}), question {s} has an unknown type "{type}" (use mcq, truefalse or short) and was skipped.',
+    v_noitems: 'No usable notes, flashcards or questions were found in this file.'
+  },
+
+  vi: {
+    brand_aria: 'Revision Desk, về trang tổng quan',
+    lang_aria: 'Ngôn ngữ',
+    theme_to_dark: 'Chuyển sang chế độ tối',
+    theme_to_light: 'Chuyển sang chế độ sáng',
+
+    timer_aria: 'Đồng hồ tập trung',
+    timer_focus: 'Tập trung',
+    timer_break: 'Nghỉ',
+    t_session_focus: 'Phiên tập trung',
+    t_session_break: 'Nghỉ giải lao',
+    t_start: 'Bắt đầu',
+    t_pause: 'Tạm dừng',
+    t_resume: 'Tiếp tục',
+    t_reset: 'Đặt lại',
+    t_skip: 'Bỏ qua',
+    t_skip_title: 'Chuyển giữa tập trung và nghỉ',
+    t_presets: 'Mẫu có sẵn (tập trung / nghỉ)',
+    t_focus_min: 'Tập trung (phút)',
+    t_break_min: 'Nghỉ (phút)',
+    stats_none: 'Hôm nay chưa hoàn thành phiên tập trung nào.',
+    stats_today: 'Hôm nay: {n} phiên tập trung, {m} phút.',
+    msg_focus_done: 'Hoàn thành phiên tập trung. Nghỉ {m} phút nhé.',
+    msg_break_done: 'Hết giờ nghỉ. Sẵn sàng cho phiên tập trung tiếp theo chưa?',
+
+    nav_aria: 'Các mục',
+    nav_overview: 'Tổng quan',
+    nav_topics: 'Chủ đề',
+    nav_files: 'Tệp',
+    nav_open: 'Mở tệp',
+    nav_make: 'Tạo bộ ôn tập',
+    ready_pct: 'Sẵn sàng {n}%',
+
+    eyebrow_pack: 'Bộ ôn tập',
+    tag_example: 'Ví dụ',
+    topics_n: '{n} chủ đề',
+    note_example: 'Bộ ví dụ này giúp bạn thử mọi tính năng. {link} để thay thế.',
+    open_own: 'Mở tệp của bạn',
+    loaded_n: 'Đã tải {n} chủ đề',
+    loaded_from: ' từ {n} tệp',
+    dismiss: 'Đóng',
+    skipped_n: '{n} mục bị bỏ qua hoặc đã được sửa',
+    progress_aria: 'Tiến độ',
+    ready_to_revise: 'sẵn sàng ôn tập',
+    stat_topics: 'Chủ đề',
+    stat_cards: 'Thẻ đã thuộc',
+    stat_q: 'Câu hỏi',
+    btn_quiz_all: 'Kiểm tra toàn bộ',
+    btn_cards_all: 'Tất cả thẻ ghi nhớ',
+    btn_focus: 'Bắt đầu phiên tập trung',
+    meter_notes: 'Ghi chú',
+    meter_cards: 'Thẻ',
+    meter_quiz: 'Kiểm tra',
+    read: 'Đã đọc',
+    to_read: 'Chưa đọc',
+    not_yet: 'Chưa làm',
+    foot_saved: 'Tiến độ chỉ được lưu trong trình duyệt này.',
+    reset: 'Xóa tiến độ của tôi',
+    reset_confirm: 'Bấm lần nữa để xóa',
+
+    eyebrow_topic: 'Chủ đề',
+    eyebrow_all: 'Toàn bộ bộ ôn tập',
+    all_topics: 'Tất cả chủ đề',
+    tab_notes: 'Ghi chú',
+    tab_cards: 'Thẻ ghi nhớ',
+    tab_quiz: 'Kiểm tra',
+    no_notes: 'Chủ đề này chưa có ghi chú.',
+    key_terms: 'Thuật ngữ chính',
+    mark_read: 'Đánh dấu đã đọc',
+    marked_read: 'Đã đọc. Hoàn tác',
+    practise: 'Luyện thẻ ghi nhớ',
+
+    shuffle: 'Xáo trộn',
+    skip_known: 'Bỏ qua thẻ đã thuộc',
+    restart_deck: 'Bắt đầu lại',
+    no_cards: 'Chưa có thẻ ghi nhớ nào ở đây.',
+    deck_done: 'Đã xong bộ thẻ',
+    nothing_left: 'Không còn thẻ cần ôn',
+    marked_known: 'Bạn đã đánh dấu {n} thẻ là đã thuộc trong lượt này.',
+    known_all: 'Bạn đã thuộc mọi thẻ trong bộ này.',
+    review_again: 'Ôn lại tất cả thẻ',
+    left_n: 'Còn {n}',
+    known_of: 'Đã thuộc {k}/{n}',
+    flip_aria: 'Lật thẻ',
+    face_q: 'Câu hỏi',
+    face_a: 'Đáp án',
+    card_hint: 'Chạm vào thẻ hoặc nhấn Space để lật. Mũi tên trái: học lại. Mũi tên phải: đã thuộc.',
+    btn_again: 'Học lại',
+    btn_gotit: 'Đã thuộc',
+
+    q_avail: 'Có {n} câu hỏi.',
+    best_so_far: ' Điểm cao nhất: {n}%.',
+    q_count: 'Số câu hỏi',
+    all_n: 'Tất cả ({n})',
+    q_time: 'Giới hạn thời gian mỗi câu',
+    no_limit: 'Không giới hạn',
+    sec20: '20 giây',
+    sec30: '30 giây',
+    min1: '1 phút',
+    sec90: '90 giây',
+    q_shuffle: 'Xáo trộn câu hỏi và đáp án',
+    start_quiz: 'Bắt đầu kiểm tra',
+    q_of: 'Câu {i}/{n}',
+    tf_true: 'Đúng',
+    tf_false: 'Sai',
+    lab_correct: 'Đáp án đúng',
+    lab_yours: 'Bạn đã chọn',
+    ph_typed: 'Viết câu trả lời của bạn ở đây, rồi xem đáp án mẫu.',
+    ans_aria: 'Câu trả lời của bạn',
+    show_model: 'Xem đáp án mẫu',
+    timesup_compare: 'Hết giờ. Hãy so sánh với đáp án mẫu.',
+    model_answer: 'Đáp án mẫu',
+    your_answer_is: 'Câu trả lời của bạn: {a}',
+    how_did: 'Bạn làm được không?',
+    had_it: 'Tôi làm đúng',
+    not_yet_btn: 'Chưa đúng',
+    correct: 'Chính xác',
+    timesup: 'Hết giờ',
+    notquite: 'Chưa đúng',
+    next_q: 'Câu tiếp theo',
+    see_results: 'Xem kết quả',
+    n_correct: 'Đúng {k}/{n} câu',
+    time_taken: 'Thời gian làm bài {t}',
+    retry_missed: 'Làm lại {n} câu sai',
+    new_quiz: 'Bài kiểm tra mới',
+    to_review: 'Cần xem lại',
+    answer_is: 'Đáp án: {a}',
+
+    err_title: 'Không thể mở tệp này.',
+    other_issues: '{n} vấn đề khác',
+    load_h: 'Mở bộ ôn tập',
+    load_lede: 'Chọn tệp mà giáo viên đã gửi cho bạn. Bạn có thể chọn nhiều tệp để gộp lại, ví dụ mỗi chương một tệp.',
+    drop_h: 'Kéo thả tệp bộ ôn tập vào đây',
+    drop_sub: '.json hoặc .studypack.json',
+    choose_files: 'Chọn tệp',
+    paste_label: 'Hoặc dán nội dung JSON',
+    load_pasted: 'Tải nội dung đã dán',
+    local_note: 'Tệp được đọc ngay trong trình duyệt của bạn. Không có gì được tải lên đâu cả.',
+    use_example: 'Dùng bộ ví dụ',
+    pasted_name: 'Nội dung đã dán',
+
+    teach_eyebrow: 'Dành cho giáo viên',
+    teach_h: 'Tạo bộ ôn tập từ tài liệu Word',
+    teach_lede: 'Bộ ôn tập là một tệp JSON nhỏ chứa ghi chú, thuật ngữ, thẻ ghi nhớ và câu hỏi cho từng chủ đề. Trợ lý AI nào cũng có thể viết nó từ tài liệu của bạn nếu bạn đưa cho nó lời nhắc bên dưới.',
+    s1: 'Sao chép lời nhắc bên dưới và dán vào trợ lý AI.',
+    s2: 'Đính kèm tài liệu Word của bạn, hoặc dán nội dung của nó sau lời nhắc. Với tài liệu dài, hãy chuyển từng chương một.',
+    s3: 'Lưu câu trả lời thành tệp có đuôi {code}, ví dụ {ex}.',
+    s4: 'Mở tệp bằng mục {link} để kiểm tra. Phần cảnh báo sẽ liệt kê những mục bị bỏ qua. Gửi chính các tệp này cho học sinh của bạn.',
+    prompt_h: 'Lời nhắc',
+    prompt_note: 'Lời nhắc viết bằng tiếng Anh nhưng dùng được cho tài liệu ở mọi ngôn ngữ, kể cả tiếng Việt. AI sẽ viết bộ ôn tập bằng ngôn ngữ của tài liệu.',
+    copy_prompt: 'Sao chép lời nhắc',
+    copied: 'Đã sao chép',
+    selected: 'Đã chọn. Nhấn Ctrl+C',
+    contains_h: 'Nội dung của tệp',
+    th_field: 'Trường',
+    th_type: 'Kiểu',
+    th_meaning: 'Ý nghĩa',
+    type_text: 'văn bản',
+    type_list: 'danh sách',
+    row1: 'Mô tả bộ ôn tập. Có thể để trống.',
+    row2: 'Mỗi chương một chủ đề. Mỗi chủ đề cần có tiêu đề.',
+    row3: 'Các phần có tiêu đề và các ý. **In đậm** đánh dấu thuật ngữ chính.',
+    row4: 'Cặp thuật ngữ và định nghĩa.',
+    row5: 'Cặp mặt trước và mặt sau.',
+    row6: 'type là mcq, truefalse hoặc short. Câu mcq có options và answer là chỉ số tính từ 0.',
+
+    v_empty: 'Tệp trống.',
+    v_badjson: 'Đây không phải JSON hợp lệ ({d}). Hãy nhờ AI trả lời lại chỉ gồm JSON, hoặc kiểm tra xem phần cuối có bị cắt mất không.',
+    v_notopics: 'Tệp cần có danh sách "topics" với ít nhất một chủ đề.',
+    v_topic_obj: 'Chủ đề {n} bị bỏ qua vì không phải là một đối tượng.',
+    v_topic_title: 'Chủ đề {n} bị bỏ qua vì không có tiêu đề.',
+    v_note_empty: 'Chủ đề {n} ({t}), phần ghi chú {s} không có ý nào nên bị bỏ qua.',
+    v_term_bad: 'Chủ đề {n} ({t}), thuật ngữ {s} cần có cả "term" và "definition" nên bị bỏ qua.',
+    v_card_bad: 'Chủ đề {n} ({t}), thẻ ghi nhớ {s} cần có cả "front" và "back" nên bị bỏ qua.',
+    v_q_obj: 'Chủ đề {n} ({t}), câu hỏi {s} bị bỏ qua vì không phải là một đối tượng.',
+    v_q_prompt: 'Chủ đề {n} ({t}), câu hỏi {s} không có "prompt" nên bị bỏ qua.',
+    v_q_opts: 'Chủ đề {n} ({t}), câu hỏi {s} cần ít nhất 2 lựa chọn nên bị bỏ qua.',
+    v_q_idx: 'Chủ đề {n} ({t}), câu hỏi {s} có "answer" không phải số từ 0 đến {max} nên bị bỏ qua.',
+    v_q_tf: 'Chủ đề {n} ({t}), câu hỏi {s} cần "answer" là true hoặc false nên bị bỏ qua.',
+    v_q_short: 'Chủ đề {n} ({t}), câu hỏi {s} không có "answer" mẫu nên bị bỏ qua.',
+    v_q_type: 'Chủ đề {n} ({t}), câu hỏi {s} có loại "{type}" không hợp lệ (dùng mcq, truefalse hoặc short) nên bị bỏ qua.',
+    v_noitems: 'Không tìm thấy ghi chú, thẻ ghi nhớ hoặc câu hỏi nào dùng được trong tệp này.'
+  }
+};
+
+if (typeof module !== 'undefined' && module.exports) { module.exports = { I18N: I18N }; }
+
+/* Core: parsing, validation, merging and hashing of study packs. Pure functions.
+   Problems are returned as {key, vars} objects so the app can show them in the chosen language. */
+function spMsg(key, vars) { return { key: key, vars: vars || {} }; }
+
+function spStr(v) {
+  if (typeof v === 'string') return v.trim();
+  if (typeof v === 'number' && isFinite(v)) return String(v);
+  return '';
+}
+
+function spParse(text) {
+  var t = String(text == null ? '' : text).replace(/^﻿/, '').trim();
+  if (!t) return { error: spMsg('empty') };
+  var fence = t.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  if (fence) t = fence[1].trim();
+  var a = t.indexOf('{');
+  var b = t.lastIndexOf('}');
+  if (a >= 0 && b > a && (a > 0 || b < t.length - 1)) t = t.slice(a, b + 1);
+  try {
+    return { data: JSON.parse(t) };
+  } catch (e) {
+    return { error: spMsg('badjson', { d: e.message }) };
+  }
+}
+
+function spNormalise(data) {
+  var errors = [];
+  var warnings = [];
+  if (!data || typeof data !== 'object' || !Array.isArray(data.topics) || !data.topics.length) {
+    errors.push(spMsg('notopics'));
+    return { errors: errors, warnings: warnings };
+  }
+  var pack = {
+    title: spStr(data.title) || 'Untitled study pack',
+    subject: spStr(data.subject),
+    level: spStr(data.level),
+    language: spStr(data.language),
+    topics: []
+  };
+  var used = {};
+  data.topics.forEach(function (t, ti) {
+    var n = ti + 1;
+    if (!t || typeof t !== 'object') { warnings.push(spMsg('topic_obj', { n: n })); return; }
+    var title = spStr(t.title);
+    if (!title) { warnings.push(spMsg('topic_title', { n: n })); return; }
+    var id = (spStr(t.id) || ('t' + n)).replace(/\s+/g, '-');
+    var base = id, k = 2;
+    while (used[id]) { id = base + '-' + k++; }
+    used[id] = true;
+    var topic = { id: id, title: title, summary: spStr(t.summary), notes: [], terms: [], cards: [], questions: [] };
+    var at = function (key, s, extra) {
+      var v = { n: n, t: title, s: s };
+      for (var x in (extra || {})) v[x] = extra[x];
+      warnings.push(spMsg(key, v));
+    };
+
+    (Array.isArray(t.notes) ? t.notes : []).forEach(function (s, si) {
+      var pts = (s && Array.isArray(s.points) ? s.points : []).map(spStr).filter(Boolean);
+      if (!pts.length) { at('note_empty', si + 1); return; }
+      topic.notes.push({ heading: spStr(s.heading), points: pts });
+    });
+
+    (Array.isArray(t.key_terms) ? t.key_terms : []).forEach(function (kt, ki) {
+      var term = spStr(kt && kt.term), def = spStr(kt && kt.definition);
+      if (!term || !def) { at('term_bad', ki + 1); return; }
+      topic.terms.push({ term: term, definition: def });
+    });
+
+    (Array.isArray(t.flashcards) ? t.flashcards : []).forEach(function (c, ci) {
+      var f = spStr(c && c.front), b = spStr(c && c.back);
+      if (!f || !b) { at('card_bad', ci + 1); return; }
+      topic.cards.push({ front: f, back: b });
+    });
+
+    (Array.isArray(t.questions) ? t.questions : []).forEach(function (q, qi) {
+      var s = qi + 1;
+      if (!q || typeof q !== 'object') { at('q_obj', s); return; }
+      var type = spStr(q.type).toLowerCase();
+      var prompt = spStr(q.prompt);
+      var expl = spStr(q.explanation);
+      if (!prompt) { at('q_prompt', s); return; }
+      if (type === 'mcq') {
+        var opts = (Array.isArray(q.options) ? q.options : []).map(spStr).filter(Boolean);
+        var ans = typeof q.answer === 'number' ? q.answer : parseInt(q.answer, 10);
+        if (opts.length < 2) { at('q_opts', s); return; }
+        if (!Number.isInteger(ans) || ans < 0 || ans >= opts.length) { at('q_idx', s, { max: opts.length - 1 }); return; }
+        topic.questions.push({ type: 'mcq', prompt: prompt, options: opts, answer: ans, explanation: expl });
+      } else if (type === 'truefalse') {
+        var a = q.answer;
+        if (typeof a === 'string') a = a.trim().toLowerCase() === 'true' ? true : a.trim().toLowerCase() === 'false' ? false : null;
+        if (typeof a !== 'boolean') { at('q_tf', s); return; }
+        topic.questions.push({ type: 'truefalse', prompt: prompt, answer: a, explanation: expl });
+      } else if (type === 'short') {
+        var sa = spStr(q.answer);
+        if (!sa) { at('q_short', s); return; }
+        topic.questions.push({ type: 'short', prompt: prompt, answer: sa, explanation: expl });
+      } else {
+        at('q_type', s, { type: type });
+      }
+    });
+
+    pack.topics.push(topic);
+  });
+
+  var items = 0;
+  pack.topics.forEach(function (t) { items += t.notes.length + t.cards.length + t.questions.length; });
+  if (!pack.topics.length || !items) {
+    errors.push(spMsg('noitems'));
+    return { errors: errors, warnings: warnings };
+  }
+  return { pack: pack, errors: errors, warnings: warnings };
+}
+
+function spMerge(packs) {
+  if (packs.length === 1) return packs[0];
+  var titles = [];
+  packs.forEach(function (p) { if (titles.indexOf(p.title) < 0) titles.push(p.title); });
+  var title = titles.length <= 2 ? titles.join(' + ') : titles[0] + ' + ' + (titles.length - 1) + ' more';
+  var pick = function (k) { for (var i = 0; i < packs.length; i++) if (packs[i][k]) return packs[i][k]; return ''; };
+  var out = { title: title, subject: pick('subject'), level: pick('level'), language: pick('language'), topics: [] };
+  var used = {};
+  packs.forEach(function (p) {
+    p.topics.forEach(function (t) {
+      var id = t.id, base = id, n = 2;
+      while (used[id]) { id = base + '-' + n++; }
+      used[id] = true;
+      var copy = {};
+      for (var k in t) copy[k] = t[k];
+      copy.id = id;
+      out.topics.push(copy);
+    });
+  });
+  return out;
+}
+
+function spHash(s) {
+  var h = 5381;
+  for (var i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0;
+  return (h >>> 0).toString(36);
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { spStr: spStr, spParse: spParse, spNormalise: spNormalise, spMerge: spMerge, spHash: spHash };
+}
+
+/* App: state, rendering, language, theme, focus timer. Uses I18N (i18n.js) and the spXxx helpers (core.js). */
+(function () {
+  'use strict';
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var esc = function (s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  };
+  var rich = function (s) { return esc(s).replace(/\*\*(.+?)\*\*/g, '<mark>$1</mark>'); };
+  var store = {
+    get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) { /* storage unavailable */ } }
+  };
+  var shuffle = function (a) {
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  };
+
+  /* ---------- language ---------- */
+  var LANG = 'en';
+  function tr(key, vars) {
+    var d = I18N[LANG] || I18N.en, v = d[key];
+    if (v == null) v = I18N.en[key];
+    if (v == null) return key;
+    if (Array.isArray(v)) v = (vars && vars.n === 1) ? v[0] : v[1];
+    return String(v).replace(/\{(\w+)\}/g, function (m, k) { return vars && k in vars ? vars[k] : m; });
+  }
+  function detectLang() {
+    var s = store.get('sp:lang');
+    if (s === 'vi' || s === 'en') return s;
+    var n = String((typeof navigator !== 'undefined' && navigator.language) || 'en').toLowerCase();
+    return n.indexOf('vi') === 0 ? 'vi' : 'en';
+  }
+  function applyStatic() {
+    document.documentElement.lang = LANG;
+    Array.prototype.forEach.call(document.querySelectorAll('[data-i18n]'), function (el) {
+      el.textContent = tr(el.getAttribute('data-i18n'));
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-i18n-attr]'), function (el) {
+      el.getAttribute('data-i18n-attr').split(';').forEach(function (p) {
+        var kv = p.split(':'); el.setAttribute(kv[0], tr(kv[1]));
+      });
+    });
+    $('#langSeg').dataset.lang = LANG;
+    Array.prototype.forEach.call(document.querySelectorAll('[data-l]'), function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-l') === LANG));
+    });
+  }
+  function msgText(x) {
+    return (x.file ? esc(x.file) + ': ' : '') + esc(tr('v_' + x.m.key, x.m.vars));
+  }
+
+  var S = {
+    pack: null, key: '', sample: false, prog: null,
+    view: 'overview', scope: 'all', mode: 'notes',
+    cards: null, quiz: null, qiv: null,
+    qopts: { count: 10, secs: 0, shuffle: true },
+    copts: { shuffle: true, skipKnown: false },
+    notice: null, loadMsg: null, confirmReset: false
+  };
+
+  /* ---------- pack + progress ---------- */
+  function sampleFor(lang) {
+    return spNormalise(JSON.parse($(lang === 'vi' ? '#sampleVi' : '#sampleEn').textContent)).pack;
+  }
+  function setPack(pack, sample) {
+    S.pack = pack; S.sample = !!sample;
+    S.key = sample ? 'example' : spHash(pack.title + '|' + pack.topics.map(function (t) { return t.id + ':' + t.title; }).join('|'));
+    var p = null;
+    try { p = JSON.parse(store.get('sp:prog:' + S.key) || 'null'); } catch (e) { p = null; }
+    S.prog = { notes: {}, cards: {}, quiz: {} };
+    if (p && typeof p === 'object') {
+      ['notes', 'cards', 'quiz'].forEach(function (k) { if (p[k] && typeof p[k] === 'object') S.prog[k] = p[k]; });
+    }
+    S.cards = null; S.quiz = null; S.confirmReset = false; stopQT();
+    store.set('sp:pack', sample ? '' : JSON.stringify(pack));
+    $('#packName').textContent = pack.title;
+  }
+  function saveProg() { store.set('sp:prog:' + S.key, JSON.stringify(S.prog)); }
+  function scopeTopics(scope) { return scope === 'all' ? S.pack.topics : S.pack.topics.filter(function (t) { return t.id === scope; }); }
+
+  function topicStats(t) {
+    var known = 0;
+    t.cards.forEach(function (_, i) { if (S.prog.cards[t.id + ':' + i]) known++; });
+    var best = S.prog.quiz[t.id];
+    var comps = [];
+    if (t.notes.length) comps.push(S.prog.notes[t.id] ? 1 : 0);
+    if (t.cards.length) comps.push(known / t.cards.length);
+    if (t.questions.length) comps.push(best == null ? 0 : best / 100);
+    var ready = comps.length ? comps.reduce(function (a, b) { return a + b; }, 0) / comps.length : 0;
+    return { known: known, best: best, ready: ready };
+  }
+  function totals() {
+    var o = { cards: 0, known: 0, qs: 0, ready: 0 };
+    S.pack.topics.forEach(function (t) {
+      var st = topicStats(t);
+      o.cards += t.cards.length; o.known += st.known; o.qs += t.questions.length; o.ready += st.ready;
+    });
+    o.ready = S.pack.topics.length ? o.ready / S.pack.topics.length : 0;
+    return o;
+  }
+
+  /* ---------- loading files ---------- */
+  function loadTexts(items) {
+    var packs = [], errs = [], warns = [];
+    items.forEach(function (it) {
+      var file = items.length > 1 || it.name ? it.name : '';
+      var r = spParse(it.text);
+      if (r.error) { errs.push({ file: file, m: r.error }); return; }
+      var n = spNormalise(r.data);
+      n.warnings.forEach(function (w) { warns.push({ file: items.length > 1 ? it.name : '', m: w }); });
+      if (n.errors.length) { n.errors.forEach(function (e) { errs.push({ file: file, m: e }); }); return; }
+      packs.push(n.pack);
+    });
+    if (!packs.length) { S.loadMsg = { errors: errs, warnings: warns }; S.view = 'load'; render(); return; }
+    setPack(spMerge(packs), false);
+    S.notice = { topics: S.pack.topics.length, files: items.length > 1 ? packs.length : 0, items: errs.concat(warns) };
+    S.loadMsg = null;
+    go('overview');
+  }
+  function handleFiles(files) {
+    var list = Array.prototype.slice.call(files || []);
+    if (!list.length) return;
+    Promise.all(list.map(function (f) {
+      return f.text().then(function (t) { return { name: f.name, text: t }; }, function () { return { name: f.name, text: '' }; });
+    })).then(loadTexts);
+  }
+  function loadSample() {
+    setPack(sampleFor(LANG), true); S.notice = null; S.loadMsg = null; go('overview');
+  }
+
+  /* ---------- navigation ---------- */
+  function go(where, id, mode) {
+    stopQT();
+    if (where === 'topic') { S.view = 'study'; S.scope = id; S.mode = mode || 'notes'; S.cards = null; S.quiz = null; }
+    else if (where === 'all') { S.view = 'study'; S.scope = 'all'; S.mode = mode || 'cards'; S.cards = null; S.quiz = null; }
+    else { S.view = where; }
+    render();
+    window.scrollTo(0, 0);
+  }
+
+  /* ---------- rendering ---------- */
+  function render() {
+    var main;
+    if (S.view === 'overview') main = overviewHTML();
+    else if (S.view === 'study') main = studyHTML();
+    else if (S.view === 'load') main = loadHTML();
+    else main = teacherHTML();
+    $('#app').innerHTML = '<div class="shell">' + navHTML() + '<main class="main" id="main">' + main + '</main></div>';
+  }
+
+  function navHTML() {
+    var h = '<nav class="rail" aria-label="' + esc(tr('nav_aria')) + '">';
+    h += '<button class="nav-i' + (S.view === 'overview' ? ' cur' : '') + '" data-go="overview"><span>' + tr('nav_overview') + '</span></button>';
+    h += '<p class="rail-h">' + tr('nav_topics') + '</p><div class="rail-list">';
+    S.pack.topics.forEach(function (t) {
+      var st = topicStats(t), pct = Math.round(st.ready * 100);
+      var cur = S.view === 'study' && S.scope === t.id;
+      h += '<button class="nav-i' + (cur ? ' cur' : '') + '" data-go="topic" data-id="' + esc(t.id) + '"><span>' + esc(t.title) + '</span><i class="dot" style="--p:' + pct + '" title="' + esc(tr('ready_pct', { n: pct })) + '"></i></button>';
+    });
+    h += '</div><p class="rail-h">' + tr('nav_files') + '</p><div class="rail-list">';
+    h += '<button class="nav-i' + (S.view === 'load' ? ' cur' : '') + '" data-go="load"><span>' + tr('nav_open') + '</span></button>';
+    h += '<button class="nav-i' + (S.view === 'teacher' ? ' cur' : '') + '" data-go="teacher"><span>' + tr('nav_make') + '</span></button>';
+    h += '</div></nav>';
+    return h;
+  }
+
+  function meter(label, pct, text, na) {
+    return '<div class="m' + (na ? ' na' : '') + '"><span class="m-l">' + label + '</span><span class="m-b"><i style="width:' + pct + '%"></i></span><span class="m-v">' + text + '</span></div>';
+  }
+
+  function overviewHTML() {
+    var P = S.pack, tt = totals(), pct = Math.round(tt.ready * 100);
+    var meta = [P.subject, P.level, tr('topics_n', { n: P.topics.length })].filter(Boolean).map(esc).join(' · ');
+    var h = '<div class="eyebrow">' + tr('eyebrow_pack') + (S.sample ? '<span class="tag">' + tr('tag_example') + '</span>' : '') + '</div>';
+    h += '<h1 class="page-h">' + esc(P.title) + '</h1><p class="lede">' + meta + '</p>';
+    if (S.sample) h += '<div class="note">' + tr('note_example', { link: '<button class="link" data-go="load">' + tr('open_own') + '</button>' }) + '</div>';
+    if (S.notice) {
+      h += '<div class="note"><b>' + tr('loaded_n', { n: S.notice.topics }) + (S.notice.files ? tr('loaded_from', { n: S.notice.files }) : '') + '.</b> <button class="link" data-act="dismiss">' + tr('dismiss') + '</button>';
+      if (S.notice.items.length) {
+        h += '<details><summary>' + tr('skipped_n', { n: S.notice.items.length }) + '</summary><ul>' + S.notice.items.map(function (w) { return '<li>' + msgText(w) + '</li>'; }).join('') + '</ul></details>';
+      }
+      h += '</div>';
+    }
+    h += '<section class="prog" aria-label="' + esc(tr('progress_aria')) + '"><div><div class="big">' + pct + '<span>%</span></div><p class="muted">' + tr('ready_to_revise') + '</p></div><div>';
+    h += '<div class="bar" role="img" aria-label="' + esc(tr('ready_pct', { n: pct })) + '"><i style="width:' + pct + '%"></i></div>';
+    h += '<dl class="stats"><div><dt>' + tr('stat_topics') + '</dt><dd>' + P.topics.length + '</dd></div><div><dt>' + tr('stat_cards') + '</dt><dd>' + tt.known + '/' + tt.cards + '</dd></div><div><dt>' + tr('stat_q') + '</dt><dd>' + tt.qs + '</dd></div></dl>';
+    h += '<div class="actions">';
+    if (tt.qs) h += '<button class="btn primary" data-go="all" data-mode="quiz">' + tr('btn_quiz_all') + '</button>';
+    if (tt.cards) h += '<button class="btn" data-go="all" data-mode="cards">' + tr('btn_cards_all') + '</button>';
+    h += '<button class="btn" data-act="focus">' + tr('btn_focus') + '</button></div></div></section>';
+    h += '<h2 class="sec-h">' + tr('nav_topics') + '</h2><div class="tlist">';
+    P.topics.forEach(function (t) {
+      var st = topicStats(t), read = !!S.prog.notes[t.id];
+      h += '<button class="trow" data-go="topic" data-id="' + esc(t.id) + '"><div><h3>' + esc(t.title) + '</h3>' + (t.summary ? '<p>' + esc(t.summary) + '</p>' : '') + '</div><div class="meters">';
+      h += t.notes.length ? meter(tr('meter_notes'), read ? 100 : 0, read ? tr('read') : tr('to_read'), !read) : '';
+      h += t.cards.length ? meter(tr('meter_cards'), Math.round(st.known / t.cards.length * 100), st.known + '/' + t.cards.length, st.known === 0) : '';
+      h += t.questions.length ? meter(tr('meter_quiz'), st.best == null ? 0 : st.best, st.best == null ? tr('not_yet') : st.best + '%', st.best == null) : '';
+      h += '</div></button>';
+    });
+    h += '</div><p class="foot">' + tr('foot_saved') + ' ';
+    h += '<button class="link" data-act="reset">' + (S.confirmReset ? tr('reset_confirm') : tr('reset')) + '</button></p>';
+    return h;
+  }
+
+  function studyHTML() {
+    var topics = scopeTopics(S.scope), single = S.scope !== 'all', t = single ? topics[0] : null;
+    if (single && !t) { S.view = 'overview'; return overviewHTML(); }
+    var has = {
+      notes: single && t.notes.length > 0,
+      cards: topics.some(function (x) { return x.cards.length; }),
+      quiz: topics.some(function (x) { return x.questions.length; })
+    };
+    if (!has[S.mode]) S.mode = ['notes', 'cards', 'quiz'].filter(function (m) { return has[m]; })[0] || 'notes';
+    var h = '<div class="eyebrow">' + (single ? tr('eyebrow_topic') : tr('eyebrow_all')) + '</div>';
+    h += '<h1 class="page-h">' + esc(single ? t.title : tr('all_topics')) + '</h1>';
+    h += '<div class="tabs" role="tablist">';
+    [['notes', 'tab_notes'], ['cards', 'tab_cards'], ['quiz', 'tab_quiz']].forEach(function (m) {
+      if (!has[m[0]]) return;
+      h += '<button class="tab" role="tab" data-act="tab" data-mode="' + m[0] + '" aria-selected="' + (S.mode === m[0]) + '">' + tr(m[1]) + '</button>';
+    });
+    h += '</div>';
+    if (S.mode === 'notes') h += has.notes ? notesHTML(t) : '<div class="empty"><p>' + tr('no_notes') + '</p></div>';
+    else if (S.mode === 'cards') h += cardsHTML();
+    else h += quizHTML();
+    return h;
+  }
+
+  function notesHTML(t) {
+    var h = '<div class="notes">';
+    if (t.summary) h += '<p class="sum">' + esc(t.summary) + '</p>';
+    t.notes.forEach(function (s) {
+      if (s.heading) h += '<h3>' + esc(s.heading) + '</h3>';
+      h += '<ul>' + s.points.map(function (p) { return '<li>' + rich(p) + '</li>'; }).join('') + '</ul>';
+    });
+    h += '</div>';
+    if (t.terms.length) {
+      h += '<h2 class="sec-h">' + tr('key_terms') + '</h2><dl class="terms">' + t.terms.map(function (k) { return '<dt>' + esc(k.term) + '</dt><dd>' + esc(k.definition) + '</dd>'; }).join('') + '</dl>';
+    }
+    var done = !!S.prog.notes[t.id];
+    h += '<div class="done-row"><button class="btn' + (done ? '' : ' primary') + '" data-act="notesDone" data-id="' + esc(t.id) + '">' + (done ? tr('marked_read') : tr('mark_read')) + '</button>';
+    if (t.cards.length) h += '<button class="btn" data-act="tab" data-mode="cards">' + tr('practise') + '</button>';
+    h += '</div>';
+    return h;
+  }
+
+  /* ---------- flashcards ---------- */
+  function startCards(scope) {
+    var deck = [];
+    scopeTopics(scope).forEach(function (t) {
+      t.cards.forEach(function (c, i) { deck.push({ id: t.id + ':' + i, tt: t.title, front: c.front, back: c.back }); });
+    });
+    var total = deck.length;
+    if (S.copts.skipKnown) deck = deck.filter(function (c) { return !S.prog.cards[c.id]; });
+    if (S.copts.shuffle) shuffle(deck);
+    S.cards = { scope: scope, queue: deck, total: total, flipped: false, got: 0, again: 0 };
+  }
+  function cardsHTML() {
+    if (!S.cards || S.cards.scope !== S.scope) startCards(S.scope);
+    var C = S.cards, h = '<div class="deck">';
+    h += '<div class="ctrl"><label for="cShuffle"><input type="checkbox" id="cShuffle"' + (S.copts.shuffle ? ' checked' : '') + '> ' + tr('shuffle') + '</label>';
+    h += '<label for="cSkip"><input type="checkbox" id="cSkip"' + (S.copts.skipKnown ? ' checked' : '') + '> ' + tr('skip_known') + '</label>';
+    h += '<button class="link sp" data-act="restartCards">' + tr('restart_deck') + '</button></div>';
+    if (!C.total) return h + '<div class="empty"><p>' + tr('no_cards') + '</p></div></div>';
+    if (!C.queue.length) {
+      h += '<div class="empty"><h2>' + (C.got ? tr('deck_done') : tr('nothing_left')) + '</h2><p class="muted">' + (C.got ? tr('marked_known', { n: C.got }) : tr('known_all')) + '</p><button class="btn primary" data-act="restartAll">' + tr('review_again') + '</button></div></div>';
+      return h;
+    }
+    var c = C.queue[0], known = 0;
+    scopeTopics(S.scope).forEach(function (t) { t.cards.forEach(function (_, i) { if (S.prog.cards[t.id + ':' + i]) known++; }); });
+    h += '<div class="prog-line"><span>' + tr('left_n', { n: C.queue.length }) + '</span><span>' + tr('known_of', { k: known, n: C.total }) + '</span></div>';
+    h += '<div class="card-wrap"><div class="card' + (C.flipped ? ' flipped' : '') + '" id="theCard" role="button" tabindex="0" aria-label="' + esc(tr('flip_aria')) + '" data-act="flip"><div class="inner">';
+    h += '<div class="face"><small>' + (S.scope === 'all' ? esc(c.tt) : tr('face_q')) + '</small>' + esc(c.front) + '</div>';
+    h += '<div class="face back"><small>' + tr('face_a') + '</small>' + esc(c.back) + '</div></div></div></div>';
+    h += '<p class="hint">' + tr('card_hint') + '</p>';
+    h += '<div class="rate"><button class="btn again" data-act="again">' + tr('btn_again') + '</button><button class="btn primary" data-act="gotit">' + tr('btn_gotit') + '</button></div></div>';
+    return h;
+  }
+
+  /* ---------- quiz ---------- */
+  function stopQT() { if (S.qiv) { clearInterval(S.qiv); S.qiv = null; } }
+  function armQT() {
+    stopQT();
+    var q = S.quiz;
+    if (!q || q.done || q.phase !== 'ask' || !S.qopts.secs) return;
+    q.deadline = Date.now() + S.qopts.secs * 1000;
+    S.qiv = setInterval(tickQ, 200);
+  }
+  function tickQ() {
+    var q = S.quiz;
+    if (!q || q.done || q.phase !== 'ask') { stopQT(); return; }
+    var left = Math.max(0, q.deadline - Date.now());
+    var el = $('#qTime'), bar = $('#qBar');
+    if (el) el.textContent = Math.ceil(left / 1000) + 's';
+    if (bar) bar.style.width = (left / (S.qopts.secs * 1000) * 100) + '%';
+    if (left <= 0) { stopQT(); timeUp(); }
+  }
+  function startQuiz(scope, items) {
+    if (!items) {
+      items = [];
+      scopeTopics(scope).forEach(function (t) {
+        t.questions.forEach(function (q) { items.push({ tid: t.id, ttitle: t.title, q: q }); });
+      });
+      if (S.qopts.shuffle) shuffle(items);
+      if (S.qopts.count > 0) items = items.slice(0, S.qopts.count);
+    }
+    items.forEach(function (it) {
+      it.res = null; it.typed = ''; it.revealed = false; it.timedOut = false;
+      if (it.q.type === 'mcq') { it.order = it.q.options.map(function (_, i) { return i; }); if (S.qopts.shuffle) shuffle(it.order); }
+    });
+    if (!items.length) return;
+    S.quiz = { scope: scope, items: items, i: 0, phase: 'ask', started: Date.now(), deadline: 0, done: false };
+    armQT(); render();
+  }
+  function curItem() { return S.quiz.items[S.quiz.i]; }
+  function answer(pos) {
+    var q = S.quiz; if (!q || q.phase !== 'ask') return;
+    var it = curItem(), t = it.q, ok = false;
+    if (t.type === 'mcq') ok = it.order[pos] === t.answer;
+    else if (t.type === 'truefalse') ok = pos === (t.answer ? 0 : 1);
+    it.res = { pos: pos, correct: ok, timedOut: false };
+    q.phase = 'fb'; stopQT(); render();
+  }
+  function timeUp() {
+    var q = S.quiz; if (!q || q.phase !== 'ask') return;
+    var it = curItem();
+    if (it.q.type === 'short') { it.revealed = true; it.timedOut = true; }
+    else it.res = { pos: -1, correct: false, timedOut: true };
+    q.phase = 'fb'; render();
+  }
+  function revealShort() {
+    var q = S.quiz; if (!q || q.phase !== 'ask') return;
+    var ta = $('#typed'); if (ta) curItem().typed = ta.value;
+    curItem().revealed = true; q.phase = 'fb'; stopQT(); render();
+  }
+  function gradeShort(ok) {
+    var it = curItem(); it.res = { pos: -1, correct: ok, timedOut: !!it.timedOut }; nextQ();
+  }
+  function nextQ() {
+    var q = S.quiz; if (!q) return;
+    if (q.i + 1 >= q.items.length) { finishQuiz(); render(); return; }
+    q.i++; q.phase = 'ask'; armQT(); render();
+  }
+  function finishQuiz() {
+    var q = S.quiz; stopQT();
+    q.done = true; q.elapsed = Math.round((Date.now() - q.started) / 1000);
+    var by = {};
+    q.items.forEach(function (it) {
+      var b = by[it.tid] || (by[it.tid] = { n: 0, ok: 0, title: it.ttitle });
+      b.n++; if (it.res && it.res.correct) b.ok++;
+    });
+    q.by = by;
+    q.ok = q.items.filter(function (it) { return it.res && it.res.correct; }).length;
+    Object.keys(by).forEach(function (id) {
+      var topic = S.pack.topics.filter(function (t) { return t.id === id; })[0];
+      if (!topic || by[id].n < Math.min(3, topic.questions.length)) return;
+      var pct = Math.round(by[id].ok / by[id].n * 100), prev = S.prog.quiz[id];
+      S.prog.quiz[id] = prev == null ? pct : Math.max(prev, pct);
+    });
+    saveProg();
+  }
+
+  function quizHTML() {
+    if (!S.quiz) return quizSetupHTML();
+    return S.quiz.done ? quizResultHTML() : questionHTML();
+  }
+  function quizSetupHTML() {
+    var topics = scopeTopics(S.scope), n = 0, bests = [];
+    topics.forEach(function (t) { n += t.questions.length; if (S.prog.quiz[t.id] != null) bests.push(S.prog.quiz[t.id]); });
+    var counts = [5, 10, 20].filter(function (c) { return c < n; });
+    var sel = S.qopts.count > 0 && S.qopts.count < n ? S.qopts.count : 0;
+    var h = '<div class="qset"><p class="muted">' + tr('q_avail', { n: n }) + (bests.length && S.scope !== 'all' ? tr('best_so_far', { n: bests[0] }) : '') + '</p>';
+    h += '<label for="qCount">' + tr('q_count') + '<select id="qCount">';
+    counts.forEach(function (c) { h += '<option value="' + c + '"' + (sel === c ? ' selected' : '') + '>' + c + '</option>'; });
+    h += '<option value="0"' + (sel === 0 ? ' selected' : '') + '>' + tr('all_n', { n: n }) + '</option></select></label>';
+    h += '<label for="qTimeSel">' + tr('q_time') + '<select id="qTimeSel">';
+    [[0, 'no_limit'], [20, 'sec20'], [30, 'sec30'], [60, 'min1'], [90, 'sec90']].forEach(function (o) {
+      h += '<option value="' + o[0] + '"' + (S.qopts.secs === o[0] ? ' selected' : '') + '>' + tr(o[1]) + '</option>';
+    });
+    h += '</select></label>';
+    h += '<label class="chk" for="qShuffle"><input type="checkbox" id="qShuffle"' + (S.qopts.shuffle ? ' checked' : '') + '> ' + tr('q_shuffle') + '</label>';
+    h += '<button class="btn primary" data-act="qstart">' + tr('start_quiz') + '</button></div>';
+    return h;
+  }
+  function questionHTML() {
+    var q = S.quiz, it = curItem(), t = it.q, fb = q.phase === 'fb', letters = 'ABCD';
+    var h = '<div class="quiz"><div class="q-top"><span>' + tr('q_of', { i: q.i + 1, n: q.items.length }) + '</span>';
+    if (S.scope === 'all') h += '<span>' + esc(it.ttitle) + '</span>';
+    h += '<span class="grow"></span>';
+    if (S.qopts.secs && !fb) h += '<span class="qtimer"><span id="qTime">' + S.qopts.secs + 's</span><span class="bar"><i id="qBar" style="width:100%"></i></span></span>';
+    h += '</div><div class="q-prog" aria-hidden="true">' + q.items.map(function (x, i) {
+      return '<i class="' + (x.res ? (x.res.correct ? 'd' : 'w') : (i === q.i ? 'd' : '')) + '"></i>';
+    }).join('') + '</div>';
+    h += '<h2 class="q-p">' + esc(t.prompt) + '</h2>';
+    if (t.type === 'mcq' || t.type === 'truefalse') {
+      var opts = t.type === 'mcq'
+        ? it.order.map(function (oi) { return { text: t.options[oi], right: oi === t.answer }; })
+        : [{ text: tr('tf_true'), right: t.answer === true }, { text: tr('tf_false'), right: t.answer === false }];
+      h += '<div class="opts">';
+      opts.forEach(function (o, pos) {
+        var cls = 'opt', lab = '';
+        if (fb) {
+          if (o.right) { cls += ' ok'; lab = tr('lab_correct'); }
+          else if (it.res && it.res.pos === pos) { cls += ' bad'; lab = tr('lab_yours'); }
+        }
+        h += '<button class="' + cls + '"' + (fb ? ' disabled' : ' data-act="pick" data-i="' + pos + '"') + '><span class="k">' + (t.type === 'mcq' ? letters[pos] : (pos + 1)) + '</span><span>' + esc(o.text) + '</span><span class="lab">' + lab + '</span></button>';
+      });
+      h += '</div>';
+    } else if (!fb) {
+      h += '<textarea class="typed" id="typed" placeholder="' + esc(tr('ph_typed')) + '" aria-label="' + esc(tr('ans_aria')) + '">' + esc(it.typed) + '</textarea>';
+      h += '<div><button class="btn primary" data-act="reveal">' + tr('show_model') + '</button></div>';
+    }
+    if (fb) {
+      if (t.type === 'short') {
+        h += '<div class="fb"><h3>' + (it.timedOut ? tr('timesup_compare') : tr('model_answer')) + '</h3>';
+        if (it.typed) h += '<p class="muted">' + tr('your_answer_is', { a: esc(it.typed) }) + '</p>';
+        h += '<div class="model">' + esc(t.answer) + '</div>';
+        if (t.explanation) h += '<p>' + esc(t.explanation) + '</p>';
+        h += '<p class="muted">' + tr('how_did') + '</p><div class="actions"><button class="btn primary" data-act="grade" data-ok="1">' + tr('had_it') + '</button><button class="btn again" data-act="grade" data-ok="0">' + tr('not_yet_btn') + '</button></div></div>';
+      } else {
+        var ok = it.res.correct;
+        h += '<div class="fb ' + (ok ? 'ok' : 'bad') + '" role="status"><h3>' + (ok ? tr('correct') : (it.res.timedOut ? tr('timesup') : tr('notquite'))) + '</h3>';
+        if (t.explanation) h += '<p>' + esc(t.explanation) + '</p>';
+        h += '<div><button class="btn primary" data-act="next" id="nextBtn">' + (q.i + 1 >= q.items.length ? tr('see_results') : tr('next_q')) + '</button></div></div>';
+      }
+    }
+    return h + '</div>';
+  }
+  function fmtTime(s) { return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
+  function quizResultHTML() {
+    var q = S.quiz, n = q.items.length, pct = Math.round(q.ok / n * 100);
+    var missed = q.items.filter(function (it) { return !(it.res && it.res.correct); });
+    var h = '<div class="quiz"><div class="score"><div class="big">' + pct + '<span>%</span></div><div><h2>' + tr('n_correct', { k: q.ok, n: n }) + '</h2><p class="muted">' + tr('time_taken', { t: fmtTime(q.elapsed) }) + '</p></div></div>';
+    var ids = Object.keys(q.by);
+    if (ids.length > 1) {
+      h += '<div class="by">' + ids.map(function (id) { var b = q.by[id]; return meter(esc(b.title).slice(0, 40), Math.round(b.ok / b.n * 100), b.ok + '/' + b.n); }).join('') + '</div>';
+    }
+    h += '<div class="actions">';
+    if (missed.length) h += '<button class="btn primary" data-act="retry">' + tr('retry_missed', { n: missed.length }) + '</button>';
+    h += '<button class="btn' + (missed.length ? '' : ' primary') + '" data-act="newquiz">' + tr('new_quiz') + '</button></div>';
+    if (missed.length) {
+      h += '<h2 class="sec-h">' + tr('to_review') + '</h2><div class="res-list">' + missed.map(function (it) {
+        var t = it.q, ans = t.type === 'mcq' ? t.options[t.answer] : t.type === 'truefalse' ? (t.answer ? tr('tf_true') : tr('tf_false')) : t.answer;
+        return '<div class="res-i"><b>' + esc(t.prompt) + '</b><p>' + tr('answer_is', { a: esc(ans) }) + '</p>' + (t.explanation ? '<p>' + esc(t.explanation) + '</p>' : '') + '</div>';
+      }).join('') + '</div>';
+    }
+    return h + '</div>';
+  }
+
+  /* ---------- load + teacher views ---------- */
+  function msgHTML() {
+    var m = S.loadMsg; if (!m) return '';
+    var h = '<div class="note err"><b>' + tr('err_title') + '</b><ul>' + m.errors.map(function (e) { return '<li>' + msgText(e) + '</li>'; }).join('') + '</ul>';
+    if (m.warnings.length) h += '<details><summary>' + tr('other_issues', { n: m.warnings.length }) + '</summary><ul>' + m.warnings.map(function (e) { return '<li>' + msgText(e) + '</li>'; }).join('') + '</ul></details>';
+    return h + '</div>';
+  }
+  function loadHTML() {
+    var h = '<div class="eyebrow">' + tr('nav_files') + '</div><h1 class="page-h">' + tr('load_h') + '</h1>';
+    h += '<p class="lede">' + tr('load_lede') + '</p><div class="narrow">';
+    h += msgHTML();
+    h += '<div class="drop" id="drop"><p><b>' + tr('drop_h') + '</b></p><p class="muted">' + tr('drop_sub') + '</p><button class="btn primary" data-act="pickfile">' + tr('choose_files') + '</button><input type="file" id="fileIn" accept=".json,.txt,application/json,text/plain" multiple hidden></div>';
+    h += '<div><label for="pasteIn" style="font-weight:600">' + tr('paste_label') + '</label><textarea class="paste" id="pasteIn" placeholder="{ &quot;format&quot;: &quot;studypack&quot;, ... }" style="margin-top:8px"></textarea><div style="margin-top:8px"><button class="btn" data-act="loadpaste">' + tr('load_pasted') + '</button></div></div>';
+    h += '<p class="muted">' + tr('local_note') + ' <button class="link" data-act="sample">' + tr('use_example') + '</button></p></div>';
+    return h;
+  }
+  function teacherHTML() {
+    var prompt = $('#promptText').textContent.trim();
+    var h = '<div class="eyebrow">' + tr('teach_eyebrow') + '</div><h1 class="page-h">' + tr('teach_h') + '</h1>';
+    h += '<p class="lede">' + tr('teach_lede') + '</p><div class="narrow">';
+    h += '<ol class="steps"><li>' + tr('s1') + '</li><li>' + tr('s2') + '</li><li>' + tr('s3', { code: '<code>.json</code>', ex: '<code>chapter-1.studypack.json</code>' }) + '</li><li>' + tr('s4', { link: '<button class="link" data-go="load">' + tr('nav_open') + '</button>' }) + '</li></ol>';
+    h += '<div><h2 class="sec-h" style="margin-top:0">' + tr('prompt_h') + '</h2><p class="muted" style="margin-bottom:10px">' + tr('prompt_note') + '</p><div class="row-btns"><button class="btn primary" data-act="copyprompt">' + tr('copy_prompt') + '</button></div><pre class="prompt" id="promptPre">' + esc(prompt) + '</pre></div>';
+    h += '<div><h2 class="sec-h" style="margin-top:0">' + tr('contains_h') + '</h2><div class="scroll"><table class="f"><thead><tr><th>' + tr('th_field') + '</th><th>' + tr('th_type') + '</th><th>' + tr('th_meaning') + '</th></tr></thead><tbody>';
+    [['title, subject, level, language', 'type_text', 'row1'],
+     ['topics[]', 'type_list', 'row2'],
+     ['notes[]', 'type_list', 'row3'],
+     ['key_terms[]', 'type_list', 'row4'],
+     ['flashcards[]', 'type_list', 'row5'],
+     ['questions[]', 'type_list', 'row6']].forEach(function (r) {
+      h += '<tr><td><code>' + esc(r[0]) + '</code></td><td>' + tr(r[1]) + '</td><td>' + esc(tr(r[2])) + '</td></tr>';
+    });
+    h += '</tbody></table></div></div></div>';
+    return h;
+  }
+
+  /* ---------- events ---------- */
+  function flash(btn, text) {
+    if (!btn) return;
+    var old = btn.textContent; btn.textContent = text;
+    setTimeout(function () { if (btn.isConnected) btn.textContent = old; }, 1600);
+  }
+  function copyPrompt(btn) {
+    var text = $('#promptText').textContent.trim();
+    var fallback = function () {
+      var pre = $('#promptPre'); if (!pre) return;
+      var r = document.createRange(); r.selectNodeContents(pre);
+      var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      flash(btn, tr('selected'));
+    };
+    try { navigator.clipboard.writeText(text).then(function () { flash(btn, tr('copied')); }, fallback); } catch (e) { fallback(); }
+  }
+
+  function setLang(l) {
+    if (l !== 'vi' && l !== 'en') return;
+    LANG = l; store.set('sp:lang', l);
+    applyStatic(); syncTheme(); tRender();
+    if (S.sample) { setPack(sampleFor(LANG), true); S.notice = null; }
+    if (S.pack) $('#packName').textContent = S.pack.title;
+    render();
+  }
+
+  function act(name, el) {
+    switch (name) {
+      case 'lang': setLang(el.dataset.l); break;
+      case 'theme': toggleTheme(); break;
+      case 'tab': S.mode = el.dataset.mode; stopQT(); S.quiz = null; render(); window.scrollTo(0, 0); break;
+      case 'notesDone': S.prog.notes[el.dataset.id] = !S.prog.notes[el.dataset.id]; if (!S.prog.notes[el.dataset.id]) delete S.prog.notes[el.dataset.id]; saveProg(); render(); break;
+      case 'flip': if (S.cards) { S.cards.flipped = !S.cards.flipped; var c = $('#theCard'); if (c) c.classList.toggle('flipped', S.cards.flipped); } break;
+      case 'gotit': case 'again': cardRate(name === 'gotit'); break;
+      case 'restartCards': startCards(S.scope); render(); break;
+      case 'restartAll': S.copts.skipKnown = false; startCards(S.scope); render(); break;
+      case 'qstart':
+        S.qopts.count = parseInt($('#qCount').value, 10) || 0;
+        S.qopts.secs = parseInt($('#qTimeSel').value, 10) || 0;
+        S.qopts.shuffle = $('#qShuffle').checked;
+        startQuiz(S.scope); break;
+      case 'pick': answer(parseInt(el.dataset.i, 10)); break;
+      case 'reveal': revealShort(); break;
+      case 'grade': gradeShort(el.dataset.ok === '1'); break;
+      case 'next': nextQ(); break;
+      case 'retry':
+        startQuiz(S.quiz.scope, S.quiz.items.filter(function (it) { return !(it.res && it.res.correct); }).map(function (it) { return { tid: it.tid, ttitle: it.ttitle, q: it.q }; }));
+        break;
+      case 'newquiz': S.quiz = null; stopQT(); render(); break;
+      case 'dismiss': S.notice = null; render(); break;
+      case 'reset':
+        if (!S.confirmReset) { S.confirmReset = true; render(); break; }
+        S.prog = { notes: {}, cards: {}, quiz: {} }; saveProg(); S.confirmReset = false; S.cards = null; render(); break;
+      case 'pickfile': var fi = $('#fileIn'); if (fi) fi.click(); break;
+      case 'loadpaste': var ta = $('#pasteIn'); if (ta && ta.value.trim()) loadTexts([{ name: tr('pasted_name'), text: ta.value }]); break;
+      case 'sample': loadSample(); break;
+      case 'copyprompt': copyPrompt(el); break;
+      case 'focus': openPanel(true); if (!T.running) tStart(); break;
+    }
+  }
+  function cardRate(known) {
+    var C = S.cards; if (!C || !C.queue.length) return;
+    var c = C.queue.shift();
+    if (known) { S.prog.cards[c.id] = true; C.got++; }
+    else { delete S.prog.cards[c.id]; C.again++; C.queue.push(c); }
+    C.flipped = false; saveProg(); render();
+  }
+
+  document.addEventListener('click', function (e) {
+    var panel = $('#timerPanel');
+    if (panel && !panel.hidden && !e.target.closest('.timer-wrap')) openPanel(false);
+    var el = e.target.closest('[data-act],[data-go]');
+    if (!el) return;
+    if (el.dataset.go) go(el.dataset.go, el.dataset.id, el.dataset.mode);
+    else act(el.dataset.act, el);
+  });
+  document.addEventListener('change', function (e) {
+    var id = e.target.id;
+    if (id === 'cShuffle') { S.copts.shuffle = e.target.checked; startCards(S.scope); render(); }
+    else if (id === 'cSkip') { S.copts.skipKnown = e.target.checked; startCards(S.scope); render(); }
+    else if (id === 'fileIn') handleFiles(e.target.files);
+  });
+  document.addEventListener('input', function (e) {
+    if (e.target.id === 'typed' && S.quiz && !S.quiz.done) curItem().typed = e.target.value;
+  });
+  document.addEventListener('dragover', function (e) {
+    var d = e.target.closest('.drop'); if (d) { e.preventDefault(); d.classList.add('over'); }
+  });
+  document.addEventListener('dragleave', function (e) {
+    var d = e.target.closest('.drop'); if (d) d.classList.remove('over');
+  });
+  document.addEventListener('drop', function (e) {
+    var d = e.target.closest('.drop');
+    if (d) { e.preventDefault(); d.classList.remove('over'); handleFiles(e.dataTransfer.files); }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { var p = $('#timerPanel'); if (p && !p.hidden) { openPanel(false); $('#timerChip').focus(); } return; }
+    var tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || tag === 'select' || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (S.view !== 'study') return;
+    if (S.mode === 'cards' && S.cards && S.cards.queue.length) {
+      if (e.key === ' ' || (e.key === 'Enter' && tag !== 'button')) { e.preventDefault(); act('flip'); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); cardRate(false); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); cardRate(true); }
+    } else if (S.mode === 'quiz' && S.quiz && !S.quiz.done) {
+      var it = curItem(), t = it.q;
+      if (S.quiz.phase === 'ask' && t.type !== 'short') {
+        var k = e.key.toLowerCase(), pos = -1;
+        if (t.type === 'mcq') pos = 'abcd'.indexOf(k) >= 0 && k.length === 1 ? 'abcd'.indexOf(k) : ('1234'.indexOf(k) >= 0 && k.length === 1 ? '1234'.indexOf(k) : -1);
+        else pos = k === 't' || k === '1' ? 0 : (k === 'f' || k === '2' ? 1 : -1);
+        if (pos >= 0 && pos < (t.type === 'mcq' ? t.options.length : 2)) answer(pos);
+      } else if (S.quiz.phase === 'fb' && t.type !== 'short' && (e.key === 'Enter' || e.key === ' ')) {
+        e.preventDefault(); nextQ();
+      }
+    }
+  });
+
+  /* ---------- light / dark theme ---------- */
+  var root = document.documentElement;
+  var mq = (typeof window !== 'undefined' && window.matchMedia) ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+  var themeTimer = null;
+  function isDark() {
+    var a = root.getAttribute('data-theme');
+    return a === 'dark' || (a !== 'light' && !!(mq && mq.matches));
+  }
+  function syncTheme() {
+    var d = isDark(), btn = $('#themeBtn');
+    $('#sky').classList.toggle('dark', d);
+    btn.dataset.dark = String(d);
+    var label = tr(d ? 'theme_to_light' : 'theme_to_dark');
+    btn.setAttribute('aria-label', label); btn.setAttribute('title', label);
+  }
+  function toggleTheme() {
+    var next = isDark() ? 'light' : 'dark';
+    root.classList.add('theme-anim');
+    root.setAttribute('data-theme', next);
+    store.set('sp:theme', next);
+    syncTheme();
+    clearTimeout(themeTimer);
+    themeTimer = setTimeout(function () { root.classList.remove('theme-anim'); }, 1500);
+  }
+  function makeStars() {
+    var host = $('#stars'), frag = document.createDocumentFragment();
+    for (var i = 0; i < 64; i++) {
+      var s = document.createElement('i'), r = Math.random();
+      var size = r < 0.12 ? 3 : (r < 0.45 ? 2 : 1.5);
+      s.style.cssText = 'left:' + (Math.random() * 100).toFixed(1) + '%;top:' + (Math.random() * 100).toFixed(1) + '%;width:' + size + 'px;height:' + size + 'px;--d:' + (2.5 + Math.random() * 4).toFixed(1) + 's;--dl:-' + (Math.random() * 6).toFixed(1) + 's';
+      frag.appendChild(s);
+    }
+    host.appendChild(frag);
+  }
+  function initTheme() {
+    var saved = store.get('sp:theme');
+    if (saved === 'dark' || saved === 'light') root.setAttribute('data-theme', saved);
+    makeStars();
+    syncTheme();
+    var raf = window.requestAnimationFrame || function (f) { setTimeout(f, 16); };
+    raf(function () { raf(function () { $('#sky').classList.add('ready'); }); });
+    if (mq) { if (mq.addEventListener) mq.addEventListener('change', syncTheme); else if (mq.addListener) mq.addListener(syncTheme); }
+    if (window.MutationObserver) new MutationObserver(syncTheme).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+  }
+
+  /* ---------- focus timer ---------- */
+  var T = { focus: 25, brk: 5, mode: 'focus', left: 1500, running: false, endsAt: 0, iv: null, ctx: null, msg: '' };
+  var RING = 62.83;
+  function tDur() { return (T.mode === 'focus' ? T.focus : T.brk) * 60; }
+  function tFmt(s) { return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); }
+  function dayKey() { var d = new Date(); return 'sp:timer:' + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
+  function dayStats() { try { return JSON.parse(store.get(dayKey()) || '{"n":0,"m":0}'); } catch (e) { return { n: 0, m: 0 }; } }
+  function tRender() {
+    var dur = tDur(), frac = dur ? T.left / dur : 0;
+    $('#chipText').textContent = tFmt(T.left);
+    $('#tBig').textContent = tFmt(T.left);
+    $('#chipRing').setAttribute('stroke-dashoffset', String(RING * (1 - frac)));
+    var chip = $('#timerChip');
+    chip.classList.toggle('on', T.running);
+    chip.dataset.mode = T.mode;
+    $('#chipMode').textContent = T.mode === 'focus' ? tr('timer_focus') : tr('timer_break');
+    $('#tMode').textContent = T.mode === 'focus' ? tr('t_session_focus') : tr('t_session_break');
+    $('#tToggle').textContent = T.running ? tr('t_pause') : (T.left < dur ? tr('t_resume') : tr('t_start'));
+    var st = dayStats();
+    $('#tStats').textContent = st.n ? tr('stats_today', { n: st.n, m: st.m }) : tr('stats_none');
+    var m = $('#tMsg');
+    if (T.msg) { m.textContent = tr(T.msg, { m: T.brk }); m.hidden = false; } else { m.hidden = true; }
+  }
+  function ensureAudio() {
+    try {
+      if (!T.ctx) T.ctx = new (window.AudioContext || window.webkitAudioContext)();
+      if (T.ctx.state === 'suspended') T.ctx.resume();
+    } catch (e) { /* audio unavailable */ }
+  }
+  function beep() {
+    try {
+      ensureAudio(); var c = T.ctx; if (!c) return;
+      [0, 0.28, 0.56].forEach(function (d, i) {
+        var o = c.createOscillator(), g = c.createGain(); o.frequency.value = i === 2 ? 880 : 660;
+        o.connect(g); g.connect(c.destination);
+        var t0 = c.currentTime + d;
+        g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(0.2, t0 + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.22);
+        o.start(t0); o.stop(t0 + 0.25);
+      });
+    } catch (e) { /* audio unavailable */ }
+  }
+  function tStart() { ensureAudio(); hideMsg(); T.endsAt = Date.now() + T.left * 1000; T.running = true; clearInterval(T.iv); T.iv = setInterval(tTick, 250); tRender(); }
+  function tPause() { T.left = Math.max(0, Math.ceil((T.endsAt - Date.now()) / 1000)); T.running = false; clearInterval(T.iv); tRender(); }
+  function tTick() {
+    T.left = Math.max(0, Math.ceil((T.endsAt - Date.now()) / 1000));
+    if (T.left <= 0) tDone();
+    tRender();
+  }
+  function tDone() {
+    clearInterval(T.iv); T.running = false; beep();
+    if (T.mode === 'focus') {
+      var st = dayStats(); st.n++; st.m += T.focus; store.set(dayKey(), JSON.stringify(st));
+      T.msg = 'msg_focus_done'; T.mode = 'break';
+    } else { T.msg = 'msg_break_done'; T.mode = 'focus'; }
+    T.left = tDur();
+    if ($('#timerPanel').hidden) $('#timerChip').classList.add('alert');
+  }
+  function hideMsg() { T.msg = ''; $('#tMsg').hidden = true; $('#timerChip').classList.remove('alert'); }
+  function tSetDurations(f, b, stop) {
+    T.focus = Math.min(180, Math.max(1, f || T.focus)); T.brk = Math.min(60, Math.max(1, b || T.brk));
+    $('#tFocus').value = T.focus; $('#tBreak').value = T.brk;
+    if (stop) { clearInterval(T.iv); T.running = false; }
+    if (!T.running) T.left = tDur();
+    tRender();
+  }
+  function openPanel(open) {
+    var p = $('#timerPanel'), chip = $('#timerChip');
+    p.hidden = !open; chip.setAttribute('aria-expanded', String(open));
+    if (open) chip.classList.remove('alert');
+  }
+  $('#timerChip').addEventListener('click', function () { openPanel($('#timerPanel').hidden); });
+  $('#tToggle').addEventListener('click', function () { if (T.running) tPause(); else tStart(); });
+  $('#tReset').addEventListener('click', function () { clearInterval(T.iv); T.running = false; T.left = tDur(); hideMsg(); tRender(); });
+  $('#tSkip').addEventListener('click', function () { clearInterval(T.iv); T.running = false; T.mode = T.mode === 'focus' ? 'break' : 'focus'; T.left = tDur(); hideMsg(); tRender(); });
+  $('#tFocus').addEventListener('change', function (e) { tSetDurations(parseInt(e.target.value, 10), 0, false); });
+  $('#tBreak').addEventListener('change', function (e) { tSetDurations(0, parseInt(e.target.value, 10), false); });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-preset]'), function (b) {
+    b.addEventListener('click', function () { var p = b.dataset.preset.split(','); T.mode = 'focus'; hideMsg(); tSetDurations(parseInt(p[0], 10), parseInt(p[1], 10), true); });
+  });
+
+  /* ---------- boot ---------- */
+  function boot() {
+    LANG = detectLang();
+    applyStatic();
+    initTheme();
+    var saved = store.get('sp:pack'), done = false;
+    if (saved) {
+      try {
+        var r = spNormalise(JSON.parse(saved));
+        if (r.pack) { setPack(r.pack, false); done = true; }
+      } catch (e) { /* fall back to the example */ }
+    }
+    if (!done) setPack(sampleFor(LANG), true);
+    tRender(); render();
+  }
+  boot();
+})();
+
+</script>
+
+</body></html>
