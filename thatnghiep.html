@@ -39,7 +39,11 @@
 body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 var(--font-ui); -webkit-font-smoothing: antialiased; }
 button, input, select, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
-h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.15; text-wrap: balance; letter-spacing: -0.01em; }
+h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.15; text-wrap: balance; letter-spacing: -0.02em; }
+::selection {
+  background-color: var(--accent);
+  color: var(--accent-ink);
+}
 p { margin: 0; }
 .muted { color: var(--muted); }
 .wrap { max-width: 1120px; margin: 0 auto; padding-inline: 16px; }
@@ -57,13 +61,67 @@ mark { background: linear-gradient(to top, var(--mark) 0 48%, transparent 48%); 
 .logo-lines { stroke: var(--bg); }
 .logo-mark { fill: var(--mark); }
 .tools { display: flex; align-items: center; gap: 10px; flex: none; }
-.seg { position: relative; display: inline-grid; grid-template-columns: 1fr 1fr; height: 40px; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
-.seg::before { content: ""; position: absolute; top: 3px; bottom: 3px; left: 3px; width: calc(50% - 3px); border-radius: 999px; background: var(--accent); transition: transform 0.35s cubic-bezier(0.65, 0, 0.35, 1), background-color 0.8s !important; }
+.seg.seg-3 { 
+  grid-template-columns: repeat(3, 1fr); 
+  width: 116px;
+}
+.seg.seg-3::before { 
+  width: calc(33.333% - 2px); 
+  transform: translateX(0); 
+}
+.seg.seg-3[data-theme-mode="dark"]::before { transform: translateX(100%); }
+.seg.seg-3[data-theme-mode="system"]::before { transform: translateX(200%); }
+.seg.seg-3 button { 
+  padding: 0; 
+  display: grid; 
+  place-items: center; 
+  color: var(--muted); 
+}
+.seg.seg-3 button svg { width: 15px; height: 15px; }
+.seg.seg-3 button[aria-pressed="true"] { color: var(--ink); }
+.seg { 
+  position: relative; 
+  display: inline-grid; 
+  grid-template-columns: 1fr 1fr; 
+  height: 36px; 
+  padding: 2px; 
+  border: 1px solid color-mix(in srgb, var(--line) 80%, transparent); 
+  border-radius: 999px; 
+  background: color-mix(in srgb, var(--soft) 50%, var(--surface)); 
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.04);
+}
+.seg::before { 
+  content: ""; 
+  position: absolute; 
+  top: 2px; 
+  bottom: 2px; 
+  left: 2px; 
+  width: calc(50% - 2px); 
+  border-radius: 999px; 
+  background: var(--surface); 
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.08), 0 1px 2px rgb(0 0 0 / 0.04);
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1) !important; 
+}
 .seg[data-lang="en"]::before { transform: translateX(100%); }
-.seg button { position: relative; z-index: 1; border: 0; background: none; padding: 0 12px; border-radius: 999px; font: 600 12px var(--font-mono); letter-spacing: 0.06em; color: var(--muted); transition: color 0.3s; }
-.seg button[aria-pressed="true"] { color: var(--accent-ink); }
-.tbtn { position: relative; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); display: grid; place-items: center; overflow: hidden; padding: 0; }
+.seg button { 
+  position: relative; 
+  z-index: 1; 
+  border: 0; 
+  background: none; 
+  padding: 0 12px; 
+  border-radius: 999px; 
+  font: 600 12px var(--font-mono); 
+  letter-spacing: 0.06em; 
+  color: var(--muted); 
+  transition: color 0.2s ease; 
+}
+.seg button[aria-pressed="true"] { color: var(--ink); }
+.tbtn { 
+  position: relative; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); display: grid; place-items: center; overflow: hidden; padding: 0; 
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
 .tbtn:hover { border-color: var(--accent); }
+.tbtn:active { transform: scale(0.93); }
 .tbtn svg { grid-area: 1 / 1; width: 22px; height: 22px; transition: transform 0.7s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.45s ease !important; }
 .ti-sun { color: var(--sun-ink); }
 .ti-moon { color: var(--moon-ink); transform: rotate(-110deg) scale(0.2); opacity: 0; }
@@ -77,8 +135,17 @@ mark { background: linear-gradient(to top, var(--mark) 0 48%, transparent 48%); 
 .timer-wrap { position: relative; flex: none; }
 .chip { display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px 0 8px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
 .chip svg { width: 26px; height: 26px; transform: rotate(-90deg); }
-.chip .trk { stroke: var(--line); fill: none; }
-.chip .prg { stroke: var(--accent); fill: none; stroke-linecap: round; transition: stroke-dashoffset 0.3s linear; }
+.chip .trk { 
+  stroke: var(--line); 
+  fill: none; 
+  transition: stroke 0.4s ease; /* Smooth snap to new theme stroke without muddy intermediate phases */
+}
+.chip .prg { 
+  stroke: var(--accent); 
+  fill: none; 
+  stroke-linecap: round; 
+  transition: stroke-dashoffset 0.3s linear, stroke 0.4s ease; 
+}
 .chip.on { border-color: var(--accent); }
 .chip[data-mode="break"] .prg { stroke: var(--warn); }
 .chip.alert { animation: pulse 1.2s ease-in-out infinite; }
@@ -86,14 +153,47 @@ mark { background: linear-gradient(to top, var(--mark) 0 48%, transparent 48%); 
 .chip small { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; }
 @keyframes pulse { 50% { box-shadow: 0 0 0 5px var(--soft); } }
 
-#timerPanel { position: absolute; right: 0; top: calc(100% + 10px); width: min(340px, calc(100vw - 32px)); background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; box-shadow: 0 14px 34px rgb(10 20 50 / 0.18); display: grid; gap: 14px; }
+#timerPanel { 
+  position: absolute; 
+  right: 0; 
+  top: calc(100% + 10px); 
+  width: min(340px, calc(100vw - 32px)); 
+  background: var(--surface); 
+  border: 1px solid var(--line); 
+  border-radius: 14px; 
+  padding: 18px; 
+  box-shadow: 0 14px 34px rgb(10 20 50 / 0.18); 
+  display: grid; 
+  gap: 14px; 
+
+  /* Apple Popover Entry/Exit Animation States */
+  opacity: 0;
+  transform: translateY(-6px) scale(0.97);
+  transform-origin: top right; /* Expands outward from the timer button */
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s cubic-bezier(0.25, 1, 0.5, 1), 
+              transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), 
+              visibility 0.2s ease;
+}
+
+#timerPanel.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  visibility: visible;
+  pointer-events: auto;
+}
 .t-head { display: flex; justify-content: space-between; align-items: baseline; }
 .eyebrow { font: 500 12px/1 var(--font-mono); text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
 #tBig { font: 500 60px/1 var(--font-mono); font-variant-numeric: tabular-nums; letter-spacing: -0.03em; text-align: center; padding-block: 4px; }
 .t-btns { display: grid; grid-template-columns: 1fr auto auto; gap: 8px; }
 .presets { display: flex; flex-wrap: wrap; gap: 6px; }
-.pill { border: 1px solid var(--line); background: var(--bg); border-radius: 999px; padding: 5px 12px; font-size: 13px; }
+.pill { 
+  border: 1px solid var(--line); background: var(--bg); border-radius: 999px; padding: 5px 12px; font-size: 13px; 
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+}
 .pill:hover { border-color: var(--accent); }
+.pill:active { transform: scale(0.96); }
 .t-custom { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .t-custom label { display: grid; gap: 4px; font-size: 12px; color: var(--muted); }
 .t-custom input { width: 100%; padding: 7px 9px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); font: 500 15px var(--font-mono); }
@@ -101,12 +201,39 @@ mark { background: linear-gradient(to top, var(--mark) 0 48%, transparent 48%); 
 #tMsg { font-size: 14px; background: var(--good-bg); color: var(--ink); border-radius: 8px; padding: 9px 11px; }
 
 /* buttons */
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid var(--line); background: var(--surface); border-radius: 9px; padding: 9px 16px; font-weight: 600; }
-.btn:hover { border-color: var(--accent); }
+.btn { 
+  display: inline-flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 8px; 
+  border: 1px solid var(--line); 
+  background: var(--surface); 
+  border-radius: 9px; 
+  padding: 9px 16px; 
+  font-weight: 600; 
+  /* Smooth deceleration curve: fast start, soft stop with zero overshoot */
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.2s ease;
+}
+.btn:hover { 
+  border-color: var(--accent); 
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.04); /* Soft, natural elevation shadow */
+}
+.btn:active { 
+  transform: scale(0.97); /* Weighted physical depression feel */
+  box-shadow: none;
+}
 .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-.btn.primary:hover { filter: brightness(1.08); }
+.btn.primary:hover { 
+  filter: brightness(1.05); 
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 25%, transparent); 
+}
+.btn.primary:active { 
+  transform: scale(0.97); 
+  filter: brightness(0.95); 
+  box-shadow: none; 
+}
 .btn.again { border-color: var(--warn); color: var(--warn); }
-.btn:disabled { opacity: 0.5; cursor: default; }
+.btn:disabled { opacity: 0.5; cursor: default; transform: none !important; box-shadow: none !important; }
 .link { background: none; border: 0; padding: 0; color: var(--accent); text-decoration: underline; text-underline-offset: 3px; font-weight: 600; }
 
 /* shell */
@@ -142,8 +269,26 @@ mark { background: linear-gradient(to top, var(--mark) 0 48%, transparent 48%); 
 .actions { display: flex; flex-wrap: wrap; gap: 8px; }
 .sec-h { margin: 34px 0 12px; font-size: 20px; }
 .tlist { display: grid; gap: 8px; }
-.trow { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 16px; width: 100%; text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; align-items: center; }
-.trow:hover { border-color: var(--accent); }
+.trow { 
+  display: grid; 
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); 
+  gap: 16px; 
+  width: 100%; 
+  text-align: left; 
+  background: var(--surface); 
+  border: 1px solid var(--line); 
+  border-radius: 12px; 
+  padding: 14px 16px; 
+  align-items: center; 
+  /* Smooth, weight-based transition */
+  transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.trow:hover { 
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.05); /* Soft ambient macOS shadow */
+}
 .trow h3 { font-size: 17px; margin-bottom: 3px; }
 .trow p { color: var(--muted); font-size: 13.5px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .meters { display: grid; gap: 7px; }
@@ -182,7 +327,25 @@ mark { background: linear-gradient(to top, var(--mark) 0 48%, transparent 48%); 
 .card { width: 100%; cursor: pointer; }
 .inner { display: grid; transition: transform 0.45s; transform-style: preserve-3d; }
 .card.flipped .inner { transform: rotateY(180deg); }
-.face { grid-area: 1 / 1; backface-visibility: hidden; -webkit-backface-visibility: hidden; min-height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 28px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; font: 600 clamp(19px, 3.4vw, 24px) / 1.35 var(--font-ui); text-align: center; overflow-wrap: anywhere; }
+.face { 
+  grid-area: 1 / 1; 
+  backface-visibility: hidden; 
+  -webkit-backface-visibility: hidden; 
+  min-height: 250px; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 12px; 
+  padding: 28px; 
+  background: var(--surface); 
+  border: 1px solid var(--line); 
+  border-radius: 16px; 
+  font: 600 clamp(19px, 3.4vw, 24px) / 1.35 var(--font-ui); 
+  text-align: center; 
+  overflow-wrap: anywhere;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 0.03);
+}
 .face.back { transform: rotateY(180deg); background: var(--soft); }
 .face small { font: 500 11px/1 var(--font-mono); text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
 .hint { text-align: center; color: var(--muted); font-size: 13px; }
@@ -277,21 +440,50 @@ table.f code { font-family: var(--font-mono); font-size: 13px; }
 .sky.dark .wash.sun { opacity: 0; }
 .sky.dark .wash.moon { opacity: 1; }
 
-.orbit { position: absolute; right: max(6vw, 84px); top: calc(128px + var(--R)); width: 0; height: 0; }
-.orb { position: absolute; width: var(--s); height: var(--s); left: calc(var(--s) / -2); top: calc(var(--s) / -2); }
-.orb svg { width: 100%; height: 100%; overflow: visible; animation: bob 8s ease-in-out infinite; }
-.orb.sun { transform: translateY(calc(-1 * var(--R))) rotate(0deg); }
-.orb.moon { transform: translateY(var(--R)) rotate(0deg); }
-.sky.dark .orbit { transform: rotate(180deg); }
-.sky.dark .orb.sun { transform: translateY(calc(-1 * var(--R))) rotate(-180deg); }
-.sky.dark .orb.moon { transform: translateY(var(--R)) rotate(-180deg); }
-.sky.ready .orbit, .sky.ready .orb { transition: transform 1.5s cubic-bezier(0.6, 0, 0.3, 1) !important; }
+.orbit { 
+  position: absolute; 
+  right: max(6vw, 84px); 
+  top: calc(128px + var(--R)); 
+  width: 0; 
+  height: 0; 
+  transform: rotate(var(--deg, 0deg)); /* Driven by dynamic JS variable */
+}
+
+.orb { 
+  position: absolute; 
+  width: var(--s); 
+  height: var(--s); 
+  left: calc(var(--s) / -2); 
+  top: calc(var(--s) / -2); 
+}
+
+.orb svg { 
+  width: 100%; 
+  height: 100%; 
+  overflow: visible; 
+  animation: bob 8s ease-in-out infinite; 
+}
+
+/* Counter-rotate the sun and moon so they stay upright */
+.orb.sun { 
+  transform: translateY(calc(-1 * var(--R))) rotate(calc(-1 * var(--deg, 0deg))); 
+}
+
+.orb.moon { 
+  transform: translateY(var(--R)) rotate(calc(-1 * var(--deg, 0deg))); 
+}
+
+/* Remove the old .sky.dark .orbit / .orb rules since rotation is now handled by --deg */
+
+.sky.ready .orbit, .sky.ready .orb { 
+  transition: transform 1.5s cubic-bezier(0.6, 0, 0.3, 1) !important; 
+}
 .rays { animation: spin 50s linear infinite; transform-origin: 0 0; }
 .beams { position: absolute; left: 50%; top: 50%; width: 1500px; height: 1500px; margin: -750px 0 0 -750px; border-radius: 50%; background: repeating-conic-gradient(var(--beam) 0 5deg, transparent 5deg 20deg); -webkit-mask: radial-gradient(circle, #000 0, transparent 66%); mask: radial-gradient(circle, #000 0, transparent 66%); animation: spin 180s linear infinite; }
 
 .clouds { position: absolute; inset: 0; transition: opacity 1s ease !important; }
 .sky.dark .clouds { opacity: 0; }
-.cloud { position: absolute; fill: var(--cloud); opacity: 0.85; filter: drop-shadow(0 8px 12px var(--cloud-shadow)); animation: drift 90s ease-in-out infinite alternate; }
+.cloud { position: absolute; opacity: 0.85; filter: drop-shadow(0 8px 12px var(--cloud-shadow)); animation: drift 90s ease-in-out infinite alternate; }
 .cloud.c1 { width: 200px; top: 22%; left: 4%; }
 .cloud.c2 { width: 150px; top: 52%; right: 6%; animation-duration: 120s; animation-delay: -30s; opacity: 0.7; }
 .cloud.c3 { width: 270px; top: 76%; left: 28%; animation-duration: 140s; animation-delay: -60s; opacity: 0.6; }
@@ -304,12 +496,88 @@ table.f code { font-family: var(--font-mono); font-size: 13px; }
 @keyframes bob { 50% { transform: translateY(-5px); } }
 @keyframes drift { to { transform: translateX(7vw); } }
 @keyframes twinkle { 50% { opacity: 1; transform: scale(1.6); } }
-
-/* colour change when the theme switches */
-:root.theme-anim *, :root.theme-anim *::before, :root.theme-anim *::after {
-  transition: background-color 0.8s ease, color 0.8s ease, border-color 0.8s ease, fill 0.8s ease, stroke 0.8s ease, box-shadow 0.8s ease;
+.face, .trow {
+  position: relative;
+  overflow: hidden;
 }
 
+.face::after, .trow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    350px circle at var(--mouse-x, -500px) var(--mouse-y, -500px),
+    var(--accent),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  mix-blend-mode: overlay; /* Blends smoothly with background and text */
+}
+
+.face:hover::after, .trow:hover::after {
+  opacity: 0.35; /* Controls the intensity of the glow */
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.3s;
+  animation-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.main { 
+  min-width: 0; 
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.2s cubic-bezier(0.25, 1, 0.5, 1), transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); 
+}
+.main.is-switching {
+  opacity: 0;
+  transform: translateY(6px); /* Soft micro-slide down on exit, up on entry */
+}
+/* Optimize text and card elements for smooth language transition animations */
+.page-h, .face, .tab, .nav-i span, .btn, .eyebrow, .brand b, .lede {
+  will-change: opacity, transform;
+}
+/* colour change when the theme switches */
+:root.theme-anim *, :root.theme-anim *::before, :root.theme-anim *::after {
+  transition: background-color 0.6s ease, border-color 0.6s ease, box-shadow 0.6s ease;
+}
+
+/* Fast, crisp text, icon, and stroke transitions to prevent muddy mid-tone blending */
+:root.theme-anim span, 
+:root.theme-anim p, 
+:root.theme-anim h1, 
+:root.theme-anim h2, 
+:root.theme-anim h3, 
+:root.theme-anim button, 
+:root.theme-anim svg *, 
+:root.theme-anim .chip .trk, 
+:root.theme-anim .chip .prg {
+  transition: color 0.2s ease, fill 0.2s ease, stroke 0.2s ease !important;
+}
+
+/* Ensure the timer ring strokes transition smoothly */
+.chip .trk, .chip .prg {
+  transition: stroke-dashoffset 0.3s linear, stroke 0.6s ease;
+}
+.tab-content {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.22s cubic-bezier(0.25, 1, 0.5, 1), transform 0.22s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: opacity, transform;
+}
+.tab-content.is-switching {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+
+/* Allow text and icons to fade smoothly via opacity rather than bleeding colors */
+:root.theme-anim span, :root.theme-anim svg *, :root.theme-anim button {
+  transition: opacity 0.4s ease !important;
+}
 @media (max-width: 860px) {
   .sky { --s: 92px; }
   .orbit { right: 58px; top: calc(112px + var(--R)); }
@@ -326,11 +594,44 @@ table.f code { font-family: var(--font-mono); font-size: 13px; }
 </style>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
-    <symbol id="cloudShape" viewBox="0 0 120 70">
-      <circle cx="34" cy="44" r="18"/><circle cx="58" cy="32" r="24"/><circle cx="84" cy="42" r="19"/><rect x="20" y="42" width="84" height="22" rx="11"/>
+    <!-- Rich cloud gradient: bright white fading into a soft atmospheric tone -->
+    <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="1" />
+      <stop offset="65%" stop-color="#F2F6FF" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#C5D8FF" stop-opacity="0.9" />
+    </linearGradient>
+
+    <!-- Subtle bottom shadow gradient for natural depth -->
+    <linearGradient id="cloudShadow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#9BB4E3" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#7896D1" stop-opacity="0" />
+    </linearGradient>
+
+    <symbol id="cloudShape" viewBox="0 0 160 95">
+      <!-- 1. Soft atmospheric shadow base underneath for structural depth -->
+      <path d="M 30 75 
+               H 130 
+               A 18 18 0 0 0 148 57 
+               A 15 15 0 0 0 135 42 
+               A 25 25 0 0 0 95 25 
+               A 28 28 0 0 0 38 35 
+               A 18 18 0 0 0 30 75 Z" 
+            fill="url(#cloudShadow)" transform="translate(0, 6)"/>
+            
+      <!-- 2. Main cloud body filled with the smooth white-to-blue gradient -->
+      <path d="M 25 75 
+               H 135 
+               A 15 15 0 0 0 150 60 
+               A 12 12 0 0 0 138 48 
+               A 22 22 0 0 0 118 30 
+               A 28 28 0 0 0 65 22 
+               A 22 22 0 0 0 25 40 
+               A 16 16 0 0 0 25 75 Z" 
+            fill="url(#cloudGrad)" />
     </symbol>
   </defs>
 </svg>
+
 
 <div class="sky" id="sky" aria-hidden="true">
   <div class="wash sun"></div>
@@ -384,17 +685,24 @@ table.f code { font-family: var(--font-mono); font-size: 13px; }
         <button data-act="lang" data-l="vi" lang="vi" title="Tiếng Việt" aria-pressed="false">VI</button>
         <button data-act="lang" data-l="en" lang="en" title="English" aria-pressed="true">EN</button>
       </div>
-      <button class="tbtn" id="themeBtn" data-act="theme" data-dark="false" aria-label="Switch to dark mode" title="Switch to dark mode">
-        <svg class="ti-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5.3 5.3L7 7M17 17l1.7 1.7M5.3 18.7L7 17M17 7l1.7-1.7" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
-        <svg class="ti-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor"/></svg>
-      </button>
+      <div class="seg seg-3" id="themeSeg" role="group" data-theme-mode="system" aria-label="Theme mode">
+        <button data-act="theme-mode" data-m="light" aria-pressed="false" aria-label="Light mode" title="Light mode">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5.3 5.3L7 7M17 17l1.7 1.7M5.3 18.7L7 17M17 7l1.7-1.7" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+        </button>
+        <button data-act="theme-mode" data-m="dark" aria-pressed="false" aria-label="Dark mode" title="Dark mode">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor"/></svg>
+        </button>
+        <button data-act="theme-mode" data-m="system" aria-pressed="true" aria-label="System theme" title="System theme">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M8 21h8m-4-4v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
       <div class="timer-wrap">
         <button class="chip" id="timerChip" aria-expanded="false" aria-controls="timerPanel" data-mode="focus">
           <svg viewBox="0 0 26 26" aria-hidden="true"><circle class="trk" cx="13" cy="13" r="10" stroke-width="3"/><circle class="prg" id="chipRing" cx="13" cy="13" r="10" stroke-width="3" stroke-dasharray="62.83" stroke-dashoffset="0"/></svg>
           <span id="chipText">25:00</span>
           <small id="chipMode">Focus</small>
         </button>
-        <section id="timerPanel" data-i18n-attr="aria-label:timer_aria" aria-label="Focus timer" hidden>
+        <section id="timerPanel" data-i18n-attr="aria-label:timer_aria" aria-label="Focus timer">
           <div class="t-head"><span class="eyebrow" id="tMode">Focus session</span></div>
           <div id="tBig" aria-live="off">25:00</div>
           <div class="t-btns">
@@ -1387,7 +1695,9 @@ if (typeof module !== 'undefined' && module.exports) {
     cards: null, quiz: null, qiv: null,
     qopts: { count: 10, secs: 0, shuffle: true },
     copts: { shuffle: true, skipKnown: false },
-    notice: null, loadMsg: null, confirmReset: false
+    notice: null, loadMsg: null, confirmReset: false,
+    animateTab: false,
+    animateMain: false // Add this flag for page/view transitions
   };
 
   /* ---------- pack + progress ---------- */
@@ -1461,23 +1771,62 @@ if (typeof module !== 'undefined' && module.exports) {
   }
 
   /* ---------- navigation ---------- */
-  function go(where, id, mode) {
+function go(where, id, mode) {
+    // 1. Active-View Guard: Do nothing if clicking the nav item you're already viewing
+    if (where === 'overview' && S.view === 'overview') return;
+    if (where === 'load' && S.view === 'load') return;
+    if (where === 'teacher' && S.view === 'teacher') return;
+    if (where === 'topic' && S.view === 'study' && S.scope === id) return;
+    if (where === 'all' && S.view === 'study' && S.scope === 'all') return;
+
     stopQT();
-    if (where === 'topic') { S.view = 'study'; S.scope = id; S.mode = mode || 'notes'; S.cards = null; S.quiz = null; }
-    else if (where === 'all') { S.view = 'study'; S.scope = 'all'; S.mode = mode || 'cards'; S.cards = null; S.quiz = null; }
-    else { S.view = where; }
-    render();
-    window.scrollTo(0, 0);
+    var main = $('#main');
+    if (main) {
+      // 2. Transition Lock: Ignore clicks if a page transition is already animating
+      if (main.classList.contains('is-switching')) return;
+
+      main.classList.add('is-switching');
+      setTimeout(function() {
+        if (where === 'topic') { S.view = 'study'; S.scope = id; S.mode = mode || 'notes'; S.cards = null; S.quiz = null; }
+        else if (where === 'all') { S.view = 'study'; S.scope = 'all'; S.mode = mode || 'cards'; S.cards = null; S.quiz = null; }
+        else { S.view = where; }
+        
+        S.animateMain = true; // Tell render() to start in the hidden starting state
+        render(); 
+        window.scrollTo(0, 0);
+        
+        // Glide the new view smoothly into place
+        requestAnimationFrame(function() {
+          requestAnimationFrame(function() {
+            var newMain = $('#main');
+            if (newMain) {
+              newMain.classList.remove('is-switching');
+            }
+          });
+        });
+      }, 120);
+    } else {
+      if (where === 'topic') { S.view = 'study'; S.scope = id; S.mode = mode || 'notes'; S.cards = null; S.quiz = null; }
+      else if (where === 'all') { S.view = 'study'; S.scope = 'all'; S.mode = mode || 'cards'; S.cards = null; S.quiz = null; }
+      else { S.view = where; }
+      render();
+      window.scrollTo(0, 0);
+    }
   }
 
   /* ---------- rendering ---------- */
-  function render() {
+function render() {
     var main;
     if (S.view === 'overview') main = overviewHTML();
     else if (S.view === 'study') main = studyHTML();
     else if (S.view === 'load') main = loadHTML();
     else main = teacherHTML();
-    $('#app').innerHTML = '<div class="shell">' + navHTML() + '<main class="main" id="main">' + main + '</main></div>';
+    
+    // Check if we are transitioning to a new view
+    var mainClass = S.animateMain ? 'main is-switching' : 'main';
+    S.animateMain = false; // Reset flag
+
+    $('#app').innerHTML = '<div class="shell">' + navHTML() + '<main class="' + mainClass + '" id="main">' + main + '</main></div>';
   }
 
   function navHTML() {
@@ -1534,7 +1883,7 @@ if (typeof module !== 'undefined' && module.exports) {
     return h;
   }
 
-  function studyHTML() {
+function studyHTML() {
     var topics = scopeTopics(S.scope), single = S.scope !== 'all', t = single ? topics[0] : null;
     if (single && !t) { S.view = 'overview'; return overviewHTML(); }
     var has = {
@@ -1551,9 +1900,14 @@ if (typeof module !== 'undefined' && module.exports) {
       h += '<button class="tab" role="tab" data-act="tab" data-mode="' + m[0] + '" aria-selected="' + (S.mode === m[0]) + '">' + tr(m[1]) + '</button>';
     });
     h += '</div>';
+
+    // Wrap the active tab content inside #tabContent container
+    h += '<div class="tab-content" id="tabContent">';
     if (S.mode === 'notes') h += has.notes ? notesHTML(t) : '<div class="empty"><p>' + tr('no_notes') + '</p></div>';
     else if (S.mode === 'cards') h += cardsHTML();
     else h += quizHTML();
+    h += '</div>';
+
     return h;
   }
 
@@ -1830,20 +2184,85 @@ if (typeof module !== 'undefined' && module.exports) {
     try { navigator.clipboard.writeText(text).then(function () { flash(btn, tr('copied')); }, fallback); } catch (e) { fallback(); }
   }
 
-  function setLang(l) {
+function setLang(l) {
     if (l !== 'vi' && l !== 'en') return;
     LANG = l; store.set('sp:lang', l);
-    applyStatic(); syncTheme(); tRender();
+
+    // 1. Snapshot existing text content in #main before re-rendering
+    var main = $('#main');
+    var oldTexts = new Map();
+    if (main) {
+      main.querySelectorAll('h1, h2, h3, p, span, button, a').forEach(function(el, idx) {
+        if (el.textContent.trim()) {
+          oldTexts.set(idx, el.textContent.trim());
+        }
+      });
+    }
+
+    // 2. Update language settings and re-render the DOM
+    applyStatic(); 
+    syncTheme(); 
+    tRender();
     if (S.sample) { setPack(sampleFor(LANG), true); S.notice = null; }
     if (S.pack) $('#packName').textContent = S.pack.title;
-    render();
+    render(); // Rebuilds DOM with new language text
+
+    // 3. Scan the newly rendered DOM and animate ONLY elements whose text actually changed
+    var newMain = $('#main');
+    if (newMain) {
+      newMain.querySelectorAll('h1, h2, h3, p, span, button, a').forEach(function(el, idx) {
+        var newText = el.textContent.trim();
+        var oldText = oldTexts.get(idx);
+        
+        // Only trigger the slide-down entrance if the text content is different
+        if (oldText && oldText !== newText) {
+          el.style.opacity = '0';
+          el.style.transform = 'translateY(-6px)';
+          
+          // Force reflow
+          void el.offsetWidth; 
+          
+          // Smooth Apple-style entrance curve
+          el.style.transition = 'opacity 0.25s cubic-bezier(0.25, 1, 0.5, 1), transform 0.25s cubic-bezier(0.25, 1, 0.5, 1)';
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+        }
+      });
+    }
   }
 
   function act(name, el) {
     switch (name) {
       case 'lang': setLang(el.dataset.l); break;
       case 'theme': toggleTheme(); break;
-      case 'tab': S.mode = el.dataset.mode; stopQT(); S.quiz = null; render(); window.scrollTo(0, 0); break;
+      case 'tab': 
+        var targetMode = el.dataset.mode;
+        if (targetMode === S.mode) break;
+        var tabContent = $('#tabContent');
+        if (tabContent) {
+          tabContent.classList.add('is-switching');
+          setTimeout(function() {
+            S.mode = targetMode; 
+            stopQT(); 
+            S.quiz = null; 
+            render(); 
+            window.scrollTo(0, 0);
+            
+            // Fade and slide the new tab content into place
+            var newContent = $('#tabContent');
+            if (newContent) {
+              newContent.classList.add('is-switching');
+              requestAnimationFrame(function() {
+                requestAnimationFrame(function() {
+                  newContent.classList.remove('is-switching');
+                });
+              });
+            }
+          }, 120);
+        } else {
+          S.mode = targetMode; stopQT(); S.quiz = null; render(); window.scrollTo(0, 0);
+        }
+        break;
       case 'notesDone': S.prog.notes[el.dataset.id] = !S.prog.notes[el.dataset.id]; if (!S.prog.notes[el.dataset.id]) delete S.prog.notes[el.dataset.id]; saveProg(); render(); break;
       case 'flip': if (S.cards) { S.cards.flipped = !S.cards.flipped; var c = $('#theCard'); if (c) c.classList.toggle('flipped', S.cards.flipped); } break;
       case 'gotit': case 'again': cardRate(name === 'gotit'); break;
@@ -1871,6 +2290,7 @@ if (typeof module !== 'undefined' && module.exports) {
       case 'sample': loadSample(); break;
       case 'copyprompt': copyPrompt(el); break;
       case 'focus': openPanel(true); if (!T.running) tStart(); break;
+      case 'theme-mode': setThemeMode(el.dataset.m); break;
     }
   }
   function cardRate(known) {
@@ -1883,7 +2303,7 @@ if (typeof module !== 'undefined' && module.exports) {
 
   document.addEventListener('click', function (e) {
     var panel = $('#timerPanel');
-    if (panel && !panel.hidden && !e.target.closest('.timer-wrap')) openPanel(false);
+    if (panel && panel.classList.contains('show') && !e.target.closest('.timer-wrap')) openPanel(false);
     var el = e.target.closest('[data-act],[data-go]');
     if (!el) return;
     if (el.dataset.go) go(el.dataset.go, el.dataset.id, el.dataset.mode);
@@ -1908,8 +2328,15 @@ if (typeof module !== 'undefined' && module.exports) {
     var d = e.target.closest('.drop');
     if (d) { e.preventDefault(); d.classList.remove('over'); handleFiles(e.dataTransfer.files); }
   });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') { var p = $('#timerPanel'); if (p && !p.hidden) { openPanel(false); $('#timerChip').focus(); } return; }
+document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { 
+      var p = $('#timerPanel'); 
+      if (p && p.classList.contains('show')) { 
+        openPanel(false); 
+        $('#timerChip').focus(); 
+      } 
+      return; 
+    }
     var tag = (e.target.tagName || '').toLowerCase();
     if (tag === 'input' || tag === 'textarea' || tag === 'select' || e.ctrlKey || e.metaKey || e.altKey) return;
     if (S.view !== 'study') return;
@@ -1929,28 +2356,79 @@ if (typeof module !== 'undefined' && module.exports) {
       }
     }
   });
-
-  /* ---------- light / dark theme ---------- */
-  var root = document.documentElement;
+  document.addEventListener('mousemove', function(e) {
+    var card = e.target.closest('.face, .trow');
+    if (card) {
+      var rect = card.getBoundingClientRect();
+      card.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
+      card.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
+    }
+  });
+/* ---------- light / dark theme ---------- */
+var root = document.documentElement;
   var mq = (typeof window !== 'undefined' && window.matchMedia) ? window.matchMedia('(prefers-color-scheme: dark)') : null;
   var themeTimer = null;
-  function isDark() {
-    var a = root.getAttribute('data-theme');
-    return a === 'dark' || (a !== 'light' && !!(mq && mq.matches));
+  var currentRotation = 0;
+
+  function getThemeMode() {
+    return store.get('sp:theme') || 'system';
   }
+
+  function isDark() {
+    var mode = getThemeMode();
+    if (mode === 'dark') return true;
+    if (mode === 'light') return false;
+    return !!(mq && mq.matches); // System mode follows OS
+  }
+
   function syncTheme() {
-    var d = isDark(), btn = $('#themeBtn');
+    var d = isDark(), mode = getThemeMode();
     $('#sky').classList.toggle('dark', d);
-    btn.dataset.dark = String(d);
-    var label = tr(d ? 'theme_to_light' : 'theme_to_dark');
-    btn.setAttribute('aria-label', label); btn.setAttribute('title', label);
+    
+    var seg = $('#themeSeg');
+    if (seg) {
+      seg.dataset.themeMode = mode;
+      Array.prototype.forEach.call(seg.querySelectorAll('button'), function(b) {
+        b.setAttribute('aria-pressed', String(b.dataset.m === mode));
+      });
+    }
+  }
+
+  function setThemeMode(mode) {
+    if (mode !== 'light' && mode !== 'dark' && mode !== 'system') return;
+    
+    var oldDark = isDark();
+    store.set('sp:theme', mode);
+    var newDark = isDark();
+
+    root.classList.add('theme-anim');
+    if (mode === 'system') {
+      root.removeAttribute('data-theme');
+    } else {
+      root.setAttribute('data-theme', mode);
+    }
+    syncTheme();
+    
+    // Rotate celestial orbit if dark/light state changed
+    if (oldDark !== newDark) {
+      currentRotation += newDark ? -180 : 180;
+      $('#sky').style.setProperty('--deg', currentRotation + 'deg');
+    }
+
+    clearTimeout(themeTimer);
+    themeTimer = setTimeout(function () { root.classList.remove('theme-anim'); }, 1500);
   }
   function toggleTheme() {
     var next = isDark() ? 'light' : 'dark';
     root.classList.add('theme-anim');
     root.setAttribute('data-theme', next);
-    store.set('sp:theme', next);
+    store.set('sp:theme', next); // Explicit manual override saved
     syncTheme();
+    
+    // Accumulate rotation forward by 180 degrees on every click
+    currentRotation -= 180;
+    $('#sky').style.setProperty('--deg', currentRotation + 'deg');
+
     clearTimeout(themeTimer);
     themeTimer = setTimeout(function () { root.classList.remove('theme-anim'); }, 1500);
   }
@@ -1964,16 +2442,43 @@ if (typeof module !== 'undefined' && module.exports) {
     }
     host.appendChild(frag);
   }
-  function initTheme() {
-    var saved = store.get('sp:theme');
-    if (saved === 'dark' || saved === 'light') root.setAttribute('data-theme', saved);
+function initTheme() {
+    var mode = getThemeMode();
+    if (mode === 'light' || mode === 'dark') {
+      root.setAttribute('data-theme', mode);
+    } else {
+      root.removeAttribute('data-theme');
+    }
+    
+    currentRotation = isDark() ? 180 : 0;
+    $('#sky').style.setProperty('--deg', currentRotation + 'deg');
+
     makeStars();
     syncTheme();
+    
     var raf = window.requestAnimationFrame || function (f) { setTimeout(f, 16); };
     raf(function () { raf(function () { $('#sky').classList.add('ready'); }); });
-    if (mq) { if (mq.addEventListener) mq.addEventListener('change', syncTheme); else if (mq.addListener) mq.addListener(syncTheme); }
+
+    if (mq) {
+      var handleSysChange = function() {
+        if (getThemeMode() === 'system') {
+          var oldDark = isDark() === false; // Toggle perspective
+          syncTheme();
+          var newDark = isDark();
+          if (oldDark !== newDark) {
+            currentRotation += newDark ? -180 : 180;
+            $('#sky').style.setProperty('--deg', currentRotation + 'deg');
+          }
+        }
+      };
+      if (mq.addEventListener) mq.addEventListener('change', handleSysChange);
+      else if (mq.addListener) mq.addListener(handleSysChange);
+    }
     if (window.MutationObserver) new MutationObserver(syncTheme).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
   }
+
+
+
 
   /* ---------- focus timer ---------- */
   var T = { focus: 25, brk: 5, mode: 'focus', left: 1500, running: false, endsAt: 0, iv: null, ctx: null, msg: '' };
@@ -2023,14 +2528,14 @@ if (typeof module !== 'undefined' && module.exports) {
     if (T.left <= 0) tDone();
     tRender();
   }
-  function tDone() {
+function tDone() {
     clearInterval(T.iv); T.running = false; beep();
     if (T.mode === 'focus') {
       var st = dayStats(); st.n++; st.m += T.focus; store.set(dayKey(), JSON.stringify(st));
       T.msg = 'msg_focus_done'; T.mode = 'break';
     } else { T.msg = 'msg_break_done'; T.mode = 'focus'; }
     T.left = tDur();
-    if ($('#timerPanel').hidden) $('#timerChip').classList.add('alert');
+    if (!$('#timerPanel').classList.contains('show')) $('#timerChip').classList.add('alert');
   }
   function hideMsg() { T.msg = ''; $('#tMsg').hidden = true; $('#timerChip').classList.remove('alert'); }
   function tSetDurations(f, b, stop) {
@@ -2042,10 +2547,17 @@ if (typeof module !== 'undefined' && module.exports) {
   }
   function openPanel(open) {
     var p = $('#timerPanel'), chip = $('#timerChip');
-    p.hidden = !open; chip.setAttribute('aria-expanded', String(open));
-    if (open) chip.classList.remove('alert');
+    chip.setAttribute('aria-expanded', String(open));
+    if (open) {
+      p.classList.add('show');
+      chip.classList.remove('alert');
+    } else {
+      p.classList.remove('show');
+    }
   }
-  $('#timerChip').addEventListener('click', function () { openPanel($('#timerPanel').hidden); });
+  $('#timerChip').addEventListener('click', function () { 
+    openPanel(!$('#timerPanel').classList.contains('show')); 
+  });
   $('#tToggle').addEventListener('click', function () { if (T.running) tPause(); else tStart(); });
   $('#tReset').addEventListener('click', function () { clearInterval(T.iv); T.running = false; T.left = tDur(); hideMsg(); tRender(); });
   $('#tSkip').addEventListener('click', function () { clearInterval(T.iv); T.running = false; T.mode = T.mode === 'focus' ? 'break' : 'focus'; T.left = tDur(); hideMsg(); tRender(); });
