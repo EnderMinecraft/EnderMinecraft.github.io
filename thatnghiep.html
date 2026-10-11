@@ -572,7 +572,40 @@ table.f code { font-family: var(--font-mono); font-size: 13px; }
   opacity: 0;
   transform: translateY(6px);
 }
+.streak-card { 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  background: var(--surface); 
+  border: 1px solid var(--line); 
+  border-radius: 14px; 
+  padding: 16px 20px; 
+  margin-bottom: 20px; 
+}
+.streak-info { display: flex; align-items: center; gap: 14px; }
+.streak-icon { font-size: 24px; }
+.streak-num { font: 700 24px var(--font-mono); color: var(--accent); letter-spacing: -0.02em; }
+.streak-label { font-size: 13px; color: var(--muted); }
 
+.heatmap { display: flex; gap: 5px; align-items: center; }
+.heatmap-cell { width: 14px; height: 14px; border-radius: 4px; background: var(--line); transition: background 0.2s ease; }
+.heatmap-cell.lvl-1 { background: color-mix(in srgb, var(--accent) 30%, var(--line)); }
+.heatmap-cell.lvl-2 { background: color-mix(in srgb, var(--accent) 70%, var(--line)); }
+.heatmap-cell.lvl-3 { background: var(--accent); }
+
+/* Celebration Pop Animation */
+@keyframes celebrate {
+  0% { transform: scale(0.85); opacity: 0; }
+  50% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.celebrate { 
+  animation: celebrate 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) both; 
+  transform-origin: center center;
+}
+
+/* Leitner Box Badges in Flashcards */
+.box-badge { font: 500 11px var(--font-mono); padding: 2px 8px; border-radius: 999px; background: var(--soft); color: var(--muted); margin-bottom: 6px; }
 
 /* Allow text and icons to fade smoothly via opacity rather than bleeding colors */
 :root.theme-anim span, :root.theme-anim svg *, :root.theme-anim button {
@@ -1848,12 +1881,37 @@ function render() {
   function meter(label, pct, text, na) {
     return '<div class="m' + (na ? ' na' : '') + '"><span class="m-l">' + label + '</span><span class="m-b"><i style="width:' + pct + '%"></i></span><span class="m-v">' + text + '</span></div>';
   }
-
-  function overviewHTML() {
+  function getStreakData() { 
+    var streak = 0, days = [];
+    for (var i = 6; i >= 0; i--) {
+      var d = new Date();
+      d.setDate(d.getDate() - i);
+      var k = 'sp:timer:' + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+      var data = null;
+      try { data = JSON.parse(store.get(k) || 'null'); } catch (e) { data = null; }
+      var count = data ? data.n : 0;
+      days.push({ count: count });
+      if (count > 0 || i === 0) {
+        if (count > 0) streak++;
+      }
+    }
+    return { streak: streak, days: days };
+  }
+function overviewHTML() {
     var P = S.pack, tt = totals(), pct = Math.round(tt.ready * 100);
     var meta = [P.subject, P.level, tr('topics_n', { n: P.topics.length })].filter(Boolean).map(esc).join(' · ');
+    var streakData = getStreakData();
+
     var h = '<div class="eyebrow">' + tr('eyebrow_pack') + (S.sample ? '<span class="tag">' + tr('tag_example') + '</span>' : '') + '</div>';
     h += '<h1 class="page-h">' + esc(P.title) + '</h1><p class="lede">' + meta + '</p>';
+    
+    // Streak & Heatmap Widget Injection
+    h += '<div class="streak-card"><div class="streak-info"><span class="streak-icon">🔥</span><div><div class="streak-num">' + streakData.streak + ' Days</div><div class="streak-label">Study Streak</div></div></div>';
+    h += '<div class="heatmap">' + streakData.days.map(function(d) {
+      var lvl = d.count >= 3 ? 'lvl-3' : (d.count > 0 ? 'lvl-1' : '');
+      return '<div class="heatmap-cell ' + lvl + '" title="' + d.count + ' sessions"></div>';
+    }).join('') + '</div></div>';
+
     if (S.sample) h += '<div class="note">' + tr('note_example', { link: '<button class="link" data-go="load">' + tr('open_own') + '</button>' }) + '</div>';
     if (S.notice) {
       h += '<div class="note"><b>' + tr('loaded_n', { n: S.notice.topics }) + (S.notice.files ? tr('loaded_from', { n: S.notice.files }) : '') + '.</b> <button class="link" data-act="dismiss">' + tr('dismiss') + '</button>';
@@ -1928,7 +1986,37 @@ function studyHTML() {
     h += '</div>';
     return h;
   }
+function launchConfetti() {
+    var colors = ['#8499FF', '#4CCB9F', '#FFE15A', '#F2857A', '#E8AE4B'];
+    for (var i = 0; i < 35; i++) {
+      var el = document.createElement('div');
+      el.style.position = 'fixed';
+      el.style.left = (window.innerWidth / 2) + 'px';
+      el.style.top = (window.innerHeight / 2.5) + 'px';
+      el.style.width = (Math.random() * 8 + 6) + 'px';
+      el.style.height = (Math.random() * 8 + 6) + 'px';
+      el.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      el.style.zIndex = '9999';
+      el.style.pointerEvents = 'none';
+      document.body.appendChild(el);
 
+      var angle = Math.random() * Math.PI * 2;
+      var speed = Math.random() * 180 + 60;
+      var destX = Math.cos(angle) * speed;
+      var destY = Math.sin(angle) * speed - 80;
+
+      el.animate([
+        { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+        { transform: 'translate(' + destX + 'px, ' + (destY + 200) + 'px) rotate(' + (Math.random() * 360) + 'deg) scale(0.4)', opacity: 0 }
+      ], {
+        duration: 900 + Math.random() * 400,
+        easing: 'cubic-bezier(0.25, 1, 0.5, 1)'
+      }).onfinish = function(e) {
+        e.target.effect.target.remove();
+      };
+    }
+  }
   /* ---------- flashcards ---------- */
   function startCards(scope) {
     var deck = [];
@@ -1948,7 +2036,8 @@ function studyHTML() {
     h += '<button class="link sp" data-act="restartCards">' + tr('restart_deck') + '</button></div>';
     if (!C.total) return h + '<div class="empty"><p>' + tr('no_cards') + '</p></div></div>';
     if (!C.queue.length) {
-      h += '<div class="empty"><h2>' + (C.got ? tr('deck_done') : tr('nothing_left')) + '</h2><p class="muted">' + (C.got ? tr('marked_known', { n: C.got }) : tr('known_all')) + '</p><button class="btn primary" data-act="restartAll">' + tr('review_again') + '</button></div></div>';
+      // Thêm ' celebrate' vào class của thẻ .empty
+      h += '<div class="empty celebrate"><h2>' + (C.got ? tr('deck_done') : tr('nothing_left')) + '</h2><p class="muted">' + (C.got ? tr('marked_known', { n: C.got }) : tr('known_all')) + '</p><button class="btn primary" data-act="restartAll">' + tr('review_again') + '</button></div></div>';
       return h;
     }
     var c = C.queue[0], known = 0;
@@ -2029,6 +2118,7 @@ function studyHTML() {
   function finishQuiz() {
     var q = S.quiz; stopQT();
     q.done = true; q.elapsed = Math.round((Date.now() - q.started) / 1000);
+    launchConfetti();
     var by = {};
     q.items.forEach(function (it) {
       var b = by[it.tid] || (by[it.tid] = { n: 0, ok: 0, title: it.ttitle });
@@ -2115,7 +2205,10 @@ function studyHTML() {
   function quizResultHTML() {
     var q = S.quiz, n = q.items.length, pct = Math.round(q.ok / n * 100);
     var missed = q.items.filter(function (it) { return !(it.res && it.res.correct); });
-    var h = '<div class="quiz"><div class="score"><div class="big">' + pct + '<span>%</span></div><div><h2>' + tr('n_correct', { k: q.ok, n: n }) + '</h2><p class="muted">' + tr('time_taken', { t: fmtTime(q.elapsed) }) + '</p></div></div>';
+    
+    // Thêm ' celebrate' vào đây để kích hoạt hiệu ứng pop-in mượt mà
+    var h = '<div class="quiz celebrate"><div class="score"><div class="big">' + pct + '<span>%</span></div><div><h2>' + tr('n_correct', { k: q.ok, n: n }) + '</h2><p class="muted">' + tr('time_taken', { t: fmtTime(q.elapsed) }) + '</p></div></div>';
+    
     var ids = Object.keys(q.by);
     if (ids.length > 1) {
       h += '<div class="by">' + ids.map(function (id) { var b = q.by[id]; return meter(esc(b.title).slice(0, 40), Math.round(b.ok / b.n * 100), b.ok + '/' + b.n); }).join('') + '</div>';
@@ -2131,7 +2224,6 @@ function studyHTML() {
     }
     return h + '</div>';
   }
-
   /* ---------- load + teacher views ---------- */
   function msgHTML() {
     var m = S.loadMsg; if (!m) return '';
@@ -2296,9 +2388,28 @@ function setLang(l) {
   function cardRate(known) {
     var C = S.cards; if (!C || !C.queue.length) return;
     var c = C.queue.shift();
-    if (known) { S.prog.cards[c.id] = true; C.got++; }
-    else { delete S.prog.cards[c.id]; C.again++; C.queue.push(c); }
-    C.flipped = false; saveProg(); render();
+    
+    // Lấy thông tin hộp hiện tại của thẻ (mặc định là Hộp 1)
+    var cardState = S.prog.cards[c.id];
+    var currentBox = (typeof cardState === 'object' && cardState !== null) ? (cardState.box || 1) : (cardState ? 3 : 1);
+
+    if (known) {
+      // Trả lời đúng: Thăng lên 1 hộp (tối đa Hộp 3)
+      var nextBox = Math.min(3, currentBox + 1);
+      S.prog.cards[c.id] = { box: nextBox };
+      C.got++;
+    } else {
+      // Trả lời sai: Rớt lại về Hộp 1 để ôn lại sớm
+      S.prog.cards[c.id] = { box: 1 };
+      C.again++;
+      C.queue.push(c); // Đẩy thẻ xuống cuối hàng đợi ôn lại trong phiên
+    }
+    C.flipped = false; 
+    saveProg(); 
+    if (!C.queue.length) {
+    launchConfetti(); // <--- Kích hoạt pháo giấy khi lật xong hết bộ Flashcard
+  }
+    render();
   }
 
   document.addEventListener('click', function (e) {
