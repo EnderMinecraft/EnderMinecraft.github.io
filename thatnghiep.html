@@ -581,14 +581,28 @@ table.f code { font-family: var(--font-mono); font-size: 13px; }
   border-radius: 14px; 
   padding: 16px 20px; 
   margin-bottom: 20px; 
+  gap: 16px;
 }
 .streak-info { display: flex; align-items: center; gap: 14px; }
 .streak-icon { font-size: 24px; }
 .streak-num { font: 700 24px var(--font-mono); color: var(--accent); letter-spacing: -0.02em; }
 .streak-label { font-size: 13px; color: var(--muted); }
 
-.heatmap { display: flex; gap: 5px; align-items: center; }
-.heatmap-cell { width: 14px; height: 14px; border-radius: 4px; background: var(--line); transition: background 0.2s ease; }
+.heatmap-container { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.heatmap-toggle { 
+  font: 500 11px var(--font-mono); 
+  color: var(--muted); 
+  background: var(--bg); 
+  border: 1px solid var(--line); 
+  border-radius: 999px; 
+  padding: 2px 8px; 
+  cursor: pointer; 
+  transition: border-color 0.2s ease, color 0.2s ease; 
+}
+.heatmap-toggle:hover { border-color: var(--accent); color: var(--ink); }
+
+.heatmap { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; max-width: 250px; justify-content: flex-end; }
+.heatmap-cell { width: 12px; height: 12px; border-radius: 3px; background: var(--line); transition: background 0.2s ease; }
 .heatmap-cell.lvl-1 { background: color-mix(in srgb, var(--accent) 30%, var(--line)); }
 .heatmap-cell.lvl-2 { background: color-mix(in srgb, var(--accent) 70%, var(--line)); }
 .heatmap-cell.lvl-3 { background: var(--accent); }
@@ -1722,7 +1736,7 @@ if (typeof module !== 'undefined' && module.exports) {
     return (x.file ? esc(x.file) + ': ' : '') + esc(tr('v_' + x.m.key, x.m.vars));
   }
 
-  var S = {
+var S = {
     pack: null, key: '', sample: false, prog: null,
     view: 'overview', scope: 'all', mode: 'notes',
     cards: null, quiz: null, qiv: null,
@@ -1730,7 +1744,8 @@ if (typeof module !== 'undefined' && module.exports) {
     copts: { shuffle: true, skipKnown: false },
     notice: null, loadMsg: null, confirmReset: false,
     animateTab: false,
-    animateMain: false // Add this flag for page/view transitions
+    animateMain: false,
+    streakView: 'week' // Thêm trạng thái mặc định ('week' hoặc 'month')
   };
 
   /* ---------- pack + progress ---------- */
@@ -1775,7 +1790,7 @@ if (typeof module !== 'undefined' && module.exports) {
   }
 
   /* ---------- loading files ---------- */
-  function loadTexts(items) {
+function loadTexts(items) {
     var packs = [], errs = [], warns = [];
     items.forEach(function (it) {
       var file = items.length > 1 || it.name ? it.name : '';
@@ -1785,6 +1800,9 @@ if (typeof module !== 'undefined' && module.exports) {
       n.warnings.forEach(function (w) { warns.push({ file: items.length > 1 ? it.name : '', m: w }); });
       if (n.errors.length) { n.errors.forEach(function (e) { errs.push({ file: file, m: e }); }); return; }
       packs.push(n.pack);
+      
+      // Lưu tự động vào danh sách Recent Packs
+      saveRecentPackToStorage(n.pack.title, it.text);
     });
     if (!packs.length) { S.loadMsg = { errors: errs, warnings: warns }; S.view = 'load'; render(); return; }
     setPack(spMerge(packs), false);
@@ -1881,36 +1899,65 @@ function render() {
   function meter(label, pct, text, na) {
     return '<div class="m' + (na ? ' na' : '') + '"><span class="m-l">' + label + '</span><span class="m-b"><i style="width:' + pct + '%"></i></span><span class="m-v">' + text + '</span></div>';
   }
-  function getStreakData() { 
-    var streak = 0, days = [];
-    for (var i = 6; i >= 0; i--) {
+function getStreakData(daysCount) {
+    daysCount = daysCount || 7;
+    var streak = 0;
+    
+    // Tính toán chuỗi streak liên tục thực tế
+    for (var i = 0; ; i++) {
       var d = new Date();
       d.setDate(d.getDate() - i);
       var k = 'sp:timer:' + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
       var data = null;
       try { data = JSON.parse(store.get(k) || 'null'); } catch (e) { data = null; }
       var count = data ? data.n : 0;
-      days.push({ count: count });
-      if (count > 0 || i === 0) {
-        if (count > 0) streak++;
+      if (count > 0) {
+        streak++;
+      } else if (i === 0) {
+        var y = new Date();
+        y.setDate(y.getDate() - 1);
+        var yk = 'sp:timer:' + y.getFullYear() + '-' + (y.getMonth() + 1) + '-' + y.getDate();
+        var yData = null;
+        try { yData = JSON.parse(store.get(yk) || 'null'); } catch (e) { yData = null; }
+        if (!yData || yData.n === 0) break;
+      } else {
+        break;
       }
+    }
+
+    // Xây dựng mảng dữ liệu các ô vuông heatmap
+    var days = [];
+    for (var j = daysCount - 1; j >= 0; j--) {
+      var d = new Date();
+      d.setDate(d.getDate() - j);
+      var k = 'sp:timer:' + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+      var data = null;
+      try { data = JSON.parse(store.get(k) || 'null'); } catch (e) { data = null; }
+      var count = data ? data.n : 0;
+      days.push({ count: count, date: d.toLocaleDateString() });
     }
     return { streak: streak, days: days };
   }
 function overviewHTML() {
     var P = S.pack, tt = totals(), pct = Math.round(tt.ready * 100);
     var meta = [P.subject, P.level, tr('topics_n', { n: P.topics.length })].filter(Boolean).map(esc).join(' · ');
-    var streakData = getStreakData();
+    
+    var isMonth = S.streakView === 'month';
+    var streakData = getStreakData(isMonth ? 30 : 7);
 
     var h = '<div class="eyebrow">' + tr('eyebrow_pack') + (S.sample ? '<span class="tag">' + tr('tag_example') + '</span>' : '') + '</div>';
     h += '<h1 class="page-h">' + esc(P.title) + '</h1><p class="lede">' + meta + '</p>';
     
-    // Streak & Heatmap Widget Injection
+    // Streak & Heatmap Widget với Toggle Tuần / Tháng
     h += '<div class="streak-card"><div class="streak-info"><span class="streak-icon">🔥</span><div><div class="streak-num">' + streakData.streak + ' Days</div><div class="streak-label">Study Streak</div></div></div>';
+    h += '<div class="heatmap-container"><button class="heatmap-toggle" data-act="streakView">' + (isMonth ? '30 Days' : '7 Days') + '</button>';
     h += '<div class="heatmap">' + streakData.days.map(function(d) {
-      var lvl = d.count >= 3 ? 'lvl-3' : (d.count > 0 ? 'lvl-1' : '');
-      return '<div class="heatmap-cell ' + lvl + '" title="' + d.count + ' sessions"></div>';
-    }).join('') + '</div></div>';
+      var lvl = '';
+      if (d.count >= 4) lvl = 'lvl-3';
+      else if (d.count >= 2) lvl = 'lvl-2';
+      else if (d.count > 0) lvl = 'lvl-1';
+      return '<div class="heatmap-cell ' + lvl + '" title="' + d.date + ': ' + d.count + ' sessions"></div>';
+    }).join('') + '</div></div></div>';
 
     if (S.sample) h += '<div class="note">' + tr('note_example', { link: '<button class="link" data-go="load">' + tr('open_own') + '</button>' }) + '</div>';
     if (S.notice) {
@@ -2231,13 +2278,33 @@ function launchConfetti() {
     if (m.warnings.length) h += '<details><summary>' + tr('other_issues', { n: m.warnings.length }) + '</summary><ul>' + m.warnings.map(function (e) { return '<li>' + msgText(e) + '</li>'; }).join('') + '</ul></details>';
     return h + '</div>';
   }
-  function loadHTML() {
+function loadHTML() {
+    var recents = getRecentPacks();
     var h = '<div class="eyebrow">' + tr('nav_files') + '</div><h1 class="page-h">' + tr('load_h') + '</h1>';
     h += '<p class="lede">' + tr('load_lede') + '</p><div class="narrow">';
     h += msgHTML();
+    
+    // Hiển thị danh sách Recent Packs nếu có
+    if (recents.length > 0) {
+      h += '<div style="background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; margin-bottom: 20px;">';
+      h += '<h2 class="sec-h" style="margin-top:0; font-size: 16px;">Bộ ôn tập gần đây (Recent Packs)</h2>';
+      h += '<div style="display: grid; gap: 8px; margin-top: 10px;">';
+      recents.forEach(function(p) {
+        h += '<div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; gap: 10px;">';
+        h += '<div style="min-width: 0; flex: 1;"><b style="display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">' + esc(p.title) + '</b><small class="muted">' + new Date(p.updatedAt).toLocaleDateString() + '</small></div>';
+        h += '<div style="display: flex; gap: 6px; flex: none;">';
+        h += '<button class="btn" style="padding: 4px 10px; font-size: 12px;" data-act="loadRecent" data-id="' + esc(p.id) + '">Mở</button>';
+        h += '<button class="btn" style="padding: 4px 10px; font-size: 12px;" data-act="editRecent" data-id="' + esc(p.id) + '">Sửa</button>';
+        h += '<button class="btn" style="padding: 4px 10px; font-size: 12px;" data-act="renameRecent" data-id="' + esc(p.id) + '">Đổi tên</button>';
+        h += '<button class="btn again" style="padding: 4px 10px; font-size: 12px;" data-act="deleteRecent" data-id="' + esc(p.id) + '">Xóa</button>';
+        h += '</div></div>';
+      });
+      h += '</div></div>';
+    }
+
     h += '<div class="drop" id="drop"><p><b>' + tr('drop_h') + '</b></p><p class="muted">' + tr('drop_sub') + '</p><button class="btn primary" data-act="pickfile">' + tr('choose_files') + '</button><input type="file" id="fileIn" accept=".json,.txt,application/json,text/plain" multiple hidden></div>';
-    h += '<div><label for="pasteIn" style="font-weight:600">' + tr('paste_label') + '</label><textarea class="paste" id="pasteIn" placeholder="{ &quot;format&quot;: &quot;studypack&quot;, ... }" style="margin-top:8px"></textarea><div style="margin-top:8px"><button class="btn" data-act="loadpaste">' + tr('load_pasted') + '</button></div></div>';
-    h += '<p class="muted">' + tr('local_note') + ' <button class="link" data-act="sample">' + tr('use_example') + '</button></p></div>';
+    h += '<div style="margin-top: 20px;"><label for="pasteIn" style="font-weight:600">' + tr('paste_label') + '</label><textarea class="paste" id="pasteIn" placeholder="{ &quot;format&quot;: &quot;studypack&quot;, ... }" style="margin-top:8px"></textarea><div style="margin-top:8px"><button class="btn" data-act="loadpaste">' + tr('load_pasted') + '</button></div></div>';
+    h += '<p class="muted" style="margin-top: 16px;">' + tr('local_note') + ' <button class="link" data-act="sample">' + tr('use_example') + '</button></p></div>';
     return h;
   }
   function teacherHTML() {
@@ -2258,7 +2325,57 @@ function launchConfetti() {
     h += '</tbody></table></div></div></div>';
     return h;
   }
-
+/* ---------- Recent Packs Management ---------- */
+  function getRecentPacks() {
+    try { return JSON.parse(store.get('sp:recent_packs') || '[]'); } catch (e) { return []; }
+  }
+  function saveRecentPackToStorage(title, text) {
+    if (!title || !text) return;
+    var recents = getRecentPacks();
+    var id = 'p_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4);
+    // Loại bỏ tệp cũ nếu trùng tiêu đề để tránh lặp
+    recents = recents.filter(function (p) { return p.title !== title; });
+    recents.unshift({ id: id, title: title, text: text, updatedAt: Date.now() });
+    // Giới hạn tối đa 5 tệp gần nhất
+    if (recents.length > 5) recents = recents.slice(0, 5);
+    store.set('sp:recent_packs', JSON.stringify(recents));
+  }
+  function renameRecentPack(id) {
+    var recents = getRecentPacks();
+    var pack = recents.filter(function (p) { return p.id === id; })[0];
+    if (!pack) return;
+    var newTitle = prompt('Nhập tên mới cho bộ ôn tập:', pack.title);
+    if (newTitle && newTitle.trim()) {
+      pack.title = newTitle.trim();
+      store.set('sp:recent_packs', JSON.stringify(recents));
+      render();
+    }
+  }
+  function deleteRecentPack(id) {
+    var recents = getRecentPacks();
+    recents = recents.filter(function (p) { return p.id !== id; });
+    store.set('sp:recent_packs', JSON.stringify(recents));
+    render();
+  }
+  function loadRecentPack(id) {
+    var recents = getRecentPacks();
+    var pack = recents.filter(function (p) { return p.id === id; })[0];
+    if (pack) {
+      loadTexts([{ name: pack.title + '.json', text: pack.text }]);
+    }
+  }
+  function editRecentPack(id) {
+    var recents = getRecentPacks();
+    var pack = recents.filter(function (p) { return p.id === id; })[0];
+    if (pack) {
+      var ta = $('#pasteIn');
+      if (ta) {
+        ta.value = pack.text;
+        ta.scrollIntoView({ behavior: 'smooth' });
+        flash(ta, 'Đã nạp nội dung vào ô dán!');
+      }
+    }
+  }
   /* ---------- events ---------- */
   function flash(btn, text) {
     if (!btn) return;
@@ -2355,6 +2472,14 @@ function setLang(l) {
           S.mode = targetMode; stopQT(); S.quiz = null; render(); window.scrollTo(0, 0);
         }
         break;
+      case 'streakView':
+        S.streakView = S.streakView === 'month' ? 'week' : 'month';
+        render();
+        break;
+      case 'loadRecent': loadRecentPack(el.dataset.id); break;
+      case 'editRecent': editRecentPack(el.dataset.id); break;
+      case 'renameRecent': renameRecentPack(el.dataset.id); break;
+      case 'deleteRecent': deleteRecentPack(el.dataset.id); break;
       case 'notesDone': S.prog.notes[el.dataset.id] = !S.prog.notes[el.dataset.id]; if (!S.prog.notes[el.dataset.id]) delete S.prog.notes[el.dataset.id]; saveProg(); render(); break;
       case 'flip': if (S.cards) { S.cards.flipped = !S.cards.flipped; var c = $('#theCard'); if (c) c.classList.toggle('flipped', S.cards.flipped); } break;
       case 'gotit': case 'again': cardRate(name === 'gotit'); break;
