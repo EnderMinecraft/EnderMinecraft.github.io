@@ -1645,7 +1645,7 @@ var I18N = {
     examStartBtn: "Start Exam",
     examResumeBtn: "Resume Saved Exam",
     examSubmitBtn: "Submit Exam",
-    examConfirmSubmit: "Are you sure you want to submit? Click Submit again to confirm.",
+    examConfirmSubmit: "Are you sure you want to submit? Click again to confirm.",
     examTimeUp: "Time is up! Submitting your exam automatically...",
     examExit: "Exit (Save Progress)",
     examResultTitle: "Mock Exam Result",
@@ -1662,6 +1662,14 @@ var I18N = {
     flag: 'Flag',
     done_name: 'completed',
     flag_name: 'flagged',
+    examResumeWarn: 'There is an exam in progress.',
+    list_title: 'Questions list',
+    btn_next: 'Next',
+    btn_prev2: 'Previous',
+    ans_hint: 'Enter answer...',
+    false_ans: 'False',
+    true_ans: 'True',
+    question: 'Question',
     timer_aria: 'Focus timer',
     timer_focus: 'Focus',
     timer_break: 'Break',
@@ -1680,7 +1688,8 @@ var I18N = {
     stats_today: ['Today: {n} focus session, {m} minutes.', 'Today: {n} focus sessions, {m} minutes.'],
     msg_focus_done: 'Focus session complete. Take a {m}-minute break.',
     msg_break_done: 'Break over. Ready for the next focus session?',
-
+    minutes: 'minute(s)',
+    seconds: 'second(s)',
     nav_aria: 'Sections',
     nav_overview: 'Overview',
     nav_topics: 'Topics',
@@ -1879,7 +1888,7 @@ var I18N = {
     examStartBtn: "Bắt đầu làm bài",
     examResumeBtn: "Tiếp tục bài thi dở",
     examSubmitBtn: "Nộp bài",
-    examConfirmSubmit: "Bạn có chắc chắn muốn nộp bài? Hãy bấm Nộp bài lần nữa để xác nhận.",
+    examConfirmSubmit: "Bạn có chắc chắn muốn nộp bài? Hãy bấm lần nữa để xác nhận.",
     examTimeUp: "Đã hết thời gian làm bài! Hệ thống đang tự động nộp bài...",
     examExit: "Thoát (Lưu bài dở)",
     examResultTitle: "Kết quả Thi Thử",
@@ -1892,10 +1901,16 @@ var I18N = {
     examNoHistory: "Chưa có lượt thi nào.",
     examRetakeWrong: "Làm lại câu sai",
     examNewExam: "Thi đề mới",
+    examResumeWarn:'Có bài thi đang làm dở',
     flagged: 'Đã đánh dấu',
     flag: 'Đánh dấu',
+    ans_hint: 'Nhập câu trả lời...',
     done_name: 'hoàn thành',
+    question:'Câu',
     flag_name: 'đánh dấu',
+    list_title: 'Danh sách câu hỏi',
+    minutes: 'phút',
+    seconds: 'giây',
     timer_aria: 'Đồng hồ tập trung',
     timer_focus: 'Tập trung',
     timer_break: 'Nghỉ',
@@ -1983,8 +1998,11 @@ var I18N = {
     btn_again: 'Học lại',
     btn_skip: 'Bỏ qua',
     btn_prev: 'Thẻ trước',
+    btn_prev2: 'Câu trước',
     btn_gotit: 'Đã thuộc',
-
+    btn_next: 'Câu tiếp',
+    false_ans: 'Sai',
+    true_ans: 'Đúng',
     q_avail: 'Có {n} câu hỏi.',
     best_so_far: ' Điểm cao nhất: {n}%.',
     q_count: 'Số câu hỏi',
@@ -2751,7 +2769,7 @@ if (S.exam.step === 'config') {
         <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 16px;">${tr('examConfig')}</h2>
         ${savedRun ? `
           <div style="background: var(--warn-bg); border: 1px solid var(--warn); padding: 12px 16px; border-radius: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-size: 14px; color: var(--warn);">Có bài thi đang làm dở</span>
+            <span style="font-size: 14px; color: var(--warn);">${tr('examResumeWarn')}</span>
             <button class="btn sm primary" data-act="examResume">${tr('examResumeBtn')}</button>
           </div>
         ` : ''}
@@ -2792,7 +2810,7 @@ if (S.exam.step === 'config') {
           </div>
 
           <div>
-            <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--muted);">${tr('examTime')} (phút)</label>
+            <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--muted);">${tr('examTime')}</label>
             <input type="number" id="examTimeInput" value="${S.exam.config.time}" min="5" max="120" style="width: 100%; padding: 10px 12px; border: 1px solid var(--line); background: var(--bg); border-radius: 10px; font-size: 14px; color: var(--ink);" onchange="S.exam.config.time = parseInt(this.value)||45" />
           </div>
 
@@ -2813,7 +2831,7 @@ if (S.exam.step === 'config') {
     const flaggedCount = qList.filter(i => i.flagged).length;
     
     const isConfirming = S.exam.confirmingSubmit;
-    const submitBtnText = isConfirming ? 'Bấm lần nữa để xác nhận nộp!' : `${tr('examSubmitBtn')}`;
+    const submitBtnText = isConfirming ? `${tr('examConfirmSubmit')}` : `${tr('examSubmitBtn')}`;
     const submitBtnStyle = isConfirming 
       ? 'width: 100%; padding: 12px; font-weight: 600; background: var(--bad); border-color: var(--bad); color: #fff;' 
       : 'width: 100%; padding: 12px; font-weight: 600;';
@@ -2822,7 +2840,7 @@ if (S.exam.step === 'config') {
       <!-- Thanh công cụ phía trên -->
       <div style="position: sticky; top: 0; background: var(--surface); padding: 12px 16px; border-radius: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgb(0 0 0 / 0.05); z-index: 10; border: 1px solid var(--line);">
         <div style="font-weight: 700; color: var(--accent);" id="examTimer">${initialTimeStr}</div>
-        <div style="font-size: 13px; color: var(--muted);">Câu <b style="color: var(--ink);">${run.currentIndex + 1}</b> / ${qList.length}</div>
+        <div style="font-size: 13px; color: var(--muted);">${tr('question')} <b style="color: var(--ink);">${run.currentIndex + 1}</b> / ${qList.length}</div>
         <button class="btn sm" data-act="examExit">${tr('examExit')}</button>
       </div>
       
@@ -2846,15 +2864,15 @@ if (S.exam.step === 'config') {
           </div>
 
           <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); padding-top: 16px; margin-top: auto;">
-            <button class="btn" data-act="examPrev" ${run.currentIndex === 0 ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>← Trước</button>
-            <button class="btn primary" data-act="examNext" ${run.currentIndex === qList.length - 1 ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>Tiếp →</button>
+            <button class="btn" data-act="examPrev" ${run.currentIndex === 0 ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>← ${tr('btn_prev2')}</button>
+            <button class="btn primary" data-act="examNext" ${run.currentIndex === qList.length - 1 ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>${tr('btn_next')} →</button>
           </div>
         </div>
         
         <!-- Bảng điều hướng câu hỏi (Tích hợp microinteractions exam-jump-btn) -->
         <div class="rp-card" style="padding: 20px;">
           <div style="font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 12px; display: flex; flex-direction: column; gap: 4px;">
-            <span>Danh sách câu hỏi</span>
+            <span>${tr('list_title')}</span>
             <span style="font-size: 12px;">✅ <b>${answeredCount}</b> ${tr('done_name')} | 🚩 <b>${flaggedCount}</b> ${tr('flag_name')}</span>
           </div>
 <div class="exam-jump-container" style="margin-bottom: 16px;">
@@ -2961,19 +2979,19 @@ function renderExamQuestionInput(q, idx, item) {
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
         <button class="opt" style="display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 12px; border: 1px solid; ${tStyle} cursor: pointer;" data-act="examSelectAns" data-qidx="${idx}" data-val="true">
           <span style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 12px; font-weight: 700; ${tBadge}">1</span>
-          <span style="font-weight: 600; font-size: 14px;">Đúng</span>
+          <span style="font-weight: 600; font-size: 14px;">${tr('true_ans')}</span>
         </button>
         <button class="opt" style="display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 12px; border: 1px solid; ${fStyle} cursor: pointer;" data-act="examSelectAns" data-qidx="${idx}" data-val="false">
           <span style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 12px; font-weight: 700; ${fBadge}">2</span>
-          <span style="font-weight: 600; font-size: 14px;">Sai</span>
+          <span style="font-weight: 600; font-size: 14px;">${tr('false_ans')}</span>
         </button>
       </div>
     `;
   }
   return `
     <div>
-      <label style="display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--muted); margin-bottom: 6px;">Câu trả lời của bạn</label>
-      <input type="text" style="width: 100%; padding: 12px 16px; border: 1px solid var(--line); background: var(--bg); border-radius: 10px; font-size: 14px; color: var(--ink); outline: none;" placeholder="Nhập câu trả lời..." value="${item.userAnswer || ''}" data-exam-input="${idx}" />
+      <label style="display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--muted); margin-bottom: 6px;">${tr('ans_aria')}</label>
+      <input type="text" style="width: 100%; padding: 12px 16px; border: 1px solid var(--line); background: var(--bg); border-radius: 10px; font-size: 14px; color: var(--ink); outline: none;" placeholder="${tr('ans_hint')}" value="${item.userAnswer || ''}" data-exam-input="${idx}" />
     </div>
   `;
 }
@@ -3119,7 +3137,7 @@ function formatTime(ms) {
   const secs = Math.floor(ms / 1000);
   const m = Math.floor(secs / 60);
   const s = secs % 60;
-  return `${m} phút ${s} giây`;
+  return `${m} ${tr('minutes')} ${s} ${tr('seconds')}`;
 }
   /* ---------- quiz ---------- */
   function stopQT() { if (S.qiv) { clearInterval(S.qiv); S.qiv = null; } }
