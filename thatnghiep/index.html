@@ -2,6 +2,7 @@
 <title>Sloppy Slop</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
+
 /* Layout: sticky top bar (language, theme, focus timer); below it a topic rail on the left and one working column. A fixed sky sits behind the page: a sun with drifting clouds by day, a crescent moon with twinkling stars by night. Marker-yellow underlines flag key terms, like a highlighter on a printed handout. */
 :root {
   --bg: #F2F5E9; --surface: #FFFFFF; --ink: #14251A; --muted: #566559; --line: #D8DFCB; --soft: #E5EDD6;
@@ -50,7 +51,58 @@ p { margin: 0; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 mark { background: linear-gradient(to top, var(--mark) 0 48%, transparent 48%); color: inherit; padding: 0 0.1em; }
 .scroll { overflow-x: auto; }
+/* =========================================================
+   WEBKIT / IOS 16 COMPATIBILITY FIXES
+   ========================================================= */
 
+/* 1. Sửa lỗi đè chữ (Overlap) do Flex/Grid auto-rows trên WebKit cũ */
+.prog {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 16px !important;
+}
+
+@media (min-width: 861px) {
+  .prog {
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 28px !important;
+  }
+}
+
+/* 2. Cố định bounding-box cho thẻ số lớn .big để tránh đè văn bản bên dưới */
+.big {
+  line-height: 1.1 !important;
+  display: block !important;
+  margin-bottom: 6px !important;
+  /* Ép WebKit tính toán lại chiều cao chữ chính xác */
+  height: auto !important;
+  min-height: 1em !important;
+}
+
+.big span {
+  display: inline-block !important;
+  vertical-align: baseline !important;
+}
+
+/* 3. Sửa lỗi dính chữ/vỡ dòng trên Safari di động */
+.lede, .m-l, .m-v, .prog p {
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* 4. Fix lỗi hiển thị hẹp khối chứa chữ số trên WebKit Mobile */
+.prog > div:first-child {
+  flex: none !important;
+  min-width: fit-content;
+}
+
+.prog > div:last-child {
+  flex: 1 1 auto !important;
+  min-width: 0;
+}
 /* top bar */
 .top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); border-bottom: 1px solid var(--line); }
 @supports (background: color-mix(in srgb, red 50%, transparent)) {
@@ -3107,7 +3159,7 @@ var root = document.documentElement;
     
     // Rotate celestial orbit if dark/light state changed
     if (oldDark !== newDark) {
-      currentRotation += newDark ? -180 : 180;
+      currentRotation -= 180;
       $('#sky').style.setProperty('--deg', currentRotation + 'deg');
     }
 
