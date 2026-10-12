@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <meta name="apple-mobile-web-app-title" content="Sloppy Slop"><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22Revision%20Desk%22%2C%22short_name%22%3A%22RevisionDesk%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230C1222%22%2C%22theme_color%22%3A%22%230C1222%22%7D"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Sloppy Slop</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
@@ -3334,5 +3334,33 @@ function tDone() {
 })();
 
 </script>
-
+<script>
+  if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    var swCode = 
+      "self.addEventListener('install', function(e) { " +
+      "  self.skipWaiting(); " +
+      "}); " +
+      "self.addEventListener('activate', function(e) { " +
+      "  e.waitUntil(clients.claim()); " +
+      "}); " +
+      "self.addEventListener('fetch', function(e) { " +
+      "  e.respondWith(" +
+      "    fetch(e.request).catch(function() { " +
+      "      return caches.match(e.request); " +
+      "    })" +
+      "  ); " +
+      "});";
+    
+    var blob = new Blob([swCode], { type: 'text/javascript' });
+    var swUrl = URL.createObjectURL(blob);
+    
+    navigator.serviceWorker.register(swUrl).then(function(reg) {
+      console.log('Service Worker registered successfully:', reg.scope);
+    }).catch(function(err) {
+      console.log('Service Worker registration failed:', err);
+    });
+  });
+}
+</script>
 </body></html>
