@@ -439,6 +439,35 @@ mark { background: linear-gradient(to top, var(--mark) 0 48%, transparent 48%); 
 .fb h3 { font-size: 16px; }
 .fb.ok h3 { color: var(--good); }
 .fb.bad h3 { color: var(--bad); }
+.ctx { margin: 0; padding: 12px 14px; border-left: 3px solid var(--accent); background: var(--soft); border-radius: 0 10px 10px 0; display: grid; gap: 6px; }
+.ctx p { white-space: pre-line; font-size: 15px; line-height: 1.55; }
+.ctx cite { font-size: 13px; color: var(--muted); font-style: normal; }
+.tfs { display: grid; gap: 10px; }
+.tfi { display: grid; gap: 8px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 11px; background: var(--surface); }
+.tfi p { line-height: 1.45; }
+.tfb { display: flex; gap: 8px; }
+.tfo { flex: 1; min-height: 44px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: inherit; font-weight: 600; cursor: pointer; }
+.tfo:hover:not(:disabled) { border-color: var(--accent); }
+.tfo.sel { border-color: var(--accent); background: var(--soft); }
+.tfo.ok { border-color: var(--good); background: var(--good-bg); }
+.tfo.bad { border-color: var(--bad); background: var(--bad-bg); }
+.tfo:disabled { cursor: default; }
+.blank { display: inline-block; min-width: 3.2em; border-bottom: 2px solid var(--accent); margin: 0 2px; }
+.clin { min-height: 46px; height: 46px; resize: none; }
+.clin.ok { border-color: var(--good); background: var(--good-bg); }
+.clin.bad { border-color: var(--bad); background: var(--bad-bg); }
+.mt { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+.mtc { display: grid; gap: 8px; align-content: start; }
+.mtb { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 8px; align-items: center; text-align: left; width: 100%; min-height: 44px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: inherit; cursor: pointer; overflow-wrap: anywhere; }
+.mtb .k { font: 600 12px var(--font-mono); width: 24px; height: 24px; border: 1px solid var(--line); border-radius: 6px; display: grid; place-items: center; color: var(--muted); }
+.mtb.sel { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent) inset; }
+.mtb.paired { background: var(--soft); }
+.mtb.paired .k { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.mtr { display: grid; gap: 4px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); overflow-wrap: anywhere; }
+.mtr.ok { border-color: var(--good); background: var(--good-bg); }
+.mtr.bad { border-color: var(--bad); background: var(--bad-bg); }
+.mtr small { color: var(--muted); }
+.res-i p { white-space: pre-line; }
 .model { font: 16px/1.55 var(--font-read); padding: 10px 12px; background: var(--soft); border-radius: 8px; }
 .score { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
 .score .big { font-size: 72px; }
@@ -799,6 +828,109 @@ html { -webkit-text-size-adjust: 100%; }
 body { overflow-x: hidden; }
 pre, table.f, .scroll { max-width: 100%; }
 
+/* Mouse glow card */
+.exam-card {
+  position: relative;
+  overflow: hidden;
+}
+.exam-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    350px circle at var(--mouse-x, -500px) var(--mouse-y, -500px),
+    var(--accent),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+.exam-card:hover::after {
+  opacity: 0.35;
+}
+
+/* Microinteractions Grid */
+.exam-jump-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  max-height: 280px;
+  overflow-y: auto;
+  padding: 6px;
+}
+.exam-jump-btn {
+  transition: transform 0.15s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.2s ease, border-color 0.2s ease !important;
+}
+.exam-jump-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
+.exam-jump-btn:active {
+  transform: scale(0.92);
+}
+/* Custom Dropdown UI */
+.c-select {
+  position: relative;
+  width: 100%;
+}
+.c-select-btn {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-size: 14px;
+  color: var(--ink);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.c-select-btn:hover {
+  border-color: var(--accent);
+}
+.c-select-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  z-index: 100;
+  display: none;
+  max-height: 220px;
+  overflow-y: auto;
+  padding: 4px;
+}
+.c-select.open .c-select-menu {
+  display: block;
+}
+.c-select-item {
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.c-select-item:hover {
+  background: var(--soft);
+  color: var(--accent);
+}
+.c-select-item.kb-focus {
+  background: var(--soft);
+  color: var(--accent);
+}
+.c-select-item.selected {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
 @media (hover: none) {
   .trow:hover, .ai-btn:hover { transform: none; box-shadow: none; }
   .face::after, .trow::after { display: none; }
@@ -1120,10 +1252,13 @@ Each topic has these fields, all present:
 - "notes": 2 to 5 sections. Each section is {"heading": string, "points": [2 to 6 strings]}. Each point is one complete sentence of at most 30 words. Put the most important term of a point inside **double asterisks**, at most two per point. This is the only formatting allowed.
 - "key_terms": 3 to 8 items {"term": string, "definition": string}. One-sentence definitions.
 - "flashcards": 5 to 12 items {"front": string, "back": string}. The front is a question or a term. The back is a short answer of at most 25 words. One idea per card.
-- "questions": 5 to 10 items, about 60% "mcq", 20% "truefalse", 20% "short", ordered from easy to hard. Question types:
-  - mcq: {"type": "mcq", "prompt": string, "options": [exactly 4 strings], "answer": 0-based index of the correct option, "explanation": string}. One option is clearly correct. Distractors are plausible and come from the same topic. Never use "all of the above" or "none of the above". Vary the position of the correct option from question to question.
+- "questions": 5 to 10 items, about half "mcq", then "truefalse" and "short", plus "tfs", "cloze" and "match" only where the material fits them. Order from easy to hard. Question types:
+  - mcq: {"type": "mcq", "prompt": string, "options": [exactly 4 strings], "answer": 0-based index of the correct option, "explanation": string}. One option is clearly correct. Distractors are plausible and come from the same topic. Never use "all of the above" or "none of the above". Vary the position of the correct option from question to question. Optional: "context" (a source passage of at most 60 words) and "source" (its citation), only when the question depends on a quotation or source text in the document.
   - truefalse: {"type": "truefalse", "prompt": a full statement, "answer": true or false as a JSON boolean, "explanation": string}. Roughly half of the statements are false.
   - short: {"type": "short", "prompt": string, "answer": model answer in one or two sentences, "explanation": string or ""}.
+  - tfs (one source passage with true/false statements): {"type": "tfs", "prompt": one instruction sentence or "", "quote": the passage in at most 80 words, "source": its citation or "", "items": [exactly 4 objects {"text": a statement, "answer": true or false as a JSON boolean}], "explanation": string}. Use only when the document has a passage, table or data to read. Make 1 to 3 of the 4 statements false.
+  - cloze (fill in one blank): {"type": "cloze", "prompt": a sentence in which the missing word, number, date or name is replaced by ____ (four underscores), "answers": [1 to 4 accepted answers as strings, shortest form first], "explanation": string}. Exactly one ____ per question.
+  - match (match pairs): {"type": "match", "prompt": a short instruction, "pairs": [4 to 5 objects {"left": string, "right": string}], "explanation": string}. Use for date and event, term and definition, or name and role. Every left and every right must be different.
   - Every question must be answerable from that topic's notes. Never write "according to the text" or refer to the document.
   - "explanation" is one or two sentences saying why the answer is right.
 
@@ -1138,6 +1273,7 @@ CHECK BEFORE YOU REPLY (silently)
 - The reply starts with { and ends with }.
 - Every mcq has exactly 4 options and an integer "answer" from 0 to 3.
 - Every truefalse "answer" is true or false without quotation marks.
+- Every tfs has exactly 4 items with boolean answers. Every cloze prompt has exactly one ____ and an "answers" array. Every match has 4 to 5 pairs.
 - Topic ids are unique and no field is missing. Use "" or [] when a field is empty.
 - Nothing in the file is absent from the document.
 
@@ -1172,7 +1308,10 @@ EXAMPLE OF THE EXACT SHAPE (one short topic; your file contains all topics)
       "questions": [
         {"type": "mcq", "prompt": "Which structure controls the activities of the cell?", "options": ["Cell wall", "Nucleus", "Chloroplast", "Cell membrane"], "answer": 1, "explanation": "The nucleus holds the DNA, which carries the instructions for the cell."},
         {"type": "truefalse", "prompt": "Animal cells have a cell wall made of cellulose.", "answer": false, "explanation": "Only plant cells have a cellulose cell wall."},
-        {"type": "short", "prompt": "Name two structures found in plant cells but not in animal cells.", "answer": "Any two of: cell wall, permanent vacuole, chloroplasts.", "explanation": ""}
+        {"type": "short", "prompt": "Name two structures found in plant cells but not in animal cells.", "answer": "Any two of: cell wall, permanent vacuole, chloroplasts.", "explanation": ""},
+        {"type": "tfs", "prompt": "Read the passage and decide whether each statement is true or false.", "quote": "Plant cells have a rigid cell wall made of cellulose, a large permanent vacuole and chloroplasts. Animal cells have none of these.", "source": "", "items": [{"text": "The cell wall of a plant cell is made of cellulose.", "answer": true}, {"text": "Animal cells contain chloroplasts.", "answer": false}, {"text": "Plant cells have a large permanent vacuole.", "answer": true}, {"text": "Animal cells have a rigid cell wall.", "answer": false}], "explanation": "The passage lists the structures found only in plant cells."},
+        {"type": "cloze", "prompt": "The ____ contains DNA and controls the activities of the cell.", "answers": ["nucleus"], "explanation": "The nucleus holds the DNA."},
+        {"type": "match", "prompt": "Match each structure with its function.", "pairs": [{"left": "Nucleus", "right": "Holds DNA and controls the cell"}, {"left": "Mitochondrion", "right": "Releases energy by aerobic respiration"}, {"left": "Chloroplast", "right": "Carries out photosynthesis"}, {"left": "Cell wall", "right": "Gives a plant cell a rigid outer layer"}], "explanation": "Each structure has one main function."}
       ]
     }
   ]
@@ -1232,7 +1371,10 @@ END OF INSTRUCTIONS. The Word document follows, attached or pasted below.
         {"type": "mcq", "prompt": "Which structure controls the activities of the cell?", "options": ["Cell wall", "Nucleus", "Chloroplast", "Cell membrane"], "answer": 1, "explanation": "The nucleus holds the DNA, which carries the instructions for the cell."},
         {"type": "truefalse", "prompt": "Animal cells have a cell wall made of cellulose.", "answer": false, "explanation": "Only plant cells have a cellulose cell wall."},
         {"type": "mcq", "prompt": "Where does aerobic respiration release most of its energy in a cell?", "options": ["Mitochondria", "Nucleus", "Chloroplasts", "Vacuole"], "answer": 0, "explanation": "Mitochondria are the site of aerobic respiration."},
-        {"type": "short", "prompt": "Name two structures found in plant cells but not in animal cells.", "answer": "Any two of: cell wall, permanent vacuole, chloroplasts.", "explanation": ""}
+        {"type": "short", "prompt": "Name two structures found in plant cells but not in animal cells.", "answer": "Any two of: cell wall, permanent vacuole, chloroplasts.", "explanation": ""},
+        {"type": "tfs", "prompt": "Read the passage and decide whether each statement is true or false.", "quote": "Plant cells have a rigid cell wall made of cellulose, a large permanent vacuole and chloroplasts. Animal cells have none of these.", "source": "", "items": [{"text": "The cell wall of a plant cell is made of cellulose.", "answer": true}, {"text": "Animal cells contain chloroplasts.", "answer": false}, {"text": "Plant cells have a large permanent vacuole.", "answer": true}, {"text": "Animal cells have a rigid cell wall.", "answer": false}], "explanation": "The passage lists the structures found only in plant cells."},
+        {"type": "cloze", "prompt": "The ____ contains DNA and controls the activities of the cell.", "answers": ["nucleus"], "explanation": "The nucleus holds the DNA."},
+        {"type": "match", "prompt": "Match each structure with its function.", "pairs": [{"left": "Nucleus", "right": "Holds DNA and controls the cell"}, {"left": "Mitochondrion", "right": "Releases energy by aerobic respiration"}, {"left": "Chloroplast", "right": "Carries out photosynthesis"}, {"left": "Cell wall", "right": "Gives a plant cell a rigid outer layer"}], "explanation": "Each structure has one main function."}
       ]
     },
     {
@@ -1382,7 +1524,10 @@ END OF INSTRUCTIONS. The Word document follows, attached or pasted below.
         {"type": "mcq", "prompt": "Cấu trúc nào điều khiển các hoạt động của tế bào?", "options": ["Thành tế bào", "Nhân", "Lục lạp", "Màng tế bào"], "answer": 1, "explanation": "Nhân chứa DNA, nơi mang các chỉ dẫn cho tế bào."},
         {"type": "truefalse", "prompt": "Tế bào động vật có thành tế bào làm từ xenlulozơ.", "answer": false, "explanation": "Chỉ tế bào thực vật mới có thành tế bào bằng xenlulozơ."},
         {"type": "mcq", "prompt": "Hô hấp hiếu khí giải phóng phần lớn năng lượng ở đâu trong tế bào?", "options": ["Ty thể", "Nhân", "Lục lạp", "Không bào"], "answer": 0, "explanation": "Ty thể là nơi diễn ra hô hấp hiếu khí."},
-        {"type": "short", "prompt": "Kể tên hai cấu trúc có ở tế bào thực vật nhưng không có ở tế bào động vật.", "answer": "Hai trong số: thành tế bào, không bào lớn, lục lạp.", "explanation": ""}
+        {"type": "short", "prompt": "Kể tên hai cấu trúc có ở tế bào thực vật nhưng không có ở tế bào động vật.", "answer": "Hai trong số: thành tế bào, không bào lớn, lục lạp.", "explanation": ""},
+        {"type": "tfs", "prompt": "Đọc đoạn tư liệu và chọn Đúng hoặc Sai cho từng ý.", "quote": "Tế bào thực vật có thành tế bào cứng làm từ xenlulozơ, không bào lớn tồn tại lâu dài và lục lạp. Tế bào động vật không có những cấu trúc này.", "source": "", "items": [{"text": "Thành tế bào thực vật được cấu tạo từ xenlulozơ.", "answer": true}, {"text": "Tế bào động vật có lục lạp.", "answer": false}, {"text": "Tế bào thực vật có không bào lớn tồn tại lâu dài.", "answer": true}, {"text": "Tế bào động vật có thành tế bào cứng.", "answer": false}], "explanation": "Đoạn tư liệu nêu các cấu trúc chỉ có ở tế bào thực vật."},
+        {"type": "cloze", "prompt": "____ chứa DNA và điều khiển hoạt động của tế bào.", "answers": ["Nhân", "Nhân tế bào"], "explanation": "Nhân chứa DNA của tế bào."},
+        {"type": "match", "prompt": "Nối mỗi cấu trúc với chức năng của nó.", "pairs": [{"left": "Nhân", "right": "Chứa DNA và điều khiển tế bào"}, {"left": "Ti thể", "right": "Giải phóng năng lượng bằng hô hấp hiếu khí"}, {"left": "Lục lạp", "right": "Thực hiện quang hợp"}, {"left": "Thành tế bào", "right": "Tạo lớp vỏ cứng cho tế bào thực vật"}], "explanation": "Mỗi cấu trúc có một chức năng chính."}
       ]
     },
     {
@@ -1489,7 +1634,34 @@ var I18N = {
     lang_aria: 'Language',
     theme_to_dark: 'Switch to dark mode',
     theme_to_light: 'Switch to light mode',
-
+    exam: "Mock Exam",
+    examConfig: "Exam Configuration",
+    examScope: "Topic Scope",
+    examAllTopics: "All Topics",
+    examMode: "Exam Mode",
+    examFull: "Full Exam (40 questions)",
+    examShort: "Short Exam (20 questions)",
+    examTime: "Time (minutes)",
+    examStartBtn: "Start Exam",
+    examResumeBtn: "Resume Saved Exam",
+    examSubmitBtn: "Submit Exam",
+    examConfirmSubmit: "Are you sure you want to submit? Click Submit again to confirm.",
+    examTimeUp: "Time is up! Submitting your exam automatically...",
+    examExit: "Exit (Save Progress)",
+    examResultTitle: "Mock Exam Result",
+    examScoreTotal: "Total Score",
+    examPart1: "Part 1 (MCQ)",
+    examPart2: "Part 2 (True/False & Others)",
+    examTimeUsed: "Time Spent",
+    examHistory: "Exam History",
+    examHighScore: "Highest Score",
+    examNoHistory: "No exam history yet.",
+    examRetakeWrong: "Retake Wrong Questions",
+    examNewExam: "New Exam",
+    flagged: 'Flagged',
+    flag: 'Flag',
+    done_name: 'completed',
+    flag_name: 'flagged',
     timer_aria: 'Focus timer',
     timer_focus: 'Focus',
     timer_break: 'Break',
@@ -1594,6 +1766,19 @@ var I18N = {
     q_of: 'Question {i} of {n}',
     tf_true: 'True',
     tf_false: 'False',
+    chk: 'Check answer',
+    tfs_hint: 'Choose True or False for each statement.',
+    tfs_score: '{k}/{n} statements right \u00b7 score {p}',
+    partial: 'Partly right',
+    cl_ph: 'Type your answer',
+    cl_hint_btn: 'Hint',
+    cl_hint: 'Hint: {w} word(s), starts with \u201c{c}\u201d',
+    cl_loose: 'Right idea (accents or spelling differ)',
+    mt_hint: 'Tap an item on the left, then its match on the right. Tap a pair again to undo it.',
+    mt_score: '{k}/{n} pairs right',
+    mt_correct_is: 'Correct: {a}',
+    pts_line: 'Score: {p} / {n}',
+    unanswered: '(no answer)',
     lab_correct: 'Correct answer',
     lab_yours: 'Your answer',
     ph_typed: 'Write your answer here, then reveal the model answer.',
@@ -1670,7 +1855,11 @@ var I18N = {
     v_q_idx: 'Topic {n} ({t}), question {s} has an "answer" that is not a number from 0 to {max} and was skipped.',
     v_q_tf: 'Topic {n} ({t}), question {s} needs "answer" to be true or false and was skipped.',
     v_q_short: 'Topic {n} ({t}), question {s} has no model "answer" and was skipped.',
-    v_q_type: 'Topic {n} ({t}), question {s} has an unknown type "{type}" (use mcq, truefalse or short) and was skipped.',
+    v_q_type: 'Topic {n} ({t}), question {s} has an unknown type "{type}" (use mcq, truefalse, short, tfs, cloze or match) and was skipped.',
+    v_q_tfs: 'Topic {n} ({t}), question {s} needs a "quote" or "prompt" and at least 2 "items", each with "text" and a true/false "answer", and was skipped.',
+    v_q_cloze: 'Topic {n} ({t}), question {s} must have exactly one blank written as ____ in its "prompt" and was skipped.',
+    v_q_cloze_a: 'Topic {n} ({t}), question {s} has no "answers" and was skipped.',
+    v_q_match: 'Topic {n} ({t}), question {s} needs at least 2 "pairs" with a different "left" and "right" in each, and was skipped.',
     v_noitems: 'No usable notes, flashcards or questions were found in this file.'
   },
 
@@ -1679,7 +1868,34 @@ var I18N = {
     lang_aria: 'Ngôn ngữ',
     theme_to_dark: 'Chuyển sang chế độ tối',
     theme_to_light: 'Chuyển sang chế độ sáng',
-
+    exam: "Thi thử",
+    examConfig: "Cấu hình Đề Thi Thử",
+    examScope: "Phạm vi chủ đề",
+    examAllTopics: "Tất cả chủ đề",
+    examMode: "Chế độ đề",
+    examFull: "Đề đầy đủ (40 câu)",
+    examShort: "Đề rút gọn (20 câu)",
+    examTime: "Thời gian (phút)",
+    examStartBtn: "Bắt đầu làm bài",
+    examResumeBtn: "Tiếp tục bài thi dở",
+    examSubmitBtn: "Nộp bài",
+    examConfirmSubmit: "Bạn có chắc chắn muốn nộp bài? Hãy bấm Nộp bài lần nữa để xác nhận.",
+    examTimeUp: "Đã hết thời gian làm bài! Hệ thống đang tự động nộp bài...",
+    examExit: "Thoát (Lưu bài dở)",
+    examResultTitle: "Kết quả Thi Thử",
+    examScoreTotal: "Tổng điểm",
+    examPart1: "Phần I (Trắc nghiệm)",
+    examPart2: "Phần II (Đúng/Sai & Khác)",
+    examTimeUsed: "Thời gian làm",
+    examHistory: "Lịch sử thi thử",
+    examHighScore: "Điểm cao nhất",
+    examNoHistory: "Chưa có lượt thi nào.",
+    examRetakeWrong: "Làm lại câu sai",
+    examNewExam: "Thi đề mới",
+    flagged: 'Đã đánh dấu',
+    flag: 'Đánh dấu',
+    done_name: 'hoàn thành',
+    flag_name: 'đánh dấu',
     timer_aria: 'Đồng hồ tập trung',
     timer_focus: 'Tập trung',
     timer_break: 'Nghỉ',
@@ -1784,6 +2000,19 @@ var I18N = {
     q_of: 'Câu {i}/{n}',
     tf_true: 'Đúng',
     tf_false: 'Sai',
+    chk: 'Ki\u1ec3m tra',
+    tfs_hint: 'Ch\u1ecdn \u0110\u00fang ho\u1eb7c Sai cho t\u1eebng \u00fd.',
+    tfs_score: '\u0110\u00fang {k}/{n} \u00fd \u00b7 \u0111\u01b0\u1ee3c {p} \u0111i\u1ec3m',
+    partial: '\u0110\u00fang m\u1ed9t ph\u1ea7n',
+    cl_ph: 'Nh\u1eadp \u0111\u00e1p \u00e1n',
+    cl_hint_btn: 'G\u1ee3i \u00fd',
+    cl_hint: 'G\u1ee3i \u00fd: {w} t\u1eeb, b\u1eaft \u0111\u1ea7u b\u1eb1ng \u201c{c}\u201d',
+    cl_loose: '\u0110\u00fang \u00fd (kh\u00e1c d\u1ea5u ho\u1eb7c c\u00e1ch vi\u1ebft)',
+    mt_hint: 'Ch\u1ea1m m\u1ed9t m\u1ee5c b\u00ean tr\u00e1i, r\u1ed3i ch\u1ea1m m\u1ee5c gh\u00e9p b\u00ean ph\u1ea3i. Ch\u1ea1m l\u1ea1i c\u1eb7p \u0111\u1ec3 h\u1ee7y.',
+    mt_score: '\u0110\u00fang {k}/{n} c\u1eb7p',
+    mt_correct_is: '\u0110\u00fang: {a}',
+    pts_line: '\u0110i\u1ec3m: {p}/{n}',
+    unanswered: '(ch\u01b0a ch\u1ecdn)',
     lab_correct: 'Đáp án đúng',
     lab_yours: 'Bạn đã chọn',
     ph_typed: 'Viết câu trả lời của bạn ở đây, rồi xem đáp án mẫu.',
@@ -1860,7 +2089,11 @@ var I18N = {
     v_q_idx: 'Chủ đề {n} ({t}), câu hỏi {s} có "answer" không phải số từ 0 đến {max} nên bị bỏ qua.',
     v_q_tf: 'Chủ đề {n} ({t}), câu hỏi {s} cần "answer" là true hoặc false nên bị bỏ qua.',
     v_q_short: 'Chủ đề {n} ({t}), câu hỏi {s} không có "answer" mẫu nên bị bỏ qua.',
-    v_q_type: 'Chủ đề {n} ({t}), câu hỏi {s} có loại "{type}" không hợp lệ (dùng mcq, truefalse hoặc short) nên bị bỏ qua.',
+    v_q_type: 'Chủ đề {n} ({t}), câu hỏi {s} có loại "{type}" không hợp lệ (dùng mcq, truefalse, short, tfs, cloze hoặc match) nên bị bỏ qua.',
+    v_q_tfs: 'Chủ đề {n} ({t}), câu hỏi {s} cần "quote" hoặc "prompt" và ít nhất 2 "items", mỗi ý có "text" và "answer" true/false, nên bị bỏ qua.',
+    v_q_cloze: 'Chủ đề {n} ({t}), câu hỏi {s} phải có đúng một chỗ trống viết là ____ trong "prompt" nên bị bỏ qua.',
+    v_q_cloze_a: 'Chủ đề {n} ({t}), câu hỏi {s} không có "answers" nên bị bỏ qua.',
+    v_q_match: 'Chủ đề {n} ({t}), câu hỏi {s} cần ít nhất 2 "pairs", mỗi cặp có "left" và "right" khác nhau, nên bị bỏ qua.',
     v_noitems: 'Không tìm thấy ghi chú, thẻ ghi nhớ hoặc câu hỏi nào dùng được trong tệp này.'
   }
 };
@@ -1948,13 +2181,16 @@ function spNormalise(data) {
       var type = spStr(q.type).toLowerCase();
       var prompt = spStr(q.prompt);
       var expl = spStr(q.explanation);
-      if (!prompt) { at('q_prompt', s); return; }
+      if (!prompt && type !== 'tfs') { at('q_prompt', s); return; }
       if (type === 'mcq') {
         var opts = (Array.isArray(q.options) ? q.options : []).map(spStr).filter(Boolean);
         var ans = typeof q.answer === 'number' ? q.answer : parseInt(q.answer, 10);
         if (opts.length < 2) { at('q_opts', s); return; }
         if (!Number.isInteger(ans) || ans < 0 || ans >= opts.length) { at('q_idx', s, { max: opts.length - 1 }); return; }
-        topic.questions.push({ type: 'mcq', prompt: prompt, options: opts, answer: ans, explanation: expl });
+        var mq = { type: 'mcq', prompt: prompt, options: opts, answer: ans, explanation: expl };
+        var mctx = spStr(q.context);
+        if (mctx) { mq.context = mctx; var msrc = spStr(q.source); if (msrc) mq.source = msrc; }
+        topic.questions.push(mq);
       } else if (type === 'truefalse') {
         var a = q.answer;
         if (typeof a === 'string') a = a.trim().toLowerCase() === 'true' ? true : a.trim().toLowerCase() === 'false' ? false : null;
@@ -1964,6 +2200,33 @@ function spNormalise(data) {
         var sa = spStr(q.answer);
         if (!sa) { at('q_short', s); return; }
         topic.questions.push({ type: 'short', prompt: prompt, answer: sa, explanation: expl });
+      } else if (type === 'tfs') {
+        var tquote = spStr(q.quote), tits = [];
+        (Array.isArray(q.items) ? q.items : []).forEach(function (it) {
+          var tx = spStr(it && (it.text != null ? it.text : it.t));
+          var av = it && (it.answer != null ? it.answer : it.a);
+          if (typeof av === 'string') av = av.trim().toLowerCase() === 'true' ? true : av.trim().toLowerCase() === 'false' ? false : null;
+          if (tx && typeof av === 'boolean') tits.push({ text: tx, answer: av });
+        });
+        if ((!tquote && !prompt) || tits.length < 2) { at('q_tfs', s); return; }
+        if (tits.length > 6) tits = tits.slice(0, 6);
+        topic.questions.push({ type: 'tfs', prompt: prompt, quote: tquote, source: spStr(q.source), items: tits, explanation: expl });
+      } else if (type === 'cloze') {
+        var blanks = prompt.match(/_{3,}/g);
+        var rawA = Array.isArray(q.answers) ? q.answers : (q.answer != null ? (Array.isArray(q.answer) ? q.answer : [q.answer]) : []);
+        var accepted = rawA.map(spStr).filter(Boolean);
+        if (!blanks || blanks.length !== 1) { at('q_cloze', s); return; }
+        if (!accepted.length) { at('q_cloze_a', s); return; }
+        topic.questions.push({ type: 'cloze', prompt: prompt, answers: accepted, explanation: expl });
+      } else if (type === 'match') {
+        var mpairs = [], seenL = {}, seenR = {};
+        (Array.isArray(q.pairs) ? q.pairs : []).forEach(function (pr) {
+          var pl = spStr(pr && pr.left), prr = spStr(pr && pr.right);
+          if (pl && prr && !seenL[pl] && !seenR[prr]) { seenL[pl] = seenR[prr] = 1; mpairs.push({ left: pl, right: prr }); }
+        });
+        if (mpairs.length < 2) { at('q_match', s); return; }
+        if (mpairs.length > 8) mpairs = mpairs.slice(0, 8);
+        topic.questions.push({ type: 'match', prompt: prompt, pairs: mpairs, explanation: expl });
       } else {
         at('q_type', s, { type: type });
       }
@@ -2069,6 +2332,7 @@ if (typeof module !== 'undefined' && module.exports) {
 var S = {
     pack: null, key: '', sample: false, prog: null,
     view: 'overview', scope: 'all', mode: 'notes',
+    exam: { step: 'config', run: null, result: null },
     cards: null, quiz: null, qiv: null,
     qopts: { count: 10, secs: 0, shuffle: true },
     copts: { shuffle: true, skipKnown: false },
@@ -2166,6 +2430,7 @@ function go(where, id, mode) {
     var wasDrawer = S.drawerOpen; setDrawer(false);
     if (where === 'overview' && S.view === 'overview') return;
     if (where === 'load' && S.view === 'load') return;
+    if (where === 'exam' && S.view === 'exam') return;
     if (where === 'teacher' && S.view === 'teacher') return;
     if (where === 'topic' && S.view === 'study' && S.scope === id) return;
     if (where === 'all' && S.view === 'study' && S.scope === 'all') return;
@@ -2180,6 +2445,7 @@ function go(where, id, mode) {
       setTimeout(function() {
         if (where === 'topic') { S.view = 'study'; S.scope = id; S.mode = mode || 'notes'; S.cards = null; S.quiz = null; }
         else if (where === 'all') { S.view = 'study'; S.scope = 'all'; S.mode = mode || 'cards'; S.cards = null; S.quiz = null; }
+        else if (where === 'exam') { S.view = 'exam'; S.exam.step = 'config'; }
         else { S.view = where; }
         
         S.animateMain = true; // Tell render() to start in the hidden starting state
@@ -2210,6 +2476,7 @@ function render() {
     var main;
     if (S.view === 'overview') main = overviewHTML();
     else if (S.view === 'study') main = studyHTML();
+    else if (S.view === 'exam') main = renderExam();
     else if (S.view === 'load') main = loadHTML();
     else main = teacherHTML();
     
@@ -2226,6 +2493,7 @@ function render() {
     var h = '<nav class="rail" id="railNav" aria-label="' + esc(tr('nav_aria')) + '">';
     h += '<div class="rail-top"><b>Sloppy Slop</b><button class="rail-x" data-act="closeDrawer" aria-label="' + esc(tr('dismiss')) + '"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg></button></div>';
     h += '<button class="nav-i' + (S.view === 'overview' ? ' cur' : '') + '" data-go="overview"><span>' + tr('nav_overview') + '</span></button>';
+    h += '<button class="nav-i' + (S.view === 'exam' ? ' cur' : '') + '" data-go="exam"><span>' + tr('exam') + '</span></button>';
     h += '<p class="rail-h">' + tr('nav_topics') + '</p><div class="rail-list">';
     S.pack.topics.forEach(function (t) {
       var st = topicStats(t), pct = Math.round(st.ready * 100);
@@ -2464,6 +2732,395 @@ function launchConfetti() {
     return h;
   }
 
+ /*------exam------*/
+function renderExam() {
+  let html = `<div style="max-width: 1000px; margin: 0 auto; padding: 16px;">`;
+  const runKey = 'sp:run:' + S.key;
+  const savedRun = localStorage.getItem(runKey);
+
+if (S.exam.step === 'config') {
+    // Khởi tạo giá trị mặc định nếu chưa có
+    if (!S.exam.config) {
+      S.exam.config = { scope: 'all', mode: 'full', time: 45 };
+    }
+    const scopeList = [{ id: 'all', title: tr('examAllTopics') }, ...S.pack.topics];
+    const currentScopeObj = scopeList.find(t => t.id === S.exam.config.scope) || scopeList[0];
+    
+    html += `
+      <div class="rp-card" style="padding: 24px; max-width: 500px; margin: 0 auto;">
+        <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 16px;">${tr('examConfig')}</h2>
+        ${savedRun ? `
+          <div style="background: var(--warn-bg); border: 1px solid var(--warn); padding: 12px 16px; border-radius: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 14px; color: var(--warn);">Có bài thi đang làm dở</span>
+            <button class="btn sm primary" data-act="examResume">${tr('examResumeBtn')}</button>
+          </div>
+        ` : ''}
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          
+          <!-- Custom Dropdown: Phạm vi chủ đề -->
+          <div>
+            <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--muted);">${tr('examScope')}</label>
+            <div class="c-select" id="dropdownScope">
+              <button type="button" class="c-select-btn" data-act="toggleDropdown" data-target="dropdownScope" aria-expanded="false">
+                <span>${currentScopeObj.title}</span>
+                <span style="font-size: 10px; opacity: 0.6;">▼</span>
+              </button>
+              <div class="c-select-menu" role="listbox">
+                ${scopeList.map(tp => `
+                  <div class="c-select-item ${tp.id === S.exam.config.scope ? 'selected' : ''}" 
+                       data-act="selectScope" data-val="${tp.id}" role="option">
+                    ${tp.title}
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+
+          <!-- Custom Dropdown: Chế độ thi -->
+          <div>
+            <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--muted);">${tr('examMode')}</label>
+            <div class="c-select" id="dropdownMode">
+              <button type="button" class="c-select-btn" data-act="toggleDropdown" data-target="dropdownMode" aria-expanded="false">
+                <span>${S.exam.config.mode === 'full' ? `${tr('examFull')}` : `${tr('examShort')}`}</span>
+                <span style="font-size: 10px; opacity: 0.6;">▼</span>
+              </button>
+              <div class="c-select-menu" role="listbox">
+                <div class="c-select-item ${S.exam.config.mode === 'full' ? 'selected' : ''}" data-act="selectMode" data-val="full" role="option">${tr('examFull')}</div>
+                <div class="c-select-item ${S.exam.config.mode === 'short' ? 'selected' : ''}" data-act="selectMode" data-val="short" role="option">${tr('examShort')}</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--muted);">${tr('examTime')} (phút)</label>
+            <input type="number" id="examTimeInput" value="${S.exam.config.time}" min="5" max="120" style="width: 100%; padding: 10px 12px; border: 1px solid var(--line); background: var(--bg); border-radius: 10px; font-size: 14px; color: var(--ink);" onchange="S.exam.config.time = parseInt(this.value)||45" />
+          </div>
+
+          <button class="btn primary" style="width: 100%; padding: 12px; font-weight: 600; margin-top: 8px;" data-act="examStart">${tr('examStartBtn')}</button>
+        </div>
+      </div>
+    `;
+  } else if (S.exam.step === 'doing') {
+    const run = S.exam.run;
+    const qList = run.questions;
+    const currentQ = qList[run.currentIndex];
+    
+    const remaining = Math.max(0, run.endTime - Date.now());
+    const mins = Math.floor(remaining / 60000);
+    const secs = Math.floor((remaining % 60000) / 1000);
+    const initialTimeStr = `⏱️ ${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    const answeredCount = qList.filter(i => i.userAnswer !== null && i.userAnswer !== undefined && i.userAnswer !== "").length;
+    const flaggedCount = qList.filter(i => i.flagged).length;
+    
+    const isConfirming = S.exam.confirmingSubmit;
+    const submitBtnText = isConfirming ? 'Bấm lần nữa để xác nhận nộp!' : `${tr('examSubmitBtn')}`;
+    const submitBtnStyle = isConfirming 
+      ? 'width: 100%; padding: 12px; font-weight: 600; background: var(--bad); border-color: var(--bad); color: #fff;' 
+      : 'width: 100%; padding: 12px; font-weight: 600;';
+
+    html += `
+      <!-- Thanh công cụ phía trên -->
+      <div style="position: sticky; top: 0; background: var(--surface); padding: 12px 16px; border-radius: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgb(0 0 0 / 0.05); z-index: 10; border: 1px solid var(--line);">
+        <div style="font-weight: 700; color: var(--accent);" id="examTimer">${initialTimeStr}</div>
+        <div style="font-size: 13px; color: var(--muted);">Câu <b style="color: var(--ink);">${run.currentIndex + 1}</b> / ${qList.length}</div>
+        <button class="btn sm" data-act="examExit">${tr('examExit')}</button>
+      </div>
+      
+      <!-- Lưới responsive 2 cột -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 20px; align-items: start;">
+        
+        <!-- Phần nội dung câu hỏi (Đã thêm class exam-card để kích hoạt hiệu ứng glow theo chuột) -->
+        <div class="rp-card exam-card" style="padding: 24px; min-height: 400px; display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent); font-weight: 700;">${currentQ.ttitle || 'Chủ đề'}</div>
+              <button class="btn sm" data-act="examToggleFlag" style="background: ${currentQ.flagged ? 'var(--warn)' : 'var(--surface)'}; border-color: ${currentQ.flagged ? 'var(--warn)' : 'var(--line)'}; color: ${currentQ.flagged ? '#fff' : 'var(--ink)'};">
+                🚩 ${currentQ.flagged ? tr('flagged') : tr('flag')}
+              </button>
+            </div>
+            <div style="font-size: 16px; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: var(--ink);">${esc(currentQ.q.prompt)}</div>
+            
+            <div style="margin-bottom: 24px;">
+              ${renderExamQuestionInput(currentQ.q, run.currentIndex, currentQ)}
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); padding-top: 16px; margin-top: auto;">
+            <button class="btn" data-act="examPrev" ${run.currentIndex === 0 ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>← Trước</button>
+            <button class="btn primary" data-act="examNext" ${run.currentIndex === qList.length - 1 ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>Tiếp →</button>
+          </div>
+        </div>
+        
+        <!-- Bảng điều hướng câu hỏi (Tích hợp microinteractions exam-jump-btn) -->
+        <div class="rp-card" style="padding: 20px;">
+          <div style="font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 12px; display: flex; flex-direction: column; gap: 4px;">
+            <span>Danh sách câu hỏi</span>
+            <span style="font-size: 12px;">✅ <b>${answeredCount}</b> ${tr('done_name')} | 🚩 <b>${flaggedCount}</b> ${tr('flag_name')}</span>
+          </div>
+<div class="exam-jump-container" style="margin-bottom: 16px;">
+            ${qList.map((item, idx) => {
+              const answered = item.userAnswer !== null && item.userAnswer !== undefined && item.userAnswer !== "";
+              const isFlagged = item.flagged;
+              const isCurrent = idx === run.currentIndex;
+              
+              let bg = 'var(--bg)';
+              let color = 'var(--muted)';
+              let border = '1px solid var(--line)';
+              
+              if (isFlagged) {
+                bg = 'var(--warn-bg)';
+                color = 'var(--warn)';
+                border = '1px solid var(--warn)';
+              } else if (answered) {
+                bg = 'var(--good-bg)';
+                color = 'var(--good)';
+                border = '1px solid var(--good)';
+              }
+              
+              if (isCurrent) {
+                border = '2px solid var(--accent)';
+                if (!isFlagged && !answered) {
+                  color = 'var(--accent)';
+                  bg = 'var(--soft)';
+                }
+              }
+              
+              return `<button class="exam-jump-btn" data-act="examJump" data-idx="${idx}" style="padding: 8px 0; font-size: 12px; font-weight: 700; border-radius: 8px; background: ${bg}; color: ${color}; border: ${border}; cursor: pointer; text-align: center;">${idx + 1}</button>`;
+            }).join('')}
+          </div>
+          <button class="btn primary" style="${submitBtnStyle}" data-act="examSubmitConfirm">${submitBtnText}</button>
+        </div>
+
+      </div>
+    `;
+  } else if (S.exam.step === 'result') {
+    const res = S.exam.result;
+    html += `
+      <div class="rp-card" style="max-width: 500px; margin: 0 auto; padding: 32px; text-align: center;">
+        <div style="font-size: 36px; margin-bottom: 12px;">🏆</div>
+        <h2 style="font-size: 22px; font-weight: 700; margin-bottom: 8px;">${tr('examResultTitle')}</h2>
+        <div style="font-size: 48px; font-weight: 800; color: var(--accent); margin: 20px 0;">${res.score.toFixed(2)} <span style="font-size: 18px; color: var(--muted); font-weight: 400;">/ 10</span></div>
+        
+        <div style="background: var(--bg); border-radius: 12px; padding: 16px; margin-bottom: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; text-align: left; font-size: 14px;">
+          <div>${tr('examPart1')}: <br><b>${res.scorePart1.toFixed(2)}</b></div>
+          <div>${tr('examPart2')}: <br><b>${res.scorePart2.toFixed(2)}</b></div>
+          <div style="grid-column: span 2; border-top: 1px solid var(--line); padding-top: 8px; display: flex; justify-content: space-between;">
+            <span>${tr('examTimeUsed')}:</span> <b>${formatTime(res.timeUsed)}</b>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: center; gap: 12px;">
+          <button class="btn primary" data-act="examResetConfig">${tr('examNewExam')}</button>
+          <button class="btn" data-go="overview">${tr('nav_overview')}</button>
+        </div>
+      </div>
+    `;
+  }
+  html += `</div>`;
+  return html;
+}
+
+function renderExamQuestionInput(q, idx, item) {
+  if (q.type === 'mcq') {
+    let optsHtml = '';
+    for (let oIdx = 0; oIdx < q.options.length; oIdx++) {
+      const opt = q.options[oIdx];
+      const selected = item.userAnswer === oIdx;
+      const letter = ['A', 'B', 'C', 'D'][oIdx] || String(oIdx + 1);
+      
+      // Highlight rõ ràng: Khi chọn sẽ đổi sang màu accent, chữ trắng cực kỳ dễ đọc
+      const bgStyle = selected 
+        ? 'background: var(--accent); color: #fff; border-color: var(--accent);' 
+        : 'background: var(--surface); color: var(--ink); border-color: var(--line);';
+      const badgeBg = selected 
+        ? 'background: rgba(255,255,255,0.2); color: #fff;' 
+        : 'background: var(--bg); color: var(--muted);';
+      
+      optsHtml += `
+        <button class="opt" style="display: flex; align-items: flex-start; gap: 12px; width: 100%; text-align: left; padding: 12px 16px; border-radius: 12px; border: 1px solid; ${bgStyle} cursor: pointer; transition: all 0.15s;" 
+          data-act="examSelectAns" data-qidx="${idx}" data-val="${oIdx}">
+          <span style="display: inline-flex; width: 24px; height: 24px; align-items: center; justify-content: center; border-radius: 6px; font-size: 12px; font-weight: 700; ${badgeBg} flex-shrink: 0;">
+            ${letter}
+          </span>
+          <span style="font-size: 14px; line-height: 1.4; padding-top: 2px;">${esc(opt)}</span>
+        </button>
+      `;
+    }
+    return `<div style="display: flex; flex-direction: column; gap: 10px;">${optsHtml}</div>`;
+  } else if (q.type === 'truefalse') {
+    const tSelected = item.userAnswer === true;
+    const fSelected = item.userAnswer === false;
+    
+    const tStyle = tSelected ? 'background: var(--accent); color: #fff; border-color: var(--accent);' : 'background: var(--surface); color: var(--ink); border-color: var(--line);';
+    const fStyle = fSelected ? 'background: var(--accent); color: #fff; border-color: var(--accent);' : 'background: var(--surface); color: var(--ink); border-color: var(--line);';
+    
+    const tBadge = tSelected ? 'background: rgba(255,255,255,0.2); color: #fff;' : 'background: var(--bg); color: var(--muted);';
+    const fBadge = fSelected ? 'background: rgba(255,255,255,0.2); color: #fff;' : 'background: var(--bg); color: var(--muted);';
+
+    return `
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <button class="opt" style="display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 12px; border: 1px solid; ${tStyle} cursor: pointer;" data-act="examSelectAns" data-qidx="${idx}" data-val="true">
+          <span style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 12px; font-weight: 700; ${tBadge}">1</span>
+          <span style="font-weight: 600; font-size: 14px;">Đúng</span>
+        </button>
+        <button class="opt" style="display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 12px; border: 1px solid; ${fStyle} cursor: pointer;" data-act="examSelectAns" data-qidx="${idx}" data-val="false">
+          <span style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 12px; font-weight: 700; ${fBadge}">2</span>
+          <span style="font-weight: 600; font-size: 14px;">Sai</span>
+        </button>
+      </div>
+    `;
+  }
+  return `
+    <div>
+      <label style="display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--muted); margin-bottom: 6px;">Câu trả lời của bạn</label>
+      <input type="text" style="width: 100%; padding: 12px 16px; border: 1px solid var(--line); background: var(--bg); border-radius: 10px; font-size: 14px; color: var(--ink); outline: none;" placeholder="Nhập câu trả lời..." value="${item.userAnswer || ''}" data-exam-input="${idx}" />
+    </div>
+  `;
+}
+
+
+
+function selectExamAns(qIdx, val, skipRender) {
+  if (S.exam.run && S.exam.run.questions[qIdx]) {
+    S.exam.run.questions[qIdx].userAnswer = val;
+    saveExamRun();
+    if (!skipRender) render(); // Chỉ render lại khi chọn trắc nghiệm/đúng sai, bỏ qua khi gõ input chữ
+  }
+}
+function jumpExamQ(idx) {
+  if (S.exam.run) { S.exam.run.currentIndex = idx; render(); }
+}
+function nextExamQ() {
+  if (S.exam.run && S.exam.run.currentIndex < S.exam.run.questions.length - 1) { S.exam.run.currentIndex++; render(); }
+}
+function prevExamQ() {
+  if (S.exam.run && S.exam.run.currentIndex > 0) { S.exam.run.currentIndex--; render(); }
+}
+
+function startExam() {
+  const cfg = S.exam.config || { scope: 'all', mode: 'full', time: 45 };
+  const scope = cfg.scope;
+  const mode = cfg.mode;
+  const timeMin = cfg.time;
+  
+  let pool = [];
+  scopeTopics(scope).forEach(t => {
+    t.questions.forEach(q => pool.push({ tid: t.id, ttitle: t.title, q: q }));
+  });
+  pool.sort(() => Math.random() - 0.5);
+  const targetCount = mode === 'full' ? Math.min(40, pool.length) : Math.min(20, pool.length);
+  
+  S.exam = {
+    step: 'doing',
+    config: cfg,
+    confirmingSubmit: false,
+    run: {
+      questions: pool.slice(0, targetCount).map(item => ({ ...item, userAnswer: null, flagged: false })),
+      currentIndex: 0,
+      startTime: Date.now(),
+      endTime: Date.now() + timeMin * 60 * 1000
+    }
+  };
+  saveExamRun();
+  startExamTimer();
+  render();
+}
+
+function saveExamRun() {
+  if (S.exam.run) localStorage.setItem('sp:run:' + S.key, JSON.stringify(S.exam.run));
+}
+function resumeExam() {
+  const saved = localStorage.getItem('sp:run:' + S.key);
+  if (saved) {
+    S.exam.run = JSON.parse(saved);
+    S.exam.step = 'doing';
+    startExamTimer();
+    render();
+  }
+}
+function exitExam() {
+  saveExamRun();
+  S.exam.step = 'config';
+  if (window._examTimerInterval) clearInterval(window._examTimerInterval);
+  render();
+}
+
+function startExamTimer() {
+  if (window._examTimerInterval) clearInterval(window._examTimerInterval);
+  window._examTimerInterval = setInterval(() => {
+    if (!S.exam.run || S.exam.step !== 'doing') { clearInterval(window._examTimerInterval); return; }
+    const remaining = S.exam.run.endTime - Date.now();
+    const timerEl = document.getElementById('examTimer');
+    if (remaining <= 0) {
+      clearInterval(window._examTimerInterval);
+      alert(tr('examTimeUp'));
+      submitExam();
+      return;
+    }
+    const mins = Math.floor(remaining / 60000);
+    const secs = Math.floor((remaining % 60000) / 1000);
+    if (timerEl) timerEl.innerText = `⏱️ ${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  }, 1000);
+}
+
+let submitConfirmCount = 0;
+function confirmSubmitExam() {
+  if (!S.exam.confirmingSubmit) {
+    S.exam.confirmingSubmit = true;
+    render(); // Cập nhật lại giao diện nút bấm sang trạng thái chờ xác nhận
+    
+    // Tự động hủy trạng thái xác nhận sau 5 giây nếu người dùng không bấm nữa
+    if (window._submitTimeout) clearTimeout(window._submitTimeout);
+    window._submitTimeout = setTimeout(() => {
+      if (S.exam && S.exam.confirmingSubmit) {
+        S.exam.confirmingSubmit = false;
+        render();
+      }
+    }, 5000);
+  } else {
+    if (window._submitTimeout) clearTimeout(window._submitTimeout);
+    S.exam.confirmingSubmit = false;
+    submitExam();
+  }
+}
+
+function submitExam() {
+  if (window._examTimerInterval) clearInterval(window._examTimerInterval);
+  const run = S.exam.run;
+  let correctCount = 0;
+  
+  run.questions.forEach(item => {
+    const q = item.q;
+    if (q.type === 'mcq' && item.userAnswer === q.answer) correctCount++;
+    else if (q.type === 'truefalse' && item.userAnswer === q.answer) correctCount++;
+  });
+  
+  const total = run.questions.length || 1;
+  const score = (correctCount / total) * 10;
+  
+  S.exam.result = {
+    score: score,
+    scorePart1: score,
+    scorePart2: 0,
+    timeUsed: Date.now() - run.startTime,
+    questions: run.questions
+  };
+  S.exam.step = 'result';
+  localStorage.removeItem('sp:run:' + S.key);
+  render();
+}
+
+function resetExamConfig() {
+  S.exam = { step: 'config', run: null, confirmingSubmit: false };
+  render();
+}
+
+function formatTime(ms) {
+  const secs = Math.floor(ms / 1000);
+  const m = Math.floor(secs / 60);
+  const s = secs % 60;
+  return `${m} phút ${s} giây`;
+}
   /* ---------- quiz ---------- */
   function stopQT() { if (S.qiv) { clearInterval(S.qiv); S.qiv = null; } }
   function armQT() {
@@ -2493,16 +3150,23 @@ function launchConfetti() {
     }
     items.forEach(function (it) {
       it.res = null; it.typed = ''; it.revealed = false; it.timedOut = false;
+      it.sel = null; it.hint = false; it.mp = {}; it.selL = -1; it.rorder = null;
       if (it.q.type === 'mcq') { it.order = it.q.options.map(function (_, i) { return i; }); if (S.qopts.shuffle) shuffle(it.order); }
+      else if (it.q.type === 'tfs') it.sel = it.q.items.map(function () { return null; });
+      else if (it.q.type === 'match') {
+        it.rorder = shuffle(it.q.pairs.map(function (_, i) { return i; }));
+        if (it.rorder.length > 1 && it.rorder.every(function (v, i) { return v === i; })) it.rorder.push(it.rorder.shift());
+      }
     });
     if (!items.length) return;
     S.quiz = { scope: scope, items: items, i: 0, phase: 'ask', started: Date.now(), deadline: 0, done: false };
-    armQT(); render();
+    armQT(); render(); focusCl();
   }
   function curItem() { return S.quiz.items[S.quiz.i]; }
   function answer(pos) {
     var q = S.quiz; if (!q || q.phase !== 'ask') return;
     var it = curItem(), t = it.q, ok = false;
+    if (t.type !== 'mcq' && t.type !== 'truefalse') return;
     if (t.type === 'mcq') ok = it.order[pos] === t.answer;
     else if (t.type === 'truefalse') ok = pos === (t.answer ? 0 : 1);
     it.res = { pos: pos, correct: ok, timedOut: false };
@@ -2511,7 +3175,9 @@ function launchConfetti() {
   function timeUp() {
     var q = S.quiz; if (!q || q.phase !== 'ask') return;
     var it = curItem();
-    if (it.q.type === 'short') { it.revealed = true; it.timedOut = true; }
+    var ty = it.q.type;
+    if (ty === 'short') { it.revealed = true; it.timedOut = true; }
+    else if (ty === 'tfs' || ty === 'cloze' || ty === 'match') { var cl0 = $('#cl'); if (cl0) it.typed = cl0.value; gradeItem(it, true); }
     else it.res = { pos: -1, correct: false, timedOut: true };
     q.phase = 'fb'; render();
   }
@@ -2523,10 +3189,225 @@ function launchConfetti() {
   function gradeShort(ok) {
     var it = curItem(); it.res = { pos: -1, correct: ok, timedOut: !!it.timedOut }; nextQ();
   }
+  /* ---------- extra question types: tfs / cloze / match ---------- */
+  var TFS_SC = [0, 0.1, 0.25, 0.5, 1];
+  function norm1(x) { return String(x == null ? '' : x).normalize('NFC').toLowerCase().replace(/[.,;:!?"'()\[\]\u201c\u201d\u2018\u2019]/g, ' ').replace(/\s+/g, ' ').trim(); }
+  function norm2(x) { return norm1(x).normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\u0111/g, 'd').replace(/\s+/g, ' ').trim(); }
+  function itemScore(it) { var r = it.res; if (!r) return 0; return r.score != null ? r.score : (r.correct ? 1 : 0); }
+  function fmtN(x) { return String(Math.round(x * 100) / 100); }
+  function gradeItem(it, timedOut) {
+    var t = it.q, r = { pos: -1, correct: false, score: 0, timedOut: !!timedOut };
+    if (t.type === 'tfs') {
+      var k = 0, n = t.items.length;
+      t.items.forEach(function (x, i) { if (it.sel && it.sel[i] === x.answer) k++; });
+      r.k = k; r.n = n; r.correct = k === n; r.score = n === 4 ? TFS_SC[k] : k / n;
+    } else if (t.type === 'cloze') {
+      var n1 = norm1(it.typed), n2 = norm2(it.typed);
+      var exact = !!n1 && t.answers.some(function (a) { return norm1(a) === n1; });
+      var loose = !exact && !!n2 && t.answers.some(function (a) { return norm2(a) === n2; });
+      r.correct = exact || loose; r.loose = loose; r.score = r.correct ? 1 : 0;
+    } else if (t.type === 'match') {
+      var kk = 0, nn = t.pairs.length;
+      t.pairs.forEach(function (_, i) { if (it.mp[i] === i) kk++; });
+      r.k = kk; r.n = nn; r.correct = kk === nn; r.score = kk / nn;
+    }
+    it.res = r; return r;
+  }
+  function submitItem() {
+    var q = S.quiz; if (!q || q.phase !== 'ask') return;
+    var it = curItem(), ty = it.q.type;
+    if (ty !== 'tfs' && ty !== 'cloze' && ty !== 'match') return;
+    var cl = $('#cl'); if (cl) it.typed = cl.value;
+    gradeItem(it); q.phase = 'fb'; stopQT(); render();
+  }
+  function tfsPick(el) {
+    var q = S.quiz; if (!q || q.phase !== 'ask') return;
+    var it = curItem(), i = parseInt(el.dataset.i, 10), v = el.dataset.v === '1';
+    it.sel[i] = v;
+    Array.prototype.forEach.call(el.parentNode.children, function (b) { b.classList.toggle('sel', b === el); });
+  }
+  function matchPick(side, idx) {
+    var q = S.quiz; if (!q || q.phase !== 'ask') return;
+    var it = curItem(), k;
+    if (side === 'L') {
+      if (it.mp[idx] != null) { delete it.mp[idx]; it.selL = idx; }
+      else it.selL = it.selL === idx ? -1 : idx;
+    } else {
+      var owner = -1;
+      for (k in it.mp) if (it.mp[k] === idx) owner = parseInt(k, 10);
+      if (it.selL < 0) { if (owner >= 0) { delete it.mp[owner]; it.selL = owner; } }
+      else { if (owner >= 0) delete it.mp[owner]; it.mp[it.selL] = idx; it.selL = -1; }
+    }
+    var box = $('#mtBox'); if (box) box.innerHTML = mtInner(it, false);
+  }
+  function hintText(t) {
+    var a = String(t.answers[0] || '').trim(), w = a.split(/\s+/).length;
+    return tr('cl_hint', { w: w, c: a.charAt(0).toUpperCase() });
+  }
+  function hintCloze() {
+    var q = S.quiz; if (!q || q.phase !== 'ask') return;
+    var it = curItem(); it.hint = true;
+    var cl = $('#cl'); if (cl) it.typed = cl.value;
+    var h = $('#clHint'); if (h) h.textContent = hintText(it.q);
+    var b = $('#clHintBtn'); if (b) b.style.display = 'none';
+  }
+  function focusCl() {
+    var c = $('#cl');
+    if (c && !c.disabled && !(window.matchMedia && window.matchMedia('(pointer:coarse)').matches)) c.focus();
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.target && e.target.id === 'cl' && e.key === 'Enter') { e.preventDefault(); submitItem(); }
+  });
+  document.addEventListener('keydown', function(e) {
+  const openDropdown = document.querySelector('.c-select.open');
+  if (!openDropdown) return;
+
+  const items = Array.from(openDropdown.querySelectorAll('.c-select-item'));
+  if (items.length === 0) return;
+
+  let currentIndex = items.findIndex(item => item.classList.contains('kb-focus'));
+
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    if (currentIndex < 0 || currentIndex >= items.length - 1) {
+      currentIndex = 0; // Về đầu danh sách nếu đang ở cuối
+    } else {
+      currentIndex++;
+    }
+    items.forEach(i => i.classList.remove('kb-focus'));
+    items[currentIndex].classList.add('kb-focus');
+    items[currentIndex].scrollIntoView({ block: 'nearest' });
+  } 
+  else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    if (currentIndex <= 0) {
+      currentIndex = items.length - 1; // Nhảy xuống cuối danh sách nếu đang ở đầu
+    } else {
+      currentIndex--;
+    }
+    items.forEach(i => i.classList.remove('kb-focus'));
+    items[currentIndex].classList.add('kb-focus');
+    items[currentIndex].scrollIntoView({ block: 'nearest' });
+  } 
+  else if (e.key === 'Enter') {
+    e.preventDefault();
+    if (currentIndex >= 0 && items[currentIndex]) {
+      items[currentIndex].click(); // Kích hoạt sự kiện chọn item đang focus
+    } else {
+      // Nếu chưa dùng mũi tên, chọn item đang active sẵn hoặc item đầu tiên
+      const activeItem = openDropdown.querySelector('.c-select-item.selected') || items[0];
+      if (activeItem) activeItem.click();
+    }
+  } 
+  else if (e.key === 'Escape') {
+    e.preventDefault();
+    openDropdown.classList.remove('open');
+    const btn = openDropdown.querySelector('.c-select-btn');
+    if (btn) {
+      btn.setAttribute('aria-expanded', 'false');
+      btn.focus();
+    }
+  }
+});
+  function ctxHTML(t) {
+    var body = t.type === 'tfs' ? t.quote : t.context;
+    return '<blockquote class="ctx"><p>' + esc(body) + '</p>' + (t.source ? '<cite>' + esc(t.source) + '</cite>' : '') + '</blockquote>';
+  }
+  function tfLabel(b) { return tr(b ? 'tf_true' : 'tf_false'); }
+  function tfsBody(it, fb) {
+    var t = it.q, h = '<div class="tfs">';
+    if (!fb) h += '<p class="muted">' + tr('tfs_hint') + '</p>';
+    t.items.forEach(function (x, i) {
+      var v = it.sel ? it.sel[i] : null;
+      h += '<div class="tfi"><p>' + String.fromCharCode(97 + i) + ') ' + esc(x.text) + '</p><div class="tfb">';
+      [true, false].forEach(function (b) {
+        var cls = 'tfo';
+        if (fb) { if (x.answer === b) cls += ' ok'; else if (v === b) cls += ' bad'; }
+        else if (v === b) cls += ' sel';
+        h += '<button class="' + cls + '"' + (fb ? ' disabled' : ' data-act="tfs" data-i="' + i + '" data-v="' + (b ? 1 : 0) + '"') + '>' + esc(tfLabel(b)) + '</button>';
+      });
+      h += '</div></div>';
+    });
+    if (!fb) h += '<div><button class="btn primary" data-act="submit">' + tr('chk') + '</button></div>';
+    return h + '</div>';
+  }
+  function clozePrompt(t) { return esc(t.prompt).replace(/_{3,}/, '<span class="blank">&nbsp;</span>'); }
+  function clozeBody(it, fb) {
+    var h = '<input id="cl" class="typed clin' + (fb ? (it.res.correct ? ' ok' : ' bad') : '') + '" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="' + esc(tr('cl_ph')) + '" aria-label="' + esc(tr('ans_aria')) + '" value="' + esc(it.typed) + '"' + (fb ? ' disabled' : '') + '>';
+    if (!fb) {
+      h += '<div class="actions"><button class="btn primary" data-act="submit">' + tr('chk') + '</button>';
+      h += '<button class="btn" id="clHintBtn" data-act="hint"' + (it.hint ? ' style="display:none"' : '') + '>' + tr('cl_hint_btn') + '</button></div>';
+      h += '<p class="muted" id="clHint">' + (it.hint ? esc(hintText(it.q)) : '') + '</p>';
+    }
+    return h;
+  }
+  function mtInner(it, fb) {
+    var t = it.q, h = '', k;
+    if (fb) {
+      t.pairs.forEach(function (p, i) {
+        var m = it.mp[i], good = m === i;
+        h += '<div class="mtr ' + (good ? 'ok' : 'bad') + '"><span><b>' + esc(p.left) + '</b> &rarr; ' + (m != null ? esc(t.pairs[m].right) : '<i>' + esc(tr('unanswered')) + '</i>') + '</span>';
+        if (!good) h += '<small>' + tr('mt_correct_is', { a: esc(p.right) }) + '</small>';
+        h += '</div>';
+      });
+      return h;
+    }
+    h = '<div class="mt"><div class="mtc">';
+    t.pairs.forEach(function (p, i) {
+      var cls = 'mtb' + (it.mp[i] != null ? ' paired' : '') + (it.selL === i ? ' sel' : '');
+      h += '<button class="' + cls + '" data-act="mpick" data-s="L" data-i="' + i + '"><span class="k">' + (i + 1) + '</span><span>' + esc(p.left) + '</span></button>';
+    });
+    h += '</div><div class="mtc">';
+    it.rorder.forEach(function (j) {
+      var owner = -1;
+      for (k in it.mp) if (it.mp[k] === j) owner = parseInt(k, 10);
+      h += '<button class="mtb' + (owner >= 0 ? ' paired' : '') + '" data-act="mpick" data-s="R" data-i="' + j + '"><span class="k">' + (owner >= 0 ? owner + 1 : '&middot;') + '</span><span>' + esc(t.pairs[j].right) + '</span></button>';
+    });
+    return h + '</div></div>';
+  }
+  function matchBody(it, fb) {
+    var h = '';
+    if (!fb) h += '<p class="muted">' + tr('mt_hint') + '</p>';
+    h += '<div id="mtBox">' + mtInner(it, fb) + '</div>';
+    if (!fb) h += '<div><button class="btn primary" data-act="submit">' + tr('chk') + '</button></div>';
+    return h;
+  }
+  function fbTitle(it) {
+    var r = it.res;
+    if (r.correct) return r.loose ? tr('cl_loose') : tr('correct');
+    if (r.score > 0) return tr('partial');
+    return r.timedOut ? tr('timesup') : tr('notquite');
+  }
+  function fbExtra(it) {
+    var t = it.q, r = it.res, h = '';
+    if (t.type === 'tfs') h = '<p>' + tr('tfs_score', { k: r.k, n: r.n, p: fmtN(r.score) }) + '</p>';
+    else if (t.type === 'match') h = '<p>' + tr('mt_score', { k: r.k, n: r.n }) + '</p>';
+    else if (t.type === 'cloze' && (!r.correct || r.loose)) h = '<p>' + tr('answer_is', { a: esc(t.answers.join(' / ')) }) + '</p>';
+    return h;
+  }
+  function ansText(t) {
+    if (t.type === 'mcq') return t.options[t.answer];
+    if (t.type === 'truefalse') return t.answer ? tr('tf_true') : tr('tf_false');
+    if (t.type === 'tfs') return '\n' + t.items.map(function (x, i) { return String.fromCharCode(97 + i) + ') ' + x.text + ' \u2192 ' + tfLabel(x.answer); }).join('\n');
+    if (t.type === 'cloze') return t.answers.join(' / ');
+    if (t.type === 'match') return '\n' + t.pairs.map(function (p) { return p.left + ' \u2192 ' + p.right; }).join('\n');
+    return t.answer;
+  }
+  function qTitle(t) {
+    var p = t.prompt || '';
+    if (t.type === 'tfs' && !p) p = String(t.quote || '').slice(0, 140);
+    if (t.type === 'cloze') p = p.replace(/_{3,}/, '____');
+    return p;
+  }
+  function ptsLine(q) {
+    if (!q.items.some(function (it) { return it.q.type === 'tfs' || it.q.type === 'match'; })) return '';
+    return '<p class="muted">' + tr('pts_line', { p: fmtN(q.pts), n: q.items.length }) + '</p>';
+  }
+
   function nextQ() {
     var q = S.quiz; if (!q) return;
     if (q.i + 1 >= q.items.length) { finishQuiz(); render(); return; }
-    q.i++; q.phase = 'ask'; armQT(); render();
+    q.i++; q.phase = 'ask'; armQT(); render(); focusCl();
   }
   function finishQuiz() {
     var q = S.quiz; stopQT();
@@ -2539,6 +3420,7 @@ function launchConfetti() {
     });
     q.by = by;
     q.ok = q.items.filter(function (it) { return it.res && it.res.correct; }).length;
+    q.pts = q.items.reduce(function (a, it) { return a + itemScore(it); }, 0);
     Object.keys(by).forEach(function (id) {
       var topic = S.pack.topics.filter(function (t) { return t.id === id; })[0];
       if (!topic || by[id].n < Math.min(3, topic.questions.length)) return;
@@ -2552,22 +3434,52 @@ function launchConfetti() {
     if (!S.quiz) return quizSetupHTML();
     return S.quiz.done ? quizResultHTML() : questionHTML();
   }
-  function quizSetupHTML() {
+function quizSetupHTML() {
     var topics = scopeTopics(S.scope), n = 0, bests = [];
     topics.forEach(function (t) { n += t.questions.length; if (S.prog.quiz[t.id] != null) bests.push(S.prog.quiz[t.id]); });
     var counts = [5, 10, 20].filter(function (c) { return c < n; });
     var sel = S.qopts.count > 0 && S.qopts.count < n ? S.qopts.count : 0;
+    
+    // Lấy tên hiển thị hiện tại cho Dropdown Số câu hỏi (hỗ trợ đa ngôn ngữ)
+    var currentCountTitle = (sel === 0) ? tr('all_n', { n: n }) : sel;
+
+    // Danh sách các mốc thời gian và tìm tiêu đề đang chọn
+    var timeOptions = [[0, 'no_limit'], [20, 'sec20'], [30, 'sec30'], [60, 'min1'], [90, 'sec90']];
+    var currentTimeObj = timeOptions.find(function(o) { return S.qopts.secs === o[0]; }) || timeOptions[0];
+    var currentTimeTitle = tr(currentTimeObj[1]);
+
     var h = '<div class="qset"><p class="muted">' + tr('q_avail', { n: n }) + (bests.length && S.scope !== 'all' ? tr('best_so_far', { n: bests[0] }) : '') + '</p>';
-    h += '<label for="qCount">' + tr('q_count') + '<select id="qCount">';
-    counts.forEach(function (c) { h += '<option value="' + c + '"' + (sel === c ? ' selected' : '') + '>' + c + '</option>'; });
-    h += '<option value="0"' + (sel === 0 ? ' selected' : '') + '>' + tr('all_n', { n: n }) + '</option></select></label>';
-    h += '<label for="qTimeSel">' + tr('q_time') + '<select id="qTimeSel">';
-    [[0, 'no_limit'], [20, 'sec20'], [30, 'sec30'], [60, 'min1'], [90, 'sec90']].forEach(function (o) {
-      h += '<option value="' + o[0] + '"' + (S.qopts.secs === o[0] ? ' selected' : '') + '>' + tr(o[1]) + '</option>';
+    
+    // --- 1. Custom Dropdown: Số câu hỏi ---
+    h += '<label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--muted);">' + tr('q_count') + '</label>';
+    h += '<div class="c-select" id="dropdownQCount" style="margin-bottom: 12px;">';
+    h += '<button type="button" class="c-select-btn" data-act="toggleDropdown" data-target="dropdownQCount">';
+    h += '<span>' + currentCountTitle + '</span><span style="font-size: 10px; opacity: 0.6;">▼</span>';
+    h += '</button>';
+    h += '<div class="c-select-menu">';
+    counts.forEach(function (c) {
+      h += '<div class="c-select-item ' + (sel === c ? 'selected' : '') + '" data-act="selectQCount" data-val="' + c + '">' + c + '</div>';
     });
-    h += '</select></label>';
-    h += '<label class="chk" for="qShuffle"><input type="checkbox" id="qShuffle"' + (S.qopts.shuffle ? ' checked' : '') + '> ' + tr('q_shuffle') + '</label>';
-    h += '<button class="btn primary" data-act="qstart">' + tr('start_quiz') + '</button></div>';
+    h += '<div class="c-select-item ' + (sel === 0 ? 'selected' : '') + '" data-act="selectQCount" data-val="0">' + tr('all_n', { n: n }) + '</div>';
+    h += '</div></div>';
+
+    // --- 2. Custom Dropdown: Thời gian ---
+    h += '<label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--muted);">' + tr('q_time') + '</label>';
+    h += '<div class="c-select" id="dropdownQTime" style="margin-bottom: 12px;">';
+    h += '<button type="button" class="c-select-btn" data-act="toggleDropdown" data-target="dropdownQTime">';
+    h += '<span>' + currentTimeTitle + '</span><span style="font-size: 10px; opacity: 0.6;">▼</span>';
+    h += '</button>';
+    h += '<div class="c-select-menu">';
+    timeOptions.forEach(function (o) {
+      h += '<div class="c-select-item ' + (S.qopts.secs === o[0] ? 'selected' : '') + '" data-act="selectQTime" data-val="' + o[0] + '">' + tr(o[1]) + '</div>';
+    });
+    h += '</div></div>';
+
+    // Checkbox xáo trộn
+    h += '<label class="chk" for="qShuffle" style="margin-bottom: 16px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><input type="checkbox" id="qShuffle"' + (S.qopts.shuffle ? ' checked' : '') + '> ' + tr('q_shuffle') + '</label>';
+    
+    // Nút bắt đầu
+    h += '<button class="btn primary" style="width: 100%; padding: 12px; font-weight: 600;" data-act="qstart">' + tr('start_quiz') + '</button></div>';
     return h;
   }
   function questionHTML() {
@@ -2579,8 +3491,13 @@ function launchConfetti() {
     h += '</div><div class="q-prog" aria-hidden="true">' + q.items.map(function (x, i) {
       return '<i class="' + (x.res ? (x.res.correct ? 'd' : 'w') : (i === q.i ? 'd' : '')) + '"></i>';
     }).join('') + '</div>';
-    h += '<h2 class="q-p">' + esc(t.prompt) + '</h2>';
-    if (t.type === 'mcq' || t.type === 'truefalse') {
+    if ((t.type === 'mcq' && t.context) || (t.type === 'tfs' && t.quote)) h += ctxHTML(t);
+    if (t.type === 'cloze') h += '<h2 class="q-p">' + clozePrompt(t) + '</h2>';
+    else if (t.prompt) h += '<h2 class="q-p">' + esc(t.prompt) + '</h2>';
+    if (t.type === 'tfs') h += tfsBody(it, fb);
+    else if (t.type === 'cloze') h += clozeBody(it, fb);
+    else if (t.type === 'match') h += matchBody(it, fb);
+    else if (t.type === 'mcq' || t.type === 'truefalse') {
       var opts = t.type === 'mcq'
         ? it.order.map(function (oi) { return { text: t.options[oi], right: oi === t.answer }; })
         : [{ text: tr('tf_true'), right: t.answer === true }, { text: tr('tf_false'), right: t.answer === false }];
@@ -2607,7 +3524,7 @@ function launchConfetti() {
         h += '<p class="muted">' + tr('how_did') + '</p><div class="actions"><button class="btn primary" data-act="grade" data-ok="1">' + tr('had_it') + '</button><button class="btn again" data-act="grade" data-ok="0">' + tr('not_yet_btn') + '</button></div></div>';
       } else {
         var ok = it.res.correct;
-        h += '<div class="fb ' + (ok ? 'ok' : 'bad') + '" role="status"><h3>' + (ok ? tr('correct') : (it.res.timedOut ? tr('timesup') : tr('notquite'))) + '</h3>';
+        h += '<div class="fb ' + (ok ? 'ok' : 'bad') + '" role="status"><h3>' + fbTitle(it) + '</h3>' + fbExtra(it);
         if (t.explanation) h += '<p>' + esc(t.explanation) + '</p>';
         h += '<div><button class="btn primary" data-act="next" id="nextBtn">' + (q.i + 1 >= q.items.length ? tr('see_results') : tr('next_q')) + '</button></div></div>';
       }
@@ -2620,7 +3537,7 @@ function launchConfetti() {
     var missed = q.items.filter(function (it) { return !(it.res && it.res.correct); });
     
     // Thêm ' celebrate' vào đây để kích hoạt hiệu ứng pop-in mượt mà
-    var h = '<div class="quiz celebrate"><div class="score"><div class="big">' + pct + '<span>%</span></div><div><h2>' + tr('n_correct', { k: q.ok, n: n }) + '</h2><p class="muted">' + tr('time_taken', { t: fmtTime(q.elapsed) }) + '</p></div></div>';
+    var h = '<div class="quiz celebrate"><div class="score"><div class="big">' + pct + '<span>%</span></div><div><h2>' + tr('n_correct', { k: q.ok, n: n }) + '</h2><p class="muted">' + tr('time_taken', { t: fmtTime(q.elapsed) }) + '</p>' + ptsLine(q) + '</div></div>';
     
     var ids = Object.keys(q.by);
     if (ids.length > 1) {
@@ -2631,8 +3548,8 @@ function launchConfetti() {
     h += '<button class="btn' + (missed.length ? '' : ' primary') + '" data-act="newquiz">' + tr('new_quiz') + '</button></div>';
     if (missed.length) {
       h += '<h2 class="sec-h">' + tr('to_review') + '</h2><div class="res-list">' + missed.map(function (it) {
-        var t = it.q, ans = t.type === 'mcq' ? t.options[t.answer] : t.type === 'truefalse' ? (t.answer ? tr('tf_true') : tr('tf_false')) : t.answer;
-        return '<div class="res-i"><b>' + esc(t.prompt) + '</b><p>' + tr('answer_is', { a: esc(ans) }) + '</p>' + (t.explanation ? '<p>' + esc(t.explanation) + '</p>' : '') + '</div>';
+        var t = it.q, ans = ansText(t);
+        return '<div class="res-i"><b>' + esc(qTitle(t)) + '</b><p>' + tr('answer_is', { a: esc(ans) }) + '</p>' + (t.explanation ? '<p>' + esc(t.explanation) + '</p>' : '') + '</div>';
       }).join('') + '</div>';
     }
     return h + '</div>';
@@ -2925,14 +3842,108 @@ function setLang(l) {
       });
     }
   }
-
+function toggleExamFlag() {
+  if (S.exam.run) {
+    const currentQ = S.exam.run.questions[S.exam.run.currentIndex];
+    if (currentQ) {
+      currentQ.flagged = !currentQ.flagged;
+      saveExamRun();
+      render();
+    }
+  }
+}
   function act(name, el) {
     switch (name) {
       case 'lang': setLang(el.dataset.l); break;
       case 'refreshDebug':
         updateDebugInfo();
         break;
-case 'toggleRail': toggleRail(); break;
+      case 'examStart': startExam(); break;
+      case 'examResume': resumeExam(); break;
+      case 'examExit': exitExam(); break;
+      case 'examPrev': prevExamQ(); break;
+      case 'examNext': nextExamQ(); break;
+      case 'examJump': jumpExamQ(parseInt(el.dataset.idx, 10)); break;
+      case 'examToggleFlag': toggleExamFlag(); break;
+      case 'examSubmitConfirm': confirmSubmitExam(); break;
+      case 'examResetConfig': resetExamConfig(); break;
+      case 'examSelectAns':
+        var qIdx = parseInt(el.dataset.qidx, 10);
+        var rawVal = el.dataset.val;
+        var val = rawVal;
+        if (rawVal === 'true') val = true;
+        else if (rawVal === 'false') val = false;
+        else if (!isNaN(rawVal)) val = parseInt(rawVal, 10);
+        selectExamAns(qIdx, val);
+        break;
+      case 'toggleDropdown': {
+    const targetId = el.getAttribute('data-target');
+    const container = document.getElementById(targetId);
+    if (container) {
+      const isOpen = container.classList.contains('open');
+      
+      // Đóng tất cả dropdown khác
+      document.querySelectorAll('.c-select').forEach(c => {
+        c.classList.remove('open');
+        const btn = c.querySelector('.c-select-btn');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+      });
+      
+      if (!isOpen) {
+        container.classList.add('open');
+        el.setAttribute('aria-expanded', 'true');
+        
+        // Highlight item đang được chọn sẵn khi mở menu
+        container.querySelectorAll('.c-select-item').forEach(i => i.classList.remove('kb-focus'));
+        const selectedItem = container.querySelector('.c-select-item.selected');
+        if (selectedItem) {
+          selectedItem.classList.add('kb-focus');
+        }
+      }
+    }
+    break;
+  }
+      case 'selectScope': {
+        const val = el.getAttribute('data-val');
+        S.exam.config.scope = val;
+        render();
+        break;
+      }
+      case 'selectMode': {
+        const val = el.getAttribute('data-val');
+        S.exam.config.mode = val;
+        render();
+        break;
+      }
+      case 'selectQuizCount': {
+        const val = el.getAttribute('data-val');
+        // Cập nhật cấu hình cho chủ đề hiện tại (ví dụ: S.currentTopic)
+        if (S.currentTopic) {
+          if (!S.currentTopic.quizConfig) S.currentTopic.quizConfig = {};
+          S.currentTopic.quizConfig.count = val;
+          render();
+        }
+        break;
+      }
+      case 'selectQCount': {
+    S.qopts.count = parseInt(el.getAttribute('data-val'), 10);
+    render();
+    break;
+  }
+  case 'selectQTime': {
+    S.qopts.secs = parseInt(el.getAttribute('data-val'), 10);
+    render();
+    break;
+  }
+      case 'toggleQuizShuffle': {
+        if (S.currentTopic) {
+          if (!S.currentTopic.quizConfig) S.currentTopic.quizConfig = { shuffle: true };
+          S.currentTopic.quizConfig.shuffle = !S.currentTopic.quizConfig.shuffle;
+          render();
+        }
+        break;
+      }
+      case 'toggleRail': toggleRail(); break;
       case 'closeDrawer': setDrawer(false); break;
       case 'tab': 
         var targetMode = el.dataset.mode;
@@ -2978,10 +3989,16 @@ case 'toggleRail': toggleRail(); break;
       case 'restartCards': startCards(S.scope); render(); break;
       case 'restartAll': S.copts.skipKnown = false; startCards(S.scope); render(); break;
       case 'qstart':
+        var shuffleEl = document.getElementById('qShuffle');
+    if (shuffleEl) S.qopts.shuffle = shuffleEl.checked;
         S.qopts.count = parseInt($('#qCount').value, 10) || 0;
         S.qopts.secs = parseInt($('#qTimeSel').value, 10) || 0;
         S.qopts.shuffle = $('#qShuffle').checked;
         startQuiz(S.scope); break;
+      case 'tfs': tfsPick(el); break;
+      case 'mpick': matchPick(el.dataset.s, parseInt(el.dataset.i, 10)); break;
+      case 'submit': submitItem(); break;
+      case 'hint': hintCloze(); break;
       case 'pick': answer(parseInt(el.dataset.i, 10)); break;
       case 'reveal': revealShort(); break;
       case 'grade': gradeShort(el.dataset.ok === '1'); break;
@@ -3138,13 +4155,35 @@ case 'toggleRail': toggleRail(); break;
       openDebugPopup(false);
     }
   });
-
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.c-select')) {
+    document.querySelectorAll('.c-select').forEach(c => c.classList.remove('open'));
+  }
+});
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
       openDebugPopup(false);
       setDrawer(false);
     }
   });
+  document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.c-select.open').forEach(c => {
+      c.classList.remove('open');
+      const btn = c.querySelector('.c-select-btn');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    });
+  }
+});
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.c-select')) {
+    document.querySelectorAll('.c-select').forEach(c => {
+      c.classList.remove('open');
+      const btn = c.querySelector('.c-select-btn');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    });
+  }
+});
   document.addEventListener('change', function (e) {
     var id = e.target.id;
     if (id === 'cShuffle') { S.copts.shuffle = e.target.checked; startCards(S.scope); render(); }
@@ -3152,9 +4191,14 @@ case 'toggleRail': toggleRail(); break;
     else if (id === 'dlDate') setDeadline(e.target.value);
     else if (id === 'fileIn') handleFiles(e.target.files);
   });
-  document.addEventListener('input', function (e) {
-    if (e.target.id === 'typed' && S.quiz && !S.quiz.done) curItem().typed = e.target.value;
-  });
+document.addEventListener('input', function (e) {
+  if ((e.target.id === 'typed' || e.target.id === 'cl') && S.quiz && !S.quiz.done) curItem().typed = e.target.value;
+  
+  if (e.target.dataset.examInput !== undefined && S.exam.run) {
+    var qIdx = parseInt(e.target.dataset.examInput, 10);
+    selectExamAns(qIdx, e.target.value, true); // Truyền true để không bị refresh view khi đang gõ chữ
+  }
+});
   document.addEventListener('dragover', function (e) {
     var d = e.target.closest('.drop'); if (d) { e.preventDefault(); d.classList.add('over'); }
   });
@@ -3185,7 +4229,7 @@ document.addEventListener('keydown', function (e) {
       else if (e.key === 'ArrowDown') { e.preventDefault(); cardPrev(); }
     } else if (S.mode === 'quiz' && S.quiz && !S.quiz.done) {
       var it = curItem(), t = it.q;
-      if (S.quiz.phase === 'ask' && t.type !== 'short') {
+      if (S.quiz.phase === 'ask' && (t.type === 'mcq' || t.type === 'truefalse')) {
         var k = e.key.toLowerCase(), pos = -1;
         if (t.type === 'mcq') pos = 'abcd'.indexOf(k) >= 0 && k.length === 1 ? 'abcd'.indexOf(k) : ('1234'.indexOf(k) >= 0 && k.length === 1 ? '1234'.indexOf(k) : -1);
         else pos = k === 't' || k === '1' ? 0 : (k === 'f' || k === '2' ? 1 : -1);
@@ -3203,6 +4247,14 @@ document.addEventListener('keydown', function (e) {
       card.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
     }
   });
+  document.addEventListener('mousemove', function(e) {
+  var card = e.target.closest('.face, .trow, .exam-card');
+  if (card) {
+    var rect = card.getBoundingClientRect();
+    card.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
+    card.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
+  }
+});
 /* ---------- light / dark theme ---------- */
 var root = document.documentElement;
   var mq = (typeof window !== 'undefined' && window.matchMedia) ? window.matchMedia('(prefers-color-scheme: dark)') : null;
