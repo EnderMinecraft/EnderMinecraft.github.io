@@ -1,6 +1,6 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>Revision Desk</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<title>Sloppy Slop</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
 /* Layout: sticky top bar (language, theme, focus timer); below it a topic rail on the left and one working column. A fixed sky sits behind the page: a sun with drifting clouds by day, a crescent moon with twinkling stars by night. Marker-yellow underlines flag key terms, like a highlighter on a printed handout. */
 :root {
@@ -10,9 +10,9 @@
   --sun-ink: #C77D00; --moon-ink: #C9D3FF;
   --sun-glow: rgb(255 206 84 / 0.4); --moon-glow: rgb(132 153 255 / 0.2);
   --beam: rgb(255 208 80 / 0.14); --cloud: #FFFFFF; --cloud-shadow: rgb(40 90 50 / 0.1);
-  --font-ui: 'Schibsted Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-read: 'Source Serif 4', Georgia, 'Times New Roman', serif;
-  --font-mono: 'DM Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-ui: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-read: 'Lora', Georgia, 'Times New Roman', serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -290,7 +290,7 @@ mark { background: linear-gradient(to top, var(--mark) 0 48%, transparent 48%); 
   box-shadow: 0 8px 24px rgb(0 0 0 / 0.05); /* Soft ambient macOS shadow */
 }
 .trow h3 { font-size: 17px; margin-bottom: 3px; }
-.trow p { color: var(--muted); font-size: 13.5px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.trow p { color: var(--muted); font-size: 13.5px; display: -webkit-box; line-clamp: 2; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .meters { display: grid; gap: 7px; }
 .m { display: grid; grid-template-columns: 62px minmax(0, 1fr) 70px; gap: 10px; align-items: center; font-size: 12px; }
 .m-l { color: var(--muted); }
@@ -426,14 +426,9 @@ table.f code { font-family: var(--font-mono); font-size: 13px; }
 .ai-btn:active { transform: scale(0.97); }
 .ai-btn svg { width: 20px; height: 20px; flex: none; }
 @media (max-width: 860px) {
-  .shell { grid-template-columns: minmax(0, 1fr); gap: 18px; padding-block: 16px 56px; }
-  .rail { position: static; flex-direction: row; overflow-x: auto; max-height: none; padding-bottom: 6px; gap: 6px; }
-  .rail-h { display: none; }
-  .rail-list { display: contents; }
-  .nav-i { width: auto; white-space: nowrap; border: 1px solid var(--line); background: var(--surface); }
-  .nav-i.cur { background: var(--ink); }
-  .nav-i:hover { background: var(--soft); }
-  .nav-i.cur:hover { background: var(--ink); }
+  .shell { grid-template-columns: 168px minmax(0, 1fr); gap: 20px; padding-block: 16px 56px; }
+  .rail { top: calc(70px + env(safe-area-inset-top, 0px)); max-height: calc(100dvh - 84px); }
+  .rail-h { margin: 14px 8px 6px; }
   .trow { grid-template-columns: minmax(0, 1fr); }
   .prog { grid-template-columns: minmax(0, 1fr); gap: 16px; }
 }
@@ -685,6 +680,142 @@ table.f code { font-family: var(--font-mono); font-size: 13px; }
   .orbit { right: 58px; top: calc(112px + var(--R)); }
   .cloud.c2 { display: none; }
 }
+
+
+/* ---------- collapsible sidebar + long-press brand ---------- */
+.brand { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; touch-action: manipulation; -webkit-tap-highlight-color: transparent; cursor: pointer; }
+.brand.pressing svg { transform: scale(.92); transition: transform .5s ease-out; }
+.shell.rail-off { grid-template-columns: minmax(0, 1fr); }
+.shell.rail-off .rail { display: none; }
+
+/* ---------- make-a-pack / open-pack mobile fix ---------- */
+.narrow { grid-template-columns: minmax(0, 1fr); }
+.narrow > * { min-width: 0; }
+.steps li, .steps code, .lede, .note { overflow-wrap: anywhere; }
+.steps code { word-break: break-all; }
+.ai-btn { min-width: 0; }
+.ai-btn span { min-width: 0; overflow-wrap: anywhere; }
+.scroll { -webkit-overflow-scrolling: touch; }
+.row-btns .btn { white-space: normal; text-align: center; }
+
+/* ---------- flashcard swipe ---------- */
+.card-wrap { position: relative; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+.card { will-change: transform; -webkit-tap-highlight-color: transparent; }
+.card.dragging { transition: none !important; cursor: grabbing; }
+.card.fly { transition: transform .22s cubic-bezier(.4,0,.6,1), opacity .22s ease !important; opacity: 0; }
+.card.snap { transition: transform .25s cubic-bezier(.25,1,.5,1) !important; }
+.swipe-tag { position: absolute; z-index: 3; top: 14px; padding: 6px 12px; border-radius: 999px; font: 700 12px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; opacity: 0; pointer-events: none; border: 2px solid currentColor; background: var(--surface); }
+.swipe-tag.t-right { left: 14px; color: var(--good); }
+.swipe-tag.t-left { right: 14px; color: var(--warn); }
+.swipe-tag.t-up { left: 50%; transform: translateX(-50%); color: var(--accent); }
+.swipe-tag.t-down { left: 50%; top: auto; bottom: 14px; transform: translateX(-50%); color: var(--muted); }
+.nav-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.nav-row .btn { padding: 10px; font-size: 14px; }
+.nav-row .btn svg { width: 16px; height: 16px; flex: none; }
+@media (max-width: 560px) { .nav-row .btn { min-height: 44px; } }
+
+/* ---------- mobile / responsive fixes ---------- */
+.rp-card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; margin-bottom: 20px; }
+.rp-list { display: grid; gap: 8px; margin-top: 10px; }
+.rp-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 10px; padding: 10px 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; }
+.rp-info { min-width: 0; flex: 1 1 160px; }
+.rp-title { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rp-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.btn.sm { padding: 4px 10px; font-size: 12px; }
+.rail, .tabs { scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.rail::-webkit-scrollbar, .tabs::-webkit-scrollbar { display: none; }
+.brand-wrap { flex: 0 1 auto; }
+.brand svg { flex: none; }
+.tools { min-width: 0; }
+.debug-popup { max-width: calc(100vw - 24px); }
+#timerPanel { max-height: calc(100dvh - 90px); overflow-y: auto; }
+.rail { max-height: calc(100dvh - 100px); }
+html { -webkit-text-size-adjust: 100%; }
+body { overflow-x: hidden; }
+pre, table.f, .scroll { max-width: 100%; }
+
+@media (hover: none) {
+  .trow:hover, .ai-btn:hover { transform: none; box-shadow: none; }
+  .face::after, .trow::after { display: none; }
+}
+
+@media (max-width: 860px) {
+  .streak-card { flex-wrap: wrap; }
+  .heatmap-container { align-items: flex-start; }
+  .heatmap { justify-content: flex-start; max-width: 100%; }
+  .qset { max-width: 100%; }
+}
+
+@media (max-width: 560px) {
+  .wrap { padding-inline: 12px; }
+  .top .wrap { gap: 8px; min-height: 54px; }
+  .tools { gap: 6px; }
+  .seg { height: 34px; }
+  .seg button { padding: 0 9px; }
+  .seg.seg-3 { width: 92px; }
+  .chip { height: 38px; padding: 0 10px 0 6px; gap: 6px; }
+  #chipText { font-size: 14px; }
+  #timerPanel { width: min(340px, calc(100vw - 24px)); padding: 14px; }
+  #tBig { font-size: 52px; }
+  .t-btns { grid-template-columns: 1fr 1fr; }
+  .t-btns #tToggle { grid-column: 1 / -1; }
+
+  /* compact sidebar that stays on the left */
+  .shell { grid-template-columns: 78px minmax(0, 1fr); gap: 10px; }
+  .rail { top: calc(64px + env(safe-area-inset-top, 0px)); max-height: calc(100dvh - 76px); gap: 4px; padding-right: 2px; }
+  .rail-h { margin: 12px 2px 4px; font-size: 9px; letter-spacing: 0.06em; text-align: center; overflow-wrap: anywhere; }
+  .rail-list { gap: 4px; }
+  .nav-i { flex-direction: column-reverse; justify-content: center; align-items: center; gap: 5px; padding: 9px 4px; min-height: 44px; text-align: center; font-size: 11.5px; line-height: 1.25; border: 1px solid var(--line); background: var(--surface); }
+  .nav-i.cur { background: var(--ink); }
+  .nav-i span { display: -webkit-box; line-clamp: 2; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; max-width: 100%; }
+  .main h1, .main h2, .main h3 { overflow-wrap: anywhere; }
+  .shell { padding-block: 12px 48px; }
+  .page-h { margin-top: 6px; }
+  .tab { padding: 12px 14px; }
+
+  .prog { padding: 16px; gap: 14px; }
+  .big, .score .big { font-size: 48px; }
+  .big span { font-size: 24px; }
+  .trow { padding: 12px 14px; }
+  .m { grid-template-columns: 52px minmax(0, 1fr) 62px; gap: 8px; }
+  .sec-h { margin-top: 26px; }
+
+  .notes .sum { font-size: 17px; }
+  .notes ul { font-size: 16px; }
+  .face { min-height: 210px; padding: 20px 16px; }
+  .ctrl .sp { margin-left: 0; }
+  .rate .btn, .btn { min-height: 44px; }
+  .btn.sm { min-height: 36px; }
+  .qset { padding: 16px; }
+  .opt { padding: 12px; gap: 8px; grid-template-columns: 26px minmax(0, 1fr) auto; }
+  .q-p { font-size: 19px; }
+  .qtimer .bar { width: 64px; }
+  .drop { padding: 26px 14px; }
+  .narrow { gap: 18px; }
+  .rp-card { padding: 14px; }
+  .rp-actions { width: 100%; }
+  .rp-actions .btn { flex: 1 1 auto; }
+  .row-btns .btn { flex: 1 1 auto; }
+  .ai-tools-grid { grid-template-columns: 1fr 1fr; }
+
+  /* 16px prevents iOS Safari from zooming on focus */
+  input, select, textarea, .paste, .typed, .t-custom input { font-size: 16px; }
+
+  .sky { --s: 72px; }
+  .orbit { right: 44px; top: calc(100px + var(--R)); }
+  .cloud.c1 { width: 130px; }
+  .cloud.c3 { width: 170px; }
+}
+
+@media (max-width: 360px) {
+  .brand svg { width: 24px; height: 24px; }
+  .seg button { padding: 0 7px; font-size: 11px; }
+  .seg.seg-3 { width: 84px; }
+  .chip svg { width: 22px; height: 22px; }
+  #chipText { font-size: 13px; }
+  .ai-tools-grid { grid-template-columns: 1fr; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .inner, .chip .prg, .qtimer .bar i { transition: none; }
   .chip.alert { animation: none; }
@@ -778,7 +909,7 @@ table.f code { font-family: var(--font-mono); font-size: 13px; }
 <header class="top">
   <div class="wrap">
 <div class="brand-wrap">
-  <button class="brand" data-act="toggleDebug" aria-label="Toggle Debug Info">
+  <button class="brand" id="brandBtn" data-act="toggleRail" aria-label="Toggle sidebar" aria-controls="railNav" aria-expanded="true">
     <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true" style="filter: drop-shadow(0 2px 6px rgb(0 0 0 / 0.15));">
       <defs>
         <linearGradient id="logoGrad" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -791,7 +922,7 @@ table.f code { font-family: var(--font-mono); font-size: 13px; }
       <path class="logo-lines" d="M8 9.5h12M8 14h12M8 18.5h7" stroke-width="2" stroke-linecap="round" fill="none"/>
       <rect class="logo-mark" x="15" y="16.4" width="7" height="4.4" rx="1"/>
     </svg>
-    <b>Revision Desk</b>
+    <b>Sloppy Slop</b>
     <span class="pn" id="packName"></span>
   </button>
   
@@ -803,7 +934,7 @@ table.f code { font-family: var(--font-mono); font-size: 13px; }
     <div class="debug-row"><span class="muted">Language / Mode:</span> <span id="dbgLangMode">-</span></div>
     <div class="debug-row"><span class="muted">LocalStorage:</span> <span id="dbgStorage">-</span></div>
     <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center;">
-      <span class="muted" style="font-size: 11px;">Revision Desk v1.0</span>
+      <span class="muted" style="font-size: 11px;">Sloppy Slop v1.0</span>
       <button class="btn" style="padding: 2px 8px; font-size: 11px;" data-act="refreshDebug">Làm mới</button>
     </div>
   </div>
@@ -1249,7 +1380,7 @@ END OF INSTRUCTIONS. The Word document follows, attached or pasted below.
 /* Interface text in English and Vietnamese. A value may be a string or [one, other] for plurals (chosen by the {n} variable). */
 var I18N = {
   en: {
-    brand_aria: 'Revision Desk, back to overview',
+    brand_aria: 'Sloppy Slop, back to overview',
     lang_aria: 'Language',
     theme_to_dark: 'Switch to dark mode',
     theme_to_light: 'Switch to light mode',
@@ -1334,8 +1465,10 @@ var I18N = {
     flip_aria: 'Flip card',
     face_q: 'Question',
     face_a: 'Answer',
-    card_hint: 'Tap the card or press Space to flip. Left arrow: again. Right arrow: got it.',
+    card_hint: 'Tap to flip. Swipe right: got it, left: again, up: skip, down: previous. Keys: Space, arrows.',
     btn_again: 'Again',
+    btn_skip: 'Skip',
+    btn_prev: 'Previous',
     btn_gotit: 'Got it',
 
     q_avail: ['{n} question available.', '{n} questions available.'],
@@ -1434,7 +1567,7 @@ var I18N = {
   },
 
   vi: {
-    brand_aria: 'Revision Desk, về trang tổng quan',
+    brand_aria: 'Sloppy Slop, về trang tổng quan',
     lang_aria: 'Ngôn ngữ',
     theme_to_dark: 'Chuyển sang chế độ tối',
     theme_to_light: 'Chuyển sang chế độ sáng',
@@ -1519,8 +1652,10 @@ var I18N = {
     flip_aria: 'Lật thẻ',
     face_q: 'Câu hỏi',
     face_a: 'Đáp án',
-    card_hint: 'Chạm vào thẻ hoặc nhấn Space để lật. Mũi tên trái: học lại. Mũi tên phải: đã thuộc.',
+    card_hint: 'Chạm để lật. Vuốt phải: đã thuộc, trái: học lại, lên: bỏ qua, xuống: thẻ trước. Phím: Space, mũi tên.',
     btn_again: 'Học lại',
+    btn_skip: 'Bỏ qua',
+    btn_prev: 'Thẻ trước',
     btn_gotit: 'Đã thuộc',
 
     q_avail: 'Có {n} câu hỏi.',
@@ -1828,6 +1963,7 @@ var S = {
     notice: null, loadMsg: null, confirmReset: false,
     animateTab: false,
     animateMain: false,
+    railOff: store.get('sp:rail') === '1',
     streakView: 'week' // Thêm trạng thái mặc định ('week' hoặc 'month')
   };
 
@@ -1983,12 +2119,13 @@ function render() {
     var mainClass = S.animateMain ? 'main is-switching' : 'main';
     S.animateMain = false; // Reset flag
 
-    $('#app').innerHTML = '<div class="shell">' + navHTML() + '<main class="' + mainClass + '" id="main">' + main + '</main></div>';
+    $('#app').innerHTML = '<div class="shell' + (S.railOff ? ' rail-off' : '') + '">' + navHTML() + '<main class="' + mainClass + '" id="main">' + main + '</main></div>';
     updateDebugInfo();
+    syncRailAria();
   }
 
   function navHTML() {
-    var h = '<nav class="rail" aria-label="' + esc(tr('nav_aria')) + '">';
+    var h = '<nav class="rail" id="railNav" aria-label="' + esc(tr('nav_aria')) + '">';
     h += '<button class="nav-i' + (S.view === 'overview' ? ' cur' : '') + '" data-go="overview"><span>' + tr('nav_overview') + '</span></button>';
     h += '<p class="rail-h">' + tr('nav_topics') + '</p><div class="rail-list">';
     S.pack.topics.forEach(function (t) {
@@ -2180,7 +2317,7 @@ function launchConfetti() {
     var total = deck.length;
     if (S.copts.skipKnown) deck = deck.filter(function (c) { return !S.prog.cards[c.id]; });
     if (S.copts.shuffle) shuffle(deck);
-    S.cards = { scope: scope, queue: deck, total: total, flipped: false, got: 0, again: 0 };
+    S.cards = { scope: scope, queue: deck, total: total, flipped: false, got: 0, again: 0, hist: [] };
   }
   function cardsHTML() {
     if (!S.cards || S.cards.scope !== S.scope) startCards(S.scope);
@@ -2197,11 +2334,12 @@ function launchConfetti() {
     var c = C.queue[0], known = 0;
     scopeTopics(S.scope).forEach(function (t) { t.cards.forEach(function (_, i) { if (S.prog.cards[t.id + ':' + i]) known++; }); });
     h += '<div class="prog-line"><span>' + tr('left_n', { n: C.queue.length }) + '</span><span>' + tr('known_of', { k: known, n: C.total }) + '</span></div>';
-    h += '<div class="card-wrap"><div class="card' + (C.flipped ? ' flipped' : '') + '" id="theCard" role="button" tabindex="0" aria-label="' + esc(tr('flip_aria')) + '" data-act="flip"><div class="inner">';
+    h += '<div class="card-wrap" id="cardWrap"><span class="swipe-tag t-right" data-tag="right">' + tr('btn_gotit') + '</span><span class="swipe-tag t-left" data-tag="left">' + tr('btn_again') + '</span><span class="swipe-tag t-up" data-tag="up">' + tr('btn_skip') + '</span><span class="swipe-tag t-down" data-tag="down">' + tr('btn_prev') + '</span><div class="card' + (C.flipped ? ' flipped' : '') + '" id="theCard" role="button" tabindex="0" aria-label="' + esc(tr('flip_aria')) + '" data-act="flip"><div class="inner">';
     h += '<div class="face"><small>' + (S.scope === 'all' ? esc(c.tt) : tr('face_q')) + '</small>' + esc(c.front) + '</div>';
     h += '<div class="face back"><small>' + tr('face_a') + '</small>' + esc(c.back) + '</div></div></div></div>';
     h += '<p class="hint">' + tr('card_hint') + '</p>';
-    h += '<div class="rate"><button class="btn again" data-act="again">' + tr('btn_again') + '</button><button class="btn primary" data-act="gotit">' + tr('btn_gotit') + '</button></div></div>';
+    h += '<div class="rate"><button class="btn again" data-act="again">' + tr('btn_again') + '</button><button class="btn primary" data-act="gotit">' + tr('btn_gotit') + '</button></div>';
+    h += '<div class="nav-row"><button class="btn" data-act="cardPrev"' + ((C.hist && C.hist.length) ? '' : ' disabled') + '>\u21A9 ' + tr('btn_prev') + '</button><button class="btn" data-act="cardSkip"' + (C.queue.length > 1 ? '' : ' disabled') + '>' + tr('btn_skip') + ' \u21AA</button></div></div>';
     return h;
   }
 
@@ -2393,17 +2531,17 @@ function launchConfetti() {
     
     // Hiển thị danh sách Recent Packs nếu có
     if (recents.length > 0) {
-      h += '<div style="background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; margin-bottom: 20px;">';
+      h += '<div class="rp-card">';
       h += '<h2 class="sec-h" style="margin-top:0; font-size: 16px;">Bộ ôn tập gần đây (Recent Packs)</h2>';
-      h += '<div style="display: grid; gap: 8px; margin-top: 10px;">';
+      h += '<div class="rp-list">';
       recents.forEach(function(p) {
-        h += '<div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; gap: 10px;">';
-        h += '<div style="min-width: 0; flex: 1;"><b style="display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">' + esc(p.title) + '</b><small class="muted">' + new Date(p.updatedAt).toLocaleDateString() + '</small></div>';
-        h += '<div style="display: flex; gap: 6px; flex: none;">';
-        h += '<button class="btn" style="padding: 4px 10px; font-size: 12px;" data-act="loadRecent" data-id="' + esc(p.id) + '">Mở</button>';
-        h += '<button class="btn" style="padding: 4px 10px; font-size: 12px;" data-act="editRecent" data-id="' + esc(p.id) + '">Sửa</button>';
-        h += '<button class="btn" style="padding: 4px 10px; font-size: 12px;" data-act="renameRecent" data-id="' + esc(p.id) + '">Đổi tên</button>';
-        h += '<button class="btn again" style="padding: 4px 10px; font-size: 12px;" data-act="deleteRecent" data-id="' + esc(p.id) + '">Xóa</button>';
+        h += '<div class="rp-row">';
+        h += '<div class="rp-info"><b class="rp-title">' + esc(p.title) + '</b><small class="muted">' + new Date(p.updatedAt).toLocaleDateString() + '</small></div>';
+        h += '<div class="rp-actions">';
+        h += '<button class="btn sm" data-act="loadRecent" data-id="' + esc(p.id) + '">Mở</button>';
+        h += '<button class="btn sm" data-act="editRecent" data-id="' + esc(p.id) + '">Sửa</button>';
+        h += '<button class="btn sm" data-act="renameRecent" data-id="' + esc(p.id) + '">Đổi tên</button>';
+        h += '<button class="btn sm again" data-act="deleteRecent" data-id="' + esc(p.id) + '">Xóa</button>';
         h += '</div></div>';
       });
       h += '</div></div>';
@@ -2558,6 +2696,46 @@ function openDebugPopup(open) {
       p.classList.remove('show');
     }
   }
+/* ---------- sidebar collapse + long-press debug ---------- */
+  function syncRailAria() {
+    var b = $('#brandBtn'); if (b) b.setAttribute('aria-expanded', S.railOff ? 'false' : 'true');
+  }
+  function toggleRail() {
+    if (BR.long) { BR.long = false; return; }   // the click that follows a long-press is not a tap
+    openDebugPopup(false);
+    S.railOff = !S.railOff;
+    store.set('sp:rail', S.railOff ? '1' : '0');
+    var sh = $('.shell'); if (sh) sh.classList.toggle('rail-off', S.railOff);
+    syncRailAria();
+  }
+  var BR = { timer: null, long: false, x: 0, y: 0, el: null };
+  var BR_HOLD_MS = 600;
+  function brClear() {
+    if (BR.timer) { clearTimeout(BR.timer); BR.timer = null; }
+    if (BR.el) { BR.el.classList.remove('pressing'); BR.el = null; }
+  }
+  document.addEventListener('pointerdown', function (e) {
+    var b = e.target.closest && e.target.closest('#brandBtn');
+    if (!b || (e.pointerType === 'mouse' && e.button !== 0)) return;
+    brClear(); BR.long = false; BR.x = e.clientX; BR.y = e.clientY; BR.el = b;
+    b.classList.add('pressing');
+    BR.timer = setTimeout(function () {
+      BR.timer = null; BR.long = true;
+      if (BR.el) BR.el.classList.remove('pressing');
+      try { if (navigator.vibrate) navigator.vibrate(18); } catch (err) { /* ignore */ }
+      var p = $('#debugPopup');
+      openDebugPopup(!(p && p.classList.contains('show')));
+    }, BR_HOLD_MS);
+  });
+  document.addEventListener('pointermove', function (e) {
+    if (BR.timer && Math.hypot(e.clientX - BR.x, e.clientY - BR.y) > 10) brClear();
+  });
+  ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (t) {
+    document.addEventListener(t, function () { if (BR.timer) brClear(); else if (BR.el) { BR.el.classList.remove('pressing'); BR.el = null; } }, true);
+  });
+  document.addEventListener('contextmenu', function (e) {
+    if (e.target.closest && e.target.closest('#brandBtn')) e.preventDefault();   // no long-press menu on touch
+  });
 function setLang(l) {
     if (l !== 'vi' && l !== 'en') return;
     LANG = l; store.set('sp:lang', l);
@@ -2612,16 +2790,7 @@ function setLang(l) {
       case 'refreshDebug':
         updateDebugInfo();
         break;
-case 'toggleDebug':
-        var p = $('#debugPopup');
-        if (p) {
-          if (p.classList.contains('show')) {
-            openDebugPopup(false);
-          } else {
-            openDebugPopup(true);
-          }
-        }
-        break;
+case 'toggleRail': toggleRail(); break;
       case 'tab': 
         var targetMode = el.dataset.mode;
         if (targetMode === S.mode) break;
@@ -2659,8 +2828,10 @@ case 'toggleDebug':
       case 'renameRecent': renameRecentPack(el.dataset.id); break;
       case 'deleteRecent': deleteRecentPack(el.dataset.id); break;
       case 'notesDone': S.prog.notes[el.dataset.id] = !S.prog.notes[el.dataset.id]; if (!S.prog.notes[el.dataset.id]) delete S.prog.notes[el.dataset.id]; saveProg(); render(); break;
-      case 'flip': if (S.cards) { S.cards.flipped = !S.cards.flipped; var c = $('#theCard'); if (c) c.classList.toggle('flipped', S.cards.flipped); } break;
+      case 'flip': if (Date.now() - SW.lastEnd < 400) break; if (S.cards) { S.cards.flipped = !S.cards.flipped; var c = $('#theCard'); if (c) c.classList.toggle('flipped', S.cards.flipped); } break;
       case 'gotit': case 'again': cardRate(name === 'gotit'); break;
+      case 'cardSkip': cardSkip(); break;
+      case 'cardPrev': cardPrev(); break;
       case 'restartCards': startCards(S.scope); render(); break;
       case 'restartAll': S.copts.skipKnown = false; startCards(S.scope); render(); break;
       case 'qstart':
@@ -2691,6 +2862,9 @@ case 'toggleDebug':
   function cardRate(known) {
     var C = S.cards; if (!C || !C.queue.length) return;
     var c = C.queue.shift();
+    var prevState = S.prog.cards[c.id];
+    (C.hist = C.hist || []).push({ t: 'rate', card: c, known: known, prev: prevState === undefined ? undefined : JSON.parse(JSON.stringify(prevState)) });
+    if (C.hist.length > 100) C.hist.shift();
     
     // Lấy thông tin hộp hiện tại của thẻ (mặc định là Hộp 1)
     var cardState = S.prog.cards[c.id];
@@ -2714,6 +2888,96 @@ case 'toggleDebug':
   }
     render();
   }
+  function cardSkip() {
+    var C = S.cards; if (!C || C.queue.length < 2) return false;
+    var c = C.queue.shift(); C.queue.push(c);
+    (C.hist = C.hist || []).push({ t: 'skip', card: c });
+    C.flipped = false; render(); return true;
+  }
+  function cardPrev() {
+    var C = S.cards; if (!C || !C.hist || !C.hist.length) return false;
+    var h = C.hist.pop(), c = h.card, i;
+    if (h.t === 'skip') {
+      for (i = C.queue.length - 1; i >= 0; i--) if (C.queue[i].id === c.id) { C.queue.splice(i, 1); break; }
+    } else {
+      if (h.known) C.got = Math.max(0, C.got - 1);
+      else {
+        C.again = Math.max(0, C.again - 1);
+        for (i = C.queue.length - 1; i >= 0; i--) if (C.queue[i].id === c.id) { C.queue.splice(i, 1); break; }
+      }
+      if (h.prev === undefined) delete S.prog.cards[c.id]; else S.prog.cards[c.id] = h.prev;
+      saveProg();
+    }
+    C.queue.unshift(c); C.flipped = false; render(); return true;
+  }
+
+  /* ---------- flashcard swipe (pointer events: touch + mouse + pen) ---------- */
+  var SW = { on: false, drag: false, id: null, x0: 0, y0: 0, t0: 0, dx: 0, dy: 0, dir: '', card: null, wrap: null, lastEnd: 0 };
+  function swDir(dx, dy) {
+    return Math.abs(dx) >= Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : (dy < 0 ? 'up' : 'down');
+  }
+  function swApply(dx, dy) {
+    var dir = swDir(dx, dy), dist = Math.max(Math.abs(dx), Math.abs(dy));
+    var strength = Math.min(1, dist / 90);
+    SW.card.style.transform = 'translate(' + dx + 'px,' + dy + 'px) rotate(' + (dx / 22) + 'deg)';
+    Array.prototype.forEach.call(SW.wrap.querySelectorAll('.swipe-tag'), function (t) {
+      t.style.opacity = t.dataset.tag === dir ? String(strength) : '0';
+    });
+    SW.dir = dir;
+  }
+  function swReset(animate) {
+    var card = SW.card, wrap = SW.wrap;
+    if (!card) return;
+    if (animate) { card.classList.add('snap'); setTimeout(function () { card.classList.remove('snap'); }, 260); }
+    card.classList.remove('dragging');
+    card.style.transform = '';
+    if (wrap) Array.prototype.forEach.call(wrap.querySelectorAll('.swipe-tag'), function (t) { t.style.opacity = '0'; });
+  }
+  function swCommit(dir) {
+    var card = SW.card, fly = { right: [1.3, 0], left: [-1.3, 0], up: [0, -1.1], down: [0, 1.1] }[dir];
+    var w = card.offsetWidth, h = card.offsetHeight;
+    var can = dir === 'down' ? (S.cards.hist && S.cards.hist.length) : (dir === 'up' ? S.cards.queue.length > 1 : true);
+    if (!can) { swReset(true); return; }
+    card.classList.remove('dragging'); card.classList.add('fly');
+    card.style.transform = 'translate(' + (fly[0] * w) + 'px,' + (fly[1] * h) + 'px) rotate(' + (fly[0] * 14) + 'deg)';
+    setTimeout(function () {
+      if (dir === 'right') cardRate(true);
+      else if (dir === 'left') cardRate(false);
+      else if (dir === 'up') cardSkip();
+      else cardPrev();
+    }, 180);
+  }
+  document.addEventListener('pointerdown', function (e) {
+    if (SW.on || (e.pointerType === 'mouse' && e.button !== 0)) return;
+    var card = e.target.closest && e.target.closest('#theCard');
+    if (!card || !S.cards || S.view !== 'study' || S.mode !== 'cards') return;
+    SW.on = true; SW.drag = false; SW.id = e.pointerId; SW.x0 = e.clientX; SW.y0 = e.clientY; SW.t0 = Date.now();
+    SW.dx = SW.dy = 0; SW.dir = ''; SW.card = card; SW.wrap = card.parentNode;
+  });
+  document.addEventListener('pointermove', function (e) {
+    if (!SW.on || e.pointerId !== SW.id) return;
+    SW.dx = e.clientX - SW.x0; SW.dy = e.clientY - SW.y0;
+    if (!SW.drag) {
+      if (Math.hypot(SW.dx, SW.dy) < 8) return;
+      SW.drag = true; SW.card.classList.add('dragging');
+      try { SW.card.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ }
+    }
+    swApply(SW.dx, SW.dy);
+  });
+  function swEnd(e, cancelled) {
+    if (!SW.on || e.pointerId !== SW.id) return;
+    var wasDrag = SW.drag, dx = SW.dx, dy = SW.dy, dt = Math.max(1, Date.now() - SW.t0);
+    SW.on = false;
+    if (!wasDrag) { SW.card = SW.wrap = null; return; }
+    SW.lastEnd = Date.now();
+    var dir = swDir(dx, dy), dist = Math.max(Math.abs(dx), Math.abs(dy));
+    var limit = Math.min(110, SW.card.offsetWidth * 0.3), speed = dist / dt;
+    if (!cancelled && (dist > limit || (dist > 40 && speed > 0.6))) swCommit(dir);
+    else swReset(true);
+    SW.drag = false;
+  }
+  document.addEventListener('pointerup', function (e) { swEnd(e, false); });
+  document.addEventListener('pointercancel', function (e) { swEnd(e, true); });
   document.addEventListener('DOMContentLoaded', function() {
     initStars();
   });
@@ -2774,6 +3038,8 @@ document.addEventListener('keydown', function (e) {
       if (e.key === ' ' || (e.key === 'Enter' && tag !== 'button')) { e.preventDefault(); act('flip'); }
       else if (e.key === 'ArrowLeft') { e.preventDefault(); cardRate(false); }
       else if (e.key === 'ArrowRight') { e.preventDefault(); cardRate(true); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); cardSkip(); }
+      else if (e.key === 'ArrowDown') { e.preventDefault(); cardPrev(); }
     } else if (S.mode === 'quiz' && S.quiz && !S.quiz.done) {
       var it = curItem(), t = it.q;
       if (S.quiz.phase === 'ask' && t.type !== 'short') {
