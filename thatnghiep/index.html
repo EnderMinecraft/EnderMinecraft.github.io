@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <meta name="apple-mobile-web-app-title" content="Sloppy Slop"><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22Revision%20Desk%22%2C%22short_name%22%3A%22RevisionDesk%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230C1222%22%2C%22theme_color%22%3A%22%230C1222%22%7D"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <meta name="apple-mobile-web-app-title" content="Sloppy Slop"><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22Revision%20Desk%22%2C%22short_name%22%3A%22RevisionDesk%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230C1222%22%2C%22theme_color%22%3A%22%230C1222%22%7D"><link rel="icon" href="favicon.png" type="image/png"><link rel="apple-touch-icon" href="favicon.png"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Sloppy Slop</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
@@ -306,6 +306,7 @@ mark { background: linear-gradient(to top, var(--mark) 0 48%, transparent 48%); 
 .note { margin-top: 16px; padding: 12px 14px; border: 1px dashed var(--line); border-radius: 10px; background: var(--surface); max-width: 70ch; }
 .note details summary { cursor: pointer; font-weight: 600; }
 .note ul { margin: 8px 0 0; padding-left: 1.2em; color: var(--muted); }
+.main > .note { max-width: none; } /* overview notes match .streak-card / .prog width */
 .note.err { border-style: solid; border-color: var(--bad); background: var(--bad-bg); }
 
 /* overview */
@@ -651,6 +652,18 @@ table.f code { font-family: var(--font-mono); font-size: 13px; }
   margin-bottom: 20px; 
   gap: 16px;
 }
+.top-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 16px; margin-bottom: 20px; }
+.top-row > .streak-card, .top-row > .dl-card { margin-bottom: 0; min-width: 0; flex-wrap: wrap; }
+.top-row .heatmap-container { align-items: flex-start; }
+.top-row .heatmap { justify-content: flex-start; max-width: 100%; }
+.dl-card { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px 20px; margin-bottom: 20px; }
+.dl-info { display: flex; align-items: center; gap: 14px; }
+.dl-icon { font-size: 24px; }
+.dl-num { font: 700 24px var(--font-mono); color: var(--accent); letter-spacing: -0.02em; }
+.dl-num.urgent { color: #D2493B; }
+.dl-label { font-size: 13px; color: var(--muted); }
+.dl-ctrl { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.dl-ctrl input[type=date] { font: 500 13px var(--font-mono); color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; }
 .streak-info { display: flex; align-items: center; gap: 14px; }
 .streak-icon { font-size: 24px; }
 .streak-num { font: 700 24px var(--font-mono); color: var(--accent); letter-spacing: -0.02em; }
@@ -874,6 +887,46 @@ pre, table.f, .scroll { max-width: 100%; }
   .rays, .beams, .cloud, .orb svg, .stars i { animation: none; }
   .sky.ready .orbit, .sky.ready .orb, .tbtn svg, .seg::before, .wash, .clouds, .stars { transition: none !important; }
   :root.theme-anim *, :root.theme-anim *::before, :root.theme-anim *::after { transition: none; }
+}
+
+
+/* ---------- mobile slide-over drawer (<= 860px). Desktop keeps the sticky rail and its saved collapsed state. ---------- */
+.rail-top, .scrim { display: none; }
+@media (max-width: 860px) {
+  #app { z-index: auto; } /* lets the drawer stack above the sticky top bar */
+  .shell, .shell.rail-off { grid-template-columns: minmax(0, 1fr); gap: 0; }
+
+  .shell .rail, .shell.rail-off .rail {
+    display: flex; position: fixed; top: 0; bottom: 0; left: 0; z-index: 60;
+    width: min(300px, 84vw); height: auto; max-height: none; margin: 0; gap: 4px;
+    padding: calc(10px + env(safe-area-inset-top, 0px)) 12px calc(16px + env(safe-area-inset-bottom, 0px)) calc(12px + env(safe-area-inset-left, 0px));
+    background: var(--surface); border-right: 1px solid var(--line);
+    overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
+    transform: translateX(-100%); visibility: hidden; box-shadow: none;
+    transition: transform 0.28s cubic-bezier(0.25, 1, 0.5, 1), visibility 0s linear 0.28s, box-shadow 0.28s ease;
+  }
+  .shell.drawer-open .rail { transform: none; visibility: visible; box-shadow: 8px 0 32px rgb(0 0 0 / 0.22); transition-delay: 0s; }
+
+  .rail-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 0 8px 10px; margin-bottom: 4px; border-bottom: 1px solid var(--line); }
+  .rail-top b { font-size: 15px; letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .rail-x { flex: none; width: 40px; height: 40px; padding: 0; border-radius: 50%; border: 1px solid var(--line); background: var(--bg); display: grid; place-items: center; }
+  .rail-x svg { width: 18px; height: 18px; }
+
+  .rail .rail-h { margin: 16px 10px 6px; font-size: 12px; letter-spacing: 0.1em; text-align: left; }
+  .rail .rail-list { gap: 2px; }
+
+  /* single-line buttons: label truncates with an ellipsis, progress dot stays pinned right */
+  .rail .nav-i { flex-direction: row; justify-content: space-between; align-items: center; gap: 10px; min-height: 44px; padding: 10px 12px; text-align: left; font-size: 15px; line-height: 1.25; border: 0; border-radius: 10px; background: none; }
+  .rail .nav-i:hover { background: var(--soft); }
+  .rail .nav-i.cur { background: var(--ink); }
+  .rail .nav-i span { display: block; flex: 1 1 auto; min-width: 0; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .scrim { display: block; position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 55; background: rgb(8 14 30 / 0.45); opacity: 0; visibility: hidden; -webkit-tap-highlight-color: transparent; transition: opacity 0.28s ease, visibility 0s linear 0.28s; }
+  .shell.drawer-open .scrim { opacity: 1; visibility: visible; transition-delay: 0s; }
+  html.drawer-lock, html.drawer-lock body { overflow: hidden; }
+}
+@media (max-width: 860px) and (prefers-reduced-motion: reduce) {
+  .shell .rail, .shell.rail-off .rail, .scrim { transition: none !important; }
 }
 
 </style>
@@ -1481,6 +1534,8 @@ var I18N = {
     btn_quiz_all: 'Quiz me on everything',
     btn_cards_all: 'All flashcards',
     btn_focus: 'Start a focus session',
+    dl_title: 'Exam deadline', dl_none: 'Pick a date to start a countdown', dl_pick: 'Deadline date', dl_clear: 'Clear',
+    dl_left: ['day left', 'days left'], dl_today: 'Deadline is today', dl_past: ['day overdue', 'days overdue'], dl_on: 'Due {date}',
     meter_notes: 'Notes',
     meter_cards: 'Cards',
     meter_quiz: 'Quiz',
@@ -1490,7 +1545,8 @@ var I18N = {
     foot_saved: 'Progress is saved in this browser only.',
     reset: 'Reset my progress',
     reset_confirm: 'Click again to erase it',
-
+    streak_days: ' Days',
+    streak_note: 'Study Streak',
     eyebrow_topic: 'Topic',
     eyebrow_all: 'Everything in this pack',
     all_topics: 'All topics',
@@ -1650,7 +1706,8 @@ var I18N = {
     nav_open: 'Mở tệp',
     nav_make: 'Tạo bộ ôn tập',
     ready_pct: 'Sẵn sàng {n}%',
-
+    streak_days: ' ngày',
+    streak_note: 'Chuỗi',
     eyebrow_pack: 'Bộ ôn tập',
     tag_example: 'Ví dụ',
     topics_n: '{n} chủ đề',
@@ -1668,6 +1725,8 @@ var I18N = {
     btn_quiz_all: 'Kiểm tra toàn bộ',
     btn_cards_all: 'Tất cả thẻ ghi nhớ',
     btn_focus: 'Bắt đầu phiên tập trung',
+    dl_title: 'Hạn chót', dl_none: 'Chọn ngày để bắt đầu đếm ngược', dl_pick: 'Ngày hạn chót', dl_clear: 'Xóa',
+    dl_left: 'ngày nữa', dl_today: 'Hạn chót là hôm nay', dl_past: 'ngày quá hạn', dl_on: 'Hạn: {date}',
     meter_notes: 'Ghi chú',
     meter_cards: 'Thẻ',
     meter_quiz: 'Kiểm tra',
@@ -1841,6 +1900,7 @@ function spNormalise(data) {
     return { errors: errors, warnings: warnings };
   }
   var pack = {
+    id: spStr(data.id),
     title: spStr(data.title) || 'Untitled study pack',
     subject: spStr(data.subject),
     level: spStr(data.level),
@@ -1870,13 +1930,13 @@ function spNormalise(data) {
       topic.notes.push({ heading: spStr(s.heading), points: pts });
     });
 
-    (Array.isArray(t.key_terms) ? t.key_terms : []).forEach(function (kt, ki) {
+    (Array.isArray(t.key_terms) ? t.key_terms : (Array.isArray(t.terms) ? t.terms : [])).forEach(function (kt, ki) {
       var term = spStr(kt && kt.term), def = spStr(kt && kt.definition);
       if (!term || !def) { at('term_bad', ki + 1); return; }
       topic.terms.push({ term: term, definition: def });
     });
 
-    (Array.isArray(t.flashcards) ? t.flashcards : []).forEach(function (c, ci) {
+    (Array.isArray(t.flashcards) ? t.flashcards : (Array.isArray(t.cards) ? t.cards : [])).forEach(function (c, ci) {
       var f = spStr(c && c.front), b = spStr(c && c.back);
       if (!f || !b) { at('card_bad', ci + 1); return; }
       topic.cards.push({ front: f, back: b });
@@ -1927,7 +1987,7 @@ function spMerge(packs) {
   packs.forEach(function (p) { if (titles.indexOf(p.title) < 0) titles.push(p.title); });
   var title = titles.length <= 2 ? titles.join(' + ') : titles[0] + ' + ' + (titles.length - 1) + ' more';
   var pick = function (k) { for (var i = 0; i < packs.length; i++) if (packs[i][k]) return packs[i][k]; return ''; };
-  var out = { title: title, subject: pick('subject'), level: pick('level'), language: pick('language'), topics: [] };
+  var out = { id: packs.every(function (p) { return p.id; }) ? packs.map(function (p) { return p.id; }).join('+') : '', title: title, subject: pick('subject'), level: pick('level'), language: pick('language'), topics: [] };
   var used = {};
   packs.forEach(function (p) {
     p.topics.forEach(function (t) {
@@ -2013,9 +2073,9 @@ var S = {
     qopts: { count: 10, secs: 0, shuffle: true },
     copts: { shuffle: true, skipKnown: false },
     notice: null, loadMsg: null, confirmReset: false,
-    animateTab: false,
     animateMain: false,
     railOff: store.get('sp:rail') === '1',
+    drawerOpen: false,
     streakView: 'week' // Thêm trạng thái mặc định ('week' hoặc 'month')
   };
 
@@ -2025,9 +2085,15 @@ var S = {
   }
   function setPack(pack, sample) {
     S.pack = pack; S.sample = !!sample;
-    S.key = sample ? 'example' : spHash(pack.title + '|' + pack.topics.map(function (t) { return t.id + ':' + t.title; }).join('|'));
+    // Key = optional explicit pack "id" (survives renames), else title + topics (legacy formula, keeps old progress).
+    var legacyKey = spHash(pack.title + '|' + pack.topics.map(function (t) { return t.id + ':' + t.title; }).join('|'));
+    S.key = sample ? 'example' : (pack.id ? spHash('id:' + pack.id) : legacyKey);
     var p = null;
     try { p = JSON.parse(store.get('sp:prog:' + S.key) || 'null'); } catch (e) { p = null; }
+    // First load with an id: carry over progress saved under the old title-based key.
+    if (!p && !sample && S.key !== legacyKey) {
+      try { p = JSON.parse(store.get('sp:prog:' + legacyKey) || 'null'); } catch (e) { p = null; }
+    }
     S.prog = { notes: {}, cards: {}, quiz: {} };
     if (p && typeof p === 'object') {
       ['notes', 'cards', 'quiz'].forEach(function (k) { if (p[k] && typeof p[k] === 'object') S.prog[k] = p[k]; });
@@ -2037,11 +2103,12 @@ var S = {
     $('#packName').textContent = pack.title;
   }
   function saveProg() { store.set('sp:prog:' + S.key, JSON.stringify(S.prog)); }
+  function cardKnown(st) { return st && typeof st === 'object' ? (st.box || 1) >= 2 : !!st; }
   function scopeTopics(scope) { return scope === 'all' ? S.pack.topics : S.pack.topics.filter(function (t) { return t.id === scope; }); }
 
   function topicStats(t) {
     var known = 0;
-    t.cards.forEach(function (_, i) { if (S.prog.cards[t.id + ':' + i]) known++; });
+    t.cards.forEach(function (_, i) { if (cardKnown(S.prog.cards[t.id + ':' + i])) known++; });
     var best = S.prog.quiz[t.id];
     var comps = [];
     if (t.notes.length) comps.push(S.prog.notes[t.id] ? 1 : 0);
@@ -2096,6 +2163,7 @@ function loadTexts(items) {
 function go(where, id, mode) {
     // 1. Active-View Guard: Do nothing if clicking the nav item you're already viewing
     openDebugPopup(false);
+    var wasDrawer = S.drawerOpen; setDrawer(false);
     if (where === 'overview' && S.view === 'overview') return;
     if (where === 'load' && S.view === 'load') return;
     if (where === 'teacher' && S.view === 'teacher') return;
@@ -2127,7 +2195,7 @@ function go(where, id, mode) {
             }
           });
         });
-      }, 120);
+      }, wasDrawer ? 220 : 120);
     } else {
       if (where === 'topic') { S.view = 'study'; S.scope = id; S.mode = mode || 'notes'; S.cards = null; S.quiz = null; }
       else if (where === 'all') { S.view = 'study'; S.scope = 'all'; S.mode = mode || 'cards'; S.cards = null; S.quiz = null; }
@@ -2138,28 +2206,6 @@ function go(where, id, mode) {
   }
 
   /* ---------- rendering ---------- */
-function initStars() {
-    var starsEl = document.querySelector('.stars');
-    if (!starsEl) return;
-    
-    // Nếu đã tạo rồi thì không tạo lại tránh bị trùng lặp
-    if (starsEl.children.length > 0) return;
-
-    var count = 190; // Số lượng ngôi sao
-    var html = '';
-    
-    for (var i = 0; i < count; i++) {
-      var top = Math.random() * 100;
-      var left = Math.random() * 100;
-      var size = Math.random() * 2 + 3; // Kích thước từ 1px đến 3px
-      var duration = (Math.random() * 3 + 2).toFixed(1); // Thời gian nhấp nháy từ 2s đến 5s
-      var delay = (Math.random() * 5).toFixed(1); // Độ trễ animation
-      
-      html += '<i style="top:' + top + '%; left:' + left + '%; width:' + size + 'px; height:' + size + 'px; --d:' + duration + 's; --dl:' + delay + 's;"></i>';
-    }
-    
-    starsEl.innerHTML = html;
-  }
 function render() {
     var main;
     if (S.view === 'overview') main = overviewHTML();
@@ -2171,19 +2217,20 @@ function render() {
     var mainClass = S.animateMain ? 'main is-switching' : 'main';
     S.animateMain = false; // Reset flag
 
-    $('#app').innerHTML = '<div class="shell' + (S.railOff ? ' rail-off' : '') + '">' + navHTML() + '<main class="' + mainClass + '" id="main">' + main + '</main></div>';
+    $('#app').innerHTML = '<div class="shell' + (S.railOff ? ' rail-off' : '') + (S.drawerOpen ? ' drawer-open' : '') + '">' + navHTML() + '<div class="scrim" data-act="closeDrawer"></div><main class="' + mainClass + '" id="main">' + main + '</main></div>';
     updateDebugInfo();
     syncRailAria();
   }
 
   function navHTML() {
     var h = '<nav class="rail" id="railNav" aria-label="' + esc(tr('nav_aria')) + '">';
+    h += '<div class="rail-top"><b>Sloppy Slop</b><button class="rail-x" data-act="closeDrawer" aria-label="' + esc(tr('dismiss')) + '"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg></button></div>';
     h += '<button class="nav-i' + (S.view === 'overview' ? ' cur' : '') + '" data-go="overview"><span>' + tr('nav_overview') + '</span></button>';
     h += '<p class="rail-h">' + tr('nav_topics') + '</p><div class="rail-list">';
     S.pack.topics.forEach(function (t) {
       var st = topicStats(t), pct = Math.round(st.ready * 100);
       var cur = S.view === 'study' && S.scope === t.id;
-      h += '<button class="nav-i' + (cur ? ' cur' : '') + '" data-go="topic" data-id="' + esc(t.id) + '"><span>' + esc(t.title) + '</span><i class="dot" style="--p:' + pct + '" title="' + esc(tr('ready_pct', { n: pct })) + '"></i></button>';
+      h += '<button class="nav-i' + (cur ? ' cur' : '') + '" data-go="topic" data-id="' + esc(t.id) + '" title="' + esc(t.title) + '"><span>' + esc(t.title) + '</span><i class="dot" style="--p:' + pct + '" title="' + esc(tr('ready_pct', { n: pct })) + '"></i></button>';
     });
     h += '</div><p class="rail-h">' + tr('nav_files') + '</p><div class="rail-list">';
     h += '<button class="nav-i' + (S.view === 'load' ? ' cur' : '') + '" data-go="load"><span>' + tr('nav_open') + '</span></button>';
@@ -2234,6 +2281,26 @@ function getStreakData(daysCount) {
     }
     return { streak: streak, days: days };
   }
+function deadlineKey() { return 'sp:deadline:' + S.key; }
+  function getDeadline() { var v = store.get(deadlineKey()); return /^\d{4}-\d{2}-\d{2}$/.test(v || '') ? v : ''; }
+  function setDeadline(v) { store.set(deadlineKey(), /^\d{4}-\d{2}-\d{2}$/.test(v || '') ? v : ''); render(); }
+  function deadlineHTML() {
+    var v = getDeadline(), h = '<div class="dl-card"><div class="dl-info"><span class="dl-icon">\u23F3</span><div>';
+    if (!v) {
+      h += '<div class="dl-label"><b>' + tr('dl_title') + '</b></div><div class="dl-label">' + tr('dl_none') + '</div>';
+    } else {
+      var p = v.split('-'), due = new Date(+p[0], +p[1] - 1, +p[2]), now = new Date();
+      var days = Math.round((due - new Date(now.getFullYear(), now.getMonth(), now.getDate())) / 864e5);
+      var when = due.toLocaleDateString(LANG === 'vi' ? 'vi-VN' : 'en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+      var urgent = days <= 3;
+      if (days === 0) h += '<div class="dl-num urgent">' + tr('dl_today') + '</div>';
+      else h += '<div class="dl-num' + (urgent ? ' urgent' : '') + '">' + Math.abs(days) + ' <span class="dl-label">' + tr(days > 0 ? 'dl_left' : 'dl_past', { n: Math.abs(days) }) + '</span></div>';
+      h += '<div class="dl-label">' + esc(tr('dl_on', { date: when })) + '</div>';
+    }
+    h += '</div></div><div class="dl-ctrl"><label class="dl-label" for="dlDate">' + tr('dl_pick') + '</label><input type="date" id="dlDate" value="' + v + '">';
+    if (v) h += '<button class="btn" data-act="dlClear">' + tr('dl_clear') + '</button>';
+    return h + '</div></div>';
+  }
 function overviewHTML() {
     var P = S.pack, tt = totals(), pct = Math.round(tt.ready * 100);
     var meta = [P.subject, P.level, tr('topics_n', { n: P.topics.length })].filter(Boolean).map(esc).join(' · ');
@@ -2245,7 +2312,8 @@ function overviewHTML() {
     h += '<h1 class="page-h">' + esc(P.title) + '</h1><p class="lede">' + meta + '</p>';
     
     // Streak & Heatmap Widget với Toggle Tuần / Tháng
-    h += '<div class="streak-card"><div class="streak-info"><span class="streak-icon">🔥</span><div><div class="streak-num">' + streakData.streak + ' Days</div><div class="streak-label">Study Streak</div></div></div>';
+    h += '<div class="top-row">';
+    h += '<div class="streak-card"><div class="streak-info"><span class="streak-icon">🔥</span><div><div class="streak-num">' + streakData.streak + tr('streak_days') + '</div><div class="streak-label">' + tr('streak_note') + '</div></div></div>';
     h += '<div class="heatmap-container"><button class="heatmap-toggle" data-act="streakView">' + (isMonth ? '30 Days' : '7 Days') + '</button>';
     h += '<div class="heatmap">' + streakData.days.map(function(d) {
       var lvl = '';
@@ -2255,6 +2323,7 @@ function overviewHTML() {
       return '<div class="heatmap-cell ' + lvl + '" title="' + d.date + ': ' + d.count + ' sessions"></div>';
     }).join('') + '</div></div></div>';
 
+    h += deadlineHTML() + '</div>';
     if (S.sample) h += '<div class="note">' + tr('note_example', { link: '<button class="link" data-go="load">' + tr('open_own') + '</button>' }) + '</div>';
     if (S.notice) {
       h += '<div class="note"><b>' + tr('loaded_n', { n: S.notice.topics }) + (S.notice.files ? tr('loaded_from', { n: S.notice.files }) : '') + '.</b> <button class="link" data-act="dismiss">' + tr('dismiss') + '</button>';
@@ -2367,7 +2436,7 @@ function launchConfetti() {
       t.cards.forEach(function (c, i) { deck.push({ id: t.id + ':' + i, tt: t.title, front: c.front, back: c.back }); });
     });
     var total = deck.length;
-    if (S.copts.skipKnown) deck = deck.filter(function (c) { return !S.prog.cards[c.id]; });
+    if (S.copts.skipKnown) deck = deck.filter(function (c) { return !cardKnown(S.prog.cards[c.id]); });
     if (S.copts.shuffle) shuffle(deck);
     S.cards = { scope: scope, queue: deck, total: total, flipped: false, got: 0, again: 0, hist: [] };
   }
@@ -2384,7 +2453,7 @@ function launchConfetti() {
       return h;
     }
     var c = C.queue[0], known = 0;
-    scopeTopics(S.scope).forEach(function (t) { t.cards.forEach(function (_, i) { if (S.prog.cards[t.id + ':' + i]) known++; }); });
+    scopeTopics(S.scope).forEach(function (t) { t.cards.forEach(function (_, i) { if (cardKnown(S.prog.cards[t.id + ':' + i])) known++; }); });
     h += '<div class="prog-line"><span>' + tr('left_n', { n: C.queue.length }) + '</span><span>' + tr('known_of', { k: known, n: C.total }) + '</span></div>';
     h += '<div class="card-wrap" id="cardWrap"><span class="swipe-tag t-right" data-tag="right">' + tr('btn_gotit') + '</span><span class="swipe-tag t-left" data-tag="left">' + tr('btn_again') + '</span><span class="swipe-tag t-up" data-tag="up">' + tr('btn_skip') + '</span><span class="swipe-tag t-down" data-tag="down">' + tr('btn_prev') + '</span><div class="card' + (C.flipped ? ' flipped' : '') + '" id="theCard" role="button" tabindex="0" aria-label="' + esc(tr('flip_aria')) + '" data-act="flip"><div class="inner">';
     h += '<div class="face"><small>' + (S.scope === 'all' ? esc(c.tt) : tr('face_q')) + '</small>' + esc(c.front) + '</div>';
@@ -2749,12 +2818,34 @@ function openDebugPopup(open) {
     }
   }
 /* ---------- sidebar collapse + long-press debug ---------- */
+  var mqMobile = window.matchMedia ? window.matchMedia('(max-width: 860px)') : null;
+  function isMobile() { return !!(mqMobile && mqMobile.matches); }
+  function setDrawer(open) {
+    open = !!open && isMobile();
+    if (S.drawerOpen === open) return;
+    S.drawerOpen = open;
+    var sh = $('.shell'); if (sh) sh.classList.toggle('drawer-open', open);
+    var rail = $('#railNav');
+    if (open) { var x = $('.rail-x'); if (x) x.focus(); }
+    else if (rail && rail.contains(document.activeElement)) { var b = $('#brandBtn'); if (b) b.focus(); }
+    syncRailAria();
+  }
+  if (mqMobile) {
+    var onBreakpoint = function () {
+      if (S.drawerOpen) { S.drawerOpen = false; var sh = $('.shell'); if (sh) sh.classList.remove('drawer-open'); }
+      syncRailAria();
+    };
+    if (mqMobile.addEventListener) mqMobile.addEventListener('change', onBreakpoint);
+    else if (mqMobile.addListener) mqMobile.addListener(onBreakpoint);
+  }
   function syncRailAria() {
-    var b = $('#brandBtn'); if (b) b.setAttribute('aria-expanded', S.railOff ? 'false' : 'true');
+    var b = $('#brandBtn'); if (b) b.setAttribute('aria-expanded', String(isMobile() ? S.drawerOpen : !S.railOff));
+    document.documentElement.classList.toggle('drawer-lock', isMobile() && S.drawerOpen);
   }
   function toggleRail() {
     if (BR.long) { BR.long = false; return; }   // the click that follows a long-press is not a tap
     openDebugPopup(false);
+    if (isMobile()) { setDrawer(!S.drawerOpen); return; }   // mobile: drawer, never persisted
     S.railOff = !S.railOff;
     store.set('sp:rail', S.railOff ? '1' : '0');
     var sh = $('.shell'); if (sh) sh.classList.toggle('rail-off', S.railOff);
@@ -2838,11 +2929,11 @@ function setLang(l) {
   function act(name, el) {
     switch (name) {
       case 'lang': setLang(el.dataset.l); break;
-      case 'theme': toggleTheme(); break;
       case 'refreshDebug':
         updateDebugInfo();
         break;
 case 'toggleRail': toggleRail(); break;
+      case 'closeDrawer': setDrawer(false); break;
       case 'tab': 
         var targetMode = el.dataset.mode;
         if (targetMode === S.mode) break;
@@ -2906,6 +2997,7 @@ case 'toggleRail': toggleRail(); break;
       case 'pickfile': var fi = $('#fileIn'); if (fi) fi.click(); break;
       case 'loadpaste': var ta = $('#pasteIn'); if (ta && ta.value.trim()) loadTexts([{ name: tr('pasted_name'), text: ta.value }]); break;
       case 'sample': loadSample(); break;
+      case 'dlClear': setDeadline(''); break;
       case 'copyprompt': copyPrompt(el); break;
       case 'focus': openPanel(true); if (!T.running) tStart(); break;
       case 'theme-mode': setThemeMode(el.dataset.m); break;
@@ -3030,9 +3122,6 @@ case 'toggleRail': toggleRail(); break;
   }
   document.addEventListener('pointerup', function (e) { swEnd(e, false); });
   document.addEventListener('pointercancel', function (e) { swEnd(e, true); });
-  document.addEventListener('DOMContentLoaded', function() {
-    initStars();
-  });
   document.addEventListener('click', function (e) {
     var panel = $('#timerPanel');
     if (panel && panel.classList.contains('show') && !e.target.closest('.timer-wrap')) openPanel(false);
@@ -3053,12 +3142,14 @@ case 'toggleRail': toggleRail(); break;
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
       openDebugPopup(false);
+      setDrawer(false);
     }
   });
   document.addEventListener('change', function (e) {
     var id = e.target.id;
     if (id === 'cShuffle') { S.copts.shuffle = e.target.checked; startCards(S.scope); render(); }
     else if (id === 'cSkip') { S.copts.skipKnown = e.target.checked; startCards(S.scope); render(); }
+    else if (id === 'dlDate') setDeadline(e.target.value);
     else if (id === 'fileIn') handleFiles(e.target.files);
   });
   document.addEventListener('input', function (e) {
@@ -3162,20 +3253,6 @@ var root = document.documentElement;
       currentRotation -= 180;
       $('#sky').style.setProperty('--deg', currentRotation + 'deg');
     }
-
-    clearTimeout(themeTimer);
-    themeTimer = setTimeout(function () { root.classList.remove('theme-anim'); }, 1500);
-  }
-  function toggleTheme() {
-    var next = isDark() ? 'light' : 'dark';
-    root.classList.add('theme-anim');
-    root.setAttribute('data-theme', next);
-    store.set('sp:theme', next); // Explicit manual override saved
-    syncTheme();
-    
-    // Accumulate rotation forward by 180 degrees on every click
-    currentRotation -= 180;
-    $('#sky').style.setProperty('--deg', currentRotation + 'deg');
 
     clearTimeout(themeTimer);
     themeTimer = setTimeout(function () { root.classList.remove('theme-anim'); }, 1500);
