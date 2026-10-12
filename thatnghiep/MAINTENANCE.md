@@ -304,8 +304,13 @@ Run `localStorage.clear()` in the console and reload, or use "Reset my progress"
 ## 9. Known issues and gotchas
 
 ~~1. **Saved pack loses terms and flashcards on reload.** `setPack` stores the *normalised* pack (`terms`, `cards`), but boot re-runs `spNormalise`, which reads `key_terms` and `flashcards`. After a refresh the key terms and flashcards of a user pack are empty. Fix by storing the original data, or by making `spNormalise` also accept `terms`/`cards`.~~
+
 ~~2. **"Again" counts as known.** `cardRate(false)` stores `{box: 1}`, which is truthy, and `topicStats` / the deck counters / "skip known" test truthiness. Use `box >= 2` (or similar) as the "known" test everywhere cards are counted.~~
+
 3. **Service worker probably never registers.** It is created from a `blob:` URL, which browsers generally refuse for service workers; the failure is only logged. Real offline support needs a separate `sw.js` file. The inline manifest also does not include icons.
+
 4. **Whole-shell re-render.** Any `render()` resets scroll inside the rail and any uncommitted input outside `#typed`. Keep that in mind when adding forms.
+
 ~~5. **Dead or duplicate code.** `toggleTheme` / `data-act="theme"`, `initStars` (skipped because `makeStars` already fills `.stars`), and unused `S.animateTab`.~~
+
 ~~6. **Progress key depends on titles.** Renaming a pack's title or topics changes `S.key`, which orphans its saved progress.~~
