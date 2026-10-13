@@ -574,7 +574,7 @@ table.f code { font-family: var(--font-mono); font-size: 13px; }
   transition: transform 1.5s cubic-bezier(0.6, 0, 0.3, 1) !important; 
 }
 .rays { animation: spin 50s linear infinite; transform-origin: 0 0; }
-.beams { position: absolute; left: 50%; top: 50%; width: 1500px; height: 1500px; margin: -750px 0 0 -750px; border-radius: 50%; background: repeating-conic-gradient(var(--beam) 0 5deg, transparent 5deg 20deg); -webkit-mask: radial-gradient(circle, #000 0, transparent 66%); mask: radial-gradient(circle, #000 0, transparent 66%); animation: spin 180s linear infinite; }
+.beams { position: absolute; left: 50%; top: 50%; width: 1200px; height: 1200px; margin: -600px 0 0 -600px; border-radius: 50%; background: repeating-conic-gradient(var(--beam) 0 5deg, transparent 5deg 20deg); -webkit-mask: radial-gradient(circle, #000 0, transparent 66%); mask: radial-gradient(circle, #000 0, transparent 66%); animation: spin 180s linear infinite; }
 
 .clouds { position: absolute; inset: 0; transition: opacity 1s ease !important; }
 .sky.dark .clouds { opacity: 0; }
@@ -585,14 +585,15 @@ table.f code { font-family: var(--font-mono); font-size: 13px; }
 
 .stars { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s ease 0.35s !important; }
 .sky.dark .stars { opacity: 1; }
-.stars i { position: absolute; border-radius: 50%; background: #DDE4FF; opacity: 0.35; animation: twinkle var(--d, 4s) ease-in-out infinite; animation-delay: var(--dl, 0s); }
+.stars i { position: absolute; border-radius: 50%; background: #DDE4FF; box-shadow: 0 0 5px rgba(221, 228, 255, 0.7); opacity: 0.35; animation: twinkle var(--d, 4s) ease-in-out infinite; animation-delay: var(--dl, 0s); }
 
 @keyframes spin { to { transform: rotate(360deg); } }
+.sky.paused *, .sky.paused .rays, .sky.paused .beams { animation-play-state: paused !important; }
 @keyframes bob { 50% { transform: translateY(-5px); } }
 @keyframes drift { to { transform: translateX(7vw); } }
 @keyframes twinkle {
   0%, 100% { opacity: 0.2; transform: scale(0.8); }
-  50% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 6px rgba(255, 255, 255, 0.8); }
+  50% { opacity: 1; transform: scale(1.3); }
 }
 .face, .trow {
   position: relative;
@@ -1180,6 +1181,9 @@ pre, table.f, .scroll { max-width: 100%; }
     <div class="debug-row"><span class="muted">Topics / Cards:</span> <span id="dbgStats">-</span></div>
     <div class="debug-row"><span class="muted">Language / Mode:</span> <span id="dbgLangMode">-</span></div>
     <div class="debug-row"><span class="muted">LocalStorage:</span> <span id="dbgStorage">-</span></div>
+    <div class="debug-row"><span class="muted">Haptics:</span> <button class="link" id="dbgHaptic" data-act="toggleHaptic" style="font:inherit">-</button></div>
+    <div class="debug-row"><span class="muted">Test:</span> <button class="link" data-act="testHaptic" style="font:inherit">Haptic test</button></div>
+    <div class="debug-row"><span class="muted">Mode:</span> <span id="dbgMode">-</span></div>
     <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center;">
       <span class="muted" style="font-size: 11px;">Sloppy Slop v1.0</span>
       <button class="btn" style="padding: 2px 8px; font-size: 11px;" data-act="refreshDebug">Làm mới</button>
@@ -3403,6 +3407,7 @@ function formatTime(ms) {
     if (t.type === 'mcq') ok = it.order[pos] === t.answer;
     else if (t.type === 'truefalse') ok = pos === (t.answer ? 0 : 1);
     it.res = { pos: pos, correct: ok, timedOut: false };
+    haptic(ok ? 'ok' : 'bad');
     q.phase = 'fb'; stopQT(); render();
   }
   function timeUp() {
@@ -3451,7 +3456,7 @@ function formatTime(ms) {
     var it = curItem(), ty = it.q.type;
     if (ty !== 'tfs' && ty !== 'cloze' && ty !== 'match') return;
     var cl = $('#cl'); if (cl) it.typed = cl.value;
-    gradeItem(it); q.phase = 'fb'; stopQT(); render();
+    gradeItem(it); haptic(it.res.correct ? 'ok' : 'bad'); q.phase = 'fb'; stopQT(); render();
   }
   function tfsPick(el) {
     var q = S.quiz; if (!q || q.phase !== 'ask') return;
@@ -3956,6 +3961,15 @@ h += '<a class="ai-btn" href="' + urls.claude + '" target="_blank" rel="noopener
       totalBytes += (key.length + (localStorage.getItem(key) || '').length) * 2;
     }
     stEl.textContent = (totalBytes / 1024).toFixed(1) + ' KB (' + localStorage.length + ' keys)';
+    var hEl = $('#dbgHaptic');
+    if (hEl) { hEl.textContent = hapticSupported() ? ((hapticOn() ? 'ON' : 'OFF') + (H.ios ? ' (iOS switch)' : ' (vibrate)')) : 'N/A'; hEl.disabled = !hapticSupported(); }
+    var mEl = $('#dbgMode');
+    if (mEl) {
+      var ua = navigator.userAgent || '';
+      var sa = navigator.standalone === true || (window.matchMedia && matchMedia('(display-mode: standalone)').matches);
+      var br = /CriOS/.test(ua) ? 'Chrome iOS' : /FxiOS/.test(ua) ? 'Firefox iOS' : /EdgiOS/.test(ua) ? 'Edge iOS' : /SamsungBrowser/.test(ua) ? 'Samsung' : /Chrome/.test(ua) ? 'Chrome' : /Safari/.test(ua) ? 'Safari' : 'WebView';
+      mEl.textContent = (sa ? 'PWA' : 'Tab') + ' / ' + br;
+    }
   }
 function openDebugPopup(open) {
     var p = $('#debugPopup');
@@ -4251,6 +4265,8 @@ function toggleExamFlag() {
       case 'dlClear': setDeadline(''); break;
       case 'copyprompt': copyPrompt(el); break;
       case 'focus': openPanel(true); if (!T.running) tStart(); break;
+      case 'testHaptic': haptic('ok'); break;
+      case 'toggleHaptic': store.set('sp:haptic', hapticOn() ? '0' : '1'); updateDebugInfo(); haptic('tick'); break;
       case 'theme-mode': setThemeMode(el.dataset.m); break;
     }
   }
@@ -4333,6 +4349,7 @@ function toggleExamFlag() {
     var w = card.offsetWidth, h = card.offsetHeight;
     var can = dir === 'down' ? (S.cards.hist && S.cards.hist.length) : (dir === 'up' ? S.cards.queue.length > 1 : true);
     if (!can) { swReset(true); return; }
+    haptic(dir === 'right' ? 'ok' : (dir === 'left' ? 'bad' : 'tick'));
     card.classList.remove('dragging'); card.classList.add('fly');
     card.style.transform = 'translate(' + (fly[0] * w) + 'px,' + (fly[1] * h) + 'px) rotate(' + (fly[0] * 14) + 'deg)';
     setTimeout(function () {
@@ -4680,6 +4697,48 @@ function tDone() {
   Array.prototype.forEach.call(document.querySelectorAll('[data-preset]'), function (b) {
     b.addEventListener('click', function () { var p = b.dataset.preset.split(','); T.mode = 'focus'; hideMsg(); tSetDurations(parseInt(p[0], 10), parseInt(p[1], 10), true); });
   });
+
+/* ---------- haptics: Android via vibrate(), iOS 17.4+ via a hidden <input switch>. Does nothing where unsupported (e.g. iOS 16). ---------- */
+var H = { last: 0, lbl: null, ios: false, android: false, busy: false };
+(function () {
+  try {
+    H.android = !!navigator.vibrate && /Android/i.test(navigator.userAgent || '');
+    if (navigator.vibrate) return;
+    var ua = navigator.userAgent || '';
+    var isIOS = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    if (!isIOS) return;
+    var lbl = document.createElement('label');
+    lbl.id = 'hapticLbl';
+    lbl.setAttribute('aria-hidden', 'true');
+    lbl.style.display = 'none';
+    /* the synthetic click must not reach the document: it would count as a click outside and close dropdowns / panels */
+    lbl.addEventListener('click', function (ev) { ev.stopPropagation(); });
+    var sw = document.createElement('input');
+    sw.type = 'checkbox'; sw.setAttribute('switch', ''); sw.tabIndex = -1;
+    lbl.appendChild(sw); (document.head || document.body).appendChild(lbl);
+    H.lbl = lbl; H.ios = true;
+  } catch (e) { /* unsupported */ }
+})();
+function hapticSupported() { return !!(H.ios || H.android); }
+function hapticOn() { return store.get('sp:haptic') !== '0'; }
+function haptic(kind) {
+  if (!hapticOn()) return;
+  H.last = Date.now();
+  try {
+    if (H.android) { navigator.vibrate(kind === 'bad' ? [30, 60, 30] : (kind === 'ok' ? [20, 45, 28] : 20)); return; }
+    if (H.ios && H.lbl && !H.busy) { H.busy = true; H.lbl.click(); H.busy = false; }
+  } catch (e) { H.busy = false; }
+}
+/* generic tick for any tap on a control; registered after the main click handler so specific haptic() calls win */
+document.addEventListener('click', function (e) {
+  if (H.busy || Date.now() - H.last < 60) return;
+  var t = e.target;
+  if (!t || !t.closest || t.closest('#hapticLbl')) return;
+  if (t.closest('button:not(:disabled), [data-act], [data-go], .c-select-item, .opt, .mtb, .tfo, input[type=checkbox]')) haptic('tick');
+});
+
+  /* stop the background animations while the page is hidden */
+  document.addEventListener('visibilitychange', function () { var sk = $('#sky'); if (sk) sk.classList.toggle('paused', document.hidden); });
 
   /* ---------- boot ---------- */
   function boot() {
