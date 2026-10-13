@@ -4786,29 +4786,15 @@ document.addEventListener('click', function (e) {
 
 </script>
 <script>
-  if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    var swCode = 
-      "self.addEventListener('install', function(e) { " +
-      "  self.skipWaiting(); " +
-      "}); " +
-      "self.addEventListener('activate', function(e) { " +
-      "  e.waitUntil(clients.claim()); " +
-      "}); " +
-      "self.addEventListener('fetch', function(e) { " +
-      "  e.respondWith(" +
-      "    fetch(e.request).catch(function() { " +
-      "      return caches.match(e.request); " +
-      "    })" +
-      "  ); " +
-      "});";
-    
-    var blob = new Blob([swCode], { type: 'text/javascript' });
-    var swUrl = URL.createObjectURL(blob);
-    
-    navigator.serviceWorker.register(swUrl).then(function(reg) {
-      console.log('Service Worker registered successfully:', reg.scope);
-    }).catch(function(err) {
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js').then(function (reg) {
+      console.log('Service Worker registered:', reg.scope);
+      // Cache ngay trang hiện tại để lần sau mở offline được
+      return navigator.serviceWorker.ready.then(function (r) {
+        if (r.active) r.active.postMessage({ type: 'CACHE_URLS', urls: [location.href.split('#')[0]] });
+      });
+    }).catch(function (err) {
       console.log('Service Worker registration failed:', err);
     });
   });
