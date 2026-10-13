@@ -3959,7 +3959,7 @@ h += '<a class="ai-btn" href="' + urls.claude + '" target="_blank" rel="noopener
     }
     stEl.textContent = (totalBytes / 1024).toFixed(1) + ' KB (' + localStorage.length + ' keys)';
     var hEl = $('#dbgHaptic');
-    if (hEl) { hEl.textContent = hapticSupported() ? (hapticOn() ? 'ON' : 'OFF') : 'N/A'; hEl.disabled = !hapticSupported(); }
+    if (hEl) { hEl.textContent = hapticSupported() ? ((hapticOn() ? 'ON' : 'OFF') + (H.ios ? ' (iOS switch)' : ' (vibrate)')) : 'N/A'; hEl.disabled = !hapticSupported(); }
   }
 function openDebugPopup(open) {
     var p = $('#debugPopup');
@@ -4691,17 +4691,18 @@ function tDone() {
 var H = { last: 0, lbl: null, ios: false, busy: false };
 (function () {
   try {
-    var canSwitch = window.CSS && CSS.supports && CSS.supports('-webkit-appearance', 'switch');
-    if (canSwitch && !navigator.vibrate) {
-      var lbl = document.createElement('label');
-      lbl.id = 'hapticLbl';
-      lbl.setAttribute('aria-hidden', 'true');
-      lbl.style.cssText = 'position:fixed;left:0;top:0;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none;';
-      var sw = document.createElement('input');
-      sw.type = 'checkbox'; sw.setAttribute('switch', ''); sw.tabIndex = -1;
-      lbl.appendChild(sw); document.body.appendChild(lbl);
-      H.lbl = lbl; H.ios = true;
-    }
+    if (navigator.vibrate) return;
+    var ua = navigator.userAgent || '';
+    var isIOS = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    if (!isIOS) return;
+    var lbl = document.createElement('label');
+    lbl.id = 'hapticLbl';
+    lbl.setAttribute('aria-hidden', 'true');
+    lbl.style.cssText = 'position:fixed;left:0;top:0;width:44px;height:28px;opacity:0;pointer-events:none;';
+    var sw = document.createElement('input');
+    sw.type = 'checkbox'; sw.setAttribute('switch', ''); sw.tabIndex = -1;
+    lbl.appendChild(sw); document.body.appendChild(lbl);
+    H.lbl = lbl; H.ios = true;
   } catch (e) { /* unsupported */ }
 })();
 function hapticSupported() { return !!(H.ios || navigator.vibrate); }
