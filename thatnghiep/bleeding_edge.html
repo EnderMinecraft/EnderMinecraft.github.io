@@ -1919,7 +1919,8 @@ var I18N = {
     v_q_tf: 'Topic {n} ({t}), question {s} needs "answer" to be true or false and was skipped.',
     v_q_short: 'Topic {n} ({t}), question {s} has no model "answer" and was skipped.',
     v_q_type: 'Topic {n} ({t}), question {s} has an unknown type "{type}" (use mcq, truefalse, short, tfs, cloze or match) and was skipped.',
-    v_q_tfs: 'Topic {n} ({t}), question {s} needs a "quote" or "prompt" and at least 2 "items", each with "text" and a true/false "answer", and was skipped.',
+    v_q_tfs: 'Topic {n} ({t}), question {s} needs a "quote" or "prompt" and 4 "items", each with "text" and a true/false "answer", and was skipped.',
+    v_q_tfs_extra: 'Topic {n} ({t}), question {s} has more than 4 "items"; only the first 4 are used.',
     v_q_cloze: 'Topic {n} ({t}), question {s} must have exactly one blank written as ____ in its "prompt" and was skipped.',
     v_q_cloze_a: 'Topic {n} ({t}), question {s} has no "answers" and was skipped.',
     v_q_match: 'Topic {n} ({t}), question {s} needs at least 2 "pairs" with a different "left" and "right" in each, and was skipped.',
@@ -2176,7 +2177,8 @@ var I18N = {
     v_q_tf: 'Chủ đề {n} ({t}), câu hỏi {s} cần "answer" là true hoặc false nên bị bỏ qua.',
     v_q_short: 'Chủ đề {n} ({t}), câu hỏi {s} không có "answer" mẫu nên bị bỏ qua.',
     v_q_type: 'Chủ đề {n} ({t}), câu hỏi {s} có loại "{type}" không hợp lệ (dùng mcq, truefalse, short, tfs, cloze hoặc match) nên bị bỏ qua.',
-    v_q_tfs: 'Chủ đề {n} ({t}), câu hỏi {s} cần "quote" hoặc "prompt" và ít nhất 2 "items", mỗi ý có "text" và "answer" true/false, nên bị bỏ qua.',
+    v_q_tfs: 'Chủ đề {n} ({t}), câu hỏi {s} cần "quote" hoặc "prompt" và đủ 4 "items", mỗi ý có "text" và "answer" true/false, nên bị bỏ qua.',
+    v_q_tfs_extra: 'Chủ đề {n} ({t}), câu hỏi {s} có hơn 4 "items"; chỉ dùng 4 ý đầu tiên.',
     v_q_cloze: 'Chủ đề {n} ({t}), câu hỏi {s} phải có đúng một chỗ trống viết là ____ trong "prompt" nên bị bỏ qua.',
     v_q_cloze_a: 'Chủ đề {n} ({t}), câu hỏi {s} không có "answers" nên bị bỏ qua.',
     v_q_match: 'Chủ đề {n} ({t}), câu hỏi {s} cần ít nhất 2 "pairs", mỗi cặp có "left" và "right" khác nhau, nên bị bỏ qua.',
@@ -2294,8 +2296,8 @@ function spNormalise(data) {
           if (typeof av === 'string') av = av.trim().toLowerCase() === 'true' ? true : av.trim().toLowerCase() === 'false' ? false : null;
           if (tx && typeof av === 'boolean') tits.push({ text: tx, answer: av });
         });
-        if ((!tquote && !prompt) || tits.length < 2) { at('q_tfs', s); return; }
-        if (tits.length > 6) tits = tits.slice(0, 6);
+        if ((!tquote && !prompt) || tits.length < 4) { at('q_tfs', s); return; }
+        if (tits.length > 4) { tits = tits.slice(0, 4); at('q_tfs_extra', s); }
         topic.questions.push({ type: 'tfs', prompt: prompt, quote: tquote, source: spStr(q.source), items: tits, explanation: expl });
       } else if (type === 'cloze') {
         var blanks = prompt.match(/_{3,}/g);
@@ -2821,7 +2823,7 @@ function launchConfetti() {
  /*------exam------*/
 var EXAM_TYPES = ['mcq', 'truefalse', 'tfs', 'cloze', 'match', 'short'];
 function examCfg() {
-  if (!S.exam.config) S.exam.config = { scope: 'all', mode: 'full', time: 45, off: {} };
+  if (!S.exam.config) S.exam.config = { scope: 'all', mode: 'full', time: 45, off: { truefalse: true }, touched: false };
   if (!S.exam.config.off) S.exam.config.off = {};
   return S.exam.config;
 }
@@ -2852,7 +2854,7 @@ function gradeExamItem(item) {
   else if (q.type === 'tfs') {
     k = 0; n = q.items.length;
     q.items.forEach(function (x, i) { if (a[i] === x.answer) k++; });
-    g.k = k; g.n = n; g.score = n === 4 ? TFS_SC[k] : k / n;
+    g.k = k; g.n = n; g.score = tfsScore(k, n);
   } else if (q.type === 'cloze') {
     var n1 = norm1(a), n2 = norm2(a);
     g.score = q.answers.some(function (x) { return norm1(x) === n1 || norm2(x) === n2; }) ? 1 : 0;
@@ -2993,6 +2995,7 @@ function renderExam() {
     if (!scopeList.some(t => t.id === cfg.scope)) cfg.scope = 'all';
     const currentScopeObj = scopeList.find(t => t.id === cfg.scope) || scopeList[0];
     const avail = examAvailTypes(cfg.scope);
+    if (!cfg.touched && cfg.off.truefalse && examSelectedTypes(cfg).length === 0) delete cfg.off.truefalse; // pack with only true/false: do not leave the list empty
     const noTypes = examSelectedTypes(cfg).length === 0;
     const typesHtml = avail.map(x => `
       <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 14px;">
@@ -3455,6 +3458,8 @@ function formatTime(ms) {
   }
   /* ---------- extra question types: tfs / cloze / match ---------- */
   var TFS_SC = [0, 0.1, 0.25, 0.5, 1];
+  /* 4 statements: 0 right = 0, 1 = 0.1, 2 = 0.25, 3 = 0.5, 4 = 1. A pack saved earlier with another item count is mapped onto the same scale. */
+  function tfsScore(k, n) { if (!n) return 0; return TFS_SC[n === 4 ? k : Math.round(k / n * 4)]; }
   function norm1(x) { return String(x == null ? '' : x).normalize('NFC').toLowerCase().replace(/[.,;:!?"'()\[\]\u201c\u201d\u2018\u2019]/g, ' ').replace(/\s+/g, ' ').trim(); }
   function norm2(x) { return norm1(x).normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\u0111/g, 'd').replace(/\s+/g, ' ').trim(); }
   function itemScore(it) { var r = it.res; if (!r) return 0; return r.score != null ? r.score : (r.correct ? 1 : 0); }
@@ -3464,7 +3469,7 @@ function formatTime(ms) {
     if (t.type === 'tfs') {
       var k = 0, n = t.items.length;
       t.items.forEach(function (x, i) { if (it.sel && it.sel[i] === x.answer) k++; });
-      r.k = k; r.n = n; r.correct = k === n; r.score = n === 4 ? TFS_SC[k] : k / n;
+      r.k = k; r.n = n; r.correct = k === n; r.score = tfsScore(k, n);
     } else if (t.type === 'cloze') {
       var n1 = norm1(it.typed), n2 = norm2(it.typed);
       var exact = !!n1 && t.answers.some(function (a) { return norm1(a) === n1; });
@@ -4468,7 +4473,7 @@ document.addEventListener('click', function(e) {
     else if (id === 'dlDate') setDeadline(e.target.value);
     else if (id === 'qShuffle') S.qopts.shuffle = e.target.checked;
     else if (id === 'examTimeInput') { var ec = examCfg(); ec.time = Math.min(180, Math.max(5, parseInt(e.target.value, 10) || 45)); }
-    else if (e.target.dataset && e.target.dataset.examType) { var ec2 = examCfg(); var tv = e.target.dataset.examType; if (e.target.checked) delete ec2.off[tv]; else ec2.off[tv] = true; render(); }
+    else if (e.target.dataset && e.target.dataset.examType) { var ec2 = examCfg(); var tv = e.target.dataset.examType; ec2.touched = true; if (e.target.checked) delete ec2.off[tv]; else ec2.off[tv] = true; render(); }
     else if (id === 'fileIn') handleFiles(e.target.files);
   });
 document.addEventListener('input', function (e) {
@@ -4786,29 +4791,15 @@ document.addEventListener('click', function (e) {
 
 </script>
 <script>
-  if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    var swCode = 
-      "self.addEventListener('install', function(e) { " +
-      "  self.skipWaiting(); " +
-      "}); " +
-      "self.addEventListener('activate', function(e) { " +
-      "  e.waitUntil(clients.claim()); " +
-      "}); " +
-      "self.addEventListener('fetch', function(e) { " +
-      "  e.respondWith(" +
-      "    fetch(e.request).catch(function() { " +
-      "      return caches.match(e.request); " +
-      "    })" +
-      "  ); " +
-      "});";
-    
-    var blob = new Blob([swCode], { type: 'text/javascript' });
-    var swUrl = URL.createObjectURL(blob);
-    
-    navigator.serviceWorker.register(swUrl).then(function(reg) {
-      console.log('Service Worker registered successfully:', reg.scope);
-    }).catch(function(err) {
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js').then(function (reg) {
+      console.log('Service Worker registered:', reg.scope);
+      // Cache ngay trang hiện tại để lần sau mở offline được
+      return navigator.serviceWorker.ready.then(function (r) {
+        if (r.active) r.active.postMessage({ type: 'CACHE_URLS', urls: [location.href.split('#')[0]] });
+      });
+    }).catch(function (err) {
       console.log('Service Worker registration failed:', err);
     });
   });
