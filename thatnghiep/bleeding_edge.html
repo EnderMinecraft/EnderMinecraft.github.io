@@ -4698,10 +4698,12 @@ var H = { last: 0, lbl: null, ios: false, busy: false };
     var lbl = document.createElement('label');
     lbl.id = 'hapticLbl';
     lbl.setAttribute('aria-hidden', 'true');
-    lbl.style.cssText = 'position:fixed;left:0;top:0;width:44px;height:28px;opacity:0;pointer-events:none;';
+    lbl.style.display = 'none';
+    /* the synthetic click must not reach the document: it would count as a click outside and close dropdowns / panels */
+    lbl.addEventListener('click', function (ev) { ev.stopPropagation(); });
     var sw = document.createElement('input');
     sw.type = 'checkbox'; sw.setAttribute('switch', ''); sw.tabIndex = -1;
-    lbl.appendChild(sw); document.body.appendChild(lbl);
+    lbl.appendChild(sw); (document.head || document.body).appendChild(lbl);
     H.lbl = lbl; H.ios = true;
   } catch (e) { /* unsupported */ }
 })();
