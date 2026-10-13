@@ -1181,6 +1181,8 @@ pre, table.f, .scroll { max-width: 100%; }
     <div class="debug-row"><span class="muted">Language / Mode:</span> <span id="dbgLangMode">-</span></div>
     <div class="debug-row"><span class="muted">LocalStorage:</span> <span id="dbgStorage">-</span></div>
     <div class="debug-row"><span class="muted">Haptics:</span> <button class="link" id="dbgHaptic" data-act="toggleHaptic" style="font:inherit">-</button></div>
+    <div class="debug-row"><span class="muted">Test:</span> <button class="link" data-act="testHaptic" style="font:inherit">Haptic test</button></div>
+    <div class="debug-row"><span class="muted">Mode:</span> <span id="dbgMode">-</span></div>
     <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center;">
       <span class="muted" style="font-size: 11px;">Sloppy Slop v1.0</span>
       <button class="btn" style="padding: 2px 8px; font-size: 11px;" data-act="refreshDebug">Làm mới</button>
@@ -3960,6 +3962,13 @@ h += '<a class="ai-btn" href="' + urls.claude + '" target="_blank" rel="noopener
     stEl.textContent = (totalBytes / 1024).toFixed(1) + ' KB (' + localStorage.length + ' keys)';
     var hEl = $('#dbgHaptic');
     if (hEl) { hEl.textContent = hapticSupported() ? ((hapticOn() ? 'ON' : 'OFF') + (H.ios ? ' (iOS switch)' : ' (vibrate)')) : 'N/A'; hEl.disabled = !hapticSupported(); }
+    var mEl = $('#dbgMode');
+    if (mEl) {
+      var ua = navigator.userAgent || '';
+      var sa = navigator.standalone === true || (window.matchMedia && matchMedia('(display-mode: standalone)').matches);
+      var br = /CriOS/.test(ua) ? 'Chrome iOS' : /FxiOS/.test(ua) ? 'Firefox iOS' : /EdgiOS/.test(ua) ? 'Edge iOS' : /SamsungBrowser/.test(ua) ? 'Samsung' : /Chrome/.test(ua) ? 'Chrome' : /Safari/.test(ua) ? 'Safari' : 'WebView';
+      mEl.textContent = (sa ? 'PWA' : 'Tab') + ' / ' + br;
+    }
   }
 function openDebugPopup(open) {
     var p = $('#debugPopup');
@@ -4255,6 +4264,7 @@ function toggleExamFlag() {
       case 'dlClear': setDeadline(''); break;
       case 'copyprompt': copyPrompt(el); break;
       case 'focus': openPanel(true); if (!T.running) tStart(); break;
+      case 'testHaptic': haptic('ok'); break;
       case 'toggleHaptic': store.set('sp:haptic', hapticOn() ? '0' : '1'); updateDebugInfo(); haptic('tick'); break;
       case 'theme-mode': setThemeMode(el.dataset.m); break;
     }
@@ -4688,9 +4698,10 @@ function tDone() {
   });
 
 /* ---------- haptics: Android via vibrate(), iOS 17.4+ via a hidden <input switch>. Does nothing where unsupported (e.g. iOS 16). ---------- */
-var H = { last: 0, lbl: null, ios: false, busy: false };
+var H = { last: 0, lbl: null, ios: false, android: false, busy: false };
 (function () {
   try {
+    H.android = !!navigator.vibrate && /Android/i.test(navigator.userAgent || '');
     if (navigator.vibrate) return;
     var ua = navigator.userAgent || '';
     var isIOS = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -4707,13 +4718,13 @@ var H = { last: 0, lbl: null, ios: false, busy: false };
     H.lbl = lbl; H.ios = true;
   } catch (e) { /* unsupported */ }
 })();
-function hapticSupported() { return !!(H.ios || navigator.vibrate); }
+function hapticSupported() { return !!(H.ios || H.android); }
 function hapticOn() { return store.get('sp:haptic') !== '0'; }
 function haptic(kind) {
   if (!hapticOn()) return;
   H.last = Date.now();
   try {
-    if (navigator.vibrate) { navigator.vibrate(kind === 'bad' ? [14, 50, 14] : (kind === 'ok' ? [8, 40, 8] : 10)); return; }
+    if (H.android) { navigator.vibrate(kind === 'bad' ? [30, 60, 30] : (kind === 'ok' ? [20, 45, 28] : 20)); return; }
     if (H.ios && H.lbl && !H.busy) { H.busy = true; H.lbl.click(); H.busy = false; }
   } catch (e) { H.busy = false; }
 }
