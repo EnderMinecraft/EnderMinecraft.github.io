@@ -810,11 +810,12 @@ table.f code { font-family: var(--font-mono); font-size: 13px; }
 @media (max-width: 560px) { .nav-row .btn { min-height: 44px; } }
 
 /* ---------- mobile / responsive fixes ---------- */
-.rp-card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; margin-bottom: 20px; }
-.rp-list { display: grid; gap: 8px; margin-top: 10px; }
-.rp-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 10px; padding: 10px 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; }
+.rp-card { min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; margin-bottom: 20px; }
+.rp-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; margin-top: 10px; }
+.tlist, .res-list { grid-template-columns: minmax(0, 1fr); }
+.rp-row { min-width: 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 10px; padding: 10px 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; }
 .rp-info { min-width: 0; flex: 1 1 160px; }
-.rp-title { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rp-title { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; white-space: normal; overflow-wrap: anywhere; }
 .rp-actions { display: flex; flex-wrap: wrap; gap: 6px; }
 .btn.sm { padding: 4px 10px; font-size: 12px; }
 .rail, .tabs { scrollbar-width: none; -webkit-overflow-scrolling: touch; }
@@ -1244,13 +1245,13 @@ pre, table.f, .scroll { max-width: 100%; }
 
 <script type="text/plain" id="promptText">
 You convert a teacher's Word document into a "Study Pack": one JSON file that a revision website loads. Follow every rule exactly so the output has the same shape every time.
- 
+
 DELIVERY RULES (READ FIRST)
 1. Create the result as a FILE and hand it to me as a download or attachment. Do NOT write the JSON in the chat. Name the file after the document and end the name with .studypack.json (for example chapter-1.studypack.json). The file contains the JSON object and nothing else.
-2. Your chat reply must be very short, at most 3 lines: the file name, the number of topics, flashcards and questions, and your estimated coverage percentage (see COVERAGE). Do not paste, preview or summarise the file content in the chat.
+2. Your chat reply must be very short, at most 3 lines: the file name, the number of topics, flashcards and questions, and your estimated coverage percentage (see COVERAGE). If the document already contains questions, also say how many it contains and how many you converted, for example "questions in document: 112, converted: 112". Do not paste, preview or summarise the file content in the chat.
 3. If you can run code, build the file one topic at a time, then load it with a JSON parser (for example Python json.load) to confirm it is valid, and fix any error before delivering it. If you cannot create files at all, say so in one sentence, then output the complete JSON in a single code block with nothing else, so I can copy it into a .json file.
-4. If the document is very long (roughly more than 20 pages or 8,000 words), do not shorten it. Split it into several files, each a complete and valid study pack for consecutive chapters, named like name-part1.studypack.json, name-part2.studypack.json. List the file names in the chat reply.
- 
+4. If the document is very long (roughly more than 20 pages or 8,000 words), do not shorten it. Split it into several files, each a complete and valid study pack for consecutive chapters, named like name-part1.studypack.json, name-part2.studypack.json. List the file names in the chat reply. A file may hold hundreds of questions: never cut questions to keep a file small, split into parts instead.
+
 COVERAGE: THE FILE MUST CARRY AT LEAST 90% OF THE DOCUMENT'S INFORMATION
 - Before writing, silently go through the whole document and list every information unit: each definition, fact, rule, formula, equation, date, name, number, unit, example, step in a process, cause and effect, comparison, classification, exception and conclusion. Every table row and every list item counts as its own unit. Text inside figures, captions and boxes counts if it carries information.
 - At least 90% of these units must appear in the "notes" of the right topic, with exact numbers, names, dates, symbols and units kept as in the document. Never drop a detail just to stay short. If a topic becomes too large, split it into more topics or more note sections instead of leaving details out.
@@ -1258,22 +1259,23 @@ COVERAGE: THE FILE MUST CARRY AT LEAST 90% OF THE DOCUMENT'S INFORMATION
 - Merge only true duplicates. Never squeeze two different facts into one vague sentence.
 - "key_terms", "flashcards" and "questions" are built from the notes. Every key term, formula and definition in the notes must be in "key_terms" or in a flashcard, and every main fact must be tested by at least one flashcard or question.
 - Before you reply, silently count the units again, estimate the percentage covered, and add anything that is missing. Report that percentage in the chat reply.
+- Questions, exercises and exam items that are already written in the document are information units too, and ALL of them (100%, not 90%) must be converted. See READY-MADE QUESTIONS below.
 - Coverage never allows invention: everything in the file must still come from the document.
- 
+
 OUTPUT RULES (FOR THE FILE CONTENT)
 1. The file is one JSON object. No introduction, no explanation, no Markdown code fence inside the file.
 2. The JSON must be valid: double quotes around every key and string, no trailing commas, no comments. Escape a double quote inside a string as \" and avoid line breaks inside strings.
 3. Use only information found in the document. Never add facts, dates, formulas or examples that are not in it. If the document has too little material for a target below, produce fewer items. Do not invent filler.
 4. Write the content in the same language as the document. Keep every field name and every "type" value in English, exactly as shown.
 5. Never leave a topic half finished. Every topic in the file must be complete.
- 
+
 FIELD GUIDE
 Top level:
 - "format": always "studypack".
 - "version": always 1.
 - "title", "subject", "level", "language": strings. Use "" when unknown. "language" is a code such as "en" or "vi".
 - "topics": one topic per chapter or main heading of the document, in the document's order. Use as many topics as the document has. If one chapter is very long, split it into two or more topics with clear titles.
- 
+
 Each topic has these fields, all present:
 - "id": "t1", "t2", "t3", ... in order.
 - "title": short heading taken from the document.
@@ -1281,8 +1283,15 @@ Each topic has these fields, all present:
 - "notes": as many sections as the topic needs (usually 2 to 12). Each section is {"heading": string, "points": [2 to 10 strings]}. Each point is one complete sentence of at most 40 words that carries one fact (two closely linked facts at most). Put the most important term of a point inside **double asterisks**, at most two per point. This is the only formatting allowed. The notes are the main store of the document's information, so they must be detailed.
 - "key_terms": 3 to 25 items {"term": string, "definition": string}. One-sentence definitions. Include every defined term, formula and named concept of the topic.
 - "flashcards": 5 to 30 items {"front": string, "back": string}. The front is a question or a term. The back is a short answer of at most 30 words. One idea per card.
-- "questions": 8 to 90 items, roughly one question for every two note points, as far as the material allows. About half are "mcq", then "truefalse" and "short", plus "tfs", "cloze" and "match" wherever the material fits them (aim for at least one of each type in a topic that has enough material). Order from easy to hard. Question types:
-  - mcq: {"type": "mcq", "prompt": string, "options": [exactly 4 strings], "answer": 0-based index of the correct option, "explanation": string}. One option is clearly correct. Distractors are plausible and come from the same topic. Never use "all of the above" or "none of the above". Vary the position of the correct option from question to question. Optional: "context" (a source passage of at most 60 words) and "source" (its citation), only when the question depends on a quotation or source text in the document.
+- "questions": there is NO maximum. Write at least 8 per topic when the material allows, roughly one question for every two note points. About half are "mcq", then "truefalse" and "short", plus "tfs", "cloze" and "match" wherever the material fits them (aim for at least one of each type in a topic that has enough material). Order from easy to hard. Question types are listed below.
+
+READY-MADE QUESTIONS (APPLIES WHENEVER THE DOCUMENT ALREADY CONTAINS QUESTIONS)
+- If the document contains questions, exercises, quizzes or exam items (multiple choice, true/false, short answer, fill in the blank, matching), count them first, then convert EVERY one into a question object. Do not sample, merge, skip or cap them, even if there are more than 100. Writing extra questions of your own is allowed, but never instead of converting the ones in the document.
+- Keep the original wording, the original options and their original order, and the original numbering order. Use the answer key in the document for "answer" and "explanation". If a question has no answer key, work the answer out only from the document's own content. If it truly cannot be decided from the document, leave that one out and report how many you left out in the chat reply.
+- A multiple-choice question keeps its original number of options (2 to 6) and its original correct option. A question with a stem and several statements a), b), c), d) to judge true or false becomes a "tfs" (stem in "prompt" or "quote"). A numeric or one-line answer becomes "short" or "cloze". Pairs to connect become "match".
+- Put each converted question in the topic it belongs to. If the document has a separate question bank or exercise section, create topics named after its parts (for example "Practice questions: Chapter 1") that hold those questions. Such a topic may have empty "notes", "key_terms" and "flashcards" arrays.
+- The rule "answerable from the notes" does not apply to converted questions: they keep their original content.
+  - mcq: {"type": "mcq", "prompt": string, "options": [exactly 4 strings for questions you write yourself; keep the original 2 to 6 options for converted questions], "answer": 0-based index of the correct option, "explanation": string}. One option is clearly correct. Distractors are plausible and come from the same topic. Never use "all of the above" or "none of the above". Vary the position of the correct option from question to question. Optional: "context" (a source passage of at most 60 words) and "source" (its citation), only when the question depends on a quotation or source text in the document.
   - truefalse: {"type": "truefalse", "prompt": a full statement, "answer": true or false as a JSON boolean, "explanation": string}. Roughly half of the statements are false.
   - short: {"type": "short", "prompt": string, "answer": model answer in one or two sentences, "explanation": string or ""}.
   - tfs (one source passage with true/false statements): {"type": "tfs", "prompt": one instruction sentence or "", "quote": the passage in at most 80 words, "source": its citation or "", "items": [exactly 4 objects {"text": a statement, "answer": true or false as a JSON boolean}], "explanation": string}. Use only when the document has a passage, table or data to read. Make 1 to 3 of the 4 statements false.
@@ -1290,23 +1299,24 @@ Each topic has these fields, all present:
   - match (match pairs): {"type": "match", "prompt": a short instruction, "pairs": [4 to 5 objects {"left": string, "right": string}], "explanation": string}. Use for date and event, term and definition, or name and role. Every left and every right must be different.
   - Every question must be answerable from that topic's notes. Never write "according to the text" or refer to the document.
   - "explanation" is one or two sentences saying why the answer is right.
- 
+
 CONTENT FORMAT
 - Plain text only, apart from **bold** around key terms in notes points. No HTML, no LaTeX, no Markdown headings, bullets or tables inside strings.
 - Write formulas and units in plain text: CO2, H2O, m/s^2, x^2, 6CO2 + 6H2O -> C6H12O6 + 6O2.
 - Turn every table in the document into note points (one point per row or per fact) and, where useful, flashcards. Do not skip table content.
 - Ignore pictures, page numbers, headers and footers, but keep information that appears in captions or labels.
 - Condense wording, not content. Shorten sentences, but keep every fact, number, name, date and unit.
- 
+
 CHECK BEFORE YOU DELIVER (SILENTLY)
 - The file is valid JSON that starts with { and ends with }, and it was delivered as a file, not pasted in the chat.
 - Coverage: at least 90% of the document's information units are in the notes, and your percentage estimate is in the chat reply.
-- Every mcq has exactly 4 options and an integer "answer" from 0 to 3.
+- Every mcq has exactly 4 options (or the original number, 2 to 6, for converted questions) and an integer "answer" that is a valid 0-based option index.
+- Every question already written in the document is in the file: the number found equals the number converted (or the shortfall is reported in the chat reply).
 - Every truefalse "answer" is true or false without quotation marks.
 - Every tfs has exactly 4 items with boolean answers. Every cloze prompt has exactly one ____ and an "answers" array. Every match has 4 to 5 pairs.
 - Topic ids are unique and no field is missing. Use "" or [] when a field is empty.
 - Nothing in the file is absent from the document.
- 
+
 EXAMPLE OF THE EXACT SHAPE (one short topic; your file contains all topics, and real topics are much fuller than this example)
 {
   "format": "studypack",
@@ -1346,7 +1356,7 @@ EXAMPLE OF THE EXACT SHAPE (one short topic; your file contains all topics, and 
     }
   ]
 }
- 
+
 END OF INSTRUCTIONS. The Word document follows, attached or pasted below.
 
 </script>
