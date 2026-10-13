@@ -851,6 +851,16 @@ pre, table.f, .scroll { max-width: 100%; }
   opacity: 0.35;
 }
 
+
+/* exam review rows */
+.rv-stack { display: grid; gap: 6px; }
+.rv-row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); font-size: 14px; color: var(--ink); overflow-wrap: anywhere; white-space: pre-line; }
+.rv-row small { flex: none; max-width: 55%; text-align: right; font: 600 11px var(--font-mono); text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+.rv-row.ok { border-color: var(--good); background: var(--good-bg); }
+.rv-row.ok small { color: var(--good); }
+.rv-row.bad { border-color: var(--bad); background: var(--bad-bg); }
+.rv-row.bad small { color: var(--bad); }
+
 /* Microinteractions Grid */
 .exam-jump-container {
   display: grid;
@@ -1658,6 +1668,20 @@ var I18N = {
     examNoHistory: "No exam history yet.",
     examRetakeWrong: "Retake Wrong Questions",
     examNewExam: "New Exam",
+    examTypes: 'Question types',
+    examNoTypes: 'Select at least one question type.',
+    examReview: 'Review answers',
+    examFilterAll: 'All',
+    examFilterWrong: 'Wrong / skipped',
+    examStatSkipped: 'Skipped',
+    examStatPending: 'To self-grade',
+    examSelfNote: 'Short-answer questions are not auto-graded: compare with the model answer and mark yourself.',
+    qt_mcq: 'Multiple choice',
+    qt_truefalse: 'True / False',
+    qt_tfs: 'True / False (several statements)',
+    qt_cloze: 'Fill in the blank',
+    qt_match: 'Matching',
+    qt_short: 'Short answer',
     flagged: 'Flagged',
     flag: 'Flag',
     done_name: 'completed',
@@ -1901,6 +1925,20 @@ var I18N = {
     examNoHistory: "Chưa có lượt thi nào.",
     examRetakeWrong: "Làm lại câu sai",
     examNewExam: "Thi đề mới",
+    examTypes: 'Dạng câu hỏi',
+    examNoTypes: 'Hãy chọn ít nhất một dạng câu hỏi.',
+    examReview: 'Xem lại đáp án',
+    examFilterAll: 'Tất cả',
+    examFilterWrong: 'Sai / bỏ trống',
+    examStatSkipped: 'Bỏ trống',
+    examStatPending: 'Chờ tự chấm',
+    examSelfNote: 'Câu trả lời ngắn không được chấm tự động: hãy so với đáp án mẫu rồi tự chấm.',
+    qt_mcq: 'Trắc nghiệm',
+    qt_truefalse: 'Đúng / Sai',
+    qt_tfs: 'Đúng / Sai (nhiều ý)',
+    qt_cloze: 'Điền khuyết',
+    qt_match: 'Nối cặp',
+    qt_short: 'Trả lời ngắn',
     examResumeWarn:'Có bài thi đang làm dở',
     flagged: 'Đã đánh dấu',
     flag: 'Đánh dấu',
@@ -2751,19 +2789,187 @@ function launchConfetti() {
   }
 
  /*------exam------*/
+var EXAM_TYPES = ['mcq', 'truefalse', 'tfs', 'cloze', 'match', 'short'];
+function examCfg() {
+  if (!S.exam.config) S.exam.config = { scope: 'all', mode: 'full', time: 45, off: {} };
+  if (!S.exam.config.off) S.exam.config.off = {};
+  return S.exam.config;
+}
+function examAvailTypes(scope) {
+  var c = {};
+  scopeTopics(scope).forEach(function (t) { t.questions.forEach(function (q) { c[q.type] = (c[q.type] || 0) + 1; }); });
+  return EXAM_TYPES.filter(function (t) { return c[t]; }).map(function (t) { return { type: t, n: c[t] }; });
+}
+function examSelectedTypes(cfg) {
+  return examAvailTypes(cfg.scope).filter(function (x) { return !cfg.off[x.type]; }).map(function (x) { return x.type; });
+}
+function examIsAnswered(item) {
+  var a = item.userAnswer, t = item.q.type;
+  if (t === 'tfs') return Array.isArray(a) && a.some(function (v) { return v === true || v === false; });
+  if (t === 'match') return !!a && typeof a === 'object' && Object.keys(a).length > 0;
+  return a !== null && a !== undefined && a !== '';
+}
+function gradeExamItem(item) {
+  var q = item.q, a = item.userAnswer, g = { score: 0, state: 'wrong' }, k, n;
+  if (q.type === 'short') {
+    if (item.selfOk === true) { g.score = 1; g.state = 'correct'; }
+    else if (item.selfOk === false) { g.state = 'wrong'; }
+    else g.state = examIsAnswered(item) ? 'pending' : 'skipped';
+    return g;
+  }
+  if (!examIsAnswered(item)) { g.state = 'skipped'; return g; }
+  if (q.type === 'mcq' || q.type === 'truefalse') g.score = a === q.answer ? 1 : 0;
+  else if (q.type === 'tfs') {
+    k = 0; n = q.items.length;
+    q.items.forEach(function (x, i) { if (a[i] === x.answer) k++; });
+    g.k = k; g.n = n; g.score = n === 4 ? TFS_SC[k] : k / n;
+  } else if (q.type === 'cloze') {
+    var n1 = norm1(a), n2 = norm2(a);
+    g.score = q.answers.some(function (x) { return norm1(x) === n1 || norm2(x) === n2; }) ? 1 : 0;
+  } else if (q.type === 'match') {
+    k = 0; n = q.pairs.length;
+    q.pairs.forEach(function (_, i) { if (a[i] === i) k++; });
+    g.k = k; g.n = n; g.score = k / n;
+  }
+  g.state = g.score >= 1 ? 'correct' : (g.score > 0 ? 'partial' : 'wrong');
+  return g;
+}
+function computeExamResult(questions, timeUsed) {
+  var total = questions.length || 1, p1 = 0, p2 = 0;
+  var cnt = { correct: 0, partial: 0, wrong: 0, skipped: 0, pending: 0 };
+  var grades = questions.map(function (item) {
+    var g = gradeExamItem(item);
+    if (item.q.type === 'mcq') p1 += g.score; else p2 += g.score;
+    cnt[g.state]++;
+    return g;
+  });
+  return { questions: questions, grades: grades, counts: cnt, timeUsed: timeUsed, score: (p1 + p2) / total * 10, scorePart1: p1 / total * 10, scorePart2: p2 / total * 10 };
+}
+
+function examPromptHTML(item) {
+  var q = item.q, h = '';
+  if ((q.type === 'mcq' && q.context) || (q.type === 'tfs' && q.quote)) h += '<div style="margin-bottom:14px">' + ctxHTML(q) + '</div>';
+  if (q.type === 'cloze') h += '<div style="font-size: 16px; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: var(--ink);">' + clozePrompt(q) + '</div>';
+  else if (q.prompt) h += '<div style="font-size: 16px; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: var(--ink);">' + esc(q.prompt) + '</div>';
+  return h;
+}
+
+function renderExamQuestionInput(item, idx) {
+  var q = item.q, a = item.userAnswer, h = '', i;
+  var sel = function (on) { return on ? 'background: var(--accent); color: #fff; border-color: var(--accent);' : 'background: var(--surface); color: var(--ink); border-color: var(--line);'; };
+  var badge = function (on) { return on ? 'background: rgba(255,255,255,0.2); color: #fff;' : 'background: var(--bg); color: var(--muted);'; };
+  if (q.type === 'mcq') {
+    for (i = 0; i < q.options.length; i++) {
+      var on = a === i, letter = ['A', 'B', 'C', 'D', 'E', 'F'][i] || String(i + 1);
+      h += '<button class="opt" style="display: flex; align-items: flex-start; gap: 12px; width: 100%; text-align: left; padding: 12px 16px; border-radius: 12px; border: 1px solid; ' + sel(on) + ' cursor: pointer; transition: all 0.15s;" data-act="examSelectAns" data-qidx="' + idx + '" data-val="' + i + '">' +
+        '<span style="display: inline-flex; width: 24px; height: 24px; align-items: center; justify-content: center; border-radius: 6px; font-size: 12px; font-weight: 700; ' + badge(on) + ' flex-shrink: 0;">' + letter + '</span>' +
+        '<span style="font-size: 14px; line-height: 1.4; padding-top: 2px;">' + esc(q.options[i]) + '</span></button>';
+    }
+    return '<div style="display: flex; flex-direction: column; gap: 10px;">' + h + '</div>';
+  }
+  if (q.type === 'truefalse') {
+    [true, false].forEach(function (b, n) {
+      var on = a === b;
+      h += '<button class="opt" style="display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 12px; border: 1px solid; ' + sel(on) + ' cursor: pointer;" data-act="examSelectAns" data-qidx="' + idx + '" data-val="' + b + '">' +
+        '<span style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 12px; font-weight: 700; ' + badge(on) + '">' + (n + 1) + '</span>' +
+        '<span style="font-weight: 600; font-size: 14px;">' + esc(tfLabel(b)) + '</span></button>';
+    });
+    return '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">' + h + '</div>';
+  }
+  if (q.type === 'tfs') {
+    q.items.forEach(function (x, n) {
+      h += '<div class="tfi"><p>' + String.fromCharCode(97 + n) + ') ' + esc(x.text) + '</p><div class="tfb">';
+      [true, false].forEach(function (b) {
+        h += '<button class="tfo' + (Array.isArray(a) && a[n] === b ? ' sel' : '') + '" data-act="examTfs" data-qidx="' + idx + '" data-i="' + n + '" data-v="' + (b ? 1 : 0) + '">' + esc(tfLabel(b)) + '</button>';
+      });
+      h += '</div></div>';
+    });
+    return '<p class="muted" style="margin-bottom:10px">' + tr('tfs_hint') + '</p><div class="tfs">' + h + '</div>';
+  }
+  if (q.type === 'match') {
+    if (!item.rorder) item.rorder = shuffle(q.pairs.map(function (_, n) { return n; }));
+    var mp = a || {}, k;
+    h = '<p class="muted" style="margin-bottom:10px">' + tr('mt_hint') + '</p><div class="mt"><div class="mtc">';
+    q.pairs.forEach(function (p, n) {
+      h += '<button class="mtb' + (mp[n] != null ? ' paired' : '') + (item.selL === n ? ' sel' : '') + '" data-act="examMatch" data-qidx="' + idx + '" data-s="L" data-i="' + n + '"><span class="k">' + (n + 1) + '</span><span>' + esc(p.left) + '</span></button>';
+    });
+    h += '</div><div class="mtc">';
+    item.rorder.forEach(function (j) {
+      var owner = -1;
+      for (k in mp) if (mp[k] === j) owner = parseInt(k, 10);
+      h += '<button class="mtb' + (owner >= 0 ? ' paired' : '') + '" data-act="examMatch" data-qidx="' + idx + '" data-s="R" data-i="' + j + '"><span class="k">' + (owner >= 0 ? owner + 1 : '&middot;') + '</span><span>' + esc(q.pairs[j].right) + '</span></button>';
+    });
+    return h + '</div></div>';
+  }
+  if (q.type === 'short') {
+    return '<label style="display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--muted); margin-bottom: 6px;">' + tr('ans_aria') + '</label>' +
+      '<textarea class="typed" placeholder="' + esc(tr('ph_typed')) + '" data-exam-input="' + idx + '">' + esc(a || '') + '</textarea>';
+  }
+  /* cloze and anything else: single line */
+  return '<label style="display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--muted); margin-bottom: 6px;">' + tr('ans_aria') + '</label>' +
+    '<input type="text" class="typed clin" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="' + esc(tr('ans_hint')) + '" value="' + esc(a || '') + '" data-exam-input="' + idx + '" />';
+}
+
+function rvRow(text, cls, label) {
+  return '<div class="rv-row' + (cls ? ' ' + cls : '') + '"><span>' + esc(text) + '</span>' + (label ? '<small>' + esc(label) + '</small>' : '') + '</div>';
+}
+function examReviewItem(item, i, g) {
+  var q = item.q, a = item.userAnswer, rows = '', n;
+  var icon = { correct: '\u2705', partial: '\uD83D\uDFE1', wrong: '\u274C', skipped: '\u26AA', pending: '\u23F3' }[g.state];
+  var lab = { correct: tr('correct'), partial: tr('partial'), wrong: tr('notquite'), skipped: tr('examStatSkipped'), pending: tr('examStatPending') }[g.state];
+  if (q.type === 'mcq') {
+    q.options.forEach(function (o, oi) {
+      var cls = oi === q.answer ? 'ok' : (a === oi ? 'bad' : '');
+      rows += rvRow(['A', 'B', 'C', 'D', 'E', 'F'][oi] + '. ' + o, cls, oi === q.answer ? tr('lab_correct') : (a === oi ? tr('lab_yours') : ''));
+    });
+  } else if (q.type === 'truefalse') {
+    [true, false].forEach(function (b) {
+      rows += rvRow(tfLabel(b), b === q.answer ? 'ok' : (a === b ? 'bad' : ''), b === q.answer ? tr('lab_correct') : (a === b ? tr('lab_yours') : ''));
+    });
+  } else if (q.type === 'tfs') {
+    q.items.forEach(function (x, ii) {
+      var v = Array.isArray(a) ? a[ii] : null, good = v === x.answer;
+      var label = tr('lab_yours') + ': ' + (v === true || v === false ? tfLabel(v) : tr('unanswered')) + (good ? '' : ' \u00b7 ' + tr('lab_correct') + ': ' + tfLabel(x.answer));
+      rows += rvRow(String.fromCharCode(97 + ii) + ') ' + x.text, good ? 'ok' : 'bad', label);
+    });
+  } else if (q.type === 'cloze') {
+    rows += rvRow(a || tr('unanswered'), g.state === 'correct' ? 'ok' : 'bad', tr('lab_yours'));
+    if (g.state !== 'correct') rows += rvRow(q.answers.join(' / '), 'ok', tr('lab_correct'));
+  } else if (q.type === 'match') {
+    q.pairs.forEach(function (p, pi) {
+      var m = a ? a[pi] : null, good = m === pi;
+      rows += rvRow(p.left + ' \u2192 ' + (m != null ? q.pairs[m].right : tr('unanswered')), good ? 'ok' : 'bad', good ? '' : tr('mt_correct_is', { a: p.right }));
+    });
+  } else if (q.type === 'short') {
+    rows += rvRow(a || tr('unanswered'), '', tr('lab_yours'));
+    rows += rvRow(q.answer, 'ok', tr('model_answer'));
+    rows += '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm' + (item.selfOk === true ? ' primary' : '') + '" data-act="examSelfGrade" data-idx="' + i + '" data-ok="1">' + tr('had_it') + '</button><button class="btn sm' + (item.selfOk === false ? ' again' : '') + '" data-act="examSelfGrade" data-idx="' + i + '" data-ok="0">' + tr('not_yet_btn') + '</button></div>';
+  }
+  var h = '<div class="res-i" style="gap:10px"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><b>' + icon + ' ' + tr('question') + ' ' + (i + 1) + '</b><span class="muted" style="font-size:12px">' + esc(tr('qt_' + q.type)) + ' \u00b7 ' + esc(lab) + (g.n ? ' (' + g.k + '/' + g.n + ')' : '') + '</span></div>';
+  h += examPromptHTML(item);
+  h += '<div class="rv-stack">' + rows + '</div>';
+  if (q.explanation) h += '<div style="font-size:14px;color:var(--muted);line-height:1.5">' + esc(q.explanation) + '</div>';
+  return h + '</div>';
+}
+
 function renderExam() {
   let html = `<div style="max-width: 1000px; margin: 0 auto; padding: 16px;">`;
   const runKey = 'sp:run:' + S.key;
   const savedRun = localStorage.getItem(runKey);
+  const cfg = examCfg();
 
-if (S.exam.step === 'config') {
-    // Khởi tạo giá trị mặc định nếu chưa có
-    if (!S.exam.config) {
-      S.exam.config = { scope: 'all', mode: 'full', time: 45 };
-    }
+  if (S.exam.step === 'config') {
     const scopeList = [{ id: 'all', title: tr('examAllTopics') }, ...S.pack.topics];
-    const currentScopeObj = scopeList.find(t => t.id === S.exam.config.scope) || scopeList[0];
-    
+    if (!scopeList.some(t => t.id === cfg.scope)) cfg.scope = 'all';
+    const currentScopeObj = scopeList.find(t => t.id === cfg.scope) || scopeList[0];
+    const avail = examAvailTypes(cfg.scope);
+    const noTypes = examSelectedTypes(cfg).length === 0;
+    const typesHtml = avail.map(x => `
+      <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 14px;">
+        <input type="checkbox" data-exam-type="${x.type}" ${cfg.off[x.type] ? '' : 'checked'}>
+        <span>${tr('qt_' + x.type)} <span class="muted">(${x.n})</span></span>
+      </label>`).join('');
+
     html += `
       <div class="rp-card" style="padding: 24px; max-width: 500px; margin: 0 auto;">
         <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 16px;">${tr('examConfig')}</h2>
@@ -2774,92 +2980,94 @@ if (S.exam.step === 'config') {
           </div>
         ` : ''}
         <div style="display: flex; flex-direction: column; gap: 16px;">
-          
-          <!-- Custom Dropdown: Phạm vi chủ đề -->
+
           <div>
             <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--muted);">${tr('examScope')}</label>
             <div class="c-select" id="dropdownScope">
               <button type="button" class="c-select-btn" data-act="toggleDropdown" data-target="dropdownScope" aria-expanded="false">
-                <span>${currentScopeObj.title}</span>
+                <span>${esc(currentScopeObj.title)}</span>
                 <span style="font-size: 10px; opacity: 0.6;">▼</span>
               </button>
               <div class="c-select-menu" role="listbox">
                 ${scopeList.map(tp => `
-                  <div class="c-select-item ${tp.id === S.exam.config.scope ? 'selected' : ''}" 
-                       data-act="selectScope" data-val="${tp.id}" role="option">
-                    ${tp.title}
+                  <div class="c-select-item ${tp.id === cfg.scope ? 'selected' : ''}"
+                       data-act="selectScope" data-val="${esc(tp.id)}" role="option">
+                    ${esc(tp.title)}
                   </div>
                 `).join('')}
               </div>
             </div>
           </div>
 
-          <!-- Custom Dropdown: Chế độ thi -->
           <div>
             <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--muted);">${tr('examMode')}</label>
             <div class="c-select" id="dropdownMode">
               <button type="button" class="c-select-btn" data-act="toggleDropdown" data-target="dropdownMode" aria-expanded="false">
-                <span>${S.exam.config.mode === 'full' ? `${tr('examFull')}` : `${tr('examShort')}`}</span>
+                <span>${cfg.mode === 'full' ? tr('examFull') : tr('examShort')}</span>
                 <span style="font-size: 10px; opacity: 0.6;">▼</span>
               </button>
               <div class="c-select-menu" role="listbox">
-                <div class="c-select-item ${S.exam.config.mode === 'full' ? 'selected' : ''}" data-act="selectMode" data-val="full" role="option">${tr('examFull')}</div>
-                <div class="c-select-item ${S.exam.config.mode === 'short' ? 'selected' : ''}" data-act="selectMode" data-val="short" role="option">${tr('examShort')}</div>
+                <div class="c-select-item ${cfg.mode === 'full' ? 'selected' : ''}" data-act="selectMode" data-val="full" role="option">${tr('examFull')}</div>
+                <div class="c-select-item ${cfg.mode === 'short' ? 'selected' : ''}" data-act="selectMode" data-val="short" role="option">${tr('examShort')}</div>
               </div>
             </div>
           </div>
 
           <div>
-            <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--muted);">${tr('examTime')}</label>
-            <input type="number" id="examTimeInput" value="${S.exam.config.time}" min="5" max="120" style="width: 100%; padding: 10px 12px; border: 1px solid var(--line); background: var(--bg); border-radius: 10px; font-size: 14px; color: var(--ink);" onchange="S.exam.config.time = parseInt(this.value)||45" />
+            <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--muted);">${tr('examTypes')}</label>
+            <div style="display: grid; gap: 10px;">${typesHtml}</div>
+            ${noTypes ? `<p style="margin-top: 8px; font-size: 13px; color: var(--bad);">${tr('examNoTypes')}</p>` : ''}
           </div>
 
-          <button class="btn primary" style="width: 100%; padding: 12px; font-weight: 600; margin-top: 8px;" data-act="examStart">${tr('examStartBtn')}</button>
+          <div>
+            <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--muted);">${tr('examTime')}</label>
+            <input type="number" id="examTimeInput" value="${cfg.time}" min="5" max="180" style="width: 100%; padding: 10px 12px; border: 1px solid var(--line); background: var(--bg); border-radius: 10px; font-size: 14px; color: var(--ink);" />
+          </div>
+
+          <button class="btn primary" style="width: 100%; padding: 12px; font-weight: 600; margin-top: 8px;" data-act="examStart" ${noTypes ? 'disabled' : ''}>${tr('examStartBtn')}</button>
         </div>
       </div>
     `;
   } else if (S.exam.step === 'doing') {
     const run = S.exam.run;
+    if (!run) { S.exam.step = 'config'; return renderExam(); }
     const qList = run.questions;
     const currentQ = qList[run.currentIndex];
-    
+
     const remaining = Math.max(0, run.endTime - Date.now());
     const mins = Math.floor(remaining / 60000);
     const secs = Math.floor((remaining % 60000) / 1000);
     const initialTimeStr = `⏱️ ${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-    const answeredCount = qList.filter(i => i.userAnswer !== null && i.userAnswer !== undefined && i.userAnswer !== "").length;
+    const answeredCount = qList.filter(examIsAnswered).length;
     const flaggedCount = qList.filter(i => i.flagged).length;
-    
+
     const isConfirming = S.exam.confirmingSubmit;
     const submitBtnText = isConfirming ? `${tr('examConfirmSubmit')}` : `${tr('examSubmitBtn')}`;
-    const submitBtnStyle = isConfirming 
-      ? 'width: 100%; padding: 12px; font-weight: 600; background: var(--bad); border-color: var(--bad); color: #fff;' 
+    const submitBtnStyle = isConfirming
+      ? 'width: 100%; padding: 12px; font-weight: 600; background: var(--bad); border-color: var(--bad); color: #fff;'
       : 'width: 100%; padding: 12px; font-weight: 600;';
 
     html += `
-      <!-- Thanh công cụ phía trên -->
       <div style="position: sticky; top: 0; background: var(--surface); padding: 12px 16px; border-radius: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgb(0 0 0 / 0.05); z-index: 10; border: 1px solid var(--line);">
         <div style="font-weight: 700; color: var(--accent);" id="examTimer">${initialTimeStr}</div>
         <div style="font-size: 13px; color: var(--muted);">${tr('question')} <b style="color: var(--ink);">${run.currentIndex + 1}</b> / ${qList.length}</div>
         <button class="btn sm" data-act="examExit">${tr('examExit')}</button>
       </div>
-      
-      <!-- Lưới responsive 2 cột -->
+
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 20px; align-items: start;">
-        
-        <!-- Phần nội dung câu hỏi (Đã thêm class exam-card để kích hoạt hiệu ứng glow theo chuột) -->
+
         <div class="rp-card exam-card" style="padding: 24px; min-height: 400px; display: flex; flex-direction: column; justify-content: space-between;">
           <div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent); font-weight: 700;">${currentQ.ttitle || 'Chủ đề'}</div>
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px;">
+              <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent); font-weight: 700;">${esc(currentQ.ttitle || '')} · ${esc(tr('qt_' + currentQ.q.type))}</div>
               <button class="btn sm" data-act="examToggleFlag" style="background: ${currentQ.flagged ? 'var(--warn)' : 'var(--surface)'}; border-color: ${currentQ.flagged ? 'var(--warn)' : 'var(--line)'}; color: ${currentQ.flagged ? '#fff' : 'var(--ink)'};">
                 🚩 ${currentQ.flagged ? tr('flagged') : tr('flag')}
               </button>
             </div>
-            <div style="font-size: 16px; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: var(--ink);">${esc(currentQ.q.prompt)}</div>
-            
+            ${examPromptHTML(currentQ)}
+
             <div style="margin-bottom: 24px;">
-              ${renderExamQuestionInput(currentQ.q, run.currentIndex, currentQ)}
+              ${renderExamQuestionInput(currentQ, run.currentIndex)}
             </div>
           </div>
 
@@ -2868,23 +3076,22 @@ if (S.exam.step === 'config') {
             <button class="btn primary" data-act="examNext" ${run.currentIndex === qList.length - 1 ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>${tr('btn_next')} →</button>
           </div>
         </div>
-        
-        <!-- Bảng điều hướng câu hỏi (Tích hợp microinteractions exam-jump-btn) -->
+
         <div class="rp-card" style="padding: 20px;">
           <div style="font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 12px; display: flex; flex-direction: column; gap: 4px;">
             <span>${tr('list_title')}</span>
             <span style="font-size: 12px;">✅ <b>${answeredCount}</b> ${tr('done_name')} | 🚩 <b>${flaggedCount}</b> ${tr('flag_name')}</span>
           </div>
-<div class="exam-jump-container" style="margin-bottom: 16px;">
+          <div class="exam-jump-container" style="margin-bottom: 16px;">
             ${qList.map((item, idx) => {
-              const answered = item.userAnswer !== null && item.userAnswer !== undefined && item.userAnswer !== "";
+              const answered = examIsAnswered(item);
               const isFlagged = item.flagged;
               const isCurrent = idx === run.currentIndex;
-              
+
               let bg = 'var(--bg)';
               let color = 'var(--muted)';
               let border = '1px solid var(--line)';
-              
+
               if (isFlagged) {
                 bg = 'var(--warn-bg)';
                 color = 'var(--warn)';
@@ -2894,7 +3101,7 @@ if (S.exam.step === 'config') {
                 color = 'var(--good)';
                 border = '1px solid var(--good)';
               }
-              
+
               if (isCurrent) {
                 border = '2px solid var(--accent)';
                 if (!isFlagged && !answered) {
@@ -2902,7 +3109,7 @@ if (S.exam.step === 'config') {
                   bg = 'var(--soft)';
                 }
               }
-              
+
               return `<button class="exam-jump-btn" data-act="examJump" data-idx="${idx}" style="padding: 8px 0; font-size: 12px; font-weight: 700; border-radius: 8px; background: ${bg}; color: ${color}; border: ${border}; cursor: pointer; text-align: center;">${idx + 1}</button>`;
             }).join('')}
           </div>
@@ -2912,14 +3119,19 @@ if (S.exam.step === 'config') {
       </div>
     `;
   } else if (S.exam.step === 'result') {
-    const res = S.exam.result;
+    const res = S.exam.result, c = res.counts, filt = S.exam.filter || 'all';
+    const parts = [['✅', tr('correct'), c.correct], ['🟡', tr('partial'), c.partial], ['❌', tr('notquite'), c.wrong], ['⚪', tr('examStatSkipped'), c.skipped]];
+    if (c.pending) parts.push(['⏳', tr('examStatPending'), c.pending]);
+    const list = res.questions.map((it, i) => ({ it: it, i: i, g: res.grades[i] })).filter(x => filt === 'all' || x.g.state !== 'correct');
+    const hasShort = res.questions.some(x => x.q.type === 'short');
+
     html += `
       <div class="rp-card" style="max-width: 500px; margin: 0 auto; padding: 32px; text-align: center;">
         <div style="font-size: 36px; margin-bottom: 12px;">🏆</div>
         <h2 style="font-size: 22px; font-weight: 700; margin-bottom: 8px;">${tr('examResultTitle')}</h2>
         <div style="font-size: 48px; font-weight: 800; color: var(--accent); margin: 20px 0;">${res.score.toFixed(2)} <span style="font-size: 18px; color: var(--muted); font-weight: 400;">/ 10</span></div>
-        
-        <div style="background: var(--bg); border-radius: 12px; padding: 16px; margin-bottom: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; text-align: left; font-size: 14px;">
+
+        <div style="background: var(--bg); border-radius: 12px; padding: 16px; margin-bottom: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; text-align: left; font-size: 14px;">
           <div>${tr('examPart1')}: <br><b>${res.scorePart1.toFixed(2)}</b></div>
           <div>${tr('examPart2')}: <br><b>${res.scorePart2.toFixed(2)}</b></div>
           <div style="grid-column: span 2; border-top: 1px solid var(--line); padding-top: 8px; display: flex; justify-content: space-between;">
@@ -2927,76 +3139,32 @@ if (S.exam.step === 'config') {
           </div>
         </div>
 
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 14px; font-size: 13px; margin-bottom: 20px;">
+          ${parts.map(p => `<span>${p[0]} ${esc(p[1])}: <b>${p[2]}</b></span>`).join('')}
+        </div>
+
         <div style="display: flex; justify-content: center; gap: 12px;">
           <button class="btn primary" data-act="examResetConfig">${tr('examNewExam')}</button>
           <button class="btn" data-go="overview">${tr('nav_overview')}</button>
         </div>
+      </div>
+
+      <div style="max-width: 720px; margin: 28px auto 0;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 10px;">
+          <h2 class="sec-h" style="margin: 0;">${tr('examReview')}</h2>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn sm${filt === 'all' ? ' primary' : ''}" data-act="examFilter" data-f="all">${tr('examFilterAll')}</button>
+            <button class="btn sm${filt === 'wrong' ? ' primary' : ''}" data-act="examFilter" data-f="wrong">${tr('examFilterWrong')}</button>
+          </div>
+        </div>
+        ${hasShort ? `<p class="muted" style="font-size: 13px; margin-bottom: 10px;">${tr('examSelfNote')}</p>` : ''}
+        <div class="res-list">${list.length ? list.map(x => examReviewItem(x.it, x.i, x.g)).join('') : '<div class="empty"><p>🎉</p></div>'}</div>
       </div>
     `;
   }
   html += `</div>`;
   return html;
 }
-
-function renderExamQuestionInput(q, idx, item) {
-  if (q.type === 'mcq') {
-    let optsHtml = '';
-    for (let oIdx = 0; oIdx < q.options.length; oIdx++) {
-      const opt = q.options[oIdx];
-      const selected = item.userAnswer === oIdx;
-      const letter = ['A', 'B', 'C', 'D'][oIdx] || String(oIdx + 1);
-      
-      // Highlight rõ ràng: Khi chọn sẽ đổi sang màu accent, chữ trắng cực kỳ dễ đọc
-      const bgStyle = selected 
-        ? 'background: var(--accent); color: #fff; border-color: var(--accent);' 
-        : 'background: var(--surface); color: var(--ink); border-color: var(--line);';
-      const badgeBg = selected 
-        ? 'background: rgba(255,255,255,0.2); color: #fff;' 
-        : 'background: var(--bg); color: var(--muted);';
-      
-      optsHtml += `
-        <button class="opt" style="display: flex; align-items: flex-start; gap: 12px; width: 100%; text-align: left; padding: 12px 16px; border-radius: 12px; border: 1px solid; ${bgStyle} cursor: pointer; transition: all 0.15s;" 
-          data-act="examSelectAns" data-qidx="${idx}" data-val="${oIdx}">
-          <span style="display: inline-flex; width: 24px; height: 24px; align-items: center; justify-content: center; border-radius: 6px; font-size: 12px; font-weight: 700; ${badgeBg} flex-shrink: 0;">
-            ${letter}
-          </span>
-          <span style="font-size: 14px; line-height: 1.4; padding-top: 2px;">${esc(opt)}</span>
-        </button>
-      `;
-    }
-    return `<div style="display: flex; flex-direction: column; gap: 10px;">${optsHtml}</div>`;
-  } else if (q.type === 'truefalse') {
-    const tSelected = item.userAnswer === true;
-    const fSelected = item.userAnswer === false;
-    
-    const tStyle = tSelected ? 'background: var(--accent); color: #fff; border-color: var(--accent);' : 'background: var(--surface); color: var(--ink); border-color: var(--line);';
-    const fStyle = fSelected ? 'background: var(--accent); color: #fff; border-color: var(--accent);' : 'background: var(--surface); color: var(--ink); border-color: var(--line);';
-    
-    const tBadge = tSelected ? 'background: rgba(255,255,255,0.2); color: #fff;' : 'background: var(--bg); color: var(--muted);';
-    const fBadge = fSelected ? 'background: rgba(255,255,255,0.2); color: #fff;' : 'background: var(--bg); color: var(--muted);';
-
-    return `
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-        <button class="opt" style="display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 12px; border: 1px solid; ${tStyle} cursor: pointer;" data-act="examSelectAns" data-qidx="${idx}" data-val="true">
-          <span style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 12px; font-weight: 700; ${tBadge}">1</span>
-          <span style="font-weight: 600; font-size: 14px;">${tr('true_ans')}</span>
-        </button>
-        <button class="opt" style="display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 12px; border: 1px solid; ${fStyle} cursor: pointer;" data-act="examSelectAns" data-qidx="${idx}" data-val="false">
-          <span style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 12px; font-weight: 700; ${fBadge}">2</span>
-          <span style="font-weight: 600; font-size: 14px;">${tr('false_ans')}</span>
-        </button>
-      </div>
-    `;
-  }
-  return `
-    <div>
-      <label style="display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--muted); margin-bottom: 6px;">${tr('ans_aria')}</label>
-      <input type="text" style="width: 100%; padding: 12px 16px; border: 1px solid var(--line); background: var(--bg); border-radius: 10px; font-size: 14px; color: var(--ink); outline: none;" placeholder="${tr('ans_hint')}" value="${item.userAnswer || ''}" data-exam-input="${idx}" />
-    </div>
-  `;
-}
-
-
 
 function selectExamAns(qIdx, val, skipRender) {
   if (S.exam.run && S.exam.run.questions[qIdx]) {
@@ -3016,31 +3184,89 @@ function prevExamQ() {
 }
 
 function startExam() {
-  const cfg = S.exam.config || { scope: 'all', mode: 'full', time: 45 };
-  const scope = cfg.scope;
-  const mode = cfg.mode;
-  const timeMin = cfg.time;
-  
+  const cfg = examCfg();
+  const ti = document.getElementById('examTimeInput');
+  if (ti) cfg.time = Math.min(180, Math.max(5, parseInt(ti.value, 10) || cfg.time || 45));
+  const types = examSelectedTypes(cfg);
+  if (!types.length) return;
+
   let pool = [];
-  scopeTopics(scope).forEach(t => {
-    t.questions.forEach(q => pool.push({ tid: t.id, ttitle: t.title, q: q }));
+  scopeTopics(cfg.scope).forEach(t => {
+    t.questions.forEach(q => { if (types.indexOf(q.type) >= 0) pool.push({ tid: t.id, ttitle: t.title, q: q }); });
   });
-  pool.sort(() => Math.random() - 0.5);
-  const targetCount = mode === 'full' ? Math.min(40, pool.length) : Math.min(20, pool.length);
-  
+  if (!pool.length) return;
+  shuffle(pool);
+  const target = Math.min(cfg.mode === 'full' ? 40 : 20, pool.length);
+
+  // every selected type that exists gets at least one question, the rest is random
+  const by = {};
+  pool.forEach(it => { (by[it.q.type] = by[it.q.type] || []).push(it); });
+  let picked = [], rest = [];
+  types.forEach(t => { if (by[t]) { picked.push(by[t][0]); rest = rest.concat(by[t].slice(1)); } });
+  shuffle(rest);
+  picked = picked.concat(rest.slice(0, Math.max(0, target - picked.length)));
+
+  // shuffle inside each type, then pin the type order: mcq, true/false, ... , short
+  shuffle(picked);
+  picked.forEach((it, i) => { it._o = i; });
+  picked.sort((a, b) => (EXAM_TYPES.indexOf(a.q.type) - EXAM_TYPES.indexOf(b.q.type)) || (a._o - b._o));
+
+  const items = picked.map(it => {
+    const o = { tid: it.tid, ttitle: it.ttitle, q: it.q, userAnswer: null, flagged: false };
+    if (it.q.type === 'tfs') o.userAnswer = it.q.items.map(() => null);
+    else if (it.q.type === 'match') {
+      o.userAnswer = {}; o.selL = -1;
+      o.rorder = shuffle(it.q.pairs.map((_, i) => i));
+      if (o.rorder.length > 1 && o.rorder.every((v, i) => v === i)) o.rorder.push(o.rorder.shift());
+    }
+    return o;
+  });
+
   S.exam = {
     step: 'doing',
     config: cfg,
     confirmingSubmit: false,
     run: {
-      questions: pool.slice(0, targetCount).map(item => ({ ...item, userAnswer: null, flagged: false })),
+      questions: items,
       currentIndex: 0,
       startTime: Date.now(),
-      endTime: Date.now() + timeMin * 60 * 1000
+      endTime: Date.now() + cfg.time * 60 * 1000
     }
   };
   saveExamRun();
   startExamTimer();
+  render();
+}
+
+function examTfsPick(qIdx, i, v) {
+  const it = S.exam.run && S.exam.run.questions[qIdx];
+  if (!it) return;
+  if (!Array.isArray(it.userAnswer)) it.userAnswer = it.q.items.map(() => null);
+  it.userAnswer[i] = it.userAnswer[i] === v ? null : v;
+  saveExamRun(); render();
+}
+function examMatchPick(qIdx, side, idx) {
+  const it = S.exam.run && S.exam.run.questions[qIdx];
+  if (!it) return;
+  const mp = it.userAnswer && typeof it.userAnswer === 'object' ? it.userAnswer : (it.userAnswer = {});
+  let k;
+  if (it.selL == null) it.selL = -1;
+  if (side === 'L') {
+    if (mp[idx] != null) { delete mp[idx]; it.selL = idx; }
+    else it.selL = it.selL === idx ? -1 : idx;
+  } else {
+    let owner = -1;
+    for (k in mp) if (mp[k] === idx) owner = parseInt(k, 10);
+    if (it.selL < 0) { if (owner >= 0) { delete mp[owner]; it.selL = owner; } }
+    else { if (owner >= 0) delete mp[owner]; mp[it.selL] = idx; it.selL = -1; }
+  }
+  saveExamRun(); render();
+}
+function examSelfGrade(idx, ok) {
+  const res = S.exam.result;
+  if (!res || !res.questions[idx]) return;
+  res.questions[idx].selfOk = ok;
+  S.exam.result = computeExamResult(res.questions, res.timeUsed);
   render();
 }
 
@@ -3104,32 +3330,21 @@ function confirmSubmitExam() {
 
 function submitExam() {
   if (window._examTimerInterval) clearInterval(window._examTimerInterval);
+  if (window._submitTimeout) clearTimeout(window._submitTimeout);
   const run = S.exam.run;
-  let correctCount = 0;
-  
-  run.questions.forEach(item => {
-    const q = item.q;
-    if (q.type === 'mcq' && item.userAnswer === q.answer) correctCount++;
-    else if (q.type === 'truefalse' && item.userAnswer === q.answer) correctCount++;
-  });
-  
-  const total = run.questions.length || 1;
-  const score = (correctCount / total) * 10;
-  
-  S.exam.result = {
-    score: score,
-    scorePart1: score,
-    scorePart2: 0,
-    timeUsed: Date.now() - run.startTime,
-    questions: run.questions
-  };
+  if (!run) return;
+  S.exam.confirmingSubmit = false;
+  const used = Math.min(Date.now(), run.endTime) - run.startTime;
+  S.exam.result = computeExamResult(run.questions, Math.max(0, used));
+  S.exam.filter = 'all';
   S.exam.step = 'result';
   localStorage.removeItem('sp:run:' + S.key);
   render();
+  window.scrollTo(0, 0);
 }
 
 function resetExamConfig() {
-  S.exam = { step: 'config', run: null, confirmingSubmit: false };
+  S.exam = { step: 'config', run: null, confirmingSubmit: false, config: S.exam.config };
   render();
 }
 
@@ -3884,6 +4099,10 @@ function toggleExamFlag() {
       case 'examJump': jumpExamQ(parseInt(el.dataset.idx, 10)); break;
       case 'examToggleFlag': toggleExamFlag(); break;
       case 'examSubmitConfirm': confirmSubmitExam(); break;
+      case 'examTfs': examTfsPick(parseInt(el.dataset.qidx, 10), parseInt(el.dataset.i, 10), el.dataset.v === '1'); break;
+      case 'examMatch': examMatchPick(parseInt(el.dataset.qidx, 10), el.dataset.s, parseInt(el.dataset.i, 10)); break;
+      case 'examSelfGrade': examSelfGrade(parseInt(el.dataset.idx, 10), el.dataset.ok === '1'); break;
+      case 'examFilter': S.exam.filter = el.dataset.f; render(); break;
       case 'examResetConfig': resetExamConfig(); break;
       case 'examSelectAns':
         var qIdx = parseInt(el.dataset.qidx, 10);
@@ -4009,9 +4228,6 @@ function toggleExamFlag() {
       case 'qstart':
         var shuffleEl = document.getElementById('qShuffle');
     if (shuffleEl) S.qopts.shuffle = shuffleEl.checked;
-        S.qopts.count = parseInt($('#qCount').value, 10) || 0;
-        S.qopts.secs = parseInt($('#qTimeSel').value, 10) || 0;
-        S.qopts.shuffle = $('#qShuffle').checked;
         startQuiz(S.scope); break;
       case 'tfs': tfsPick(el); break;
       case 'mpick': matchPick(el.dataset.s, parseInt(el.dataset.i, 10)); break;
@@ -4207,6 +4423,9 @@ document.addEventListener('click', function(e) {
     if (id === 'cShuffle') { S.copts.shuffle = e.target.checked; startCards(S.scope); render(); }
     else if (id === 'cSkip') { S.copts.skipKnown = e.target.checked; startCards(S.scope); render(); }
     else if (id === 'dlDate') setDeadline(e.target.value);
+    else if (id === 'qShuffle') S.qopts.shuffle = e.target.checked;
+    else if (id === 'examTimeInput') { var ec = examCfg(); ec.time = Math.min(180, Math.max(5, parseInt(e.target.value, 10) || 45)); }
+    else if (e.target.dataset && e.target.dataset.examType) { var ec2 = examCfg(); var tv = e.target.dataset.examType; if (e.target.checked) delete ec2.off[tv]; else ec2.off[tv] = true; render(); }
     else if (id === 'fileIn') handleFiles(e.target.files);
   });
 document.addEventListener('input', function (e) {
