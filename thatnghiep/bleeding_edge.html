@@ -1181,7 +1181,7 @@ html, body { max-width: 100%; overflow-x: clip; }
 <header class="top">
   <div class="wrap">
 <div class="brand-wrap">
-  <button class="brand" id="brandBtn" data-act="toggleRail" aria-label="Toggle sidebar" aria-controls="railNav" aria-expanded="true">
+  <button class="brand" id="brandBtn" data-act="toggleRail" aria-label="Toggle sidebar" data-i18n-attr="aria-label:sidebar_aria" aria-controls="railNav" aria-expanded="true">
     <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true" style="filter: drop-shadow(0 2px 6px rgb(0 0 0 / 0.15));">
       <defs>
         <linearGradient id="logoGrad" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -1199,18 +1199,18 @@ html, body { max-width: 100%; overflow-x: clip; }
   </button>
   
   <div class="debug-popup" id="debugPopup">
-    <div class="eyebrow">System Debug</div>
-    <h4 style="margin: 4px 0 6px; font-size: 14px;">Runtime Inspector</h4>
-    <div class="debug-row"><span class="muted">Pack Key:</span> <span id="dbgKey">-</span></div>
-    <div class="debug-row"><span class="muted">Topics / Cards:</span> <span id="dbgStats">-</span></div>
-    <div class="debug-row"><span class="muted">Language / Mode:</span> <span id="dbgLangMode">-</span></div>
-    <div class="debug-row"><span class="muted">LocalStorage:</span> <span id="dbgStorage">-</span></div>
-    <div class="debug-row"><span class="muted">Haptics:</span> <button class="link" id="dbgHaptic" data-act="toggleHaptic" style="font:inherit">-</button></div>
-    <div class="debug-row"><span class="muted">Test:</span> <button class="link" data-act="testHaptic" style="font:inherit">Haptic test</button></div>
-    <div class="debug-row"><span class="muted">Mode:</span> <span id="dbgMode">-</span></div>
+    <div class="eyebrow" data-i18n="dbg_title">System Debug</div>
+    <h4 style="margin: 4px 0 6px; font-size: 14px;" data-i18n="dbg_sub">Runtime Inspector</h4>
+    <div class="debug-row"><span class="muted" data-i18n="dbg_key">Pack Key:</span> <span id="dbgKey">-</span></div>
+    <div class="debug-row"><span class="muted" data-i18n="dbg_stats">Topics / Cards:</span> <span id="dbgStats">-</span></div>
+    <div class="debug-row"><span class="muted" data-i18n="dbg_langmode">Language / Mode:</span> <span id="dbgLangMode">-</span></div>
+    <div class="debug-row"><span class="muted" data-i18n="dbg_storage">LocalStorage:</span> <span id="dbgStorage">-</span></div>
+    <div class="debug-row"><span class="muted" data-i18n="dbg_haptics">Haptics:</span> <button class="link" id="dbgHaptic" data-act="toggleHaptic" style="font:inherit">-</button></div>
+    <div class="debug-row"><span class="muted" data-i18n="dbg_test">Test:</span> <button class="link" data-act="testHaptic" style="font:inherit" data-i18n="dbg_test_btn">Haptic test</button></div>
+    <div class="debug-row"><span class="muted" data-i18n="dbg_mode">Mode:</span> <span id="dbgMode">-</span></div>
     <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center;">
       <span class="muted" style="font-size: 11px;">Sloppy Slop (Canary)</span>
-      <button class="btn" style="padding: 2px 8px; font-size: 11px;" data-act="refreshDebug">Làm mới</button>
+      <button class="btn" style="padding: 2px 8px; font-size: 11px;" data-act="refreshDebug" data-i18n="dbg_refresh">Refresh</button>
     </div>
   </div>
 </div>
@@ -1219,14 +1219,14 @@ html, body { max-width: 100%; overflow-x: clip; }
         <button data-act="lang" data-l="vi" lang="vi" title="Tiếng Việt" aria-pressed="false">VI</button>
         <button data-act="lang" data-l="en" lang="en" title="English" aria-pressed="true">EN</button>
       </div>
-      <div class="seg seg-3" id="themeSeg" role="group" data-theme-mode="system" aria-label="Theme mode">
-        <button data-act="theme-mode" data-m="light" aria-pressed="false" aria-label="Light mode" title="Light mode">
+      <div class="seg seg-3" id="themeSeg" role="group" data-theme-mode="system" data-i18n-attr="aria-label:theme_aria" aria-label="Theme mode">
+        <button data-act="theme-mode" data-m="light" aria-pressed="false" data-i18n-attr="aria-label:theme_light;title:theme_light" aria-label="Light mode" title="Light mode">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5.3 5.3L7 7M17 17l1.7 1.7M5.3 18.7L7 17M17 7l1.7-1.7" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
         </button>
-        <button data-act="theme-mode" data-m="dark" aria-pressed="false" aria-label="Dark mode" title="Dark mode">
+        <button data-act="theme-mode" data-m="dark" aria-pressed="false" data-i18n-attr="aria-label:theme_dark;title:theme_dark" aria-label="Dark mode" title="Dark mode">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor"/></svg>
         </button>
-        <button data-act="theme-mode" data-m="system" aria-pressed="true" aria-label="System theme" title="System theme">
+        <button data-act="theme-mode" data-m="system" aria-pressed="true" data-i18n-attr="aria-label:theme_system;title:theme_system" aria-label="System theme" title="System theme">
           <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M8 21h8m-4-4v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         </button>
       </div>
@@ -1705,6 +1705,38 @@ var I18N = {
     lang_aria: 'Language',
     theme_to_dark: 'Switch to dark mode',
     theme_to_light: 'Switch to light mode',
+    theme_aria: 'Theme mode',
+    theme_light: 'Light mode',
+    theme_dark: 'Dark mode',
+    theme_system: 'System theme',
+    sidebar_aria: 'Toggle sidebar',
+    dbg_title: 'System Debug',
+    dbg_sub: 'Runtime Inspector',
+    dbg_key: 'Pack Key:',
+    dbg_stats: 'Topics / Cards:',
+    dbg_stats_val: '{t} topics, {c} cards',
+    dbg_langmode: 'Language / Mode:',
+    dbg_storage: 'LocalStorage:',
+    dbg_storage_val: '{kb} KB ({n} keys)',
+    dbg_haptics: 'Haptics:',
+    dbg_test: 'Test:',
+    dbg_test_btn: 'Haptic test',
+    dbg_mode: 'Mode:',
+    dbg_refresh: 'Refresh',
+    dbg_none: 'none',
+    dbg_on: 'ON',
+    dbg_off: 'OFF',
+    dbg_na: 'N/A',
+    dbg_ios: '(iOS switch)',
+    dbg_vibrate: '(vibrate)',
+    streak_tip: ['{d}: {n} session', '{d}: {n} sessions'],
+    recent_h: 'Recent Packs',
+    recent_open: 'Open',
+    recent_edit: 'Edit',
+    recent_rename: 'Rename',
+    recent_delete: 'Delete',
+    recent_rename_prompt: 'Enter a new name for this pack:',
+    recent_loaded: 'Pack text loaded into the paste box!',
     exam: "Mock Exam",
     examConfig: "Exam Configuration",
     examScope: "Topic Scope",
@@ -1963,6 +1995,38 @@ var I18N = {
     lang_aria: 'Ngôn ngữ',
     theme_to_dark: 'Chuyển sang chế độ tối',
     theme_to_light: 'Chuyển sang chế độ sáng',
+    theme_aria: 'Chế độ giao diện',
+    theme_light: 'Chế độ sáng',
+    theme_dark: 'Chế độ tối',
+    theme_system: 'Theo hệ thống',
+    sidebar_aria: 'Bật/tắt thanh bên',
+    dbg_title: 'Gỡ lỗi hệ thống',
+    dbg_sub: 'Trình kiểm tra khi chạy',
+    dbg_key: 'Mã bộ ôn tập:',
+    dbg_stats: 'Chủ đề / Thẻ:',
+    dbg_stats_val: '{t} chủ đề, {c} thẻ',
+    dbg_langmode: 'Ngôn ngữ / Giao diện:',
+    dbg_storage: 'Bộ nhớ cục bộ:',
+    dbg_storage_val: '{kb} KB ({n} khóa)',
+    dbg_haptics: 'Rung phản hồi:',
+    dbg_test: 'Thử:',
+    dbg_test_btn: 'Thử rung',
+    dbg_mode: 'Chế độ:',
+    dbg_refresh: 'Làm mới',
+    dbg_none: 'không có',
+    dbg_on: 'BẬT',
+    dbg_off: 'TẮT',
+    dbg_na: 'Không hỗ trợ',
+    dbg_ios: '(công tắc iOS)',
+    dbg_vibrate: '(rung)',
+    streak_tip: '{d}: {n} phiên',
+    recent_h: 'Bộ ôn tập gần đây',
+    recent_open: 'Mở',
+    recent_edit: 'Sửa',
+    recent_rename: 'Đổi tên',
+    recent_delete: 'Xóa',
+    recent_rename_prompt: 'Nhập tên mới cho bộ ôn tập:',
+    recent_loaded: 'Đã nạp nội dung vào ô dán!',
     exam: "Thi thử",
     examConfig: "Cấu hình Đề Thi Thử",
     examScope: "Phạm vi chủ đề",
@@ -2701,13 +2765,13 @@ function overviewHTML() {
     // Streak & Heatmap Widget với Toggle Tuần / Tháng
     h += '<div class="top-row">';
     h += '<div class="streak-card"><div class="streak-info"><span class="streak-icon">🔥</span><div><div class="streak-num">' + streakData.streak + tr('streak_days') + '</div><div class="streak-label">' + tr('streak_note') + '</div></div></div>';
-    h += '<div class="heatmap-container"><button class="heatmap-toggle" data-act="streakView">' + (isMonth ? '30 Days' : '7 Days') + '</button>';
+    h += '<div class="heatmap-container"><button class="heatmap-toggle" data-act="streakView">' + ((isMonth ? 30 : 7) + tr('streak_days')) + '</button>';
     h += '<div class="heatmap">' + streakData.days.map(function(d) {
       var lvl = '';
       if (d.count >= 4) lvl = 'lvl-3';
       else if (d.count >= 2) lvl = 'lvl-2';
       else if (d.count > 0) lvl = 'lvl-1';
-      return '<div class="heatmap-cell ' + lvl + '" title="' + d.date + ': ' + d.count + ' sessions"></div>';
+      return '<div class="heatmap-cell ' + lvl + '" title="' + esc(tr('streak_tip', { d: d.date, n: d.count })) + '"></div>';
     }).join('') + '</div></div></div>';
 
     h += deadlineHTML() + '</div>';
@@ -3870,16 +3934,16 @@ function quizSetupHTML() {
     // Hiển thị danh sách Recent Packs nếu có
     if (recents.length > 0) {
       h += '<div class="rp-card">';
-      h += '<h2 class="sec-h" style="margin-top:0; font-size: 16px;">Bộ ôn tập gần đây (Recent Packs)</h2>';
+      h += '<h2 class="sec-h" style="margin-top:0; font-size: 16px;">' + tr('recent_h') + '</h2>';
       h += '<div class="rp-list">';
       recents.forEach(function(p) {
         h += '<div class="rp-row">';
         h += '<div class="rp-info"><b class="rp-title">' + esc(p.title) + '</b><small class="muted">' + new Date(p.updatedAt).toLocaleDateString() + '</small></div>';
         h += '<div class="rp-actions">';
-        h += '<button class="btn sm" data-act="loadRecent" data-id="' + esc(p.id) + '">Mở</button>';
-        h += '<button class="btn sm" data-act="editRecent" data-id="' + esc(p.id) + '">Sửa</button>';
-        h += '<button class="btn sm" data-act="renameRecent" data-id="' + esc(p.id) + '">Đổi tên</button>';
-        h += '<button class="btn sm again" data-act="deleteRecent" data-id="' + esc(p.id) + '">Xóa</button>';
+        h += '<button class="btn sm" data-act="loadRecent" data-id="' + esc(p.id) + '">' + tr('recent_open') + '</button>';
+        h += '<button class="btn sm" data-act="editRecent" data-id="' + esc(p.id) + '">' + tr('recent_edit') + '</button>';
+        h += '<button class="btn sm" data-act="renameRecent" data-id="' + esc(p.id) + '">' + tr('recent_rename') + '</button>';
+        h += '<button class="btn sm again" data-act="deleteRecent" data-id="' + esc(p.id) + '">' + tr('recent_delete') + '</button>';
         h += '</div></div>';
       });
       h += '</div></div>';
@@ -3958,7 +4022,7 @@ h += '<a class="ai-btn" href="' + urls.claude + '" target="_blank" rel="noopener
     var recents = getRecentPacks();
     var pack = recents.filter(function (p) { return p.id === id; })[0];
     if (!pack) return;
-    var newTitle = prompt('Nhập tên mới cho bộ ôn tập:', pack.title);
+    var newTitle = prompt(tr('recent_rename_prompt'), pack.title);
     if (newTitle && newTitle.trim()) {
       pack.title = newTitle.trim();
       store.set('sp:recent_packs', JSON.stringify(recents));
@@ -3986,7 +4050,7 @@ h += '<a class="ai-btn" href="' + urls.claude + '" target="_blank" rel="noopener
       if (ta) {
         ta.value = pack.text;
         ta.scrollIntoView({ behavior: 'smooth' });
-        flash(ta, 'Đã nạp nội dung vào ô dán!');
+        flash(ta, tr('recent_loaded'));
       }
     }
   }
@@ -4010,10 +4074,10 @@ h += '<a class="ai-btn" href="' + urls.claude + '" target="_blank" rel="noopener
   function updateDebugInfo() {
     var kEl = $('#dbgKey'), sEl = $('#dbgStats'), lmEl = $('#dbgLangMode'), stEl = $('#dbgStorage');
     if (!kEl) return;
-    kEl.textContent = S.key || 'none';
+    kEl.textContent = S.key || tr('dbg_none');
     var tt = S.pack ? totals() : { cards: 0, qs: 0 };
     var topicsCount = S.pack ? S.pack.topics.length : 0;
-    sEl.textContent = topicsCount + ' topics, ' + tt.cards + ' cards';
+    sEl.textContent = tr('dbg_stats_val', { t: topicsCount, c: tt.cards });
     lmEl.textContent = LANG.toUpperCase() + ' / ' + getThemeMode();
     
     // Đo dung lượng localStorage hiện tại
@@ -4022,9 +4086,9 @@ h += '<a class="ai-btn" href="' + urls.claude + '" target="_blank" rel="noopener
       var key = localStorage.key(i);
       totalBytes += (key.length + (localStorage.getItem(key) || '').length) * 2;
     }
-    stEl.textContent = (totalBytes / 1024).toFixed(1) + ' KB (' + localStorage.length + ' keys)';
+    stEl.textContent = tr('dbg_storage_val', { kb: (totalBytes / 1024).toFixed(1), n: localStorage.length });
     var hEl = $('#dbgHaptic');
-    if (hEl) { hEl.textContent = hapticSupported() ? ((hapticOn() ? 'ON' : 'OFF') + (H.ios ? ' (iOS switch)' : ' (vibrate)')) : 'N/A'; hEl.disabled = !hapticSupported(); }
+    if (hEl) { hEl.textContent = hapticSupported() ? ((hapticOn() ? tr('dbg_on') : tr('dbg_off')) + ' ' + (H.ios ? tr('dbg_ios') : tr('dbg_vibrate'))) : tr('dbg_na'); hEl.disabled = !hapticSupported(); }
     var mEl = $('#dbgMode');
     if (mEl) {
       var ua = navigator.userAgent || '';
