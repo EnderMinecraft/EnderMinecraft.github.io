@@ -1,30 +1,311 @@
+"""Study Pack Editor - trình soạn thảo study pack (JSON)."""
+
 import json
-import platform
+import os
+import subprocess
+import sys
+import time
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 
-HAS_SUNVALLEY = False
 try:
-  import sv_ttk
+  import sv_ttk  # Sun Valley theme (phong cách Windows 11), không bắt buộc
 
   HAS_SUNVALLEY = True
 except ImportError:
   HAS_SUNVALLEY = False
+
+APP_NAME = "Study Pack Editor"
+DEFAULT_THEME_MODE = "light"  # "light" | "dark" | "system"
+ENABLE_DPI_AWARENESS = True  # chỉ áp dụng trên Windows
+RESIZE_THROTTLE_MS = 50  # gộp các lần cập nhật layout khi đang kéo resize
+BUILD_CHUNK = 20  # số dòng dựng mỗi đợt khi nạp danh sách dài
+
+# Bảng màu khớp Sun Valley, dùng cho widget tk thuần (Canvas/Listbox/Text)
+# vì các widget này không tự đổi màu theo theme của ttk.
+PALETTES = {
+    "light": {
+        "bg": "#fafafa",
+        "fg": "#1c1c1c",
+        "field": "#ffffff",
+        "border": "#cfcfcf",
+        "accent": "#005fb8",
+        "accent_fg": "#ffffff",
+    },
+    "dark": {
+        "bg": "#1c1c1c",
+        "fg": "#fafafa",
+        "field": "#2b2b2b",
+        "border": "#4a4a4a",
+        "accent": "#57c8ff",
+        "accent_fg": "#000000",
+    },
+}
+
+
+def enable_dpi_awareness():
+  """Không để Windows phóng to bitmap của cửa sổ (gây mờ và vẽ chồng khi resize)."""
+  if sys.platform != "win32":
+    return
+  try:
+    import ctypes
+
+    try:
+      ctypes.windll.shcore.SetProcessDpiAwareness(1)
+    except (AttributeError, OSError):
+      ctypes.windll.user32.SetProcessDPIAware()
+  except Exception:
+    pass
+
+
+def detect_system_theme():
+  """Trả về 'dark' hoặc 'light' theo cài đặt của hệ điều hành."""
+  try:
+    if sys.platform == "win32":
+      import winreg
+
+      key = winreg.OpenKey(
+          winreg.HKEY_CURRENT_USER,
+          r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize",
+      )
+      try:
+        value, _ = winreg.QueryValueEx(key, "AppsUseLightTheme")
+      finally:
+        winreg.CloseKey(key)
+      return "light" if value else "dark"
+    if sys.platform == "darwin":
+      out = subprocess.run(
+          ["defaults", "read", "-g", "AppleInterfaceStyle"],
+          capture_output=True,
+          text=True,
+          timeout=2,
+      )
+      return "dark" if out.stdout.strip().lower() == "dark" else "light"
+    out = subprocess.run(
+        ["gsettings", "get", "org.gnome.desktop.interface", "color-scheme"],
+        capture_output=True,
+        text=True,
+        timeout=2,
+    )
+    return "dark" if "dark" in out.stdout.lower() else "light"
+  except Exception:
+    return "light"
+
+
+def style_classic_widget(widget, palette):
+  """Áp màu theme cho các widget tk thuần."""
+  if not palette:
+    return
+  cls = widget.winfo_class()
+  if cls == "Canvas":
+    widget.configure(bg=palette["bg"])
+  elif cls in ("Listbox", "Text"):
+    options = dict(
+        bg=palette["field"],
+        fg=palette["fg"],
+        selectbackground=palette["accent"],
+        selectforeground=palette["accent_fg"],
+        highlightthickness=1,
+        highlightbackground=palette["border"],
+        highlightcolor=palette["accent"],
+        relief="flat",
+        borderwidth=0,
+    )
+    if cls == "Text":
+      options["insertbackground"] = palette["fg"]
+    widget.configure(**options)
+
+
+def restyle_tree(widget, palette):
+  style_classic_widget(widget, palette)
+  for child in widget.winfo_children():
+    restyle_tree(child, palette)
+
+
+def replace_listbox_item(listbox, index, label):
+  """Đổi nhãn một dòng mà không làm mất trạng thái chọn."""
+  if listbox.get(index) == label:
+    return
+  selected = listbox.curselection()
+  listbox.delete(index)
+  listbox.insert(index, label)
+  for s in selected:
+    listbox.selection_set(s)
+
+
+class ScrollFrame(ttk.Frame):
+  """Khung cuộn dọc dựa trên Canvas.
+
+  - Cập nhật layout khi resize được gộp lại để không bị lag/nhấp nháy.
+  - Danh sách dài được dựng theo từng đợt nên giao diện không bị đứng.
+  """
+
+  def __init__(self, parent, padding=0):
+    super().__init__(parent)
+    self.canvas = tk.Canvas(self, highlightthickness=0, borderwidth=0)
+    self.vsb = ttk.Scrollbar(
+        self, orient="vertical", command=self.canvas.yview
+    )
+    self.canvas.configure(yscrollcommand=self.vsb.set)
+    self.vsb.pack(side="right", fill="y")
+    self.canvas.pack(side="left", fill="both", expand=True)
+
+    self.inner = ttk.Frame(self.canvas, padding=padding)
+    self._win = self.canvas.create_window(
+        (0, 0), window=self.inner, anchor="nw"
+    )
+
+    self._width = 0
+    self._width_job = None
+    self._region_job = None
+    self._inner_size = None
+    self._items = []
+    self._pos = 0
+    self._build_row = None
+    self._build_job = None
+
+    self.canvas.bind("<Configure>", self._on_canvas_configure)
+    self.inner.bind("<Configure>", self._on_inner_configure)
+
+  # --- Layout ---
+  def _on_canvas_configure(self, event):
+    if event.width <= 1 or event.width == self._width:
+      return
+    if self._width == 0:
+      self._apply_width(event.width)
+    elif self._width_job is None:
+      self._width_job = self.after(RESIZE_THROTTLE_MS, self._flush_width)
+
+  def _apply_width(self, width):
+    self._width = width
+    self.canvas.itemconfigure(self._win, width=width)
+
+  def _flush_width(self):
+    self._width_job = None
+    width = self.canvas.winfo_width()
+    if width > 1 and width != self._width:
+      self._apply_width(width)
+
+  def _on_inner_configure(self, event):
+    size = (event.width, event.height)
+    if size != self._inner_size:
+      self._inner_size = size
+      self._schedule_region()
+
+  def _schedule_region(self):
+    if self._region_job is None:
+      self._region_job = self.after_idle(self._update_region)
+
+  def _update_region(self):
+    self._region_job = None
+    bbox = self.canvas.bbox("all")
+    if bbox:
+      self.canvas.configure(scrollregion=bbox)
+
+  def scroll_top(self):
+    self.canvas.yview_moveto(0)
+
+  def scroll_to_end(self):
+    self.update_idletasks()
+    self._update_region()
+    self.canvas.yview_moveto(1.0)
+
+  # --- Ẩn/hiện khi dựng nội dung (tránh vẽ từng widget một) ---
+  def freeze(self):
+    self.canvas.itemconfigure(self._win, state="hidden")
+
+  def thaw(self):
+    self.canvas.itemconfigure(self._win, state="normal")
+    self._schedule_region()
+
+  # --- Nạp danh sách theo đợt ---
+  def clear(self):
+    self._cancel_build()
+    self._items = []
+    self._pos = 0
+    for child in self.inner.winfo_children():
+      child.destroy()
+
+  def _cancel_build(self):
+    if self._build_job is not None:
+      self.after_cancel(self._build_job)
+      self._build_job = None
+
+  def populate(self, items, build_row):
+    """Dựng danh sách; đợt đầu chạy ngay, phần còn lại dựng nền."""
+    self.clear()
+    self._items = list(items)
+    self._build_row = build_row
+    self.scroll_top()
+    self.freeze()
+    self._build_step()
+
+  def _build_step(self):
+    self._build_job = None
+    self._build_range(min(self._pos + BUILD_CHUNK, len(self._items)))
+    self.thaw()
+    if self._pos < len(self._items):
+      self._build_job = self.after(1, self._build_step)
+
+  def _build_range(self, end):
+    while self._pos < end:
+      item = self._items[self._pos]
+      self._pos += 1
+      self._build_row(item)
+
+  def flush(self):
+    """Dựng nốt các dòng còn lại (gọi trước khi đọc dữ liệu từ form)."""
+    self._cancel_build()
+    if self._pos < len(self._items):
+      self._build_range(len(self._items))
+      self.thaw()
+
+  def append(self, item):
+    self.flush()
+    self._items.append(item)
+    self._build_range(len(self._items))
+    self.scroll_to_end()
 
 
 class StudyPackEditor:
 
   def __init__(self, root):
     self.root = root
-    self.root.title("Study Pack Editor")
-    self.root.geometry("1300x850")
+    self.root.title(APP_NAME)
+    self.set_initial_geometry()
 
-    self.bind_global_shortcuts()
+    self.data = self.empty_pack()
+    self.current_path = None
+    self.current_topic_index = None
+    self.current_question_index = None
+    self.mode = "GUI"
 
-    self.current_theme = "light"
-    self.apply_theme("light")
+    self.theme_mode = DEFAULT_THEME_MODE
+    self._effective_theme = None
+    self._last_theme_check = 0.0
+    self.palette = None
+    self._status_job = None
 
-    self.data = {
+    # Tab nào đang hiển thị đúng dữ liệu của chủ đề hiện tại (nạp lười)
+    self._tab_loaded = {
+        "notes": False,
+        "terms": False,
+        "flashcards": False,
+        "questions": False,
+    }
+    self.note_widgets = []
+    self.term_widgets = []
+    self.fc_widgets = []
+
+    self.apply_theme()
+    self.create_widgets()
+    self.bind_shortcuts()
+    self.root.bind("<FocusIn>", self.on_focus_in)
+    self.update_title()
+
+  @staticmethod
+  def empty_pack():
+    return {
         "format": "studypack",
         "version": 1,
         "title": "",
@@ -34,54 +315,110 @@ class StudyPackEditor:
         "topics": [],
     }
 
-    self.current_topic_index = None
-    self.current_question_index = None
-    self.mode = "GUI"
+  def set_initial_geometry(self):
+    scale = max(self.root.winfo_fpixels("1i") / 96.0, 1.0)
+    width = min(int(1300 * scale), self.root.winfo_screenwidth() - 80)
+    height = min(int(850 * scale), self.root.winfo_screenheight() - 120)
+    self.root.geometry(f"{width}x{height}")
 
-    self.create_widgets()
-
-  def bind_global_shortcuts(self):
-    self.root.bind_all("<Control-o>", lambda e: self.open_file())
-    self.root.bind_all("<Control-s>", lambda e: self.save_file())
-
-  def get_system_theme(self):
-    if platform.system() == "Windows":
-      try:
-        import winreg
-
-        key = winreg.OpenKey(
-            winreg.HKEY_CURRENT_USER,
-            r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize",
-        )
-        value, _ = winreg.QueryValueEx(key, "AppsUseLightTheme")
-        winreg.CloseKey(key)
-        return "dark" if value == 0 else "light"
-      except Exception:
-        pass
-    return "light"
-
-  def apply_theme(self, mode):
+  # ------------------------------------------------------------------
+  # Theme
+  # ------------------------------------------------------------------
+  def apply_theme(self):
+    if self.theme_mode == "system":
+      effective = detect_system_theme()
+    else:
+      effective = self.theme_mode
+    if effective == self._effective_theme:
+      return
+    self._effective_theme = effective
     if not HAS_SUNVALLEY:
       return
-
-    target_theme = self.get_system_theme() if mode == "system" else mode
     try:
-      self.root.attributes("-alpha", 0.0)
+      sv_ttk.set_theme(effective)
     except Exception:
-      pass
+      return
+    self.palette = PALETTES[effective]
+    self.root.configure(background=self.palette["bg"])
+    restyle_tree(self.root, self.palette)
 
-    sv_ttk.set_theme(target_theme)
-    self.current_theme = mode
+  def change_theme(self):
+    self.theme_mode = self.theme_var.get()
+    self.apply_theme()
 
-    def restore_alpha():
-      try:
-        self.root.attributes("-alpha", 1.0)
-      except Exception:
-        pass
+  def on_focus_in(self, _event):
+    """Theo dõi thay đổi theme của hệ điều hành khi cửa sổ được focus."""
+    if self.theme_mode != "system":
+      return
+    now = time.monotonic()
+    if now - self._last_theme_check < 1.0:
+      return
+    self._last_theme_check = now
+    self.apply_theme()
 
-    self.root.after(40, restore_alpha)
+  def new_text(self, parent, **kwargs):
+    widget = tk.Text(parent, **kwargs)
+    style_classic_widget(widget, self.palette)
+    return widget
 
+  def new_listbox(self, parent, **kwargs):
+    widget = tk.Listbox(parent, **kwargs)
+    style_classic_widget(widget, self.palette)
+    return widget
+
+  def new_scroll(self, parent, padding=0):
+    frame = ScrollFrame(parent, padding=padding)
+    style_classic_widget(frame.canvas, self.palette)
+    return frame
+
+  # ------------------------------------------------------------------
+  # Status / title / shortcuts
+  # ------------------------------------------------------------------
+  def set_status(self, message, timeout=4000):
+    self.status_var.set(message)
+    if self._status_job is not None:
+      self.root.after_cancel(self._status_job)
+    self._status_job = self.root.after(
+        timeout, lambda: self.status_var.set("")
+    )
+
+  def update_title(self):
+    name = os.path.basename(self.current_path) if self.current_path else None
+    self.root.title(f"{name} - {APP_NAME}" if name else APP_NAME)
+
+  def bind_shortcuts(self):
+    def make_handler(func):
+      def handler(_event):
+        func()
+        return "break"
+
+      return handler
+
+    bindings = {
+        "<Control-n>": self.new_file,
+        "<Control-N>": self.new_file,
+        "<Control-o>": self.open_file,
+        "<Control-O>": self.open_file,
+        "<Control-s>": self.save_file,
+        "<Control-S>": self.save_file,
+        "<Control-Shift-S>": self.save_file_as,
+    }
+    for sequence, func in bindings.items():
+      self.root.bind_all(sequence, make_handler(func))
+    # Text có sẵn Ctrl+O (chèn dòng) và Ctrl+N (xuống dòng) chạy trước
+    # bind_all, nên phải ghi đè ở mức class.
+    self.root.bind_class("Text", "<Control-o>", make_handler(self.open_file))
+    self.root.bind_class("Text", "<Control-n>", make_handler(self.new_file))
+
+  # ------------------------------------------------------------------
+  # Widgets
+  # ------------------------------------------------------------------
   def create_widgets(self):
+    self.status_var = tk.StringVar()
+    ttk.Label(
+        self.root, textvariable=self.status_var, anchor="w", padding=(10, 3)
+    ).pack(side=tk.BOTTOM, fill=tk.X)
+
     menubar = tk.Menu(self.root)
     file_menu = tk.Menu(menubar, tearoff=0)
     file_menu.add_command(
@@ -91,7 +428,12 @@ class StudyPackEditor:
         label="Open JSON...", command=self.open_file, accelerator="Ctrl+O"
     )
     file_menu.add_command(
-        label="Save JSON...", command=self.save_file, accelerator="Ctrl+S"
+        label="Save JSON", command=self.save_file, accelerator="Ctrl+S"
+    )
+    file_menu.add_command(
+        label="Save JSON As...",
+        command=self.save_file_as,
+        accelerator="Ctrl+Shift+S",
     )
     file_menu.add_separator()
     file_menu.add_command(label="Exit", command=self.root.quit)
@@ -101,6 +443,7 @@ class StudyPackEditor:
     main_paned = ttk.PanedWindow(self.root, orient=tk.HORIZONTAL)
     main_paned.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
 
+    # --- Cột trái: metadata và danh sách topic ---
     left_frame = ttk.Frame(main_paned, padding=5)
     main_paned.add(left_frame, weight=1)
 
@@ -129,7 +472,7 @@ class StudyPackEditor:
     topic_frame = ttk.LabelFrame(left_frame, text="Topics", padding=8)
     topic_frame.pack(fill=tk.BOTH, expand=True, padx=2, pady=5)
 
-    self.topic_listbox = tk.Listbox(topic_frame, exportselection=False)
+    self.topic_listbox = self.new_listbox(topic_frame, exportselection=False)
     self.topic_listbox.pack(
         side=tk.TOP, fill=tk.BOTH, expand=True, padx=2, pady=2
     )
@@ -144,6 +487,7 @@ class StudyPackEditor:
         btn_topic_frame, text="Delete Topic", command=self.delete_topic
     ).pack(side=tk.LEFT, expand=True, fill=tk.X, padx=1)
 
+    # --- Cột phải: Editor và Settings ---
     self.main_notebook = ttk.Notebook(main_paned)
     main_paned.add(self.main_notebook, weight=4)
 
@@ -156,52 +500,12 @@ class StudyPackEditor:
     self.init_editor_workspace()
     self.init_settings_tab()
 
-  def init_settings_tab(self):
-    settings_frame = ttk.LabelFrame(
-        self.tab_settings, text="Appearance", padding=15
-    )
-    settings_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
-
-    ttk.Label(settings_frame, text="Theme Mode:").pack(anchor=tk.W, pady=5)
-
-    self.theme_var = tk.StringVar(value="light")
-
-    ttk.Radiobutton(
-        settings_frame,
-        text="Light",
-        variable=self.theme_var,
-        value="light",
-        command=lambda: self.apply_theme("light"),
-    ).pack(anchor=tk.W, pady=3)
-    ttk.Radiobutton(
-        settings_frame,
-        text="Dark",
-        variable=self.theme_var,
-        value="dark",
-        command=lambda: self.apply_theme("dark"),
-    ).pack(anchor=tk.W, pady=3)
-    ttk.Radiobutton(
-        settings_frame,
-        text="System (Auto)",
-        variable=self.theme_var,
-        value="system",
-        command=lambda: self.apply_theme("system"),
-    ).pack(anchor=tk.W, pady=3)
-
-    if not HAS_SUNVALLEY:
-      ttk.Label(
-          settings_frame,
-          text="Warning: 'sv-ttk' package is not installed.",
-          foreground="red",
-      ).pack(anchor=tk.W, pady=10)
-
   def init_editor_workspace(self):
     mode_toolbar = ttk.Frame(self.tab_editor, padding=2)
     mode_toolbar.pack(fill=tk.X, pady=2)
-    ttk.Label(mode_toolbar, text="Mode:", font=("Segoe UI", 9, "bold")).pack(
-        side=tk.LEFT, padx=5
-    )
-
+    ttk.Label(
+        mode_toolbar, text="Mode:", font=("Segoe UI", 9, "bold")
+    ).pack(side=tk.LEFT, padx=5)
     self.mode_var = tk.StringVar(value="GUI")
     ttk.Radiobutton(
         mode_toolbar,
@@ -221,19 +525,19 @@ class StudyPackEditor:
     self.right_container = ttk.Frame(self.tab_editor)
     self.right_container.pack(fill=tk.BOTH, expand=True, pady=2)
 
+    # --- View 1: Plain text ---
     self.text_mode_frame = ttk.Frame(self.right_container)
-    self.json_text_widget = tk.Text(
+    self.json_text_widget = self.new_text(
         self.text_mode_frame, wrap=tk.WORD, font=("Consolas", 10)
     )
-    self.json_text_widget.pack(
-        fill=tk.BOTH, expand=True, side=tk.TOP, pady=5
-    )
+    self.json_text_widget.pack(fill=tk.BOTH, expand=True, side=tk.TOP, pady=5)
     ttk.Button(
         self.text_mode_frame,
         text="Apply Changes",
         command=self.apply_plain_text,
     ).pack(anchor=tk.E, pady=2)
 
+    # --- View 2: Form ---
     self.gui_mode_frame = ttk.Frame(self.right_container)
 
     top_info_frame = ttk.Frame(self.gui_mode_frame)
@@ -292,129 +596,278 @@ class StudyPackEditor:
     self.topic_notebook.add(self.tab_flashcards, text="Flashcards")
     self.topic_notebook.add(self.tab_questions, text="Questions")
 
+    self._tab_key_by_widget = {
+        str(self.tab_notes): "notes",
+        str(self.tab_terms): "terms",
+        str(self.tab_flashcards): "flashcards",
+        str(self.tab_questions): "questions",
+    }
+    # Chỉ nạp dữ liệu của tab đang xem; tab khác nạp khi được mở.
+    self.topic_notebook.bind(
+        "<<NotebookTabChanged>>", lambda e: self.load_visible_tab()
+    )
+
     self.init_notes_gui()
     self.init_terms_gui()
     self.init_flashcards_gui()
-    self.init_questions_gui_optimized()
+    self.init_questions_gui()
 
     self.switch_mode()
 
-  # --- HÀM TỰ ĐỘNG ĐỒNG BỘ DỮ LIỆU TẤT CẢ CÁC FORM ---
-  def sync_current_forms(self):
-    if self.current_topic_index is None:
-      return
-    try:
-      self.save_notes_form(silent=True)
-    except Exception:
-      pass
-    try:
-      self.save_terms_form(silent=True)
-    except Exception:
-      pass
-    try:
-      self.save_fc_form(silent=True)
-    except Exception:
-      pass
-    try:
-      self.save_current_question_form(silent=True)
-    except Exception:
-      pass
+  def init_settings_tab(self):
+    settings_frame = ttk.LabelFrame(
+        self.tab_settings, text="Appearance", padding=15
+    )
+    settings_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+
+    ttk.Label(settings_frame, text="Theme Mode:").pack(
+        anchor=tk.W, pady=5
+    )
+
+    self.theme_var = tk.StringVar(value=self.theme_mode)
+    state = tk.NORMAL if HAS_SUNVALLEY else tk.DISABLED
+    for text, value in (
+        ("Light", "light"),
+        ("Dark", "dark"),
+        ("System (Auto)", "system"),
+    ):
+      ttk.Radiobutton(
+          settings_frame,
+          text=text,
+          variable=self.theme_var,
+          value=value,
+          command=self.change_theme,
+          state=state,
+      ).pack(anchor=tk.W, pady=3)
+
+    if not HAS_SUNVALLEY:
+      ttk.Label(
+          settings_frame,
+          text="Warning: 'sv-ttk' package is not installed.",
+          foreground="red",
+      ).pack(anchor=tk.W, pady=10)
+
+  # ------------------------------------------------------------------
+  # Mode, commit, file operations
+  # ------------------------------------------------------------------
+  def render_json_text(self):
+    self.json_text_widget.delete("1.0", tk.END)
+    self.json_text_widget.insert(
+        tk.END, json.dumps(self.data, ensure_ascii=False, indent=2)
+    )
+    self.json_text_widget.edit_modified(False)
 
   def switch_mode(self):
-    if self.mode == "GUI":
-      self.sync_current_forms()
-
-    self.mode = self.mode_var.get()
-    if self.mode == "Text":
+    new_mode = self.mode_var.get()
+    if new_mode == "Text":
+      if self.mode == "GUI":
+        self.commit_meta()
+        self.commit_current_topic()
+      self.mode = new_mode
       self.gui_mode_frame.pack_forget()
       self.text_mode_frame.pack(fill=tk.BOTH, expand=True)
-      formatted_json = json.dumps(self.data, ensure_ascii=False, indent=2)
-      self.json_text_widget.delete("1.0", tk.END)
-      self.json_text_widget.insert(tk.END, formatted_json)
+      self.render_json_text()
     else:
+      self.mode = new_mode
       self.text_mode_frame.pack_forget()
       self.gui_mode_frame.pack(fill=tk.BOTH, expand=True)
-      if self.current_topic_index is not None:
-        self.load_topic_gui_data()
+      self.load_topic_gui_data()
 
-  def apply_plain_text(self):
-    raw_text = self.json_text_widget.get("1.0", tk.END).strip()
+  def parse_pack_text(self, raw):
     try:
-      parsed = json.loads(raw_text)
-      self.data = parsed
-      self.refresh_ui()
-      messagebox.showinfo("Success", "Changes applied successfully.")
+      parsed = json.loads(raw)
     except json.JSONDecodeError as e:
       messagebox.showerror("JSON Error", f"Invalid syntax: {e}")
+      return None
+    if not isinstance(parsed, dict):
+      messagebox.showerror("JSON Error", "A study pack must be a JSON object.")
+      return None
+    parsed.setdefault("topics", [])
+    return parsed
+
+  def apply_plain_text(self):
+    parsed = self.parse_pack_text(self.json_text_widget.get("1.0", tk.END))
+    if parsed is None:
+      return
+    self.data = parsed
+    self.refresh_ui()
+    self.set_status("Changes applied.")
+
+  def commit_pending(self):
+    """Ghi mọi thay đổi chưa lưu trên giao diện về self.data.
+
+    Trả về False nếu JSON ở chế độ Text không hợp lệ.
+    """
+    if self.mode == "Text":
+      if self.json_text_widget.edit_modified():
+        parsed = self.parse_pack_text(self.json_text_widget.get("1.0", tk.END))
+        if parsed is None:
+          return False
+        self.data = parsed
+        self.refresh_ui()
+      return True
+    self.commit_meta()
+    self.commit_current_topic()
+    return True
+
+  def commit_meta(self):
+    for key, ent in self.meta_entries.items():
+      value = ent.get()
+      if value != str(self.data.get(key, "")):
+        self.data[key] = value
+
+  def commit_current_topic(self):
+    """Ghi form của chủ đề đang mở về self.data (chỉ ở chế độ GUI)."""
+    idx = self.current_topic_index
+    topics = self.data.get("topics", [])
+    if idx is None or self.mode != "GUI" or idx >= len(topics):
+      return
+    t = topics[idx]
+    label_changed = False
+    for field, var in (
+        ("id", self.t_id_var),
+        ("title", self.t_title_var),
+        ("summary", self.t_summary_var),
+    ):
+      value = var.get()
+      if t.get(field, "") != value:
+        t[field] = value
+        label_changed = label_changed or field in ("id", "title")
+    if label_changed:
+      self.refresh_topic_listbox_item()
+
+    if self._tab_loaded["notes"]:
+      t["notes"] = self.collect_notes()
+    if self._tab_loaded["terms"]:
+      t["key_terms"] = self.collect_terms()
+    if self._tab_loaded["flashcards"]:
+      t["flashcards"] = self.collect_flashcards()
+    if self._tab_loaded["questions"]:
+      self.save_current_question_form(silent=True)
 
   def new_file(self):
-    if messagebox.askyesno("Confirm", "Discard unsaved changes?"):
-      self.data = {
-          "format": "studypack",
-          "version": 1,
-          "title": "",
-          "subject": "",
-          "level": "",
-          "language": "en",
-          "topics": [],
-      }
+    if messagebox.askyesno(
+        "Confirm", "Discard unsaved changes?"
+    ):
+      self.data = self.empty_pack()
+      self.current_path = None
       self.refresh_ui()
+      self.update_title()
 
   def open_file(self):
     file_path = filedialog.askopenfilename(
         filetypes=[("JSON files", "*.json"), ("All files", "*.*")]
     )
-    if file_path:
-      try:
-        with open(file_path, "r", encoding="utf-8") as f:
-          self.data = json.load(f)
-        self.refresh_ui()
-        messagebox.showinfo("Success", "File loaded successfully.")
-      except Exception as e:
-        messagebox.showerror("Error", f"Failed to read file:\n{e}")
+    if not file_path:
+      return
+    try:
+      with open(file_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+      if not isinstance(data, dict):
+        raise ValueError("A study pack must be a JSON object.")
+    except Exception as e:
+      messagebox.showerror("Error", f"Failed to read file:\n{e}")
+      return
+    data.setdefault("topics", [])
+    self.data = data
+    self.current_path = file_path
+    self.refresh_ui()
+    self.update_title()
+    self.set_status(f"File loaded: {os.path.basename(file_path)}")
 
   def save_file(self):
-    # Tự động đồng bộ toàn bộ dữ liệu form hiện tại trước khi lưu tệp
-    if self.mode == "GUI":
-      self.sync_current_forms()
+    if not self.commit_pending():
+      return
+    if self.current_path:
+      self.write_file(self.current_path)
+    else:
+      self.ask_save_path()
 
+  def save_file_as(self):
+    if self.commit_pending():
+      self.ask_save_path()
+
+  def ask_save_path(self):
     file_path = filedialog.asksaveasfilename(
         defaultextension=".json",
         filetypes=[("JSON files", "*.json"), ("All files", "*.*")],
     )
     if file_path:
-      try:
-        with open(file_path, "w", encoding="utf-8") as f:
-          json.dump(self.data, f, ensure_ascii=False, indent=2)
-        messagebox.showinfo("Success", "File saved successfully.")
-      except Exception as e:
-        messagebox.showerror("Error", f"Failed to save file:\n{e}")
+      self.write_file(file_path)
 
+  def write_file(self, file_path):
+    tmp_path = file_path + ".tmp"
+    try:
+      with open(tmp_path, "w", encoding="utf-8") as f:
+        json.dump(self.data, f, ensure_ascii=False, indent=2)
+      os.replace(tmp_path, file_path)  # ghi nguyên tử, tránh hỏng file
+    except Exception as e:
+      messagebox.showerror("Error", f"Failed to save file:\n{e}")
+      return
+    self.current_path = file_path
+    self.update_title()
+    self.set_status(f"File saved: {os.path.basename(file_path)}")
+
+  # ------------------------------------------------------------------
+  # Metadata và danh sách topic
+  # ------------------------------------------------------------------
   def update_meta(self, key, entry):
-    self.data[key] = entry.get()
+    value = entry.get()
+    if value != str(self.data.get(key, "")):
+      self.data[key] = value
+
+  @staticmethod
+  def topic_label(t):
+    return f"{t.get('id', '')}: {t.get('title', 'Untitled')}"
+
+  def refresh_topic_list(self):
+    self.topic_listbox.delete(0, tk.END)
+    labels = [self.topic_label(t) for t in self.data.get("topics", [])]
+    if labels:
+      self.topic_listbox.insert(tk.END, *labels)
+
+  def refresh_topic_listbox_item(self):
+    idx = self.current_topic_index
+    if idx is None:
+      return
+    replace_listbox_item(
+        self.topic_listbox, idx, self.topic_label(self.data["topics"][idx])
+    )
+
+  def invalidate_tabs(self):
+    for key in self._tab_loaded:
+      self._tab_loaded[key] = False
+    self.current_question_index = None
+
+  def reset_topic_view(self):
+    """Xóa trạng thái chủ đề đang mở (khi đổi dữ liệu hoặc xóa topic)."""
+    self.current_topic_index = None
+    self.invalidate_tabs()
+    for var in (self.t_id_var, self.t_title_var, self.t_summary_var):
+      var.set("")
+    self.note_widgets = []
+    self.term_widgets = []
+    self.fc_widgets = []
+    self.notes_view.clear()
+    self.terms_view.clear()
+    self.fc_view.clear()
+    self.q_listbox.delete(0, tk.END)
+    self.q_detail.clear()
 
   def refresh_ui(self):
+    self.reset_topic_view()
     for key, ent in self.meta_entries.items():
       ent.delete(0, tk.END)
       ent.insert(0, str(self.data.get(key, "")))
-
-    self.topic_listbox.delete(0, tk.END)
-    for t in self.data.get("topics", []):
-      self.topic_listbox.insert(
-          tk.END, f"{t.get('id', '')}: {t.get('title', 'Untitled')}"
-      )
-
-    self.current_topic_index = None
+    self.refresh_topic_list()
     if self.mode == "Text":
-      self.json_text_widget.delete("1.0", tk.END)
-      self.json_text_widget.insert(
-          tk.END, json.dumps(self.data, ensure_ascii=False, indent=2)
-      )
+      self.render_json_text()
 
   def add_topic(self):
-    new_id = f"t{len(self.data['topics']) + 1}"
+    self.commit_current_topic()
+    topics = self.data.setdefault("topics", [])
     new_t = {
-        "id": new_id,
+        "id": f"t{len(topics) + 1}",
         "title": "New Topic",
         "summary": "",
         "notes": [],
@@ -422,45 +875,50 @@ class StudyPackEditor:
         "flashcards": [],
         "questions": [],
     }
-    self.data["topics"].append(new_t)
-    self.refresh_ui()
-    self.topic_listbox.selection_set(len(self.data["topics"]) - 1)
-    self.on_select_topic(None)
+    topics.append(new_t)
+    idx = len(topics) - 1
+    self.topic_listbox.insert(tk.END, self.topic_label(new_t))
+    self.topic_listbox.selection_clear(0, tk.END)
+    self.topic_listbox.selection_set(idx)
+    self.topic_listbox.see(idx)
+    self.on_select_topic()
+    if self.mode == "Text":
+      self.render_json_text()
 
   def delete_topic(self):
     selected = self.topic_listbox.curselection()
     if not selected:
       return
-    idx = selected[0]
-    del self.data["topics"][idx]
-    self.refresh_ui()
+    del self.data["topics"][selected[0]]
+    self.reset_topic_view()
+    self.refresh_topic_list()
+    if self.mode == "Text":
+      self.render_json_text()
 
-  def on_select_topic(self, event):
-    # Tự động đồng bộ form của chủ đề cũ trước khi chuyển sang chủ đề mới
-    if self.mode == "GUI":
-      self.sync_current_forms()
-
+  def on_select_topic(self, _event=None):
     selected = self.topic_listbox.curselection()
     if not selected:
       return
-    self.current_topic_index = selected[0]
+    idx = selected[0]
+    if idx == self.current_topic_index:
+      return
+    self.commit_current_topic()  # lưu form của topic trước khi chuyển
+    self.current_topic_index = idx
+    self.invalidate_tabs()
     if self.mode == "GUI":
       self.load_topic_gui_data()
 
   def update_current_topic_field(self, field, var):
-    if self.current_topic_index is not None:
-      self.data["topics"][self.current_topic_index][field] = var.get()
+    idx = self.current_topic_index
+    if idx is None:
+      return
+    t = self.data["topics"][idx]
+    value = var.get()
+    if t.get(field, "") == value:
+      return
+    t[field] = value
+    if field in ("id", "title"):
       self.refresh_topic_listbox_item()
-
-  def refresh_topic_listbox_item(self):
-    if self.current_topic_index is not None:
-      t = self.data["topics"][self.current_topic_index]
-      self.topic_listbox.delete(self.current_topic_index)
-      self.topic_listbox.insert(
-          self.current_topic_index,
-          f"{t.get('id', '')}: {t.get('title', 'Untitled')}",
-      )
-      self.topic_listbox.selection_set(self.current_topic_index)
 
   def load_topic_gui_data(self):
     if self.current_topic_index is None:
@@ -469,22 +927,29 @@ class StudyPackEditor:
     self.t_id_var.set(t.get("id", ""))
     self.t_title_var.set(t.get("title", ""))
     self.t_summary_var.set(t.get("summary", ""))
+    self.load_visible_tab()
 
-    self.load_notes_ui(t.get("notes", []))
-    self.load_terms_ui(t.get("key_terms", []))
-    self.load_flashcards_ui(t.get("flashcards", []))
-    self.load_questions_list_optimized()
+  def load_visible_tab(self):
+    """Nạp dữ liệu cho tab đang xem nếu chưa nạp."""
+    if self.current_topic_index is None or self.mode != "GUI":
+      return
+    key = self._tab_key_by_widget.get(self.topic_notebook.select())
+    if key is None or self._tab_loaded[key]:
+      return
+    t = self.data["topics"][self.current_topic_index]
+    if key == "notes":
+      self.load_notes_ui(t.get("notes", []))
+    elif key == "terms":
+      self.load_terms_ui(t.get("key_terms", []))
+    elif key == "flashcards":
+      self.load_flashcards_ui(t.get("flashcards", []))
+    else:
+      self.load_questions_list()
+    self._tab_loaded[key] = True
 
-  def bind_responsive_canvas(self, canvas, window_id):
-    canvas._last_w = 0
-
-    def on_resize(event):
-      if event.width > 1 and event.width != canvas._last_w:
-        canvas._last_w = event.width
-        canvas.itemconfig(window_id, width=event.width)
-
-    canvas.bind("<Configure>", on_resize)
-
+  # ------------------------------------------------------------------
+  # 1. Notes
+  # ------------------------------------------------------------------
   def init_notes_gui(self):
     top_ctrl = ttk.Frame(self.tab_notes, padding=5)
     top_ctrl.pack(fill=tk.X)
@@ -492,92 +957,78 @@ class StudyPackEditor:
         top_ctrl, text="+ Add Section", command=self.add_note_section
     ).pack(side=tk.LEFT)
     ttk.Button(
-        top_ctrl, text="Save Notes", command=lambda: self.save_notes_form(False)
+        top_ctrl, text="Save Notes", command=self.save_notes_form
     ).pack(side=tk.RIGHT)
 
-    self.notes_canvas = tk.Canvas(self.tab_notes, highlightthickness=0)
-    self.notes_scroll = ttk.Scrollbar(
-        self.tab_notes, orient="vertical", command=self.notes_canvas.yview
-    )
-    self.notes_container = ttk.Frame(self.notes_canvas)
-    self.notes_window_id = self.notes_canvas.create_window(
-        (0, 0), window=self.notes_container, anchor="nw"
-    )
-
-    self.notes_container.bind(
-        "<Configure>",
-        lambda e: self.notes_canvas.configure(
-            scrollregion=self.notes_canvas.bbox("all")
-        ),
-    )
-    self.bind_responsive_canvas(self.notes_canvas, self.notes_window_id)
-    self.notes_canvas.configure(yscrollcommand=self.notes_scroll.set)
-    self.notes_canvas.pack(
-        side="left", fill="both", expand=True, padx=5, pady=5
-    )
-    self.notes_scroll.pack(side="right", fill="y")
-    self.note_section_widgets = []
+    self.notes_view = self.new_scroll(self.tab_notes)
+    self.notes_view.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
 
   def load_notes_ui(self, notes_list):
-    for widget in self.notes_container.winfo_children():
-      widget.destroy()
-    self.note_section_widgets = []
-    for s_idx, sec in enumerate(notes_list):
-      sec_frame = ttk.LabelFrame(
-          self.notes_container, text=f"Section {s_idx+1}", padding=8
-      )
-      sec_frame.pack(fill=tk.X, expand=True, padx=2, pady=5)
+    self.note_widgets = []
+    self.notes_view.populate(notes_list, self.build_note_section)
 
-      h_frame = ttk.Frame(sec_frame)
-      h_frame.pack(fill=tk.X, expand=True, pady=2)
-      ttk.Label(h_frame, text="Heading:").pack(side=tk.LEFT)
-      h_ent = ttk.Entry(h_frame)
-      h_ent.insert(0, sec.get("heading", ""))
-      h_ent.pack(side=tk.LEFT, padx=5, expand=True, fill=tk.X)
-      ttk.Button(
-          h_frame,
-          text="Delete",
-          command=lambda f=sec_frame: self.remove_note_section(f),
-      ).pack(side=tk.RIGHT)
+  def build_note_section(self, sec):
+    sec_frame = ttk.LabelFrame(
+        self.notes_view.inner,
+        text=f"Section {len(self.note_widgets) + 1}",
+        padding=8,
+    )
+    sec_frame.pack(fill=tk.X, expand=True, padx=2, pady=5)
 
-      p_frame = ttk.Frame(sec_frame)
-      p_frame.pack(fill=tk.X, expand=True, pady=2)
-      ttk.Label(p_frame, text="Points:").pack(anchor=tk.W)
-      p_txt = tk.Text(p_frame, height=4, wrap=tk.WORD)
-      points_text = "\n".join(sec.get("points", []))
-      p_txt.insert("1.0", points_text)
-      p_txt.pack(fill=tk.X, expand=True, pady=2)
-      self.note_section_widgets.append((h_ent, p_txt, sec_frame))
+    h_frame = ttk.Frame(sec_frame)
+    h_frame.pack(fill=tk.X, expand=True, pady=2)
+    ttk.Label(h_frame, text="Heading:").pack(side=tk.LEFT)
+    h_ent = ttk.Entry(h_frame)
+    h_ent.insert(0, sec.get("heading", ""))
+    h_ent.pack(side=tk.LEFT, padx=5, expand=True, fill=tk.X)
+    ttk.Button(
+        h_frame,
+        text="Delete",
+        command=lambda f=sec_frame: self.remove_note_section(f),
+    ).pack(side=tk.RIGHT)
+
+    p_frame = ttk.Frame(sec_frame)
+    p_frame.pack(fill=tk.X, expand=True, pady=2)
+    ttk.Label(p_frame, text="Points:").pack(
+        anchor=tk.W
+    )
+    p_txt = self.new_text(p_frame, height=4, wrap=tk.WORD)
+    p_txt.insert("1.0", "\n".join(sec.get("points", [])))
+    p_txt.pack(fill=tk.X, expand=True, pady=2)
+    self.note_widgets.append((h_ent, p_txt, sec_frame))
 
   def add_note_section(self):
     if self.current_topic_index is None:
       return
-    t = self.data["topics"][self.current_topic_index]
-    if "notes" not in t:
-      t["notes"] = []
-    t["notes"].append({"heading": "New Section", "points": ["Point about **term**."] })
-    self.load_notes_ui(t["notes"])
+    self.notes_view.append(
+        {"heading": "New Section", "points": ["Point about **term**."]}
+    )
 
   def remove_note_section(self, sec_frame):
-    for i, (h, p, f) in enumerate(self.note_section_widgets):
-      if f == sec_frame:
-        del self.note_section_widgets[i]
-        sec_frame.destroy()
-        break
+    self.note_widgets = [w for w in self.note_widgets if w[2] is not sec_frame]
+    sec_frame.destroy()
 
-  def save_notes_form(self, silent=False):
+  def collect_notes(self):
+    self.notes_view.flush()
+    notes = []
+    for h_ent, p_txt, _ in self.note_widgets:
+      points = [
+          pt.strip()
+          for pt in p_txt.get("1.0", tk.END).splitlines()
+          if pt.strip()
+      ]
+      notes.append({"heading": h_ent.get(), "points": points})
+    return notes
+
+  def save_notes_form(self):
     if self.current_topic_index is None:
       return
-    new_notes = []
-    for h_ent, p_txt, f in self.note_section_widgets:
-      heading = h_ent.get()
-      points_raw = p_txt.get("1.0", tk.END).strip().split("\n")
-      points = [pt.strip() for pt in points_raw if pt.strip()]
-      new_notes.append({"heading": heading, "points": points})
-    self.data["topics"][self.current_topic_index]["notes"] = new_notes
-    if not silent:
-      messagebox.showinfo("Success", "Notes updated successfully.")
+    self.data["topics"][self.current_topic_index]["notes"] = self.collect_notes()
+    self.set_status("Notes updated.")
 
+  # ------------------------------------------------------------------
+  # 2. Key terms
+  # ------------------------------------------------------------------
   def init_terms_gui(self):
     top_ctrl = ttk.Frame(self.tab_terms, padding=5)
     top_ctrl.pack(fill=tk.X)
@@ -585,82 +1036,65 @@ class StudyPackEditor:
         side=tk.LEFT
     )
     ttk.Button(
-        top_ctrl, text="Save Terms", command=lambda: self.save_terms_form(False)
+        top_ctrl, text="Save Terms", command=self.save_terms_form
     ).pack(side=tk.RIGHT)
 
-    self.terms_canvas = tk.Canvas(self.tab_terms, highlightthickness=0)
-    self.terms_scroll = ttk.Scrollbar(
-        self.tab_terms, orient="vertical", command=self.terms_canvas.yview
-    )
-    self.terms_container = ttk.Frame(self.terms_canvas)
-    self.terms_window_id = self.terms_canvas.create_window(
-        (0, 0), window=self.terms_container, anchor="nw"
-    )
-
-    self.terms_container.bind(
-        "<Configure>",
-        lambda e: self.terms_canvas.configure(
-            scrollregion=self.terms_canvas.bbox("all")
-        ),
-    )
-    self.bind_responsive_canvas(self.terms_canvas, self.terms_window_id)
-    self.terms_canvas.configure(yscrollcommand=self.terms_scroll.set)
-    self.terms_canvas.pack(
-        side="left", fill="both", expand=True, padx=5, pady=5
-    )
-    self.terms_scroll.pack(side="right", fill="y")
-    self.term_widgets = []
+    self.terms_view = self.new_scroll(self.tab_terms)
+    self.terms_view.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
 
   def load_terms_ui(self, terms_list):
-    for w in self.terms_container.winfo_children():
-      w.destroy()
     self.term_widgets = []
-    for idx, item in enumerate(terms_list):
-      row_f = ttk.Frame(self.terms_container, padding=2)
-      row_f.pack(fill=tk.X, expand=True, pady=2)
-      ttk.Label(row_f, text=f"Term {idx+1}:", width=8).pack(side=tk.LEFT)
-      t_ent = ttk.Entry(row_f, width=22)
-      t_ent.insert(0, item.get("term", ""))
-      t_ent.pack(side=tk.LEFT, padx=2)
+    self.terms_view.populate(terms_list, self.build_term_row)
 
-      ttk.Label(row_f, text="Def:", width=4).pack(side=tk.LEFT)
-      d_ent = ttk.Entry(row_f)
-      d_ent.insert(0, item.get("definition", ""))
-      d_ent.pack(side=tk.LEFT, padx=2, expand=True, fill=tk.X)
-      ttk.Button(
-          row_f,
-          text="X",
-          width=3,
-          command=lambda f=row_f: self.remove_term_row(f),
-      ).pack(side=tk.RIGHT, padx=2)
-      self.term_widgets.append((t_ent, d_ent, row_f))
+  def build_term_row(self, item):
+    row_f = ttk.Frame(self.terms_view.inner, padding=2)
+    row_f.pack(fill=tk.X, expand=True, pady=2)
+    ttk.Label(
+        row_f, text=f"Term {len(self.term_widgets) + 1}:", width=8
+    ).pack(side=tk.LEFT)
+    t_ent = ttk.Entry(row_f, width=22)
+    t_ent.insert(0, item.get("term", ""))
+    t_ent.pack(side=tk.LEFT, padx=2)
+
+    ttk.Label(row_f, text="Def:", width=4).pack(side=tk.LEFT)
+    d_ent = ttk.Entry(row_f)
+    d_ent.insert(0, item.get("definition", ""))
+    d_ent.pack(side=tk.LEFT, padx=2, expand=True, fill=tk.X)
+    ttk.Button(
+        row_f,
+        text="X",
+        width=3,
+        command=lambda f=row_f: self.remove_term_row(f),
+    ).pack(side=tk.RIGHT, padx=2)
+    self.term_widgets.append((t_ent, d_ent, row_f))
 
   def add_term_row(self):
     if self.current_topic_index is None:
       return
-    t = self.data["topics"][self.current_topic_index]
-    if "key_terms" not in t:
-      t["key_terms"] = []
-    t["key_terms"].append({"term": "New Term", "definition": "Definition here."})
-    self.load_terms_ui(t["key_terms"])
+    self.terms_view.append({"term": "New Term", "definition": "Definition here."})
 
   def remove_term_row(self, row_f):
-    for i, (t_ent, d_ent, f) in enumerate(self.term_widgets):
-      if f == row_f:
-        del self.term_widgets[i]
-        row_f.destroy()
-        break
+    self.term_widgets = [w for w in self.term_widgets if w[2] is not row_f]
+    row_f.destroy()
 
-  def save_terms_form(self, silent=False):
+  def collect_terms(self):
+    self.terms_view.flush()
+    return [
+        {"term": t_ent.get(), "definition": d_ent.get()}
+        for t_ent, d_ent, _ in self.term_widgets
+    ]
+
+  def save_terms_form(self):
     if self.current_topic_index is None:
       return
-    new_terms = []
-    for t_ent, d_ent, f in self.term_widgets:
-      new_terms.append({"term": t_ent.get(), "definition": d_ent.get()})
-    self.data["topics"][self.current_topic_index]["key_terms"] = new_terms
-    if not silent:
-      messagebox.showinfo("Success", "Key terms updated successfully.")
+    self.data["topics"][self.current_topic_index]["key_terms"] = (
+        self.collect_terms()
+    )
+    self.set_status("Key terms updated.")
 
+  # ------------------------------------------------------------------
+  # 3. Flashcards
+  # ------------------------------------------------------------------
   def init_flashcards_gui(self):
     top_ctrl = ttk.Frame(self.tab_flashcards, padding=5)
     top_ctrl.pack(fill=tk.X)
@@ -668,87 +1102,76 @@ class StudyPackEditor:
         top_ctrl, text="+ Add Flashcard", command=self.add_fc_row
     ).pack(side=tk.LEFT)
     ttk.Button(
-        top_ctrl, text="Save Flashcards", command=lambda: self.save_fc_form(False)
+        top_ctrl, text="Save Flashcards", command=self.save_fc_form
     ).pack(side=tk.RIGHT)
 
-    self.fc_canvas = tk.Canvas(self.tab_flashcards, highlightthickness=0)
-    self.fc_scroll = ttk.Scrollbar(
-        self.tab_flashcards, orient="vertical", command=self.fc_canvas.yview
-    )
-    self.fc_container = ttk.Frame(self.fc_canvas)
-    self.fc_window_id = self.fc_canvas.create_window(
-        (0, 0), window=self.fc_container, anchor="nw"
-    )
-
-    self.fc_container.bind(
-        "<Configure>",
-        lambda e: self.fc_canvas.configure(
-            scrollregion=self.fc_canvas.bbox("all")
-        ),
-    )
-    self.bind_responsive_canvas(self.fc_canvas, self.fc_window_id)
-    self.fc_canvas.configure(yscrollcommand=self.fc_scroll.set)
-    self.fc_canvas.pack(side="left", fill="both", expand=True, padx=5, pady=5)
-    self.fc_scroll.pack(side="right", fill="y")
-    self.fc_widgets = []
+    self.fc_view = self.new_scroll(self.tab_flashcards)
+    self.fc_view.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
 
   def load_flashcards_ui(self, fc_list):
-    for w in self.fc_container.winfo_children():
-      w.destroy()
     self.fc_widgets = []
-    for idx, fc in enumerate(fc_list):
-      row_f = ttk.LabelFrame(
-          self.fc_container, text=f"Flashcard {idx+1}", padding=8
-      )
-      row_f.pack(fill=tk.X, expand=True, padx=2, pady=4)
+    self.fc_view.populate(fc_list, self.build_fc_row)
 
-      f_frame = ttk.Frame(row_f)
-      f_frame.pack(fill=tk.X, expand=True, pady=2)
-      ttk.Label(f_frame, text="Front:", width=20).pack(side=tk.LEFT)
-      f_ent = ttk.Entry(f_frame)
-      f_ent.insert(0, fc.get("front", ""))
-      f_ent.pack(side=tk.LEFT, expand=True, fill=tk.X, padx=2)
+  def build_fc_row(self, fc):
+    row_f = ttk.LabelFrame(
+        self.fc_view.inner,
+        text=f"Flashcard {len(self.fc_widgets) + 1}",
+        padding=8,
+    )
+    row_f.pack(fill=tk.X, expand=True, padx=2, pady=4)
 
-      b_frame = ttk.Frame(row_f)
-      b_frame.pack(fill=tk.X, expand=True, pady=2)
-      ttk.Label(b_frame, text="Back:", width=20).pack(side=tk.LEFT)
-      b_ent = ttk.Entry(b_frame)
-      b_ent.insert(0, fc.get("back", ""))
-      b_ent.pack(side=tk.LEFT, expand=True, fill=tk.X, padx=2)
-      ttk.Button(
-          row_f,
-          text="Delete",
-          command=lambda f=row_f: self.remove_fc_row(f),
-      ).pack(anchor=tk.E, pady=2)
-      self.fc_widgets.append((f_ent, b_ent, row_f))
+    f_frame = ttk.Frame(row_f)
+    f_frame.pack(fill=tk.X, expand=True, pady=2)
+    ttk.Label(f_frame, text="Front:", width=20).pack(
+        side=tk.LEFT
+    )
+    f_ent = ttk.Entry(f_frame)
+    f_ent.insert(0, fc.get("front", ""))
+    f_ent.pack(side=tk.LEFT, expand=True, fill=tk.X, padx=2)
+
+    b_frame = ttk.Frame(row_f)
+    b_frame.pack(fill=tk.X, expand=True, pady=2)
+    ttk.Label(b_frame, text="Back:", width=20).pack(
+        side=tk.LEFT
+    )
+    b_ent = ttk.Entry(b_frame)
+    b_ent.insert(0, fc.get("back", ""))
+    b_ent.pack(side=tk.LEFT, expand=True, fill=tk.X, padx=2)
+    ttk.Button(
+        row_f,
+        text="Delete",
+        command=lambda f=row_f: self.remove_fc_row(f),
+    ).pack(anchor=tk.E, pady=2)
+    self.fc_widgets.append((f_ent, b_ent, row_f))
 
   def add_fc_row(self):
     if self.current_topic_index is None:
       return
-    t = self.data["topics"][self.current_topic_index]
-    if "flashcards" not in t:
-      t["flashcards"] = []
-    t["flashcards"].append({"front": "Question?", "back": "Answer."})
-    self.load_flashcards_ui(t["flashcards"])
+    self.fc_view.append({"front": "Question?", "back": "Answer."})
 
   def remove_fc_row(self, row_f):
-    for i, (f_ent, b_ent, f) in enumerate(self.fc_widgets):
-      if f == row_f:
-        del self.fc_widgets[i]
-        row_f.destroy()
-        break
+    self.fc_widgets = [w for w in self.fc_widgets if w[2] is not row_f]
+    row_f.destroy()
 
-  def save_fc_form(self, silent=False):
+  def collect_flashcards(self):
+    self.fc_view.flush()
+    return [
+        {"front": f_ent.get(), "back": b_ent.get()}
+        for f_ent, b_ent, _ in self.fc_widgets
+    ]
+
+  def save_fc_form(self):
     if self.current_topic_index is None:
       return
-    new_fcs = []
-    for f_ent, b_ent, f in self.fc_widgets:
-      new_fcs.append({"front": f_ent.get(), "back": b_ent.get()})
-    self.data["topics"][self.current_topic_index]["flashcards"] = new_fcs
-    if not silent:
-      messagebox.showinfo("Success", "Flashcards updated successfully.")
+    self.data["topics"][self.current_topic_index]["flashcards"] = (
+        self.collect_flashcards()
+    )
+    self.set_status("Flashcards updated.")
 
-  def init_questions_gui_optimized(self):
+  # ------------------------------------------------------------------
+  # 4. Questions
+  # ------------------------------------------------------------------
+  def init_questions_gui(self):
     q_paned = ttk.PanedWindow(self.tab_questions, orient=tk.HORIZONTAL)
     q_paned.pack(fill=tk.BOTH, expand=True, padx=2, pady=2)
 
@@ -759,10 +1182,8 @@ class StudyPackEditor:
         left_q_frame, text="Questions List", font=("Segoe UI", 9, "bold")
     ).pack(anchor=tk.W, pady=2)
 
-    self.q_listbox = tk.Listbox(left_q_frame, exportselection=False)
-    self.q_listbox.pack(
-        side=tk.TOP, fill=tk.BOTH, expand=True, padx=2, pady=2
-    )
+    self.q_listbox = self.new_listbox(left_q_frame, exportselection=False)
+    self.q_listbox.pack(side=tk.TOP, fill=tk.BOTH, expand=True, padx=2, pady=2)
     self.q_listbox.bind("<<ListboxSelect>>", self.on_select_question_item)
 
     q_ctrl_frame = ttk.Frame(left_q_frame)
@@ -785,87 +1206,81 @@ class StudyPackEditor:
     right_q_frame = ttk.Frame(q_paned, padding=5)
     q_paned.add(right_q_frame, weight=3)
 
-    self.q_detail_canvas = tk.Canvas(right_q_frame, highlightthickness=0)
-    self.q_detail_scroll = ttk.Scrollbar(
-        right_q_frame, orient="vertical", command=self.q_detail_canvas.yview
-    )
-    self.q_detail_container = ttk.Frame(self.q_detail_canvas, padding=5)
-
-    self.q_detail_window_id = self.q_detail_canvas.create_window(
-        (0, 0), window=self.q_detail_container, anchor="nw"
-    )
-    self.q_detail_container.bind(
-        "<Configure>",
-        lambda e: self.q_detail_canvas.configure(
-            scrollregion=self.q_detail_canvas.bbox("all")
-        ),
-    )
-    self.bind_responsive_canvas(self.q_detail_canvas, self.q_detail_window_id)
-    self.q_detail_canvas.configure(yscrollcommand=self.q_detail_scroll.set)
-
-    self.q_detail_canvas.pack(
-        side="left", fill="both", expand=True, padx=2, pady=2
-    )
-    self.q_detail_scroll.pack(side="right", fill="y")
-
+    # Nút lưu đặt trước (side=bottom) để luôn hiển thị
     save_q_btn_frame = ttk.Frame(right_q_frame)
-    save_q_btn_frame.pack(fill=tk.X, pady=5)
+    save_q_btn_frame.pack(side=tk.BOTTOM, fill=tk.X, pady=5)
     ttk.Button(
         save_q_btn_frame,
         text="Save Question Changes",
-        command=lambda: self.save_current_question_form(False),
+        command=lambda: self.save_current_question_form(),
     ).pack(side=tk.RIGHT)
 
-  def load_questions_list_optimized(self):
+    self.q_detail = self.new_scroll(right_q_frame, padding=5)
+    self.q_detail.pack(fill=tk.BOTH, expand=True, padx=2, pady=2)
+    self.q_detail_container = self.q_detail.inner
+
+  @staticmethod
+  def question_label(idx, q):
+    prompt = str(q.get("prompt", ""))
+    snippet = prompt[:35] + ("..." if len(prompt) > 35 else "")
+    return f"Q{idx + 1} [{q.get('type', 'mcq')}]: {snippet}"
+
+  def load_questions_list(self):
     self.q_listbox.delete(0, tk.END)
+    self.current_question_index = None
+    self.q_detail.clear()
     if self.current_topic_index is None:
       return
-    t = self.data["topics"][self.current_topic_index]
-    questions = t.get("questions", [])
-    for idx, q in enumerate(questions):
-      q_type = q.get("type", "mcq")
-      prompt_snip = q.get("prompt", "")[:35]
-      self.q_listbox.insert(
-          tk.END, f"Q{idx+1} [{q_type}]: {prompt_snip}..."
-      )
-    self.current_question_index = None
-    for widget in self.q_detail_container.winfo_children():
-      widget.destroy()
+    questions = self.data["topics"][self.current_topic_index].get(
+        "questions", []
+    )
+    labels = [self.question_label(i, q) for i, q in enumerate(questions)]
+    if labels:
+      self.q_listbox.insert(tk.END, *labels)
 
-  def on_select_question_item(self, event):
+  def on_select_question_item(self, _event=None):
     selected = self.q_listbox.curselection()
     if not selected:
       return
+    idx = selected[0]
+    if idx == self.current_question_index:
+      return
     if self.current_question_index is not None:
       self.save_current_question_form(silent=True)
-
-    self.current_question_index = selected[0]
+    self.current_question_index = idx
     self.render_single_question_form()
 
   def render_single_question_form(self):
-    for widget in self.q_detail_container.winfo_children():
-      widget.destroy()
-
+    self.q_detail.clear()
     if (
         self.current_topic_index is None
         or self.current_question_index is None
     ):
       return
-    t = self.data["topics"][self.current_topic_index]
-    questions = t.get("questions", [])
+    questions = self.data["topics"][self.current_topic_index].get(
+        "questions", []
+    )
     if self.current_question_index >= len(questions):
       return
 
-    q = questions[self.current_question_index]
+    self.q_detail.scroll_top()
+    self.q_detail.freeze()
+    try:
+      self.build_question_form(questions[self.current_question_index])
+    finally:
+      self.q_detail.thaw()
+
+  def build_question_form(self, q):
+    container = self.q_detail_container
     q_type = q.get("type", "mcq")
 
     ttk.Label(
-        self.q_detail_container,
-        text=f"Editing Question {self.current_question_index+1} [{q_type.upper()}]",
+        container,
+        text=f"Editing Question {self.current_question_index + 1} [{q_type.upper()}]",
         font=("Segoe UI", 10, "bold"),
     ).pack(anchor=tk.W, pady=5)
 
-    p_box = ttk.Frame(self.q_detail_container)
+    p_box = ttk.Frame(container)
     p_box.pack(fill=tk.X, pady=3)
     ttk.Label(p_box, text="Prompt:", width=12).pack(side=tk.LEFT)
     self.det_prompt_ent = ttk.Entry(p_box)
@@ -875,14 +1290,14 @@ class StudyPackEditor:
     self.det_spec = {"type": q_type}
 
     if q_type == "mcq":
-      ctx_box = ttk.Frame(self.q_detail_container)
+      ctx_box = ttk.Frame(container)
       ctx_box.pack(fill=tk.X, pady=2)
       ttk.Label(ctx_box, text="Context:", width=12).pack(side=tk.LEFT)
       self.det_mcq_context = ttk.Entry(ctx_box)
       self.det_mcq_context.insert(0, q.get("context", ""))
       self.det_mcq_context.pack(side=tk.LEFT, expand=True, fill=tk.X, padx=2)
 
-      src_box = ttk.Frame(self.q_detail_container)
+      src_box = ttk.Frame(container)
       src_box.pack(fill=tk.X, pady=2)
       ttk.Label(src_box, text="Source:", width=12).pack(side=tk.LEFT)
       self.det_mcq_source = ttk.Entry(src_box)
@@ -892,7 +1307,7 @@ class StudyPackEditor:
       opts = q.get("options", ["", "", "", ""])
       self.det_spec["opt_ents"] = []
       for o_idx, opt_text in enumerate(opts):
-        o_box = ttk.Frame(self.q_detail_container)
+        o_box = ttk.Frame(container)
         o_box.pack(fill=tk.X, pady=2)
         ttk.Label(o_box, text=f"Option {o_idx}:", width=12).pack(side=tk.LEFT)
         o_ent = ttk.Entry(o_box)
@@ -900,9 +1315,11 @@ class StudyPackEditor:
         o_ent.pack(side=tk.LEFT, expand=True, fill=tk.X, padx=2)
         self.det_spec["opt_ents"].append(o_ent)
 
-      ans_box = ttk.Frame(self.q_detail_container)
+      ans_box = ttk.Frame(container)
       ans_box.pack(fill=tk.X, pady=3)
-      ttk.Label(ans_box, text="Correct Index:", width=18).pack(side=tk.LEFT)
+      ttk.Label(ans_box, text="Correct Index:", width=18).pack(
+          side=tk.LEFT
+      )
       self.det_ans_spin = ttk.Spinbox(
           ans_box, from_=0, to=max(3, len(opts) - 1), width=5
       )
@@ -910,7 +1327,7 @@ class StudyPackEditor:
       self.det_ans_spin.pack(side=tk.LEFT, padx=2)
 
     elif q_type == "truefalse":
-      ans_box = ttk.Frame(self.q_detail_container)
+      ans_box = ttk.Frame(container)
       ans_box.pack(fill=tk.X, pady=3)
       ttk.Label(ans_box, text="Answer:", width=12).pack(side=tk.LEFT)
       self.det_tf_var = tk.StringVar(value=str(q.get("answer", True)))
@@ -922,7 +1339,7 @@ class StudyPackEditor:
       ).pack(side=tk.LEFT, padx=5)
 
     elif q_type == "short":
-      ans_box = ttk.Frame(self.q_detail_container)
+      ans_box = ttk.Frame(container)
       ans_box.pack(fill=tk.X, pady=3)
       ttk.Label(ans_box, text="Model Answer:", width=15).pack(side=tk.LEFT)
       self.det_short_ent = ttk.Entry(ans_box)
@@ -930,7 +1347,7 @@ class StudyPackEditor:
       self.det_short_ent.pack(side=tk.LEFT, expand=True, fill=tk.X, padx=2)
 
     elif q_type == "cloze":
-      ans_box = ttk.Frame(self.q_detail_container)
+      ans_box = ttk.Frame(container)
       ans_box.pack(fill=tk.X, pady=3)
       ttk.Label(ans_box, text="Answers:", width=18).pack(side=tk.LEFT)
       self.det_cloze_ent = ttk.Entry(ans_box)
@@ -944,9 +1361,7 @@ class StudyPackEditor:
     elif q_type == "match":
       pairs = q.get("pairs", [])
       self.det_spec["pair_ents"] = []
-      pf_box = ttk.LabelFrame(
-          self.q_detail_container, text="Pairs (Left : Right)", padding=5
-      )
+      pf_box = ttk.LabelFrame(container, text="Pairs (Left : Right)", padding=5)
       pf_box.pack(fill=tk.X, pady=3)
       for p_obj in pairs:
         pr_f = ttk.Frame(pf_box)
@@ -961,14 +1376,14 @@ class StudyPackEditor:
         self.det_spec["pair_ents"].append((l_ent, r_ent))
 
     elif q_type == "tfs":
-      q_box = ttk.Frame(self.q_detail_container)
+      q_box = ttk.Frame(container)
       q_box.pack(fill=tk.X, pady=3)
       ttk.Label(q_box, text="Quote:", width=10).pack(side=tk.LEFT)
       self.det_quote_ent = ttk.Entry(q_box)
       self.det_quote_ent.insert(0, q.get("quote", ""))
       self.det_quote_ent.pack(side=tk.LEFT, expand=True, fill=tk.X, padx=2)
 
-      src_tfs_box = ttk.Frame(self.q_detail_container)
+      src_tfs_box = ttk.Frame(container)
       src_tfs_box.pack(fill=tk.X, pady=3)
       ttk.Label(src_tfs_box, text="Source:", width=10).pack(side=tk.LEFT)
       self.det_tfs_source = ttk.Entry(src_tfs_box)
@@ -978,7 +1393,7 @@ class StudyPackEditor:
       items = q.get("items", [])
       self.det_spec["tfs_item_ents"] = []
       tfs_box = ttk.LabelFrame(
-          self.q_detail_container, text="Statements & Answers", padding=5
+          container, text="Statements & Answers", padding=5
       )
       tfs_box.pack(fill=tk.X, pady=3)
       for itm in items:
@@ -996,12 +1411,20 @@ class StudyPackEditor:
         )
         self.det_spec["tfs_item_ents"].append((txt_ent, ans_var))
 
-    exp_box = ttk.Frame(self.q_detail_container)
+    exp_box = ttk.Frame(container)
     exp_box.pack(fill=tk.X, pady=3)
     ttk.Label(exp_box, text="Explanation:", width=12).pack(side=tk.LEFT)
     self.det_exp_ent = ttk.Entry(exp_box)
     self.det_exp_ent.insert(0, q.get("explanation", ""))
     self.det_exp_ent.pack(side=tk.LEFT, expand=True, fill=tk.X, padx=2)
+
+  @staticmethod
+  def set_or_remove(q, key, value):
+    value = value.strip()
+    if value:
+      q[key] = value
+    else:
+      q.pop(key, None)
 
   def save_current_question_form(self, silent=False):
     if (
@@ -1024,20 +1447,10 @@ class StudyPackEditor:
       q["options"] = [ent.get() for ent in self.det_spec["opt_ents"]]
       try:
         q["answer"] = int(self.det_ans_spin.get())
-      except:
+      except ValueError:
         q["answer"] = 0
-      ctx_val = self.det_mcq_context.get().strip()
-      if ctx_val:
-        q["context"] = ctx_val
-      elif "context" in q:
-        del q["context"]
-
-      src_val = self.det_mcq_source.get().strip()
-      if src_val:
-        q["source"] = src_val
-      elif "source" in q:
-        del q["source"]
-
+      self.set_or_remove(q, "context", self.det_mcq_context.get())
+      self.set_or_remove(q, "source", self.det_mcq_source.get())
     elif q_type == "truefalse":
       q["answer"] = self.det_tf_var.get() == "True"
     elif q_type == "short":
@@ -1046,40 +1459,29 @@ class StudyPackEditor:
       ans_str = self.det_cloze_ent.get()
       q["answers"] = [a.strip() for a in ans_str.split(",") if a.strip()]
     elif q_type == "match":
-      pairs = []
-      for l_ent, r_ent in self.det_spec["pair_ents"]:
-        pairs.append({"left": l_ent.get(), "right": r_ent.get()})
-      q["pairs"] = pairs
+      q["pairs"] = [
+          {"left": l_ent.get(), "right": r_ent.get()}
+          for l_ent, r_ent in self.det_spec["pair_ents"]
+      ]
     elif q_type == "tfs":
       q["quote"] = self.det_quote_ent.get()
-      src_val = self.det_tfs_source.get().strip()
-      if src_val:
-        q["source"] = src_val
-      elif "source" in q:
-        del q["source"]
+      self.set_or_remove(q, "source", self.det_tfs_source.get())
+      q["items"] = [
+          {"text": txt_ent.get(), "answer": ans_var.get() == "True"}
+          for txt_ent, ans_var in self.det_spec["tfs_item_ents"]
+      ]
 
-      items = []
-      for txt_ent, ans_var in self.det_spec["tfs_item_ents"]:
-        items.append({"text": txt_ent.get(), "answer": ans_var.get() == "True"})
-      q["items"] = items
-
-    curr_idx = self.current_question_index
-    prompt_snip = q.get("prompt", "")[:35]
-    self.q_listbox.delete(curr_idx)
-    self.q_listbox.insert(
-        curr_idx, f"Q{curr_idx+1} [{q_type}]: {prompt_snip}..."
-    )
-    self.q_listbox.selection_set(curr_idx)
+    idx = self.current_question_index
+    replace_listbox_item(self.q_listbox, idx, self.question_label(idx, q))
 
     if not silent:
-      messagebox.showinfo("Success", "Question updated successfully.")
+      self.set_status("Question updated.")
 
   def add_single_question(self):
     if self.current_topic_index is None:
       return
     t = self.data["topics"][self.current_topic_index]
-    if "questions" not in t:
-      t["questions"] = []
+    questions = t.setdefault("questions", [])
 
     q_type = self.q_type_combo.get()
     new_q = {
@@ -1113,25 +1515,30 @@ class StudyPackEditor:
           {"text": "Statement 4", "answer": False},
       ]
 
-    t["questions"].append(new_q)
-    self.load_questions_list_optimized()
-    self.q_listbox.selection_set(len(t["questions"]) - 1)
-    self.on_select_question_item(None)
+    # Lưu câu đang mở trước (qua on_select_question_item), chỉ thêm 1 dòng
+    questions.append(new_q)
+    idx = len(questions) - 1
+    self.q_listbox.insert(tk.END, self.question_label(idx, new_q))
+    self.q_listbox.selection_clear(0, tk.END)
+    self.q_listbox.selection_set(idx)
+    self.q_listbox.see(idx)
+    self.on_select_question_item()
 
   def delete_single_question(self):
     selected = self.q_listbox.curselection()
     if not selected or self.current_topic_index is None:
       return
-    idx = selected[0]
     t = self.data["topics"][self.current_topic_index]
-    del t["questions"][idx]
-    self.load_questions_list_optimized()
-    for widget in self.q_detail_container.winfo_children():
-      widget.destroy()
-    self.current_question_index = None
+    del t["questions"][selected[0]]
+    self.load_questions_list()
 
 
 if __name__ == "__main__":
+  if ENABLE_DPI_AWARENESS:
+    enable_dpi_awareness()
   root = tk.Tk()
+  root.withdraw()  # dựng xong mới hiện, tránh nháy cửa sổ nửa vời lúc khởi động
   app = StudyPackEditor(root)
+  root.update_idletasks()
+  root.deiconify()
   root.mainloop()
