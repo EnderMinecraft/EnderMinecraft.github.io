@@ -111,13 +111,11 @@ Không dùng framework hay thư viện ngoài, chỉ tải font Google (JetBrain
 
 - Chỉ hiển thị văn bản, không có ảnh; câu hỏi cần hình sẽ bị bỏ khi tạo gói.
 - `sw.js` và `favicon-canary.png` là file ngoài, cần đặt cùng thư mục. Mở bằng `file://` thường không đăng ký được Service Worker, nên không dùng được offline.
-- Một số chuỗi giao diện đang ghi cứng tiếng Việt (ví dụ "Bộ ôn tập gần đây", "Mở / Sửa / Đổi tên / Xóa", "Làm mới") nên chưa dịch được sang tiếng Anh.
 - Chế độ thi dùng `localStorage` trực tiếp (không qua `try/catch`), có thể lỗi nếu trình duyệt chặn lưu trữ.
 
 ## Hướng phát triển
 
 - Xuất/nhập tiến độ học để đồng bộ giữa thiết bị
-- Đưa toàn bộ chuỗi giao diện vào `I18N`
 - Tách thành `index.html`, `app.js`, `i18n.js`, `core.js`, `styles.css` khi dự án lớn hơn
 - Thêm kiểm thử tự động cho `spParse` / `spNormalise`
 - Lịch nhắc ôn flashcard theo ngày (hiện chỉ có 3 hộp, chưa có lịch)
