@@ -4018,7 +4018,7 @@ h += '<a class="ai-btn" href="' + urls.claude + '" target="_blank" rel="noopener
     recents = recents.filter(function (p) { return p.title !== title; });
     recents.unshift({ id: id, title: title, text: text, updatedAt: Date.now() });
     // Giới hạn tối đa 5 tệp gần nhất
-    if (recents.length > 5) recents = recents.slice(0, 5);
+    if (recents.length > 15) recents = recents.slice(0, 15);
     store.set('sp:recent_packs', JSON.stringify(recents));
   }
   function renameRecentPack(id) {
