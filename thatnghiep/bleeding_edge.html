@@ -4136,17 +4136,19 @@ function setLang(l) {
         var oldText = oldTexts.get(idx);
         
         // Only trigger the slide-down entrance if the text content is different
-        if (oldText && oldText !== newText) {
+        // Skip elements that manage their own opacity/transform (flashcard swipe tags are hidden until a drag and are centred with a transform)
+        if (oldText && oldText !== newText && !el.closest('.swipe-tag')) {
           el.style.opacity = '0';
           el.style.transform = 'translateY(-6px)';
           
           // Force reflow
           void el.offsetWidth; 
           
-          // Smooth Apple-style entrance curve
+          // Smooth Apple-style entrance curve; afterwards hand opacity/transform back to the stylesheet instead of pinning them
           el.style.transition = 'opacity 0.25s cubic-bezier(0.25, 1, 0.5, 1), transform 0.25s cubic-bezier(0.25, 1, 0.5, 1)';
           el.style.opacity = '1';
           el.style.transform = 'translateY(0)';
+          setTimeout(function () { el.style.opacity = ''; el.style.transform = ''; el.style.transition = ''; }, 300);
         }
       });
     }
