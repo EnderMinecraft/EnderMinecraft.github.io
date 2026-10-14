@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <meta name="apple-mobile-web-app-title" content="Sloppy Slop"><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22Revision%20Desk%22%2C%22short_name%22%3A%22RevisionDesk%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230C1222%22%2C%22theme_color%22%3A%22%230C1222%22%7D"><link rel="icon" href="favicon.png" type="image/png"><link rel="apple-touch-icon" href="favicon.png"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <meta name="apple-mobile-web-app-title" content="Sloppy Slop"><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22Sloppy%20Slop%22%2C%22short_name%22%3A%22SloppySlop%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230C1222%22%2C%22theme_color%22%3A%22%230C1222%22%7D"><link rel="icon" href="favicon.png" type="image/png"><link rel="apple-touch-icon" href="favicon.png"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Sloppy Slop</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
@@ -47,7 +47,7 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.15; text-wrap: balance;
 }
 p { margin: 0; }
 .muted { color: var(--muted); }
-.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 16px; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-inline: 16px; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 mark { background: linear-gradient(to top, var(--mark) 0 48%, transparent 48%); color: inherit; padding: 0 0.1em; }
 .scroll { overflow-x: auto; }
@@ -785,6 +785,8 @@ table.f code { font-family: var(--font-mono); font-size: 13px; }
 
 /* ---------- make-a-pack / open-pack mobile fix ---------- */
 .narrow { grid-template-columns: minmax(0, 1fr); }
+/* with the sidebar collapsed, keep these text pages in a centred column instead of hugging the left edge */
+.shell.rail-off .main.main-narrow { max-width: 720px; margin-inline: auto; width: 100%; }
 .narrow > * { min-width: 0; }
 .steps li, .steps code, .lede, .note { overflow-wrap: anywhere; }
 .steps code { word-break: break-all; }
@@ -857,11 +859,34 @@ pre, table.f, .scroll { max-width: 100%; }
 /* exam review rows */
 .rv-stack { display: grid; gap: 6px; }
 .rv-row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); font-size: 14px; color: var(--ink); overflow-wrap: anywhere; white-space: pre-line; }
-.rv-row small { flex: none; max-width: 55%; text-align: right; font: 600 11px var(--font-mono); text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+.rv-row small { flex: 0 1 auto; max-width: 45%; min-width: 0; text-align: right; font: 600 11px var(--font-mono); text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+@media (max-width: 640px) {
+  .rv-row { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .rv-row small { max-width: 100%; text-align: left; }
+}
 .rv-row.ok { border-color: var(--good); background: var(--good-bg); }
 .rv-row.ok small { color: var(--good); }
 .rv-row.bad { border-color: var(--bad); background: var(--bad-bg); }
 .rv-row.bad small { color: var(--bad); }
+
+/* Long text safety: formulas and long strings wrap instead of widening the page */
+html, body { max-width: 100%; overflow-x: clip; }
+.main, .quiz, .qset, .rp-card, .res-i, .tfi, .mtb, .note, .notes, .terms, .deck, .opt, .rv-row, .exam-card { min-width: 0; overflow-wrap: anywhere; }
+.exam-card .opt { min-width: 0; max-width: 100%; }
+.exam-card .opt > span { min-width: 0; overflow-wrap: anywhere; }
+.exam-card .opt > span:first-child { flex: none; }
+.exam-card select, .exam-card input, .exam-card textarea { max-width: 100%; }
+.exam-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 20px; align-items: start; }
+.exam-nav { position: sticky; top: calc(76px + env(safe-area-inset-top, 0px)); }
+@media (min-width: 861px) {
+  .shell.exam-focus { grid-template-columns: minmax(0, 1fr); }
+  .shell.exam-focus .rail { display: none; }
+}
+.nav-i span { min-width: 0; overflow-wrap: anywhere; }
+@media (max-width: 860px) {
+  .exam-layout { grid-template-columns: minmax(0, 1fr); }
+  .exam-nav { position: static; }
+}
 
 /* Microinteractions Grid */
 .exam-jump-container {
@@ -1158,7 +1183,7 @@ pre, table.f, .scroll { max-width: 100%; }
 <header class="top">
   <div class="wrap">
 <div class="brand-wrap">
-  <button class="brand" id="brandBtn" data-act="toggleRail" aria-label="Toggle sidebar" aria-controls="railNav" aria-expanded="true">
+  <button class="brand" id="brandBtn" data-act="toggleRail" aria-label="Toggle sidebar" data-i18n-attr="aria-label:sidebar_aria" aria-controls="railNav" aria-expanded="true">
     <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true" style="filter: drop-shadow(0 2px 6px rgb(0 0 0 / 0.15));">
       <defs>
         <linearGradient id="logoGrad" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -1176,18 +1201,18 @@ pre, table.f, .scroll { max-width: 100%; }
   </button>
   
   <div class="debug-popup" id="debugPopup">
-    <div class="eyebrow">System Debug</div>
-    <h4 style="margin: 4px 0 6px; font-size: 14px;">Runtime Inspector</h4>
-    <div class="debug-row"><span class="muted">Pack Key:</span> <span id="dbgKey">-</span></div>
-    <div class="debug-row"><span class="muted">Topics / Cards:</span> <span id="dbgStats">-</span></div>
-    <div class="debug-row"><span class="muted">Language / Mode:</span> <span id="dbgLangMode">-</span></div>
-    <div class="debug-row"><span class="muted">LocalStorage:</span> <span id="dbgStorage">-</span></div>
-    <div class="debug-row"><span class="muted">Haptics:</span> <button class="link" id="dbgHaptic" data-act="toggleHaptic" style="font:inherit">-</button></div>
-    <div class="debug-row"><span class="muted">Test:</span> <button class="link" data-act="testHaptic" style="font:inherit">Haptic test</button></div>
-    <div class="debug-row"><span class="muted">Mode:</span> <span id="dbgMode">-</span></div>
+    <div class="eyebrow" data-i18n="dbg_title">System Debug</div>
+    <h4 style="margin: 4px 0 6px; font-size: 14px;" data-i18n="dbg_sub">Runtime Inspector</h4>
+    <div class="debug-row"><span class="muted" data-i18n="dbg_key">Pack Key:</span> <span id="dbgKey">-</span></div>
+    <div class="debug-row"><span class="muted" data-i18n="dbg_stats">Topics / Cards:</span> <span id="dbgStats">-</span></div>
+    <div class="debug-row"><span class="muted" data-i18n="dbg_langmode">Language / Mode:</span> <span id="dbgLangMode">-</span></div>
+    <div class="debug-row"><span class="muted" data-i18n="dbg_storage">LocalStorage:</span> <span id="dbgStorage">-</span></div>
+    <div class="debug-row"><span class="muted" data-i18n="dbg_haptics">Haptics:</span> <button class="link" id="dbgHaptic" data-act="toggleHaptic" style="font:inherit">-</button></div>
+    <div class="debug-row"><span class="muted" data-i18n="dbg_test">Test:</span> <button class="link" data-act="testHaptic" style="font:inherit" data-i18n="dbg_test_btn">Haptic test</button></div>
+    <div class="debug-row"><span class="muted" data-i18n="dbg_mode">Mode:</span> <span id="dbgMode">-</span></div>
     <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center;">
-      <span class="muted" style="font-size: 11px;">Sloppy Slop v1.0</span>
-      <button class="btn" style="padding: 2px 8px; font-size: 11px;" data-act="refreshDebug">Làm mới</button>
+      <span class="muted" style="font-size: 11px;">Sloppy Slop v2.0</span>
+      <button class="btn" style="padding: 2px 8px; font-size: 11px;" data-act="refreshDebug" data-i18n="dbg_refresh">Refresh</button>
     </div>
   </div>
 </div>
@@ -1196,14 +1221,14 @@ pre, table.f, .scroll { max-width: 100%; }
         <button data-act="lang" data-l="vi" lang="vi" title="Tiếng Việt" aria-pressed="false">VI</button>
         <button data-act="lang" data-l="en" lang="en" title="English" aria-pressed="true">EN</button>
       </div>
-      <div class="seg seg-3" id="themeSeg" role="group" data-theme-mode="system" aria-label="Theme mode">
-        <button data-act="theme-mode" data-m="light" aria-pressed="false" aria-label="Light mode" title="Light mode">
+      <div class="seg seg-3" id="themeSeg" role="group" data-theme-mode="system" data-i18n-attr="aria-label:theme_aria" aria-label="Theme mode">
+        <button data-act="theme-mode" data-m="light" aria-pressed="false" data-i18n-attr="aria-label:theme_light;title:theme_light" aria-label="Light mode" title="Light mode">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5.3 5.3L7 7M17 17l1.7 1.7M5.3 18.7L7 17M17 7l1.7-1.7" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
         </button>
-        <button data-act="theme-mode" data-m="dark" aria-pressed="false" aria-label="Dark mode" title="Dark mode">
+        <button data-act="theme-mode" data-m="dark" aria-pressed="false" data-i18n-attr="aria-label:theme_dark;title:theme_dark" aria-label="Dark mode" title="Dark mode">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor"/></svg>
         </button>
-        <button data-act="theme-mode" data-m="system" aria-pressed="true" aria-label="System theme" title="System theme">
+        <button data-act="theme-mode" data-m="system" aria-pressed="true" data-i18n-attr="aria-label:theme_system;title:theme_system" aria-label="System theme" title="System theme">
           <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M8 21h8m-4-4v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         </button>
       </div>
@@ -1248,7 +1273,7 @@ You convert a teacher's Word document into a "Study Pack": one JSON file that a 
 
 DELIVERY RULES (READ FIRST)
 1. Create the result as a FILE and hand it to me as a download or attachment. Do NOT write the JSON in the chat. Name the file after the document and end the name with .studypack.json (for example chapter-1.studypack.json). The file contains the JSON object and nothing else.
-2. Your chat reply must be very short, at most 3 lines: the file name, the number of topics, flashcards and questions, and your estimated coverage percentage (see COVERAGE). If the document already contains questions, also say how many it contains and how many you converted, for example "questions in document: 112, converted: 112". Do not paste, preview or summarise the file content in the chat.
+2. Your chat reply must be very short, at most 3 lines: the file name, the number of topics, flashcards and questions, and your estimated coverage percentage (see COVERAGE). If the document already contains questions, also say how many it contains, how many you converted and how many you skipped because they need a picture, for example "questions in document: 112, converted: 104, skipped (need an image): 8". Do not paste, preview or summarise the file content in the chat.
 3. If you can run code, build the file one topic at a time, then load it with a JSON parser (for example Python json.load) to confirm it is valid, and fix any error before delivering it. If you cannot create files at all, say so in one sentence, then output the complete JSON in a single code block with nothing else, so I can copy it into a .json file.
 4. If the document is very long (roughly more than 20 pages or 8,000 words), do not shorten it. Split it into several files, each a complete and valid study pack for consecutive chapters, named like name-part1.studypack.json, name-part2.studypack.json. List the file names in the chat reply. A file may hold hundreds of questions: never cut questions to keep a file small, split into parts instead.
 
@@ -1259,7 +1284,7 @@ COVERAGE: THE FILE MUST CARRY AT LEAST 90% OF THE DOCUMENT'S INFORMATION
 - Merge only true duplicates. Never squeeze two different facts into one vague sentence.
 - "key_terms", "flashcards" and "questions" are built from the notes. Every key term, formula and definition in the notes must be in "key_terms" or in a flashcard, and every main fact must be tested by at least one flashcard or question.
 - Before you reply, silently count the units again, estimate the percentage covered, and add anything that is missing. Report that percentage in the chat reply.
-- Questions, exercises and exam items that are already written in the document are information units too, and ALL of them (100%, not 90%) must be converted. See READY-MADE QUESTIONS below.
+- Questions, exercises and exam items that are already written in the document are information units too, and ALL of them (100%, not 90%) must be converted, except the ones that need a picture (see QUESTIONS THAT NEED AN IMAGE below). See READY-MADE QUESTIONS below.
 - Coverage never allows invention: everything in the file must still come from the document.
 
 OUTPUT RULES (FOR THE FILE CONTENT)
@@ -1286,19 +1311,27 @@ Each topic has these fields, all present:
 - "questions": there is NO maximum. Write at least 8 per topic when the material allows, roughly one question for every two note points. About half are "mcq", then "truefalse" and "short", plus "tfs", "cloze" and "match" wherever the material fits them (aim for at least one of each type in a topic that has enough material). Order from easy to hard. Question types are listed below.
 
 READY-MADE QUESTIONS (APPLIES WHENEVER THE DOCUMENT ALREADY CONTAINS QUESTIONS)
-- If the document contains questions, exercises, quizzes or exam items (multiple choice, true/false, short answer, fill in the blank, matching), count them first, then convert EVERY one into a question object. Do not sample, merge, skip or cap them, even if there are more than 100. Writing extra questions of your own is allowed, but never instead of converting the ones in the document.
-- Keep the original wording, the original options and their original order, and the original numbering order. Use the answer key in the document for "answer" and "explanation". If a question has no answer key, work the answer out only from the document's own content. If it truly cannot be decided from the document, leave that one out and report how many you left out in the chat reply.
+- If the document contains questions, exercises, quizzes or exam items (multiple choice, true/false, short answer, fill in the blank, matching), count them first, then convert EVERY one into a question object. Do not sample, merge, shorten or cap them, even if there are more than 100. The only questions you may leave out are the ones described in QUESTIONS THAT NEED AN IMAGE. Writing extra questions of your own is allowed, but never instead of converting the ones in the document.
+- Keep the original wording, the original options and their original order, and the original numbering order. Never shorten, summarise or cut the question text, the stem, the passage, the data or the statements, however long they are (there is no word limit for a converted question: long chemical formulas, equations, multi-line stems and tables written as text stay complete). Use the answer key in the document for "answer" and "explanation". If a question has no answer key, work the answer out only from the document's own content. If it truly cannot be decided from the document, leave that one out and report how many you left out in the chat reply.
 - A multiple-choice question keeps its original number of options (2 to 6) and its original correct option. A question with a stem and several statements a), b), c), d) to judge true or false becomes a "tfs" (stem in "prompt" or "quote"). A numeric or one-line answer becomes "short" or "cloze". Pairs to connect become "match".
 - Put each converted question in the topic it belongs to. If the document has a separate question bank or exercise section, create topics named after its parts (for example "Practice questions: Chapter 1") that hold those questions. Such a topic may have empty "notes", "key_terms" and "flashcards" arrays.
 - The rule "answerable from the notes" does not apply to converted questions: they keep their original content.
-  - mcq: {"type": "mcq", "prompt": string, "options": [exactly 4 strings for questions you write yourself; keep the original 2 to 6 options for converted questions], "answer": 0-based index of the correct option, "explanation": string}. One option is clearly correct. Distractors are plausible and come from the same topic. Never use "all of the above" or "none of the above". Vary the position of the correct option from question to question. Optional: "context" (a source passage of at most 60 words) and "source" (its citation), only when the question depends on a quotation or source text in the document.
+  - mcq: {"type": "mcq", "prompt": string, "options": [exactly 4 strings for questions you write yourself; keep the original 2 to 6 options for converted questions], "answer": 0-based index of the correct option, "explanation": string}. One option is clearly correct. Distractors are plausible and come from the same topic. Never use "all of the above" or "none of the above". Vary the position of the correct option from question to question. Optional: "context" (a source passage; at most 200 words for questions you write yourself, no limit for converted questions) and "source" (its citation), only when the question depends on a quotation or source text in the document.
   - truefalse: {"type": "truefalse", "prompt": a full statement, "answer": true or false as a JSON boolean, "explanation": string}. Roughly half of the statements are false.
   - short: {"type": "short", "prompt": string, "answer": model answer in one or two sentences, "explanation": string or ""}.
-  - tfs (one source passage with true/false statements): {"type": "tfs", "prompt": one instruction sentence or "", "quote": the passage in at most 80 words, "source": its citation or "", "items": [exactly 4 objects {"text": a statement, "answer": true or false as a JSON boolean}], "explanation": string}. Use only when the document has a passage, table or data to read. Make 1 to 3 of the 4 statements false.
+  - tfs (one source passage with true/false statements): {"type": "tfs", "prompt": one instruction sentence or "", "quote": the passage, stem, experiment description or data the statements refer to, in full, at most 300 words for questions you write yourself and no limit for converted questions, "source": its citation or "", "items": [exactly 4 objects {"text": a statement (any length, keep long statements complete), "answer": true or false as a JSON boolean}], "explanation": string}. Use only when the document has a passage, table or data to read. Make 1 to 3 of the 4 statements false.
   - cloze (fill in one blank): {"type": "cloze", "prompt": a sentence in which the missing word, number, date or name is replaced by ____ (four underscores), "answers": [1 to 4 accepted answers as strings, shortest form first], "explanation": string}. Exactly one ____ per question.
   - match (match pairs): {"type": "match", "prompt": a short instruction, "pairs": [4 to 5 objects {"left": string, "right": string}], "explanation": string}. Use for date and event, term and definition, or name and role. Every left and every right must be different.
-  - Every question must be answerable from that topic's notes. Never write "according to the text" or refer to the document.
+  - Every question you write yourself must be answerable from that topic's notes and must never need a picture. Never write "according to the text", "see the figure" or refer to the document.
   - "explanation" is one or two sentences saying why the answer is right.
+
+QUESTIONS THAT NEED AN IMAGE (SKIP THEM)
+- The website shows text only. It cannot show pictures, so a question that cannot be understood or answered without looking at a picture must NOT be put in the file. Skip it completely: no question object, no placeholder, no "see the figure".
+- Skip a question when its stem, its options or its statements depend on content that exists only in an image: a figure, photo, diagram, graph or chart, drawn structural or skeletal formula, apparatus or experiment drawing, circuit, map, scanned table, screenshot, or any option that is itself a picture (for example "Which diagram shows ...?", "In the figure, ...", "Based on the graph, ...", "Hình vẽ bên", "Quan sát hình", "Dựa vào đồ thị", "Sơ đồ sau").
+- Keep the question when everything it needs is written as text, even if it mentions a figure in passing. A table, a data set, an equation or a formula typed as text is not an image: convert it and put it in "quote" or "context". If the picture only decorates the question and the answer does not depend on it, keep the question and delete only the phrase that points at the picture.
+- When a statement group (a, b, c, d) has some statements that need the image and some that do not, skip the whole question, because the file needs exactly 4 statements.
+- Skipping is only about pictures. Never skip a question because it is long, hard, has long formulas or has a long passage.
+- Count the skipped questions and report the number in the chat reply (see DELIVERY RULES). The information in the pictures does not count as information units for COVERAGE.
 
 CONTENT FORMAT
 - Plain text only, apart from **bold** around key terms in notes points. No HTML, no LaTeX, no Markdown headings, bullets or tables inside strings.
@@ -1311,7 +1344,7 @@ CHECK BEFORE YOU DELIVER (SILENTLY)
 - The file is valid JSON that starts with { and ends with }, and it was delivered as a file, not pasted in the chat.
 - Coverage: at least 90% of the document's information units are in the notes, and your percentage estimate is in the chat reply.
 - Every mcq has exactly 4 options (or the original number, 2 to 6, for converted questions) and an integer "answer" that is a valid 0-based option index.
-- Every question already written in the document is in the file: the number found equals the number converted (or the shortfall is reported in the chat reply).
+- Every question already written in the document is in the file: the number found equals converted plus skipped for needing an image (or any other shortfall is reported in the chat reply). No question in the file needs a picture to be understood or answered. No question text was shortened.
 - Every truefalse "answer" is true or false without quotation marks.
 - Every tfs has exactly 4 items with boolean answers. Every cloze prompt has exactly one ____ and an "answers" array. Every match has 4 to 5 pairs.
 - Topic ids are unique and no field is missing. Use "" or [] when a field is empty.
@@ -1674,6 +1707,38 @@ var I18N = {
     lang_aria: 'Language',
     theme_to_dark: 'Switch to dark mode',
     theme_to_light: 'Switch to light mode',
+    theme_aria: 'Theme mode',
+    theme_light: 'Light mode',
+    theme_dark: 'Dark mode',
+    theme_system: 'System theme',
+    sidebar_aria: 'Toggle sidebar',
+    dbg_title: 'System Debug',
+    dbg_sub: 'Runtime Inspector',
+    dbg_key: 'Pack Key:',
+    dbg_stats: 'Topics / Cards:',
+    dbg_stats_val: '{t} topics, {c} cards',
+    dbg_langmode: 'Language / Mode:',
+    dbg_storage: 'LocalStorage:',
+    dbg_storage_val: '{kb} KB ({n} keys)',
+    dbg_haptics: 'Haptics:',
+    dbg_test: 'Test:',
+    dbg_test_btn: 'Haptic test',
+    dbg_mode: 'Mode:',
+    dbg_refresh: 'Refresh',
+    dbg_none: 'none',
+    dbg_on: 'ON',
+    dbg_off: 'OFF',
+    dbg_na: 'N/A',
+    dbg_ios: '(iOS switch)',
+    dbg_vibrate: '(vibrate)',
+    streak_tip: ['{d}: {n} session', '{d}: {n} sessions'],
+    recent_h: 'Recent Packs',
+    recent_open: 'Open',
+    recent_edit: 'Edit',
+    recent_rename: 'Rename',
+    recent_delete: 'Delete',
+    recent_rename_prompt: 'Enter a new name for this pack:',
+    recent_loaded: 'Pack text loaded into the paste box!',
     exam: "Mock Exam",
     examConfig: "Exam Configuration",
     examScope: "Topic Scope",
@@ -1919,7 +1984,8 @@ var I18N = {
     v_q_tf: 'Topic {n} ({t}), question {s} needs "answer" to be true or false and was skipped.',
     v_q_short: 'Topic {n} ({t}), question {s} has no model "answer" and was skipped.',
     v_q_type: 'Topic {n} ({t}), question {s} has an unknown type "{type}" (use mcq, truefalse, short, tfs, cloze or match) and was skipped.',
-    v_q_tfs: 'Topic {n} ({t}), question {s} needs a "quote" or "prompt" and at least 2 "items", each with "text" and a true/false "answer", and was skipped.',
+    v_q_tfs: 'Topic {n} ({t}), question {s} needs a "quote" or "prompt" and 4 "items", each with "text" and a true/false "answer", and was skipped.',
+    v_q_tfs_extra: 'Topic {n} ({t}), question {s} has more than 4 "items"; only the first 4 are used.',
     v_q_cloze: 'Topic {n} ({t}), question {s} must have exactly one blank written as ____ in its "prompt" and was skipped.',
     v_q_cloze_a: 'Topic {n} ({t}), question {s} has no "answers" and was skipped.',
     v_q_match: 'Topic {n} ({t}), question {s} needs at least 2 "pairs" with a different "left" and "right" in each, and was skipped.',
@@ -1931,6 +1997,38 @@ var I18N = {
     lang_aria: 'Ngôn ngữ',
     theme_to_dark: 'Chuyển sang chế độ tối',
     theme_to_light: 'Chuyển sang chế độ sáng',
+    theme_aria: 'Chế độ giao diện',
+    theme_light: 'Chế độ sáng',
+    theme_dark: 'Chế độ tối',
+    theme_system: 'Theo hệ thống',
+    sidebar_aria: 'Bật/tắt thanh bên',
+    dbg_title: 'Gỡ lỗi hệ thống',
+    dbg_sub: 'Trình kiểm tra khi chạy',
+    dbg_key: 'Mã bộ ôn tập:',
+    dbg_stats: 'Chủ đề / Thẻ:',
+    dbg_stats_val: '{t} chủ đề, {c} thẻ',
+    dbg_langmode: 'Ngôn ngữ / Giao diện:',
+    dbg_storage: 'Bộ nhớ cục bộ:',
+    dbg_storage_val: '{kb} KB ({n} khóa)',
+    dbg_haptics: 'Rung phản hồi:',
+    dbg_test: 'Thử:',
+    dbg_test_btn: 'Thử rung',
+    dbg_mode: 'Chế độ:',
+    dbg_refresh: 'Làm mới',
+    dbg_none: 'không có',
+    dbg_on: 'BẬT',
+    dbg_off: 'TẮT',
+    dbg_na: 'Không hỗ trợ',
+    dbg_ios: '(công tắc iOS)',
+    dbg_vibrate: '(rung)',
+    streak_tip: '{d}: {n} phiên',
+    recent_h: 'Bộ ôn tập gần đây',
+    recent_open: 'Mở',
+    recent_edit: 'Sửa',
+    recent_rename: 'Đổi tên',
+    recent_delete: 'Xóa',
+    recent_rename_prompt: 'Nhập tên mới cho bộ ôn tập:',
+    recent_loaded: 'Đã nạp nội dung vào ô dán!',
     exam: "Thi thử",
     examConfig: "Cấu hình Đề Thi Thử",
     examScope: "Phạm vi chủ đề",
@@ -2176,7 +2274,8 @@ var I18N = {
     v_q_tf: 'Chủ đề {n} ({t}), câu hỏi {s} cần "answer" là true hoặc false nên bị bỏ qua.',
     v_q_short: 'Chủ đề {n} ({t}), câu hỏi {s} không có "answer" mẫu nên bị bỏ qua.',
     v_q_type: 'Chủ đề {n} ({t}), câu hỏi {s} có loại "{type}" không hợp lệ (dùng mcq, truefalse, short, tfs, cloze hoặc match) nên bị bỏ qua.',
-    v_q_tfs: 'Chủ đề {n} ({t}), câu hỏi {s} cần "quote" hoặc "prompt" và ít nhất 2 "items", mỗi ý có "text" và "answer" true/false, nên bị bỏ qua.',
+    v_q_tfs: 'Chủ đề {n} ({t}), câu hỏi {s} cần "quote" hoặc "prompt" và đủ 4 "items", mỗi ý có "text" và "answer" true/false, nên bị bỏ qua.',
+    v_q_tfs_extra: 'Chủ đề {n} ({t}), câu hỏi {s} có hơn 4 "items"; chỉ dùng 4 ý đầu tiên.',
     v_q_cloze: 'Chủ đề {n} ({t}), câu hỏi {s} phải có đúng một chỗ trống viết là ____ trong "prompt" nên bị bỏ qua.',
     v_q_cloze_a: 'Chủ đề {n} ({t}), câu hỏi {s} không có "answers" nên bị bỏ qua.',
     v_q_match: 'Chủ đề {n} ({t}), câu hỏi {s} cần ít nhất 2 "pairs", mỗi cặp có "left" và "right" khác nhau, nên bị bỏ qua.',
@@ -2294,8 +2393,8 @@ function spNormalise(data) {
           if (typeof av === 'string') av = av.trim().toLowerCase() === 'true' ? true : av.trim().toLowerCase() === 'false' ? false : null;
           if (tx && typeof av === 'boolean') tits.push({ text: tx, answer: av });
         });
-        if ((!tquote && !prompt) || tits.length < 2) { at('q_tfs', s); return; }
-        if (tits.length > 6) tits = tits.slice(0, 6);
+        if ((!tquote && !prompt) || tits.length < 4) { at('q_tfs', s); return; }
+        if (tits.length > 4) { tits = tits.slice(0, 4); at('q_tfs_extra', s); }
         topic.questions.push({ type: 'tfs', prompt: prompt, quote: tquote, source: spStr(q.source), items: tits, explanation: expl });
       } else if (type === 'cloze') {
         var blanks = prompt.match(/_{3,}/g);
@@ -2568,9 +2667,10 @@ function render() {
     
     // Check if we are transitioning to a new view
     var mainClass = S.animateMain ? 'main is-switching' : 'main';
+    if (S.view === 'load' || S.view === 'teacher') mainClass += ' main-narrow';
     S.animateMain = false; // Reset flag
 
-    $('#app').innerHTML = '<div class="shell' + (S.railOff ? ' rail-off' : '') + (S.drawerOpen ? ' drawer-open' : '') + '">' + navHTML() + '<div class="scrim" data-act="closeDrawer"></div><main class="' + mainClass + '" id="main">' + main + '</main></div>';
+    $('#app').innerHTML = '<div class="shell' + (S.railOff ? ' rail-off' : '') + (S.view === 'exam' && S.exam && S.exam.step === 'doing' ? ' exam-focus' : '') + (S.drawerOpen ? ' drawer-open' : '') + '">' + navHTML() + '<div class="scrim" data-act="closeDrawer"></div><main class="' + mainClass + '" id="main">' + main + '</main></div>';
     updateDebugInfo();
     syncRailAria();
   }
@@ -2668,13 +2768,13 @@ function overviewHTML() {
     // Streak & Heatmap Widget với Toggle Tuần / Tháng
     h += '<div class="top-row">';
     h += '<div class="streak-card"><div class="streak-info"><span class="streak-icon">🔥</span><div><div class="streak-num">' + streakData.streak + tr('streak_days') + '</div><div class="streak-label">' + tr('streak_note') + '</div></div></div>';
-    h += '<div class="heatmap-container"><button class="heatmap-toggle" data-act="streakView">' + (isMonth ? '30 Days' : '7 Days') + '</button>';
+    h += '<div class="heatmap-container"><button class="heatmap-toggle" data-act="streakView">' + ((isMonth ? 30 : 7) + tr('streak_days')) + '</button>';
     h += '<div class="heatmap">' + streakData.days.map(function(d) {
       var lvl = '';
       if (d.count >= 4) lvl = 'lvl-3';
       else if (d.count >= 2) lvl = 'lvl-2';
       else if (d.count > 0) lvl = 'lvl-1';
-      return '<div class="heatmap-cell ' + lvl + '" title="' + d.date + ': ' + d.count + ' sessions"></div>';
+      return '<div class="heatmap-cell ' + lvl + '" title="' + esc(tr('streak_tip', { d: d.date, n: d.count })) + '"></div>';
     }).join('') + '</div></div></div>';
 
     h += deadlineHTML() + '</div>';
@@ -2821,7 +2921,7 @@ function launchConfetti() {
  /*------exam------*/
 var EXAM_TYPES = ['mcq', 'truefalse', 'tfs', 'cloze', 'match', 'short'];
 function examCfg() {
-  if (!S.exam.config) S.exam.config = { scope: 'all', mode: 'full', time: 45, off: {} };
+  if (!S.exam.config) S.exam.config = { scope: 'all', mode: 'full', time: 45, off: { truefalse: true }, touched: false };
   if (!S.exam.config.off) S.exam.config.off = {};
   return S.exam.config;
 }
@@ -2852,7 +2952,7 @@ function gradeExamItem(item) {
   else if (q.type === 'tfs') {
     k = 0; n = q.items.length;
     q.items.forEach(function (x, i) { if (a[i] === x.answer) k++; });
-    g.k = k; g.n = n; g.score = n === 4 ? TFS_SC[k] : k / n;
+    g.k = k; g.n = n; g.score = tfsScore(k, n);
   } else if (q.type === 'cloze') {
     var n1 = norm1(a), n2 = norm2(a);
     g.score = q.answers.some(function (x) { return norm1(x) === n1 || norm2(x) === n2; }) ? 1 : 0;
@@ -2983,7 +3083,7 @@ function examReviewItem(item, i, g) {
 }
 
 function renderExam() {
-  let html = `<div style="max-width: 1000px; margin: 0 auto; padding: 16px;">`;
+  let html = `<div style="max-width: 1100px; margin: 0 auto; padding: 16px;">`;
   const runKey = 'sp:run:' + S.key;
   const savedRun = localStorage.getItem(runKey);
   const cfg = examCfg();
@@ -2993,6 +3093,7 @@ function renderExam() {
     if (!scopeList.some(t => t.id === cfg.scope)) cfg.scope = 'all';
     const currentScopeObj = scopeList.find(t => t.id === cfg.scope) || scopeList[0];
     const avail = examAvailTypes(cfg.scope);
+    if (!cfg.touched && cfg.off.truefalse && examSelectedTypes(cfg).length === 0) delete cfg.off.truefalse; // pack with only true/false: do not leave the list empty
     const noTypes = examSelectedTypes(cfg).length === 0;
     const typesHtml = avail.map(x => `
       <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 14px;">
@@ -3084,7 +3185,7 @@ function renderExam() {
         <button class="btn sm" data-act="examExit">${tr('examExit')}</button>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 20px; align-items: start;">
+      <div class="exam-layout">
 
         <div class="rp-card exam-card" style="padding: 24px; min-height: 400px; display: flex; flex-direction: column; justify-content: space-between;">
           <div>
@@ -3107,7 +3208,7 @@ function renderExam() {
           </div>
         </div>
 
-        <div class="rp-card" style="padding: 20px;">
+        <div class="rp-card exam-nav" style="padding: 20px;">
           <div style="font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 12px; display: flex; flex-direction: column; gap: 4px;">
             <span>${tr('list_title')}</span>
             <span style="font-size: 12px;">✅ <b>${answeredCount}</b> ${tr('done_name')} | 🚩 <b>${flaggedCount}</b> ${tr('flag_name')}</span>
@@ -3455,6 +3556,8 @@ function formatTime(ms) {
   }
   /* ---------- extra question types: tfs / cloze / match ---------- */
   var TFS_SC = [0, 0.1, 0.25, 0.5, 1];
+  /* 4 statements: 0 right = 0, 1 = 0.1, 2 = 0.25, 3 = 0.5, 4 = 1. A pack saved earlier with another item count is mapped onto the same scale. */
+  function tfsScore(k, n) { if (!n) return 0; return TFS_SC[n === 4 ? k : Math.round(k / n * 4)]; }
   function norm1(x) { return String(x == null ? '' : x).normalize('NFC').toLowerCase().replace(/[.,;:!?"'()\[\]\u201c\u201d\u2018\u2019]/g, ' ').replace(/\s+/g, ' ').trim(); }
   function norm2(x) { return norm1(x).normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\u0111/g, 'd').replace(/\s+/g, ' ').trim(); }
   function itemScore(it) { var r = it.res; if (!r) return 0; return r.score != null ? r.score : (r.correct ? 1 : 0); }
@@ -3464,7 +3567,7 @@ function formatTime(ms) {
     if (t.type === 'tfs') {
       var k = 0, n = t.items.length;
       t.items.forEach(function (x, i) { if (it.sel && it.sel[i] === x.answer) k++; });
-      r.k = k; r.n = n; r.correct = k === n; r.score = n === 4 ? TFS_SC[k] : k / n;
+      r.k = k; r.n = n; r.correct = k === n; r.score = tfsScore(k, n);
     } else if (t.type === 'cloze') {
       var n1 = norm1(it.typed), n2 = norm2(it.typed);
       var exact = !!n1 && t.answers.some(function (a) { return norm1(a) === n1; });
@@ -3834,16 +3937,16 @@ function quizSetupHTML() {
     // Hiển thị danh sách Recent Packs nếu có
     if (recents.length > 0) {
       h += '<div class="rp-card">';
-      h += '<h2 class="sec-h" style="margin-top:0; font-size: 16px;">Bộ ôn tập gần đây (Recent Packs)</h2>';
+      h += '<h2 class="sec-h" style="margin-top:0; font-size: 16px;">' + tr('recent_h') + '</h2>';
       h += '<div class="rp-list">';
       recents.forEach(function(p) {
         h += '<div class="rp-row">';
         h += '<div class="rp-info"><b class="rp-title">' + esc(p.title) + '</b><small class="muted">' + new Date(p.updatedAt).toLocaleDateString() + '</small></div>';
         h += '<div class="rp-actions">';
-        h += '<button class="btn sm" data-act="loadRecent" data-id="' + esc(p.id) + '">Mở</button>';
-        h += '<button class="btn sm" data-act="editRecent" data-id="' + esc(p.id) + '">Sửa</button>';
-        h += '<button class="btn sm" data-act="renameRecent" data-id="' + esc(p.id) + '">Đổi tên</button>';
-        h += '<button class="btn sm again" data-act="deleteRecent" data-id="' + esc(p.id) + '">Xóa</button>';
+        h += '<button class="btn sm" data-act="loadRecent" data-id="' + esc(p.id) + '">' + tr('recent_open') + '</button>';
+        h += '<button class="btn sm" data-act="editRecent" data-id="' + esc(p.id) + '">' + tr('recent_edit') + '</button>';
+        h += '<button class="btn sm" data-act="renameRecent" data-id="' + esc(p.id) + '">' + tr('recent_rename') + '</button>';
+        h += '<button class="btn sm again" data-act="deleteRecent" data-id="' + esc(p.id) + '">' + tr('recent_delete') + '</button>';
         h += '</div></div>';
       });
       h += '</div></div>';
@@ -3922,7 +4025,7 @@ h += '<a class="ai-btn" href="' + urls.claude + '" target="_blank" rel="noopener
     var recents = getRecentPacks();
     var pack = recents.filter(function (p) { return p.id === id; })[0];
     if (!pack) return;
-    var newTitle = prompt('Nhập tên mới cho bộ ôn tập:', pack.title);
+    var newTitle = prompt(tr('recent_rename_prompt'), pack.title);
     if (newTitle && newTitle.trim()) {
       pack.title = newTitle.trim();
       store.set('sp:recent_packs', JSON.stringify(recents));
@@ -3950,7 +4053,7 @@ h += '<a class="ai-btn" href="' + urls.claude + '" target="_blank" rel="noopener
       if (ta) {
         ta.value = pack.text;
         ta.scrollIntoView({ behavior: 'smooth' });
-        flash(ta, 'Đã nạp nội dung vào ô dán!');
+        flash(ta, tr('recent_loaded'));
       }
     }
   }
@@ -3974,10 +4077,10 @@ h += '<a class="ai-btn" href="' + urls.claude + '" target="_blank" rel="noopener
   function updateDebugInfo() {
     var kEl = $('#dbgKey'), sEl = $('#dbgStats'), lmEl = $('#dbgLangMode'), stEl = $('#dbgStorage');
     if (!kEl) return;
-    kEl.textContent = S.key || 'none';
+    kEl.textContent = S.key || tr('dbg_none');
     var tt = S.pack ? totals() : { cards: 0, qs: 0 };
     var topicsCount = S.pack ? S.pack.topics.length : 0;
-    sEl.textContent = topicsCount + ' topics, ' + tt.cards + ' cards';
+    sEl.textContent = tr('dbg_stats_val', { t: topicsCount, c: tt.cards });
     lmEl.textContent = LANG.toUpperCase() + ' / ' + getThemeMode();
     
     // Đo dung lượng localStorage hiện tại
@@ -3986,9 +4089,9 @@ h += '<a class="ai-btn" href="' + urls.claude + '" target="_blank" rel="noopener
       var key = localStorage.key(i);
       totalBytes += (key.length + (localStorage.getItem(key) || '').length) * 2;
     }
-    stEl.textContent = (totalBytes / 1024).toFixed(1) + ' KB (' + localStorage.length + ' keys)';
+    stEl.textContent = tr('dbg_storage_val', { kb: (totalBytes / 1024).toFixed(1), n: localStorage.length });
     var hEl = $('#dbgHaptic');
-    if (hEl) { hEl.textContent = hapticSupported() ? ((hapticOn() ? 'ON' : 'OFF') + (H.ios ? ' (iOS switch)' : ' (vibrate)')) : 'N/A'; hEl.disabled = !hapticSupported(); }
+    if (hEl) { hEl.textContent = hapticSupported() ? ((hapticOn() ? tr('dbg_on') : tr('dbg_off')) + ' ' + (H.ios ? tr('dbg_ios') : tr('dbg_vibrate'))) : tr('dbg_na'); hEl.disabled = !hapticSupported(); }
     var mEl = $('#dbgMode');
     if (mEl) {
       var ua = navigator.userAgent || '';
@@ -4100,17 +4203,19 @@ function setLang(l) {
         var oldText = oldTexts.get(idx);
         
         // Only trigger the slide-down entrance if the text content is different
-        if (oldText && oldText !== newText) {
+        // Skip elements that manage their own opacity/transform (flashcard swipe tags are hidden until a drag and are centred with a transform)
+        if (oldText && oldText !== newText && !el.closest('.swipe-tag')) {
           el.style.opacity = '0';
           el.style.transform = 'translateY(-6px)';
           
           // Force reflow
           void el.offsetWidth; 
           
-          // Smooth Apple-style entrance curve
+          // Smooth Apple-style entrance curve; afterwards hand opacity/transform back to the stylesheet instead of pinning them
           el.style.transition = 'opacity 0.25s cubic-bezier(0.25, 1, 0.5, 1), transform 0.25s cubic-bezier(0.25, 1, 0.5, 1)';
           el.style.opacity = '1';
           el.style.transform = 'translateY(0)';
+          setTimeout(function () { el.style.opacity = ''; el.style.transform = ''; el.style.transition = ''; }, 300);
         }
       });
     }
@@ -4468,7 +4573,7 @@ document.addEventListener('click', function(e) {
     else if (id === 'dlDate') setDeadline(e.target.value);
     else if (id === 'qShuffle') S.qopts.shuffle = e.target.checked;
     else if (id === 'examTimeInput') { var ec = examCfg(); ec.time = Math.min(180, Math.max(5, parseInt(e.target.value, 10) || 45)); }
-    else if (e.target.dataset && e.target.dataset.examType) { var ec2 = examCfg(); var tv = e.target.dataset.examType; if (e.target.checked) delete ec2.off[tv]; else ec2.off[tv] = true; render(); }
+    else if (e.target.dataset && e.target.dataset.examType) { var ec2 = examCfg(); var tv = e.target.dataset.examType; ec2.touched = true; if (e.target.checked) delete ec2.off[tv]; else ec2.off[tv] = true; render(); }
     else if (id === 'fileIn') handleFiles(e.target.files);
   });
 document.addEventListener('input', function (e) {
