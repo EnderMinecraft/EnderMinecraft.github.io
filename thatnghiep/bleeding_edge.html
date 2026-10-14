@@ -785,6 +785,8 @@ table.f code { font-family: var(--font-mono); font-size: 13px; }
 
 /* ---------- make-a-pack / open-pack mobile fix ---------- */
 .narrow { grid-template-columns: minmax(0, 1fr); }
+/* with the sidebar collapsed, keep these text pages in a centred column instead of hugging the left edge */
+.shell.rail-off .main.main-narrow { max-width: 720px; margin-inline: auto; width: 100%; }
 .narrow > * { min-width: 0; }
 .steps li, .steps code, .lede, .note { overflow-wrap: anywhere; }
 .steps code { word-break: break-all; }
@@ -2665,6 +2667,7 @@ function render() {
     
     // Check if we are transitioning to a new view
     var mainClass = S.animateMain ? 'main is-switching' : 'main';
+    if (S.view === 'load' || S.view === 'teacher') mainClass += ' main-narrow';
     S.animateMain = false; // Reset flag
 
     $('#app').innerHTML = '<div class="shell' + (S.railOff ? ' rail-off' : '') + (S.view === 'exam' && S.exam && S.exam.step === 'doing' ? ' exam-focus' : '') + (S.drawerOpen ? ' drawer-open' : '') + '">' + navHTML() + '<div class="scrim" data-act="closeDrawer"></div><main class="' + mainClass + '" id="main">' + main + '</main></div>';
