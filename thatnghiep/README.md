@@ -1,10 +1,9 @@
-# Sloppy Slop (Canary)
+# Sloppy Slop
 
-Ứng dụng web ôn tập chạy hoàn toàn trên trình duyệt, đóng gói trong **một file HTML duy nhất** (`bleeding_edge__7_.html`). Không cần server, không cần build, không gửi dữ liệu đi đâu cả.
+Ứng dụng web ôn tập chạy hoàn toàn trên trình duyệt, đóng gói trong **một file HTML duy nhất** (`index.html`). Không cần server, không cần build, không gửi dữ liệu đi đâu cả.
 
 Bạn đưa tài liệu Word cho AI, nhận về một file JSON gọi là **Study Pack** (`*.studypack.json`), nạp vào Sloppy Slop và có ngay ghi chú, flashcard, quiz và thi thử.
 
-> Đây là bản **Canary** (thử nghiệm), có thể còn thay đổi hoặc lỗi.
 
 ## Tính năng
 
@@ -19,7 +18,7 @@ Bạn đưa tài liệu Word cho AI, nhận về một file JSON gọi là **Stu
 
 ## Bắt đầu nhanh
 
-1. Mở `bleeding_edge__7_.html` bằng trình duyệt (hoặc đặt lên một web server tĩnh bất kỳ).
+1. Mở `index.html` bằng trình duyệt (hoặc đặt lên một web server tĩnh bất kỳ).
 2. Chưa nạp gói nào thì app dùng gói ví dụ (theo ngôn ngữ giao diện).
 3. Tạo Study Pack của riêng bạn:
    - Vào trang **Dành cho giáo viên**, sao chép prompt.
