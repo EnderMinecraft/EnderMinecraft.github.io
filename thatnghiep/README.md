@@ -14,6 +14,8 @@ Bạn đưa tài liệu Word cho AI, nhận về một file JSON gọi là **Stu
 - **Theo dõi tiến độ**: phần trăm sẵn sàng ôn thi, heatmap streak 7/30 ngày, hạn ôn thi
 - **Đồng hồ Pomodoro** (25/5, 45/10, 15/3, 50/15 hoặc tùy chỉnh)
 - Giao diện **Tiếng Việt / English**, theme **sáng / tối / theo hệ thống**, rung phản hồi trên di động
+- **Tùy biến** theme tùy chỉnh theo sở thích cá nhân. `có RGB mode cho ae gamer cần tăng fps 🤑📈📈`
+- **Chỉnh sửa** file studypack trực tiếp bằng GUI có sẵn
 - **PWA**: cài lên màn hình chính, dùng offline (cần `sw.js`)
 
 ## Bắt đầu nhanh
