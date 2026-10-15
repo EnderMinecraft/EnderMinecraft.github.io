@@ -6,11 +6,11 @@
 <title>Study Pack Editor</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <style>
-:root{--bg:#fafafa;--sf:#fff;--fg:#1c1c1c;--mut:#5f5f5f;--bd:#cfcfcf;--ac:#005fb8;--acfg:#fff;--soft:#e3effa;--dng:#b42318;--ok:#157347;--r:8px;
+:root{--warn:#9a5200;--bg:#fafafa;--sf:#fff;--fg:#1c1c1c;--mut:#5f5f5f;--bd:#cfcfcf;--ac:#005fb8;--acfg:#fff;--soft:#e3effa;--dng:#b42318;--ok:#157347;--r:8px;
 --fb:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--fh:"Segoe UI",-apple-system,"Segoe UI",serif;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1c1c1c;--sf:#2b2b2b;--fg:#fafafa;--mut:#a8a8a8;--bd:#4a4a4a;--ac:#57c8ff;--acfg:#000;--soft:#1f3a4d;--dng:#ff8f85;--ok:#6ee7a0;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#1c1c1c;--sf:#2b2b2b;--fg:#fafafa;--mut:#a8a8a8;--bd:#4a4a4a;--ac:#57c8ff;--acfg:#000;--soft:#1f3a4d;--dng:#ff8f85;--ok:#6ee7a0;color-scheme:dark}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--warn:#ffb454;--bg:#1c1c1c;--sf:#2b2b2b;--fg:#fafafa;--mut:#a8a8a8;--bd:#4a4a4a;--ac:#57c8ff;--acfg:#000;--soft:#1f3a4d;--dng:#ff8f85;--ok:#6ee7a0;color-scheme:dark}}
+:root[data-theme="dark"]{--warn:#ffb454;--bg:#1c1c1c;--sf:#2b2b2b;--fg:#fafafa;--mut:#a8a8a8;--bd:#4a4a4a;--ac:#57c8ff;--acfg:#000;--soft:#1f3a4d;--dng:#ff8f85;--ok:#6ee7a0;color-scheme:dark}
 html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.45 var(--fb)}
@@ -41,7 +41,7 @@ li.item.sel{background:var(--soft);border-color:var(--ac)}li.item:hover{backgrou
 .x{border:0;background:none;color:var(--dng);padding:4px 8px;opacity:0;font-size:16px;line-height:1}
 li.item:hover .x,li.item:focus-within .x,.card:hover>summary .x,.card:focus-within>summary .x,.x:focus-visible,.fx:hover .x,.fx:focus-within .x{opacity:1}
 @media(hover:none){.x{opacity:1}}
-.dragging{opacity:.4}.over{box-shadow:0 -3px 0 var(--ac)}
+.dragging{opacity:.4}.over{box-shadow:0 -3px 0 var(--ac)}[hidden]{display:none!important}.wn{color:var(--warn)}li.item .wn{padding:0 4px;cursor:help}.alert{border:1px solid var(--warn);border-radius:6px;padding:6px 10px;margin:6px 0 8px;font-size:13px}.wchip{border:1px solid var(--warn);color:var(--warn);background:none;border-radius:99px;padding:2px 10px;font-size:12px;min-height:0}
 .empty{border:1px dashed var(--bd);border-radius:var(--r);padding:22px;text-align:center;color:var(--mut)}
 .empty b{display:block;color:var(--fg);font:600 17px var(--fh);margin-bottom:2px}
 .bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin:10px 0 4px}
@@ -82,7 +82,7 @@ summary .t{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:e
 <body>
 <header>
   <button id="bMenu" aria-label="Show topics">☰</button>
-  <h1 id="ttl">Study Pack Editor</h1><span class="chip" id="chip">● Unsaved</span>
+  <h1 id="ttl">Study Pack Editor</h1><span class="chip" id="chip">● Unsaved</span><button class="wchip" id="wchip" hidden></button>
   <button id="bNew">New</button><button id="bOpen">Open JSON</button><button id="bSave" class="pri">Save JSON</button><button id="bCopy">Copy JSON</button>
   <span class="sp"></span>
   <label>Mode <select id="mode"><option value="gui">GUI form</option><option value="text">Plain text (JSON)</option></select></label>
@@ -110,9 +110,9 @@ const empt=(a,b)=>h("div",{class:"empty"},h("b",{},a),b);
 let tmr;
 function toast(m,act){const s=$("#toast");s.replaceChildren(m);
   if(act)s.append(btn(act.label,()=>{act.fn();s.classList.remove("show")}));
-  s.classList.add("show");s.style.pointerEvents=act?"auto":"none";clearTimeout(tmr);tmr=setTimeout(()=>s.classList.remove("show"),act?7000:3000)}
-function touch(){dirty=true;title();try{localStorage.setItem("studypack-draft",JSON.stringify({data,fileName}))}catch(e){}}
-function title(){const n=fileName||"untitled";$("#ttl").textContent="Study Pack Editor";$("#chip").classList.toggle("on",dirty);document.title=n+(dirty?" *":"")+" – Study Pack Editor"}
+  s.classList.add("show");s.style.pointerEvents=act?"auto":"none";clearTimeout(tmr);tmr=setTimeout(()=>s.classList.remove("show"),act?7000:String(m).length>60?9000:3000)}
+function touch(){dirty=true;title();hook&&hook();try{localStorage.setItem("studypack-draft",JSON.stringify({data,fileName}))}catch(e){}}
+function title(){const n=fileName||"untitled";$("#ttl").textContent="Study Pack Editor";$("#chip").classList.toggle("on",dirty);updateChip();document.title=n+(dirty?" *":"")+" – Study Pack Editor"}
 function undoable(fn,msg){const snap=JSON.stringify(data),t0=tIdx(),q0=qIdx();fn();touch();render();
   toast(msg,{label:"Undo",fn:()=>{data=JSON.parse(snap);selT=data.topics[t0]??null;selQ=selT?.questions?.[q0]??null;touch();render()}})}
 function grow(el){el.style.height="auto";el.style.height=el.scrollHeight+2+"px"}
@@ -149,6 +149,22 @@ function sortable(hd,item,arr,i,done,k){
 const handle=(off)=>h("button",{type:"button",class:"hd",disabled:off,"aria-label":"Reorder: drag, or Alt+Up/Down arrow"},"⠿");
 
 // ---- file ops ----
+let lastFix="";
+function normalize(d){
+  const O=v=>v&&typeof v==="object"&&!Array.isArray(v);
+  let dropT=0,dropI=0,fixF=0;
+  const list=(o,k)=>{if(o[k]===undefined)return [];if(!Array.isArray(o[k])){o[k]=[];fixF++;return o[k]}
+    const n=o[k].length;o[k]=o[k].filter(O);dropI+=n-o[k].length;return o[k]};
+  const n0=d.topics.length;d.topics=d.topics.filter(O);dropT=n0-d.topics.length;
+  d.topics.forEach(t=>{
+    for(const k of["notes","key_terms","flashcards"])list(t,k);
+    list(t,"questions").forEach(q=>{
+      if("options" in q&&!Array.isArray(q.options)){q.options=[];fixF++}
+      for(const k of["pairs","items"])if(k in q){if(Array.isArray(q[k])){const n=q[k].length;q[k]=q[k].filter(O);dropI+=n-q[k].length}else{q[k]=[];fixF++}}});
+    (t.notes||[]).forEach(s=>{if(typeof s.points==="string")s.points=[s.points];else if(s.points!==undefined&&!Array.isArray(s.points)){s.points=[];fixF++}
+      if(Array.isArray(s.points))s.points=s.points.map(String)})});
+  const m=[];if(dropT)m.push(dropT+" invalid topic(s) skipped");if(dropI)m.push(dropI+" invalid item(s) skipped");if(fixF)m.push(fixF+" malformed field(s) reset");
+  return m.length?"Repaired on load: "+m.join(", ")+".":""}
 function jerr(raw,e){let ln,col;const lc=e.message.match(/line (\d+) column (\d+)/),p=e.message.match(/position (\d+)/);
   if(lc){ln=+lc[1];col=+lc[2]}else if(p){const b=raw.slice(0,+p[1]).split("\n");ln=b.length;col=b[b.length-1].length+1}return{ln,col}}
 function parse(raw,inline){let p;
@@ -157,10 +173,11 @@ function parse(raw,inline){let p;
     if(ln&&inline){const ta=$("#json"),L=raw.split("\n");let s=0;for(let i=0;i<ln-1;i++)s+=L[i].length+1;ta.focus();ta.setSelectionRange(s,s+(L[ln-1]||"").length)}
     return fail((ln?`Line ${ln}, column ${col}: `:"")+e.message)}
   if(!p||typeof p!=="object"||Array.isArray(p))return fail("A study pack must be a JSON object.");
-  if(!Array.isArray(p.topics))p.topics=[];if(inline&&$("#err"))$("#err").textContent="";return p}
-function load(d,name){data=d;fileName=name;dirty=false;selT=null;selQ=null;textDirty=false;render();title()}
+  if(!Array.isArray(p.topics))p.topics=[];lastFix=normalize(p);if(inline&&$("#err"))$("#err").textContent="";return p}
+function load(d,name,fix){const prev=[data,fileName];data=d;fileName=name;dirty=!!fix;selT=null;selQ=null;textDirty=false;
+  try{render()}catch(e){data=prev[0];fileName=prev[1];dirty=false;render();toast("Could not display this file: "+e.message);return false}title();return true}
 function commitText(){if(mode!=="text"||!textDirty)return true;const p=parse($("#json").value,true);if(!p)return false;
-  data=p;selT=selQ=null;textDirty=false;touch();return true}
+  data=p;selT=selQ=null;textDirty=false;touch();if(lastFix)toast(lastFix);return true}
 async function save(){
   if(!commitText())return;const json=JSON.stringify(data,null,2),name=fileName||"studypack.json";
   try{const dl=await claude.use("downloads");
@@ -172,7 +189,7 @@ async function copy(){if(!commitText())return;
   try{await navigator.clipboard.writeText(JSON.stringify(data,null,2));toast("JSON copied to clipboard")}
   catch(e){$("#mode").value="text";setMode("text");toast("Clipboard blocked — copy the text manually")}}
 function openFile(f){if(!f)return;const r=new FileReader();
-  r.onload=()=>{const p=parse(r.result,false);if(p){load(p,f.name);toast("Loaded "+f.name)}};
+  r.onload=()=>{const p=parse(r.result,false);if(p){const fx=lastFix;if(load(p,f.name,fx))toast("Loaded "+f.name+(fx?". "+fx:""))}};
   r.onerror=()=>toast("Failed to read file.");r.readAsText(f,"utf-8")}
 const okDiscard=()=>!dirty||confirm("Discard unsaved changes?");
 $("#bNew").onclick=()=>{if(okDiscard())load(empty(),null)};
@@ -193,15 +210,57 @@ $("#theme").onchange=e=>setTheme(e.target.value);
 function setMode(m){if(m===mode)return;if(mode==="text"&&!commitText()){$("#mode").value="text";return}mode=m;render()}
 $("#mode").onchange=e=>setMode(e.target.value);
 
+// ---- validation warnings ----
+let hook=null,jumpI=-1;
+const S=v=>typeof v==='string'&&v.trim();
+const got=v=>v===undefined?'nothing':JSON.stringify(v);
+function check(q){const e=[],n=[],ty=q.type,t=ty===undefined?'mcq':ty;
+  if(!S(q.prompt))e.push('Prompt is empty.');
+  if(ty===undefined)e.push(`Missing "type" (shown as mcq here).`);else if(!TYPES.includes(ty))e.push(`Unknown type "${ty}".`);
+  if(t==='mcq'){const o=q.options;
+    if(!Array.isArray(o)||o.length<2)e.push('Needs at least 2 options.');
+    else{const z=o.filter(x=>!S(x)).length;if(z)e.push(z+' empty option(s).');if(o.length!==4)n.push(o.length+' options (4 is typical).')}
+    if(!Number.isInteger(q.answer))e.push(`"answer" must be a whole number (got ${got(q.answer)}).`);
+    else if(!Array.isArray(o)||q.answer<0||q.answer>=o.length)e.push(`"answer" ${q.answer} is outside the options.`)}
+  else if(t==='truefalse'){if(typeof q.answer!=='boolean')e.push(`"answer" must be true or false (got ${got(q.answer)}).`)}
+  else if(t==='short'){if(!S(q.answer))e.push('Model answer is empty or missing.')}
+  else if(t==='cloze'){const a=q.answers,b=(String(q.prompt??'').match(/_{3,}/g)||[]).length;
+    if(!Array.isArray(a)||!a.length)e.push('No answers.');else if(a.some(x=>!S(x)))e.push('Some answers are empty.');
+    if(!b)e.push('Prompt has no blank (____).');else if(Array.isArray(a)&&a.length&&b!==a.length)e.push(`${b} blank(s) but ${a.length} answer(s).`)}
+  else if(t==='match'){const p=q.pairs;
+    if(!Array.isArray(p)||p.length<2)e.push('Needs at least 2 pairs.');
+    else{if(p.some(x=>!S(x.left)||!S(x.right)))e.push('A pair has an empty side.');
+      const r=p.map(x=>String(x.right??'').trim().toLowerCase()),d=[...new Set(r.filter((x,i)=>x&&r.indexOf(x)!==i))];
+      if(d.length)e.push('Duplicate right side: '+d.join(', ')+'.');if(p.length!==4)n.push(p.length+' pairs (4 is typical).')}}
+  else if(t==='tfs'){const it=q.items;
+    if(!S(q.quote))e.push('Quote is empty.');
+    if(!Array.isArray(it)||it.length<2)e.push('Needs at least 2 statements.');
+    else{if(it.some(x=>!S(x.text)))e.push('A statement has no text.');
+      if(it.some(x=>typeof x.answer!=='boolean'))e.push('Every statement needs a true/false answer.');
+      if(it.length!==4)n.push(it.length+' statements (4 is typical).')}}
+  if(!S(q.explanation))n.push('No explanation.');
+  return{e,n}}
+function topicIssues(t,deep){const m=[],id=String(t.id??'').trim();
+  if(!id)m.push('Missing "id".');else if(data.topics.filter(x=>String(x.id??'').trim()===id).length>1)m.push(`Duplicate id "${id}".`);
+  if(!S(t.title))m.push('Missing "title".');
+  if(deep){const c=(t.questions||[]).filter(q=>check(q).e.length).length;if(c)m.push(c+' question(s) with problems.')}
+  return m}
+const badge=m=>m.length?h('span',{class:'wn',title:m.join('\n'),'aria-label':'Warning: '+m.join(' ')},'⚠'):null;
+function allIssues(){const L=[];data.topics.forEach(t=>{const m=topicIssues(t,false);if(m.length)L.push({t,q:null,m});
+  (t.questions||[]).forEach(q=>{const r=check(q);if(r.e.length)L.push({t,q,m:r.e})})});return L}
+function updateChip(){const c=$('#wchip');if(!c)return;const n=mode==='gui'?allIssues().length:0;c.hidden=!n;c.textContent=`⚠ ${n} issue${n>1?'s':''}`;c.title='Jump to the next issue'}
+$('#wchip').onclick=()=>{const L=allIssues();if(!L.length)return;jumpI=(jumpI+1)%L.length;const x=L[jumpI];
+  selT=x.t;if(x.q){tab='questions';view='edit';selQ=x.q}else selQ=null;render();toast(`Issue ${jumpI+1}/${L.length}: `+x.m.join(' '))};
+
 // ---- layout ----
 const tLabel=t=>`${t.id??""}: ${t.title??"Untitled"}`;
 function render(){
-  const app=$("#app");app.replaceChildren();document.body.classList.remove("drawer");
+  const app=$("#app");app.replaceChildren();document.body.classList.remove("drawer");updateChip();
   if(mode==="text"){
     const ta=h("textarea",{id:"json",spellcheck:"false","aria-describedby":"err"});ta.value=JSON.stringify(data,null,2);
     ta.addEventListener("input",()=>{textDirty=true;$("#err").textContent=""});
     app.append(h("div",{style:"padding:14px;max-width:1100px;margin:0 auto"},ta,h("div",{id:"err",role:"alert"}),
-      btn("Apply changes",()=>{const p=parse(ta.value,true);if(p){data=p;selT=selQ=null;textDirty=false;touch();ta.value=JSON.stringify(data,null,2);toast("Changes applied")}},"pri")));return}
+      btn("Apply changes",()=>{const p=parse(ta.value,true);if(p){data=p;selT=selQ=null;textDirty=false;touch();ta.value=JSON.stringify(data,null,2);toast("Changes applied"+(lastFix?". "+lastFix:""))}},"pri")));return}
   app.append(h("main",{},h("aside",{class:"side"},metaBox(),topicsBox()),h("section",{id:"body"})));renderBody()}
 function metaBox(){return h("div",{class:"box"},h("h2",{},"Pack details"),
   ...[["Title","title"],["Subject","subject"],["Level","level"],["Language","language"]].map(([l,k])=>field(l,txt(data,k))))}
@@ -210,7 +269,7 @@ function topicsBox(){
   fillT=()=>{ul.replaceChildren();const q=ft.trim().toLowerCase();
     data.topics.forEach((t,i)=>{if(q&&!(tLabel(t)+" "+(t.summary||"")).toLowerCase().includes(q))return;
       const li=h("li",{class:"item"+(t===selT?" sel":"")}),hd=handle(!!q);
-      li.append(hd,btn(tLabel(t),()=>{selT=t;selQ=null;render()},"main",{"aria-current":t===selT,title:tLabel(t)}),
+      li.append(hd,btn(tLabel(t),()=>{selT=t;selQ=null;render()},"main",{"aria-current":t===selT,title:tLabel(t)}),badge(topicIssues(t,true)),
         btn("×",()=>undoable(()=>{data.topics.splice(i,1);if(selT===t)selT=selQ=null},"Topic deleted"),"x",{"aria-label":"Delete topic"}));
       if(!q)sortable(hd,li,data.topics,i,render,"t");ul.append(li)});
     if(!ul.children.length)ul.append(h("li",{class:"empty"},q?"No topic matches.":"No topics yet."))};
@@ -220,7 +279,7 @@ function topicsBox(){
     btn("+ Add topic",()=>{const t={id:"t"+(data.topics.length+1),title:"New Topic",summary:"",notes:[],key_terms:[],flashcards:[],questions:[]};
       data.topics.push(t);selT=t;selQ=null;touch();render()},"pri"))}
 function renderBody(){
-  const b=$("#body");if(!b)return;b.replaceChildren();
+  hook=null;const b=$("#body");if(!b)return;b.replaceChildren();
   if(!selT){b.append(data.topics.length?empt("Pick a topic","Choose one from the list to edit it."):empt("Start your study pack","Add a topic in the sidebar, or open an existing JSON file."));
     document.body.classList.remove("drawer");if(innerWidth<=800&&!selT)document.body.classList.add("drawer");return}
   const t=selT,n=k=>(t[k]||[]).length;
@@ -275,7 +334,7 @@ function paneQuestions(t,p){
   fillQ=()=>{ul.replaceChildren();const f=fq.trim().toLowerCase();
     qs.forEach((q,i)=>{if(f&&!qLabel(i,q).toLowerCase().includes(f)&&!String(q.prompt).toLowerCase().includes(f))return;
       const li=h("li",{class:"item"+(q===selQ?" sel":"")}),hd=handle(!!f);
-      li.append(hd,btn(qLabel(i,q),()=>{selQ=q;renderBody()},"main"),btn("×",()=>undoable(()=>{qs.splice(i,1);if(selQ===q)selQ=null},"Question deleted"),"x",{"aria-label":"Delete question"}));
+      li.append(hd,btn(qLabel(i,q),()=>{selQ=q;renderBody()},"main"),badge(check(q).e),btn("×",()=>undoable(()=>{qs.splice(i,1);if(selQ===q)selQ=null},"Question deleted"),"x",{"aria-label":"Delete question"}));
       if(!f)sortable(hd,li,qs,i,renderBody,"q");ul.append(li)});
     if(!ul.children.length)ul.append(h("li",{class:"empty"},f?"No match.":"No questions yet."))};fillQ();
   const s=h("input",{type:"search",placeholder:"Search questions",value:fq,"aria-label":"Search questions"});s.oninput=()=>{fq=s.value;fillQ()};
@@ -307,7 +366,11 @@ function qForm(q,i){
     f.append(field("Quote",txt(q,"quote",{multi:true}),true),field("Source",txt(q,"source",{opt:true}),true),h("div",{class:"mut"},"Statements"));
     q.items.forEach((it,k)=>f.append(h("div",{class:"row fx"},h("span",{class:"g"},txt(it,"text")),seg(it,"answer","T","F"),btn("×",()=>rr(()=>q.items.splice(k,1)),"x",{"aria-label":"Remove statement"}))));
     f.append(btn("+ Statement",()=>rr(()=>q.items.push({text:"",answer:true}))))}
-  f.append(field("Explanation",txt(q,"explanation",{multi:true}),true));return f}
+  if(!TYPES.includes(type))f.append(h("p",{class:"mut"},`Unsupported type "${type}" — use the JSON view to edit its other fields.`));
+  f.append(field("Explanation",txt(q,"explanation",{multi:true}),true));
+  const wb=h("div",{class:"alert",role:"status"});f.insertBefore(wb,f.children[1]);
+  const paint=()=>{const r=check(q);wb.replaceChildren(...r.e.map(x=>h("div",{class:"wn"},"⚠ "+x)),...r.n.map(x=>h("div",{class:"mut"},"ℹ "+x)));wb.hidden=!(r.e.length||r.n.length)};
+  paint();hook=()=>{paint();fillQ();fillT()};return f}
 
 // ---- preview (learner's view) ----
 const md=s=>String(s??"").split(/\*\*(.+?)\*\*/g).map((p,i)=>i%2?h("strong",{},p):p);
@@ -319,7 +382,7 @@ function pvFlash(t,p){const a=t.flashcards||[];if(!a.length)return p.append(empt
   p.append(h("div",{class:"fcs"},...a.map(x=>{let b=false;const c=h("button",{type:"button",class:"fc","aria-label":"Flip card"},x.front);
     c.onclick=()=>{b=!b;c.classList.toggle("back",b);c.textContent=b?x.back:x.front};return c})))}
 function opts(items,ok,done,hz){const row=h("div",{class:"opts"+(hz?" h":"")});let fin=false;
-  items.forEach((l,k)=>row.append(h("button",{type:"button",class:"opt",onclick:e=>{if(fin)return;fin=true;e.currentTarget.classList.add(k===ok?"ok":"bad");row.children[ok].classList.add("ok");done&&done()}},l)));return row}
+  items.forEach((l,k)=>row.append(h("button",{type:"button",class:"opt",onclick:e=>{if(fin)return;fin=true;e.currentTarget.classList.add(k===ok?"ok":"bad");row.children[ok]?.classList.add("ok");done&&done()}},l)));return row}
 function pvQs(t,p){const a=t.questions||[];if(!a.length)return p.append(empt("No questions yet",""));
   a.forEach((q,i)=>{const ty=q.type||"mcq",ex=h("p",{class:"mut",hidden:true},q.explanation||""),show=()=>ex.hidden=false;
     const c=h("div",{class:"card pad"},h("div",{class:"mut"},`Q${i+1} · ${ty}`),h("p",{class:"pvt",style:"font-size:17px;margin:4px 0"},md(q.prompt)));
@@ -330,12 +393,13 @@ function pvQs(t,p){const a=t.questions||[];if(!a.length)return p.append(empt("No
       c.append(btn("Show answer",()=>{ans.hidden=false;show()}),ans)}
     c.append(ex);p.append(c)})}
 
+addEventListener("error",e=>toast("Unexpected error: "+e.message));
 // ---- init ----
 (function(){let th="light";try{th=localStorage.getItem("studypack-theme")||"light"}catch(e){}
   $("#theme").value=th;setTheme(th);
   try{const d=JSON.parse(localStorage.getItem("studypack-draft")||"null");
-    if(d&&d.data&&Array.isArray(d.data.topics)&&d.data.topics.length&&confirm("Restore your last unsaved draft?")){data=d.data;fileName=d.fileName||null;dirty=true}}catch(e){}
-  render();title()})();
+    if(d&&d.data&&Array.isArray(d.data.topics)&&d.data.topics.length&&confirm("Restore your last unsaved draft?")){normalize(d.data);data=d.data;fileName=d.fileName||null;dirty=true}}catch(e){try{localStorage.removeItem("studypack-draft")}catch(_){}}
+  try{render()}catch(e){data=empty();dirty=false;try{localStorage.removeItem("studypack-draft")}catch(_){}render();toast("Saved draft could not be displayed and was discarded.")}title()})();
 </script>
 </body>
 </html>
