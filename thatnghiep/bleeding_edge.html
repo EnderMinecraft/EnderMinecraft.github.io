@@ -111,6 +111,26 @@ details.ed-card > .ed-in { padding: 4px 14px 12px; }
 .th-warn strong { display: block; margin-bottom: 4px; }
 .th-warn ul { margin: 6px 0 10px; padding-left: 20px; }
 .th-warn-note { color: var(--warn); font-weight: 600; margin: 0; }
+/* rainbow RGB buttons (opt-in, html.rb-on). --rb-h is animated; hue/range/speed come from the theme page. */
+@property --rb-h { syntax: '<angle>'; inherits: true; initial-value: 0deg; }
+@keyframes rbspin { to { --rb-h: var(--rb-range, 360deg); } }
+html.rb-on :is(.btn, .tbtn):not(:disabled) {
+  --rb: calc(var(--rb-h) + var(--rb-off, 0deg));
+  animation: rbspin var(--rb-dur, 5s) linear infinite;
+  animation-direction: var(--rb-dir, normal);
+}
+html.rb-on.rb-border :is(.btn, .tbtn):not(:disabled) {
+  border-color: hsl(var(--rb) var(--rb-s, 90%) var(--rb-l, 55%)) !important;
+  box-shadow: 0 0 0 1px hsl(var(--rb) var(--rb-s, 90%) var(--rb-l, 55%)), 0 0 14px -2px hsl(var(--rb) var(--rb-s, 90%) var(--rb-l, 55%) / .6) !important;
+}
+html.rb-on.rb-fill :is(.btn, .tbtn):not(:disabled) {
+  background: linear-gradient(100deg, hsl(var(--rb) var(--rb-s, 90%) calc(var(--rb-l, 55%) * .7)), hsl(calc(var(--rb) + 50deg) var(--rb-s, 90%) calc(var(--rb-l, 55%) * .7)), hsl(calc(var(--rb) + 100deg) var(--rb-s, 90%) calc(var(--rb-l, 55%) * .7))) !important;
+  border-color: transparent !important; color: #fff !important; text-shadow: 0 1px 2px rgba(0,0,0,.55);
+}
+.th-rbc { display: flex; gap: 10px; align-items: center; min-width: 0; }
+.th-rbc input { flex: 1; min-width: 0; accent-color: var(--accent); }
+.th-rbv { min-width: 56px; text-align: right; font-variant-numeric: tabular-nums; color: var(--ink); }
+@media (prefers-reduced-motion: reduce) { html.rb-on :is(.btn, .tbtn):not(:disabled) { animation: none; } }
 .th-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .th-table td { padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
 .th-num { font-family: var(--font-mono); white-space: nowrap; }
@@ -5689,7 +5709,8 @@ document.addEventListener('click', function (e) {
     th_apply: 'Apply theme', th_blocked: 'Fix the failing checks to apply this theme.', th_applied: 'Theme applied', th_reset_done: 'Back to the default theme',
     th_import: 'Import theme', th_choose: 'Choose file', th_paste: 'Or paste theme JSON', th_load_paste: 'Load pasted text', th_export: 'Export', th_download: 'Download', th_copy: 'Copy JSON', th_copied: 'Copied', th_imported: 'Theme loaded into the editor. Apply it when you are happy.',
     th_override: 'Override contrast check', th_override_hint: 'Lets you apply a theme even if it fails the readability checks. Some text may be hard to read.', th_overridden: 'Contrast check is overridden. This theme has {n} failing check(s), so some text may be hard to read.',
-    th_w_title: 'This theme fails {n} readability check(s)', th_w_body: 'Some text may be hard to read. You can still import it, but applying it will need the override toggle.', th_w_import: 'Import anyway', th_w_cancel: 'Cancel', th_imported_fail: 'Theme loaded with failing contrast checks. Turn on “Override contrast check” to apply it.',
+    th_w_title: 'This theme fails {n} readability check(s)', th_w_body: 'Some text may be hard to read. You can still import it, but applying it will need the override toggle.', th_w_import: 'Import anyway', th_w_cancel: 'Cancel',
+    th_rb_title: 'Rainbow buttons', th_rb_on: 'Rainbow RGB buttons', th_rb_hint: 'Buttons slowly cycle through colours. This is separate from your theme. “Border glow” keeps your theme’s text colours, so contrast stays valid; “Fill” uses white text on bright colours.', th_rb_style: 'Style', th_rb_border: 'Border glow', th_rb_fill: 'Fill', th_rb_hue: 'Start hue', th_rb_range: 'Hue range', th_rb_full: 'Full rainbow', th_rb_speed: 'Speed', th_rb_sat: 'Saturation', th_rb_lum: 'Lightness', th_rb_reset: 'Reset rainbow', th_rb_demo1: 'Primary button', th_rb_demo2: 'Button', th_rb_motion: 'Reduced motion is on for your device, so colours stay still.', th_imported_fail: 'Theme loaded with failing contrast checks. Turn on “Override contrast check” to apply it.',
     th_hex: 'Use #RRGGBB', th_rescue: 'If a theme ever makes the app hard to use, add #reset-theme to the address and reload.',
     th_pv_h: 'Sample topic', th_pv_p: 'Notes are easy to read, and a key term is marked like this.', th_pv_muted: 'Secondary text looks like this.', th_pv_btn: 'Primary', th_pv_btn2: 'Secondary',
     th_pv_ok: 'Correct answer', th_pv_bad: 'Wrong answer', th_pv_warn: 'Careful', th_pv_nav: 'Selected topic', th_pv_term: 'key term',
@@ -5711,7 +5732,8 @@ document.addEventListener('click', function (e) {
     th_apply: 'Áp dụng giao diện', th_blocked: 'Hãy sửa các mục không đạt để áp dụng.', th_applied: 'Đã áp dụng giao diện', th_reset_done: 'Đã về giao diện mặc định',
     th_import: 'Nhập giao diện', th_choose: 'Chọn tệp', th_paste: 'Hoặc dán JSON giao diện', th_load_paste: 'Tải nội dung đã dán', th_export: 'Xuất', th_download: 'Tải xuống', th_copy: 'Sao chép JSON', th_copied: 'Đã sao chép', th_imported: 'Đã nạp giao diện vào trình chỉnh. Hãy áp dụng khi bạn đã hài lòng.',
     th_override: 'Bỏ qua kiểm tra độ tương phản', th_override_hint: 'Cho phép áp dụng giao diện dù không đạt các kiểm tra dễ đọc. Một số chữ có thể khó đọc.', th_overridden: 'Đã bỏ qua kiểm tra độ tương phản. Giao diện này có {n} mục không đạt nên một số chữ có thể khó đọc.',
-    th_w_title: 'Giao diện này không đạt {n} mục kiểm tra dễ đọc', th_w_body: 'Một số chữ có thể khó đọc. Bạn vẫn có thể nhập, nhưng để áp dụng cần bật tùy chọn bỏ qua kiểm tra.', th_w_import: 'Vẫn nhập', th_w_cancel: 'Hủy', th_imported_fail: 'Đã nạp giao diện nhưng có mục tương phản không đạt. Hãy bật “Bỏ qua kiểm tra độ tương phản” để áp dụng.',
+    th_w_title: 'Giao diện này không đạt {n} mục kiểm tra dễ đọc', th_w_body: 'Một số chữ có thể khó đọc. Bạn vẫn có thể nhập, nhưng để áp dụng cần bật tùy chọn bỏ qua kiểm tra.', th_w_import: 'Vẫn nhập', th_w_cancel: 'Hủy',
+    th_rb_title: 'Nút cầu vồng', th_rb_on: 'Nút cầu vồng RGB', th_rb_hint: 'Các nút đổi màu từ từ. Tách biệt với giao diện của bạn. “Viền phát sáng” giữ màu chữ của giao diện nên độ tương phản vẫn đúng; “Tô màu” dùng chữ trắng trên nền màu sáng.', th_rb_style: 'Kiểu', th_rb_border: 'Viền phát sáng', th_rb_fill: 'Tô màu', th_rb_hue: 'Màu (hue) bắt đầu', th_rb_range: 'Dải màu', th_rb_full: 'Cả cầu vồng', th_rb_speed: 'Tốc độ', th_rb_sat: 'Độ bão hòa', th_rb_lum: 'Độ sáng', th_rb_reset: 'Đặt lại cầu vồng', th_rb_demo1: 'Nút chính', th_rb_demo2: 'Nút', th_rb_motion: 'Thiết bị đang bật giảm chuyển động nên màu sẽ đứng yên.', th_imported_fail: 'Đã nạp giao diện nhưng có mục tương phản không đạt. Hãy bật “Bỏ qua kiểm tra độ tương phản” để áp dụng.',
     th_hex: 'Dùng #RRGGBB', th_rescue: 'Nếu giao diện làm ứng dụng khó dùng, hãy thêm #reset-theme vào địa chỉ rồi tải lại trang.',
     th_pv_h: 'Chủ đề mẫu', th_pv_p: 'Ghi chú dễ đọc, và thuật ngữ quan trọng được đánh dấu như thế này.', th_pv_muted: 'Chữ phụ trông như thế này.', th_pv_btn: 'Chính', th_pv_btn2: 'Phụ',
     th_pv_ok: 'Đáp án đúng', th_pv_bad: 'Đáp án sai', th_pv_warn: 'Cẩn thận', th_pv_nav: 'Chủ đề đang chọn', th_pv_term: 'thuật ngữ',
@@ -5733,6 +5755,32 @@ document.addEventListener('click', function (e) {
     var HEX = /^#[0-9a-fA-F]{6}$/;
     var draft = null, host = null, refs = {}, msgTimer = null, pending = null;
     var override = store.get(KEY_OV) === '1';
+
+    /* rainbow buttons: numbers/enums only, applied as classes + CSS variables on :root */
+    var RB_KEY = 'sp:rainbow', RB_DEF = { on: false, mode: 'border', hue: 0, range: 360, speed: 4, sat: 90, lum: 55 };
+    var clampN = function (v, a, b, d) { v = Number(v); return isFinite(v) ? Math.min(b, Math.max(a, Math.round(v))) : d; };
+    function loadRb() {
+      var o = Object.assign({}, RB_DEF);
+      try {
+        var p = JSON.parse(store.get(RB_KEY) || 'null');
+        if (p && typeof p === 'object') { o.on = p.on === true; o.mode = p.mode === 'fill' ? 'fill' : 'border'; o.hue = clampN(p.hue, 0, 359, 0); o.range = clampN(p.range, 30, 360, 360); o.speed = clampN(p.speed, 1, 10, 4); o.sat = clampN(p.sat, 0, 100, 90); o.lum = clampN(p.lum, 25, 75, 55); }
+      } catch (e) { /* use defaults */ }
+      return o;
+    }
+    var rb = loadRb();
+    function paintRb() {
+      var el = document.documentElement;
+      el.classList.toggle('rb-on', rb.on); el.classList.toggle('rb-border', rb.mode === 'border'); el.classList.toggle('rb-fill', rb.mode === 'fill');
+      el.style.setProperty('--rb-off', rb.hue + 'deg'); el.style.setProperty('--rb-range', rb.range + 'deg');
+      el.style.setProperty('--rb-dur', (20 / rb.speed).toFixed(2) + 's'); el.style.setProperty('--rb-dir', rb.range < 360 ? 'alternate' : 'normal');
+      el.style.setProperty('--rb-s', rb.sat + '%'); el.style.setProperty('--rb-l', rb.lum + '%');
+    }
+    function saveRb() { store.set(RB_KEY, JSON.stringify(rb)); paintRb(); }
+    function clearRb() {
+      rb = Object.assign({}, RB_DEF); try { localStorage.removeItem(RB_KEY); } catch (e) { /* ignore */ }
+      var el = document.documentElement; el.classList.remove('rb-on', 'rb-border', 'rb-fill');
+      ['--rb-off', '--rb-range', '--rb-dur', '--rb-dir', '--rb-s', '--rb-l'].forEach(function (k) { el.style.removeProperty(k); });
+    }
 
     /* colour maths (WCAG 2.x relative luminance) */
     function rgb(hx) { return [1, 3, 5].map(function (i) { return parseInt(hx.slice(i, i + 2), 16); }); }
@@ -5796,8 +5844,9 @@ document.addEventListener('click', function (e) {
       return r.theme;
     }
     function boot() {
-      if (location.hash === '#reset-theme') { try { localStorage.removeItem(KEY); localStorage.removeItem(KEY_OV); } catch (e) { /* ignore */ } history.replaceState(null, '', location.pathname + location.search); return; }
+      if (location.hash === '#reset-theme') { try { localStorage.removeItem(KEY); localStorage.removeItem(KEY_OV); } catch (e) { /* ignore */ } clearRb(); history.replaceState(null, '', location.pathname + location.search); return; }
       var t = stored(); if (t) paint(document.documentElement, t.colors);
+      paintRb();
     }
     function clear() {
       var had = !!store.get(KEY);
@@ -5913,6 +5962,35 @@ document.addEventListener('click', function (e) {
           h('button', { type: 'button', class: 'btn sm primary', onclick: acceptPending }, T('w_import')),
           h('button', { type: 'button', class: 'btn sm', onclick: cancelPending }, T('w_cancel'))));
     }
+    function rbBox() {
+      var on = h('input', { type: 'checkbox' }); on.checked = rb.on;
+      on.addEventListener('change', function () { rb.on = on.checked; saveRb(); });
+      var onRow = h('label', { class: 'th-ov' }, on, h('span', {}, T('rb_on'), h('small', {}, T('rb_hint'))));
+      var pills = h('div', { class: 'th-pills', role: 'group', 'aria-label': T('rb_style') }, ['border', 'fill'].map(function (m) {
+        return h('button', { type: 'button', 'data-m': m, class: 'th-pill' + (rb.mode === m ? ' on' : ''), 'aria-pressed': String(rb.mode === m), onclick: function () {
+          rb.mode = m; saveRb();
+          [].forEach.call(pills.children, function (b) { var a = b.getAttribute('data-m') === m; b.classList.toggle('on', a); b.setAttribute('aria-pressed', String(a)); });
+        } }, T('rb_' + m));
+      }));
+      function slider(key, min, max, label, fmt) {
+        var out = h('span', { class: 'th-rbv' }, fmt(rb[key]));
+        var inp = h('input', { type: 'range', min: min, max: max, step: '1', value: rb[key], 'aria-label': label });
+        inp.addEventListener('input', function () { rb[key] = clampN(inp.value, min, max, rb[key]); out.textContent = fmt(rb[key]); saveRb(); });
+        return h('label', { class: 'th-f' }, h('span', {}, label), h('span', { class: 'th-rbc' }, inp, out));
+      }
+      var reduced = false; try { reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { /* ignore */ }
+      return h('div', { class: 'th-box' }, h('h2', {}, T('rb_title')), onRow,
+        h('div', { class: 'th-f', style: 'margin-top:12px' }, h('span', {}, T('rb_style')), pills),
+        slider('hue', 0, 359, T('rb_hue'), function (v) { return v + '°'; }),
+        slider('range', 30, 360, T('rb_range'), function (v) { return v >= 360 ? T('rb_full') : v + '°'; }),
+        slider('sat', 0, 100, T('rb_sat'), function (v) { return v + '%'; }),
+        slider('lum', 25, 75, T('rb_lum'), function (v) { return v + '%'; }),
+        slider('speed', 1, 10, T('rb_speed'), function (v) { return v + '/10'; }),
+        h('div', { class: 'th-row' },
+          h('button', { type: 'button', class: 'btn sm primary' }, T('rb_demo1')), h('button', { type: 'button', class: 'btn sm' }, T('rb_demo2')),
+          h('button', { type: 'button', class: 'btn sm again', onclick: function () { clearRb(); render(); } }, T('rb_reset'))),
+        reduced ? h('p', { class: 'muted', style: 'margin:10px 0 0' }, T('rb_motion')) : null);
+    }
     function render() {
       if (!host) return;
       host.replaceChildren(); refs = {};
@@ -5959,6 +6037,7 @@ document.addEventListener('click', function (e) {
             h('div', { class: 'th-box' }, h('h2', {}, T('colors')), TOKENS.map(colorRow)),
             ovRow,
             h('div', { class: 'th-row' }, refs.apply), refs.blocked, refs.overNote,
+            rbBox(),
             h('div', { class: 'th-box' }, h('h2', {}, T('export')),
               h('div', { class: 'th-row' }, h('button', { type: 'button', class: 'btn sm', onclick: download }, T('download')), copyBtn)),
             h('div', { class: 'th-box' }, h('h2', {}, T('import')),
