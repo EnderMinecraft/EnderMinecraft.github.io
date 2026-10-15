@@ -104,6 +104,13 @@ details.ed-card > .ed-in { padding: 4px 14px 12px; }
 .th-crow input[type=color] { width: 44px; height: 34px; padding: 2px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); cursor: pointer; }
 .th-crow input[type=text] { font: 13px var(--font-mono); text-transform: uppercase; }
 .th-bad-note { color: var(--bad); font-weight: 600; margin: 0; }
+.th-ov { display: flex; gap: 10px; align-items: flex-start; margin: 0; color: var(--ink); font-size: 13px; cursor: pointer; }
+.th-ov input { margin-top: 2px; width: 18px; height: 18px; flex: none; accent-color: var(--accent); }
+.th-ov small { display: block; color: var(--muted); margin-top: 2px; }
+.th-warn { margin: 0 0 12px; padding: 12px 14px; border-radius: 10px; background: var(--warn-bg); color: var(--ink); border: 1px solid var(--warn); }
+.th-warn strong { display: block; margin-bottom: 4px; }
+.th-warn ul { margin: 6px 0 10px; padding-left: 20px; }
+.th-warn-note { color: var(--warn); font-weight: 600; margin: 0; }
 .th-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .th-table td { padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
 .th-num { font-family: var(--font-mono); white-space: nowrap; }
@@ -5012,7 +5019,7 @@ document.addEventListener('click', function (e) {
     ed_apply: 'Apply to revision', ed_fromcur: 'Reload from current pack', ed_unsaved: '● Unsaved',
     ed_mode_gui: 'Form', ed_mode_text: 'JSON text',
     ed_details: 'Pack details', ed_f_id: 'Pack ID', ed_f_title: 'Title', ed_f_subject: 'Subject', ed_f_level: 'Level', ed_f_lang: 'Language',
-    ed_id_hint: 'Optional. Keeps students’ progress when the pack is renamed.',
+    ed_id_hint: 'Optional. Keeps students\' progress when the pack is renamed.',
     ed_topics: 'Topics', ed_search_topics: 'Search topics', ed_no_topic_match: 'No topic matches.', ed_no_topics: 'No topics yet.',
     ed_add_topic: '+', ed_topic_deleted: 'Topic deleted', ed_undo: 'Undo', ed_reorder: 'Reorder: drag, or Alt+Up/Down arrow', ed_delete: 'Delete',
     ed_pick_topic: 'Pick a topic', ed_pick_topic_s: 'Choose one from the list to edit it.',
@@ -5681,6 +5688,8 @@ document.addEventListener('click', function (e) {
     th_c_good: '“Correct” feedback text', th_c_bad: '“Wrong” feedback text', th_c_warn: 'Warning text',
     th_apply: 'Apply theme', th_blocked: 'Fix the failing checks to apply this theme.', th_applied: 'Theme applied', th_reset_done: 'Back to the default theme',
     th_import: 'Import theme', th_choose: 'Choose file', th_paste: 'Or paste theme JSON', th_load_paste: 'Load pasted text', th_export: 'Export', th_download: 'Download', th_copy: 'Copy JSON', th_copied: 'Copied', th_imported: 'Theme loaded into the editor. Apply it when you are happy.',
+    th_override: 'Override contrast check', th_override_hint: 'Lets you apply a theme even if it fails the readability checks. Some text may be hard to read.', th_overridden: 'Contrast check is overridden. This theme has {n} failing check(s), so some text may be hard to read.',
+    th_w_title: 'This theme fails {n} readability check(s)', th_w_body: 'Some text may be hard to read. You can still import it, but applying it will need the override toggle.', th_w_import: 'Import anyway', th_w_cancel: 'Cancel', th_imported_fail: 'Theme loaded with failing contrast checks. Turn on “Override contrast check” to apply it.',
     th_hex: 'Use #RRGGBB', th_rescue: 'If a theme ever makes the app hard to use, add #reset-theme to the address and reload.',
     th_pv_h: 'Sample topic', th_pv_p: 'Notes are easy to read, and a key term is marked like this.', th_pv_muted: 'Secondary text looks like this.', th_pv_btn: 'Primary', th_pv_btn2: 'Secondary',
     th_pv_ok: 'Correct answer', th_pv_bad: 'Wrong answer', th_pv_warn: 'Careful', th_pv_nav: 'Selected topic', th_pv_term: 'key term',
@@ -5701,6 +5710,8 @@ document.addEventListener('click', function (e) {
     th_c_good: 'Chữ phản hồi “Đúng”', th_c_bad: 'Chữ phản hồi “Sai”', th_c_warn: 'Chữ cảnh báo',
     th_apply: 'Áp dụng giao diện', th_blocked: 'Hãy sửa các mục không đạt để áp dụng.', th_applied: 'Đã áp dụng giao diện', th_reset_done: 'Đã về giao diện mặc định',
     th_import: 'Nhập giao diện', th_choose: 'Chọn tệp', th_paste: 'Hoặc dán JSON giao diện', th_load_paste: 'Tải nội dung đã dán', th_export: 'Xuất', th_download: 'Tải xuống', th_copy: 'Sao chép JSON', th_copied: 'Đã sao chép', th_imported: 'Đã nạp giao diện vào trình chỉnh. Hãy áp dụng khi bạn đã hài lòng.',
+    th_override: 'Bỏ qua kiểm tra độ tương phản', th_override_hint: 'Cho phép áp dụng giao diện dù không đạt các kiểm tra dễ đọc. Một số chữ có thể khó đọc.', th_overridden: 'Đã bỏ qua kiểm tra độ tương phản. Giao diện này có {n} mục không đạt nên một số chữ có thể khó đọc.',
+    th_w_title: 'Giao diện này không đạt {n} mục kiểm tra dễ đọc', th_w_body: 'Một số chữ có thể khó đọc. Bạn vẫn có thể nhập, nhưng để áp dụng cần bật tùy chọn bỏ qua kiểm tra.', th_w_import: 'Vẫn nhập', th_w_cancel: 'Hủy', th_imported_fail: 'Đã nạp giao diện nhưng có mục tương phản không đạt. Hãy bật “Bỏ qua kiểm tra độ tương phản” để áp dụng.',
     th_hex: 'Dùng #RRGGBB', th_rescue: 'Nếu giao diện làm ứng dụng khó dùng, hãy thêm #reset-theme vào địa chỉ rồi tải lại trang.',
     th_pv_h: 'Chủ đề mẫu', th_pv_p: 'Ghi chú dễ đọc, và thuật ngữ quan trọng được đánh dấu như thế này.', th_pv_muted: 'Chữ phụ trông như thế này.', th_pv_btn: 'Chính', th_pv_btn2: 'Phụ',
     th_pv_ok: 'Đáp án đúng', th_pv_bad: 'Đáp án sai', th_pv_warn: 'Cẩn thận', th_pv_nav: 'Chủ đề đang chọn', th_pv_term: 'thuật ngữ',
@@ -5711,7 +5722,7 @@ document.addEventListener('click', function (e) {
 
   var THEMER = (function () {
     var T = function (k, v) { return tr('th_' + k, v); };
-    var KEY = 'sp:customtheme', MAX_BYTES = 8000;
+    var KEY = 'sp:customtheme', KEY_OV = 'sp:customtheme:override', MAX_BYTES = 8000;
     var TOKENS = ['bg', 'surface', 'ink', 'muted', 'line', 'soft', 'accent', 'accentInk', 'mark', 'good', 'bad', 'warn'];
     var VARS = { bg: '--bg', surface: '--surface', ink: '--ink', muted: '--muted', line: '--line', soft: '--soft', accent: '--accent', accentInk: '--accent-ink', mark: '--mark', good: '--good', bad: '--bad', warn: '--warn' };
     var DERIVED = { good: '--good-bg', bad: '--bad-bg', warn: '--warn-bg' };
@@ -5720,7 +5731,8 @@ document.addEventListener('click', function (e) {
       dark: { bg: '#0C1222', surface: '#141C32', ink: '#E6EAF7', muted: '#93A0C3', line: '#26304D', soft: '#1B2542', accent: '#8499FF', accentInk: '#0C1222', mark: '#6F5F0E', good: '#4CCB9F', bad: '#F2857A', warn: '#E8AE4B' }
     };
     var HEX = /^#[0-9a-fA-F]{6}$/;
-    var draft = null, host = null, refs = {}, msgTimer = null;
+    var draft = null, host = null, refs = {}, msgTimer = null, pending = null;
+    var override = store.get(KEY_OV) === '1';
 
     /* colour maths (WCAG 2.x relative luminance) */
     function rgb(hx) { return [1, 3, 5].map(function (i) { return parseInt(hx.slice(i, i + 2), 16); }); }
@@ -5780,22 +5792,24 @@ document.addEventListener('click', function (e) {
     }
     function stored() {
       var raw = store.get(KEY); if (!raw) return null;
-      var r = validate(raw); if (!r.theme || !allPass(r.theme.colors)) { try { localStorage.removeItem(KEY); } catch (e) { /* ignore */ } return null; }
+      var r = validate(raw); if (!r.theme || (!allPass(r.theme.colors) && store.get(KEY_OV) !== '1')) { try { localStorage.removeItem(KEY); localStorage.removeItem(KEY_OV); } catch (e) { /* ignore */ } return null; }
       return r.theme;
     }
     function boot() {
-      if (location.hash === '#reset-theme') { try { localStorage.removeItem(KEY); } catch (e) { /* ignore */ } history.replaceState(null, '', location.pathname + location.search); return; }
+      if (location.hash === '#reset-theme') { try { localStorage.removeItem(KEY); localStorage.removeItem(KEY_OV); } catch (e) { /* ignore */ } history.replaceState(null, '', location.pathname + location.search); return; }
       var t = stored(); if (t) paint(document.documentElement, t.colors);
     }
     function clear() {
       var had = !!store.get(KEY);
-      unpaint(document.documentElement); try { localStorage.removeItem(KEY); } catch (e) { /* ignore */ }
+      unpaint(document.documentElement); try { localStorage.removeItem(KEY); localStorage.removeItem(KEY_OV); } catch (e) { /* ignore */ }
       if (had && S.view === 'themes') render();
     }
     function apply() {
-      if (!allPass(draft.colors)) return;
+      var ok = allPass(draft.colors);
+      if (!ok && !override) return;
       var t = validate(toFile(draft)); if (!t.theme) return;
       store.set(KEY, JSON.stringify(toFile(t.theme)));
+      if (!ok) store.set(KEY_OV, '1'); else { try { localStorage.removeItem(KEY_OV); } catch (e) { /* ignore */ } }
       setThemeMode(t.theme.scheme, true);
       paint(document.documentElement, t.theme.colors);
       say(T('applied')); render();
@@ -5836,9 +5850,10 @@ document.addEventListener('click', function (e) {
             h('td', { class: c.pass ? 'th-ok' : 'th-no' }, (c.pass ? '✓ ' : '✗ ') + T(c.pass ? 'pass' : 'fail'))));
         });
       }
-      var ok = allPass(draft.colors);
-      if (refs.apply) refs.apply.disabled = !ok;
-      if (refs.blocked) refs.blocked.hidden = ok;
+      var ok = allPass(draft.colors), nFail = checks(draft.colors).filter(function (x) { return !x.pass; }).length;
+      if (refs.apply) refs.apply.disabled = !ok && !override;
+      if (refs.blocked) refs.blocked.hidden = ok || override;
+      if (refs.overNote) { refs.overNote.hidden = ok || !override; refs.overNote.textContent = T('overridden', { n: nFail }); }
     }
     function colorRow(k) {
       var pick = h('input', { type: 'color', value: draft.colors[k].toLowerCase(), 'aria-label': T('t_' + k) });
@@ -5875,8 +5890,28 @@ document.addEventListener('click', function (e) {
     function importText(text) {
       var r = validate(text);
       if (!r.theme) { say(errText(r.errors), true); return; }
+      var failing = checks(r.theme.colors).filter(function (x) { return !x.pass; });
+      if (failing.length) { pending = { theme: r.theme, failing: failing }; render(); return; }
+      pending = null;
       draft = { name: r.theme.name, scheme: r.theme.scheme, colors: r.theme.colors };
       render(); say(T('imported'));
+    }
+    function acceptPending() {
+      if (!pending) return;
+      var t = pending.theme; pending = null;
+      draft = { name: t.name, scheme: t.scheme, colors: t.colors };
+      render(); say(T('imported_fail'));
+    }
+    function cancelPending() { pending = null; render(); }
+    function warnBox() {
+      if (!pending) return null;
+      return h('div', { class: 'th-warn', role: 'alert' },
+        h('strong', {}, T('w_title', { n: pending.failing.length })),
+        h('span', {}, T('w_body')),
+        h('ul', {}, pending.failing.map(function (c) { return h('li', {}, T('c_' + c.id) + ': ' + c.ratio.toFixed(1) + ':1 (' + T('need', { n: c.need }) + ')'); })),
+        h('div', { class: 'th-row' },
+          h('button', { type: 'button', class: 'btn sm primary', onclick: acceptPending }, T('w_import')),
+          h('button', { type: 'button', class: 'btn sm', onclick: cancelPending }, T('w_cancel'))));
     }
     function render() {
       if (!host) return;
@@ -5889,6 +5924,13 @@ document.addEventListener('click', function (e) {
       }));
       refs.apply = h('button', { type: 'button', class: 'btn primary', onclick: apply }, T('apply'));
       refs.blocked = h('p', { class: 'th-bad-note', hidden: true }, T('blocked'));
+      refs.overNote = h('p', { class: 'th-warn-note', hidden: true });
+      var ovBox = h('input', { type: 'checkbox' }); ovBox.checked = override;
+      ovBox.addEventListener('change', function () {
+        override = ovBox.checked;
+        refresh();
+      });
+      var ovRow = h('label', { class: 'th-ov' }, ovBox, h('span', {}, T('override'), h('small', {}, T('override_hint'))));
       refs.checks = h('tbody', {});
       refs.msg = h('p', { class: 'th-msg', role: 'status', hidden: true });
       var fileIn = h('input', { type: 'file', accept: '.json,application/json', hidden: true });
@@ -5905,7 +5947,7 @@ document.addEventListener('click', function (e) {
         h('div', { class: 'th-active' },
           h('span', {}, cur ? T('active', { n: cur.name }) : T('none')),
           h('button', { type: 'button', class: 'btn sm again', onclick: function () { clear(); say(T('reset_done')); } }, T('reset'))),
-        refs.msg,
+        refs.msg, warnBox(),
         h('div', { class: 'th-grid' },
           h('div', { class: 'th-col' },
             h('div', { class: 'th-box' },
@@ -5915,7 +5957,8 @@ document.addEventListener('click', function (e) {
                 h('button', { type: 'button', class: 'btn sm', onclick: function () { startFrom('light'); render(); } }, T('from_light')),
                 h('button', { type: 'button', class: 'btn sm', onclick: function () { startFrom('dark'); render(); } }, T('from_dark')))),
             h('div', { class: 'th-box' }, h('h2', {}, T('colors')), TOKENS.map(colorRow)),
-            h('div', { class: 'th-row' }, refs.apply), refs.blocked,
+            ovRow,
+            h('div', { class: 'th-row' }, refs.apply), refs.blocked, refs.overNote,
             h('div', { class: 'th-box' }, h('h2', {}, T('export')),
               h('div', { class: 'th-row' }, h('button', { type: 'button', class: 'btn sm', onclick: download }, T('download')), copyBtn)),
             h('div', { class: 'th-box' }, h('h2', {}, T('import')),
