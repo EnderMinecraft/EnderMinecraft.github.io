@@ -155,6 +155,19 @@ html.rb-on.rb-fill :is(.btn, .tbtn):not(:disabled) {
 .th-pv-fb.bad { color: var(--bad); background: var(--bad-bg); border-color: var(--bad); }
 .th-pv-fb.warn { color: var(--warn); background: var(--warn-bg); border-color: var(--warn); }
 @media (max-width: 860px) { .th-grid { grid-template-columns: minmax(0, 1fr); } .th-sticky { position: static; } .th-f { grid-template-columns: minmax(0, 1fr); } }
+
+/* credits page */
+.cr-hero { display: flex; align-items: center; gap: 12px; padding: 18px 20px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+.cr-hero b { font-size: clamp(20px, 3vw, 26px); }
+.cr-tag { font: 500 11px var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; padding: 3px 10px; border-radius: 999px; background: var(--mark); color: var(--ink); }
+.cr-sec .sec-h { margin: 0 0 10px; font-size: 18px; }
+.cr-sec p { margin: 0 0 10px; max-width: 62ch; }
+.cr-list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); overflow: hidden; }
+.cr-list li { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 14px; padding: 10px 14px; }
+.cr-list li + li { border-top: 1px solid var(--line); }
+.cr-list a { color: var(--ink); font-weight: 600; text-decoration-color: var(--accent); text-underline-offset: 3px; }
+.cr-list a:hover { color: var(--accent); }
+.cr-note { margin-top: 8px; font-size: 13px; }
 </style></head><body>
 <title>Navel Desk (Canary)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap">
@@ -2776,6 +2789,7 @@ function go(where, id, mode) {
     if (where === 'edit' && S.view === 'edit') return;
     if (where === 'themes' && S.view === 'themes') return;
     if (where === 'teacher' && S.view === 'teacher') return;
+    if (where === 'credits' && S.view === 'credits') return;
     if (where === 'topic' && S.view === 'study' && S.scope === id) return;
     if (where === 'all' && S.view === 'study' && S.scope === 'all') return;
 
@@ -2824,11 +2838,12 @@ function render() {
     else if (S.view === 'edit') main = '<div id="edHost"></div>';
     else if (S.view === 'themes') main = '<div id="thHost"></div>';
     else if (S.view === 'load') main = loadHTML();
+    else if (S.view === 'credits') main = creditsHTML();
     else main = teacherHTML();
     
     // Check if we are transitioning to a new view
     var mainClass = S.animateMain ? 'main is-switching' : 'main';
-    if (S.view === 'load' || S.view === 'teacher') mainClass += ' main-narrow';
+    if (S.view === 'load' || S.view === 'teacher' || S.view === 'credits') mainClass += ' main-narrow';
     S.animateMain = false; // Reset flag
 
     $('#app').innerHTML = '<div class="shell' + (S.railOff ? ' rail-off' : '') + (S.view === 'exam' && S.exam && S.exam.step === 'doing' ? ' exam-focus' : '') + (S.drawerOpen ? ' drawer-open' : '') + '">' + navHTML() + '<div class="scrim" data-act="closeDrawer"></div><main class="' + mainClass + '" id="main">' + main + '</main></div>';
@@ -2854,6 +2869,7 @@ function render() {
     h += '<button class="nav-i' + (S.view === 'edit' ? ' cur' : '') + '" data-go="edit"><span>' + tr('nav_edit') + '</span></button>';
     h += '<button class="nav-i' + (S.view === 'themes' ? ' cur' : '') + '" data-go="themes"><span>' + tr('nav_theme') + '</span></button>';
     h += '<button class="nav-i' + (S.view === 'teacher' ? ' cur' : '') + '" data-go="teacher"><span>' + tr('nav_make') + '</span></button>';
+    h += '<button class="nav-i' + (S.view === 'credits' ? ' cur' : '') + '" data-go="credits"><span>' + tr('nav_credits') + '</span></button>';
     h += '</div></nav>';
     return h;
   }
@@ -4122,6 +4138,52 @@ function quizSetupHTML() {
     h += '<p class="muted" style="margin-top: 16px;">' + tr('local_note') + ' <button class="link" data-act="sample">' + tr('use_example') + '</button></p></div>';
     return h;
   }
+/* ---------- credits & acknowledgements ----------
+   Edit CREDITS to change what the page shows. Empty arrays hide their section. */
+var CREDITS = {
+  appName: 'Navel Desk',
+  channel: 'Canary',
+  people: [],      // e.g. { name: 'Your name', role_en: 'Design & code', role_vi: 'Thiết kế & lập trình' }
+  thanks: [],      // e.g. { name: 'Ms. Lan', note_en: 'For the history notes', note_vi: 'Vì bộ ghi chú Lịch sử' }
+  fonts: [
+    { name: 'Plus Jakarta Sans', use: 'ui', by: 'Tokotype', url: 'https://fonts.google.com/specimen/Plus+Jakarta+Sans' },
+    { name: 'Lora', use: 'serif', by: 'Cyreal', url: 'https://fonts.google.com/specimen/Lora' },
+    { name: 'JetBrains Mono', use: 'mono', by: 'JetBrains', url: 'https://fonts.google.com/specimen/JetBrains+Mono' }
+  ],
+  tools: [
+    { name: 'Claude', by: 'Anthropic', url: 'https://claude.ai' },
+    { name: 'ChatGPT', by: 'OpenAI', url: 'https://chatgpt.com' },
+    { name: 'Gemini', by: 'Google', url: 'https://gemini.google.com' }
+  ]
+};
+function creditsHTML() {
+  var vi = LANG === 'vi', C = CREDITS;
+  function link(o) { return '<a href="' + esc(o.url) + '" target="_blank" rel="noopener">' + esc(o.name) + '</a>'; }
+  function sec(title, body) { return '<section class="cr-sec"><h2 class="sec-h">' + esc(title) + '</h2>' + body + '</section>'; }
+  var h = '<div class="eyebrow">' + tr('cr_eyebrow') + '</div><h1 class="page-h">' + tr('cr_h') + '</h1>';
+  h += '<p class="lede">' + tr('cr_lede', { app: esc(C.appName) }) + '</p><div class="narrow">';
+  h += '<div class="cr-hero"><b>' + esc(C.appName) + '</b><span class="cr-tag">' + esc(C.channel) + '</span></div>';
+  if (C.people.length) {
+    h += sec(tr('cr_made_h'), '<ul class="cr-list">' + C.people.map(function (p) {
+      return '<li><b>' + esc(p.name) + '</b><span class="muted">' + esc((vi ? p.role_vi : p.role_en) || p.role_en || p.role_vi || '') + '</span></li>';
+    }).join('') + '</ul>');
+  }
+  if (C.thanks.length) {
+    h += sec(tr('cr_thanks_h'), '<ul class="cr-list">' + C.thanks.map(function (p) {
+      return '<li><b>' + esc(p.name) + '</b><span class="muted">' + esc((vi ? p.note_vi : p.note_en) || p.note_en || p.note_vi || '') + '</span></li>';
+    }).join('') + '</ul>');
+  }
+  h += sec(tr('cr_built_h'), '<p>' + tr('cr_built_p') + '</p>');
+  h += sec(tr('cr_fonts_h'), '<ul class="cr-list">' + C.fonts.map(function (f) {
+    return '<li>' + link(f) + '<span class="muted">' + esc(f.by) + ' · ' + tr('cr_use_' + f.use) + '</span></li>';
+  }).join('') + '</ul><p class="muted cr-note">' + tr('cr_fonts_note') + '</p>');
+  h += sec(tr('cr_ai_h'), '<p>' + tr('cr_ai_p') + '</p><ul class="cr-list">' + C.tools.map(function (t) {
+    return '<li>' + link(t) + '<span class="muted">' + esc(t.by) + '</span></li>';
+  }).join('') + '</ul>');
+  h += sec(tr('cr_you_h'), '<p>' + tr('cr_you_p') + '</p>');
+  h += '<p class="foot">' + tr('cr_foot') + '</p></div>';
+  return h;
+}
 function teacherHTML() {
     var prompt = $('#promptText').textContent.trim();
     var encodedPrompt = encodeURIComponent(prompt);
@@ -5691,6 +5753,32 @@ document.addEventListener('click', function (e) {
     });
     return { mount: mount, openText: openText };
   })();
+
+  /* ---------- credits page strings ---------- */
+  Object.assign(I18N.en, {
+    nav_credits: 'Credits',
+    cr_eyebrow: 'About', cr_h: 'Credits & acknowledgements',
+    cr_lede: '{app} is a small, offline-first revision app. Here is who and what made it possible.',
+    cr_made_h: 'Made by', cr_thanks_h: 'Special thanks',
+    cr_built_h: 'Built with', cr_built_p: 'A single HTML file written in plain HTML, CSS and JavaScript. There are no third-party scripts, no tracking and no account: your progress and packs stay on this device.',
+    cr_fonts_h: 'Typefaces', cr_fonts_note: 'All three fonts are open source under the SIL Open Font License and are served by Google Fonts.',
+    cr_use_ui: 'interface', cr_use_serif: 'reading text', cr_use_mono: 'labels and code',
+    cr_ai_h: 'AI tools', cr_ai_p: 'Study packs can be generated with these assistants from the prompt on the “Make a pack” page. They are optional and not affiliated with this app.',
+    cr_you_h: 'You', cr_you_p: 'Thank you to the teachers whose material fills the packs, and to everyone who tested early builds and reported bugs.\nBig thanks to: Cô Minh Hóa, Lương Thái Sơn (Haptic feedback test), Nguyễn Minh Quang, Nguyễn Hoàng Thu Trang (Haptic feedback test), Nguyễn Nam Khánh (Low-end device test)',
+    cr_foot: 'All product names, logos and trademarks belong to their respective owners.'
+  });
+  Object.assign(I18N.vi, {
+    nav_credits: 'Ghi công',
+    cr_eyebrow: 'Giới thiệu', cr_h: 'Ghi công & lời cảm ơn',
+    cr_lede: '{app} là một ứng dụng ôn tập nhỏ, chạy ngoại tuyến. Dưới đây là những người và công cụ đã giúp ứng dụng ra đời.',
+    cr_made_h: 'Thực hiện bởi', cr_thanks_h: 'Lời cảm ơn đặc biệt',
+    cr_built_h: 'Được xây dựng bằng', cr_built_p: 'Một tệp HTML duy nhất, viết bằng HTML, CSS và JavaScript thuần. Không có script bên thứ ba, không theo dõi, không cần tài khoản: tiến độ và bộ ôn tập được lưu ngay trên thiết bị này.',
+    cr_fonts_h: 'Phông chữ', cr_fonts_note: 'Cả ba phông đều là mã nguồn mở theo giấy phép SIL Open Font License và được cung cấp qua Google Fonts.',
+    cr_use_ui: 'giao diện', cr_use_serif: 'văn bản đọc', cr_use_mono: 'nhãn và mã',
+    cr_ai_h: 'Công cụ AI', cr_ai_p: 'Bạn có thể tạo bộ ôn tập bằng các trợ lý này từ lời nhắc ở trang “Tạo bộ ôn tập”. Chúng là tùy chọn và không liên kết với ứng dụng này.',
+    cr_you_h: 'Bạn', cr_you_p: 'Cảm ơn các thầy cô có tài liệu làm nên các bộ ôn tập.\nCảm ơn sâu sắc đến với những người tham gia thử nghiệm beta: Cô Minh Hóa, Lương Thái Sơn (Haptic feedback test), Nguyễn Minh Quang, Nguyễn Hoàng Thu Trang (Haptic feedback test), Nguyễn Nam Khánh (Low-end device test)',
+    cr_foot: 'Mọi tên sản phẩm, logo và nhãn hiệu thuộc về chủ sở hữu tương ứng.'
+  });
 
   /* ---------- custom themes: colour tokens only ----------
      A theme is 12 hex colours + a name + a light/dark base. It is never turned into CSS text:
