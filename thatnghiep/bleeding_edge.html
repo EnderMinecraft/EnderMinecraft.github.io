@@ -1,4 +1,134 @@
-<!doctype html><html><head><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <meta name="apple-mobile-web-app-title" content="Sloppy Slop (Canary)"><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22Sloppy%20Slop%22%2C%22short_name%22%3A%22SloppySlopCanary%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230C1222%22%2C%22theme_color%22%3A%22%230C1222%22%7D"><link rel="icon" href="favicon-canary.png" type="image/png"><link rel="apple-touch-icon" href="favicon-canary.png"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; manifest-src data:; worker-src 'self'; base-uri 'none'; form-action 'none'"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <meta name="apple-mobile-web-app-title" content="Sloppy Slop (Canary)"><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22Sloppy%20Slop%22%2C%22short_name%22%3A%22SloppySlopCanary%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230C1222%22%2C%22theme_color%22%3A%22%230C1222%22%7D"><link rel="icon" href="favicon-canary.png" type="image/png"><link rel="apple-touch-icon" href="favicon-canary.png"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}
+/* ---------- pack editor (merged from editor.html). Every class is prefixed ed- so nothing collides with the app's .card/.bar/.seg/.opt. ---------- */
+.ed { display: grid; gap: 14px; min-width: 0; }
+.ed-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.ed-bar .ed-sp { flex: 1; }
+.ed-h { font-size: clamp(22px, 3.2vw, 30px); margin: 0 6px 0 0; }
+.ed-chip { font: 500 12px var(--font-mono); padding: 3px 10px; border-radius: 999px; background: var(--mark); color: var(--ink); visibility: hidden; }
+.ed-chip.on { visibility: visible; }
+.ed-warnchip { border: 1px solid var(--warn); color: var(--warn); background: var(--warn-bg); border-radius: 999px; padding: 3px 12px; font-size: 12px; font-weight: 600; }
+.ed-modes, .ed-tabs { display: flex; flex-wrap: wrap; gap: 4px; }
+.ed-pill { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 6px 14px; font-weight: 600; font-size: 13px; }
+.ed-pill:hover { border-color: var(--accent); }
+.ed-pill.on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.ed-cnt { opacity: 0.75; margin-left: 6px; font: 500 11px var(--font-mono); }
+.ed-bar2 { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin: 12px 0 10px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+.ed-main { display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: 20px; align-items: start; }
+.ed-side { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; position: sticky; top: calc(76px + env(safe-area-inset-top, 0px)); max-height: calc(100vh - 96px); overflow: auto; }
+.ed-box { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; min-width: 0; }
+.ed-box > h2 { font-size: 16px; margin-bottom: 8px; }
+.ed input[type=text], .ed input[type=search], .ed input[type=number], .ed textarea, .ed select { width: 100%; padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); font: 14px/1.45 var(--font-ui); }
+.ed textarea { resize: vertical; display: block; }
+.ed textarea.ag { resize: none; overflow: hidden; min-height: 36px; }
+.ed input[type=radio] { width: auto; accent-color: var(--accent); }
+.ed-field { display: grid; grid-template-columns: 78px minmax(0, 1fr); gap: 6px; align-items: start; margin: 6px 0; color: var(--muted); font-size: 13px; }
+.ed-field.col { grid-template-columns: minmax(0, 1fr); }
+.ed-fv { display: grid; gap: 4px; min-width: 0; }
+.ed-mut { color: var(--muted); font-size: 13px; }
+.ed-row { display: flex; gap: 8px; align-items: center; margin: 8px 0; }
+.ed-row > .g { flex: 1; min-width: 0; }
+.ed-row > label { color: var(--muted); font-size: 13px; display: grid; gap: 4px; }
+.ed-row > label.g { flex: 1; }
+.ed-seg { white-space: nowrap; }
+.ed-radio { margin-right: 10px; color: var(--ink); }
+.ed-list { list-style: none; margin: 8px 0; padding: 0; max-height: 46vh; overflow: auto; }
+.ed-item { display: flex; align-items: center; gap: 2px; min-width: 0; border-radius: 8px; border: 1px solid transparent; }
+.ed-item:hover { background: var(--soft); }
+.ed-item.sel { background: var(--soft); border-color: var(--accent); }
+.ed-main-btn, .ed-item .ed-main { flex: 1; min-width: 0; text-align: left; border: 0; background: none; padding: 7px 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--ink); }
+.ed-hd { border: 0; background: none; color: var(--muted); cursor: grab; padding: 4px 6px; }
+.ed-x { border: 0; background: none; color: var(--bad); padding: 4px 8px; opacity: 0; font-size: 18px; line-height: 1; }
+.ed-item:hover .ed-x, .ed-item:focus-within .ed-x, .ed-card:hover > summary .ed-x, .ed-card:focus-within > summary .ed-x, .ed-x:focus-visible, .fx:hover .ed-x, .fx:focus-within .ed-x, .ed-x.on { opacity: 1; }
+@media (hover: none) { .ed-x { opacity: 1; } }
+.ed .dragging { opacity: 0.4; }
+.ed .over { box-shadow: 0 -3px 0 var(--accent); }
+.ed-wn { color: var(--warn); }
+.ed-item .ed-wn { padding: 0 4px; cursor: help; }
+.ed-alert { border: 1px solid var(--warn); background: var(--warn-bg); border-radius: 8px; padding: 8px 12px; margin: 8px 0; font-size: 13px; display: grid; gap: 2px; }
+.ed-empty { border: 1px dashed var(--line); border-radius: 12px; padding: 22px; text-align: center; color: var(--muted); background: var(--surface); }
+.ed-empty b { display: block; color: var(--ink); font-size: 17px; margin-bottom: 2px; }
+.ed-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; margin: 0 0 8px; }
+details.ed-card > .ed-in { padding: 4px 14px 12px; }
+.ed-card.pad { padding: 12px 14px; }
+.ed-card summary { list-style: none; display: flex; align-items: center; gap: 6px; padding: 6px 8px; cursor: pointer; }
+.ed-card summary::-webkit-details-marker { display: none; }
+.ed-card summary::before { content: "\25B8"; color: var(--muted); transition: transform 0.15s; }
+.ed-card[open] > summary::before { transform: rotate(90deg); }
+.ed-card summary .ed-t { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600; }
+.ed-split { display: grid; grid-template-columns: 270px minmax(0, 1fr); gap: 16px; align-items: start; }
+.ed-grid3 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: 6px; align-items: start; }
+.ed-dt { font-weight: 700; font-size: 16px; margin-top: 8px; }
+.ed-pq { font: 17px/1.4 var(--font-read); margin: 4px 0 8px; }
+.ed-opts { display: grid; gap: 6px; margin: 8px 0; }
+.ed-opts.hz { grid-template-columns: 1fr 1fr; }
+.ed-opt { text-align: left; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 10px; padding: 10px 12px; }
+.ed-opt:hover { border-color: var(--accent); }
+.ed-opt.ok { border-color: var(--good); background: var(--good-bg); }
+.ed-opt.bad { border-color: var(--bad); background: var(--bad-bg); }
+.ed-fcs { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+.ed-fc { min-height: 110px; font: 600 16px var(--font-ui); text-align: center; padding: 14px; white-space: normal; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); }
+.ed-fc.back { background: var(--soft); border-color: var(--accent); }
+#edErr { color: var(--bad); margin: 6px 0; min-height: 20px; }
+#edJson { min-height: 62vh; font: 13px/1.5 var(--font-mono); resize: vertical; }
+.ed-dropping { outline: 3px dashed var(--accent); outline-offset: 6px; border-radius: 14px; }
+.ed-toast { position: fixed; left: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--bg); padding: 10px 14px; border-radius: 10px; opacity: 0; transition: opacity 0.2s; pointer-events: none; max-width: 92vw; z-index: 90; display: flex; gap: 12px; align-items: center; }
+.ed-toast.show { opacity: 1; }
+.ed-toast button { background: none; color: inherit; border: 1px solid currentColor; border-radius: 6px; padding: 2px 8px; }
+@media (max-width: 860px) {
+  .ed-main, .ed-split { grid-template-columns: minmax(0, 1fr); }
+  .ed-side { position: static; max-height: none; }
+  .ed-field { grid-template-columns: minmax(0, 1fr); }
+}
+@media (pointer: coarse) { .ed input[type=text], .ed input[type=search], .ed input[type=number], .ed textarea, .ed select { font-size: 16px; } }
+
+/* ---------- custom theme page (th-*) ---------- */
+.th-active { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; justify-content: space-between; margin: 16px 0; padding: 12px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+.th-msg { margin: 0 0 12px; padding: 10px 14px; border-radius: 10px; background: var(--good-bg); color: var(--ink); border: 1px solid var(--good); }
+.th-msg.bad { background: var(--bad-bg); border-color: var(--bad); }
+.th-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+.th-col { display: grid; gap: 14px; min-width: 0; }
+.th-sticky { position: sticky; top: calc(76px + env(safe-area-inset-top, 0px)); }
+.th-box { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; min-width: 0; }
+.th-box > h2 { font-size: 16px; margin-bottom: 10px; }
+.th-f { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 8px; align-items: center; margin-bottom: 10px; color: var(--muted); font-size: 13px; }
+.th-f.col { grid-template-columns: minmax(0, 1fr); }
+.th-box input[type=text], .th-paste { width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); font: 14px/1.4 var(--font-ui); }
+.th-paste { font: 12.5px/1.5 var(--font-mono); resize: vertical; }
+.th-box input.bad { border-color: var(--bad); }
+.th-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.th-pills { display: flex; gap: 6px; }
+.th-pill { border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 999px; padding: 6px 14px; font-weight: 600; font-size: 13px; }
+.th-pill.on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.th-crow { display: grid; grid-template-columns: minmax(0, 1fr) 44px 96px; gap: 10px; align-items: center; margin-bottom: 8px; }
+.th-cl { font-size: 14px; }
+.th-crow input[type=color] { width: 44px; height: 34px; padding: 2px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); cursor: pointer; }
+.th-crow input[type=text] { font: 13px var(--font-mono); text-transform: uppercase; }
+.th-bad-note { color: var(--bad); font-weight: 600; margin: 0; }
+.th-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.th-table td { padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.th-num { font-family: var(--font-mono); white-space: nowrap; }
+.th-ok { color: var(--good); font-weight: 600; white-space: nowrap; }
+.th-no { color: var(--bad); font-weight: 700; white-space: nowrap; }
+.th-sw { display: inline-grid; place-items: center; width: 34px; height: 26px; border-radius: 6px; border: 1px solid var(--line); font-weight: 700; }
+.th-rescue { margin-top: 20px; font-size: 13px; }
+/* preview: the tokens are painted onto .th-pv itself, so these rules read the draft colours, not the live theme */
+.th-pv { background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 12px; padding: 16px; font-family: var(--font-ui); }
+.th-pv-in { display: grid; gap: 10px; }
+.th-pv h3 { font-size: 18px; color: var(--ink); }
+.th-pv-read { font: 15px/1.5 var(--font-read); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; color: var(--ink); }
+.th-pv mark { background: linear-gradient(to top, var(--mark) 0 48%, transparent 48%); color: inherit; }
+.th-pv-muted { color: var(--muted); font-size: 13px; }
+.th-pv-nav { background: var(--ink); color: var(--bg); border-radius: 8px; padding: 8px 12px; font-weight: 600; }
+.th-pv-btns { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.th-pv-btn { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 9px; padding: 8px 14px; font-weight: 600; }
+.th-pv-btn.pri { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.th-pv-chip { background: var(--soft); color: var(--ink); border-radius: 999px; padding: 4px 12px; font-weight: 600; }
+.th-pv-fb { border: 1px solid; border-radius: 10px; padding: 8px 12px; font-weight: 600; }
+.th-pv-fb.ok { color: var(--good); background: var(--good-bg); border-color: var(--good); }
+.th-pv-fb.bad { color: var(--bad); background: var(--bad-bg); border-color: var(--bad); }
+.th-pv-fb.warn { color: var(--warn); background: var(--warn-bg); border-color: var(--warn); }
+@media (max-width: 860px) { .th-grid { grid-template-columns: minmax(0, 1fr); } .th-sticky { position: static; } .th-f { grid-template-columns: minmax(0, 1fr); } }
+</style></head><body>
 <title>Sloppy Slop (Canary)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
@@ -965,7 +1095,7 @@ html, body { max-width: 100%; overflow-x: clip; }
 }
 .c-select-item.selected {
   background: var(--accent);
-  color: #fff;
+  color: var(--accent-ink);
   font-weight: 600;
 }
 @media (hover: none) {
@@ -2616,6 +2746,8 @@ function go(where, id, mode) {
     if (where === 'overview' && S.view === 'overview') return;
     if (where === 'load' && S.view === 'load') return;
     if (where === 'exam' && S.view === 'exam') return;
+    if (where === 'edit' && S.view === 'edit') return;
+    if (where === 'themes' && S.view === 'themes') return;
     if (where === 'teacher' && S.view === 'teacher') return;
     if (where === 'topic' && S.view === 'study' && S.scope === id) return;
     if (where === 'all' && S.view === 'study' && S.scope === 'all') return;
@@ -2662,6 +2794,8 @@ function render() {
     if (S.view === 'overview') main = overviewHTML();
     else if (S.view === 'study') main = studyHTML();
     else if (S.view === 'exam') main = renderExam();
+    else if (S.view === 'edit') main = '<div id="edHost"></div>';
+    else if (S.view === 'themes') main = '<div id="thHost"></div>';
     else if (S.view === 'load') main = loadHTML();
     else main = teacherHTML();
     
@@ -2671,6 +2805,8 @@ function render() {
     S.animateMain = false; // Reset flag
 
     $('#app').innerHTML = '<div class="shell' + (S.railOff ? ' rail-off' : '') + (S.view === 'exam' && S.exam && S.exam.step === 'doing' ? ' exam-focus' : '') + (S.drawerOpen ? ' drawer-open' : '') + '">' + navHTML() + '<div class="scrim" data-act="closeDrawer"></div><main class="' + mainClass + '" id="main">' + main + '</main></div>';
+    if (S.view === 'edit') EDITOR.mount($('#edHost'));
+    if (S.view === 'themes') THEMER.mount($('#thHost'));
     updateDebugInfo();
     syncRailAria();
   }
@@ -2688,6 +2824,8 @@ function render() {
     });
     h += '</div><p class="rail-h">' + tr('nav_files') + '</p><div class="rail-list">';
     h += '<button class="nav-i' + (S.view === 'load' ? ' cur' : '') + '" data-go="load"><span>' + tr('nav_open') + '</span></button>';
+    h += '<button class="nav-i' + (S.view === 'edit' ? ' cur' : '') + '" data-go="edit"><span>' + tr('nav_edit') + '</span></button>';
+    h += '<button class="nav-i' + (S.view === 'themes' ? ' cur' : '') + '" data-go="themes"><span>' + tr('nav_theme') + '</span></button>';
     h += '<button class="nav-i' + (S.view === 'teacher' ? ' cur' : '') + '" data-go="teacher"><span>' + tr('nav_make') + '</span></button>';
     h += '</div></nav>';
     return h;
@@ -2792,7 +2930,7 @@ function overviewHTML() {
     h += '<div class="actions">';
     if (tt.qs) h += '<button class="btn primary" data-go="all" data-mode="quiz">' + tr('btn_quiz_all') + '</button>';
     if (tt.cards) h += '<button class="btn" data-go="all" data-mode="cards">' + tr('btn_cards_all') + '</button>';
-    h += '<button class="btn" data-act="focus">' + tr('btn_focus') + '</button></div></div></section>';
+    h += '<button class="btn" data-act="focus">' + tr('btn_focus') + '</button><button class="btn" data-go="edit">' + tr('btn_edit') + '</button></div></div></section>';
     h += '<h2 class="sec-h">' + tr('nav_topics') + '</h2><div class="tlist">';
     P.topics.forEach(function (t) {
       var st = topicStats(t), read = !!S.prog.notes[t.id];
@@ -2986,8 +3124,8 @@ function examPromptHTML(item) {
 
 function renderExamQuestionInput(item, idx) {
   var q = item.q, a = item.userAnswer, h = '', i;
-  var sel = function (on) { return on ? 'background: var(--accent); color: #fff; border-color: var(--accent);' : 'background: var(--surface); color: var(--ink); border-color: var(--line);'; };
-  var badge = function (on) { return on ? 'background: rgba(255,255,255,0.2); color: #fff;' : 'background: var(--bg); color: var(--muted);'; };
+  var sel = function (on) { return on ? 'background: var(--accent); color: var(--accent-ink); border-color: var(--accent);' : 'background: var(--surface); color: var(--ink); border-color: var(--line);'; };
+  var badge = function (on) { return on ? 'background: color-mix(in srgb, var(--accent-ink) 22%, transparent); color: var(--accent-ink);' : 'background: var(--bg); color: var(--muted);'; };
   if (q.type === 'mcq') {
     for (i = 0; i < q.options.length; i++) {
       var on = a === i, letter = ['A', 'B', 'C', 'D', 'E', 'F'][i] || String(i + 1);
@@ -3175,7 +3313,7 @@ function renderExam() {
     const isConfirming = S.exam.confirmingSubmit;
     const submitBtnText = isConfirming ? `${tr('examConfirmSubmit')}` : `${tr('examSubmitBtn')}`;
     const submitBtnStyle = isConfirming
-      ? 'width: 100%; padding: 12px; font-weight: 600; background: var(--bad); border-color: var(--bad); color: #fff;'
+      ? 'width: 100%; padding: 12px; font-weight: 600; background: var(--bad); border-color: var(--bad); color: var(--bg);'
       : 'width: 100%; padding: 12px; font-weight: 600;';
 
     html += `
@@ -3191,7 +3329,7 @@ function renderExam() {
           <div>
             <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px;">
               <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent); font-weight: 700;">${esc(currentQ.ttitle || '')} · ${esc(tr('qt_' + currentQ.q.type))}</div>
-              <button class="btn sm" data-act="examToggleFlag" style="background: ${currentQ.flagged ? 'var(--warn)' : 'var(--surface)'}; border-color: ${currentQ.flagged ? 'var(--warn)' : 'var(--line)'}; color: ${currentQ.flagged ? '#fff' : 'var(--ink)'};">
+              <button class="btn sm" data-act="examToggleFlag" style="background: ${currentQ.flagged ? 'var(--warn)' : 'var(--surface)'}; border-color: ${currentQ.flagged ? 'var(--warn)' : 'var(--line)'}; color: ${currentQ.flagged ? 'var(--bg)' : 'var(--ink)'};">
                 🚩 ${currentQ.flagged ? tr('flagged') : tr('flag')}
               </button>
             </div>
@@ -4018,7 +4156,7 @@ h += '<a class="ai-btn" href="' + urls.claude + '" target="_blank" rel="noopener
     recents = recents.filter(function (p) { return p.title !== title; });
     recents.unshift({ id: id, title: title, text: text, updatedAt: Date.now() });
     // Giới hạn tối đa 5 tệp gần nhất
-    if (recents.length > 5) recents = recents.slice(0, 5);
+    if (recents.length > 15) recents = recents.slice(0, 15);
     store.set('sp:recent_packs', JSON.stringify(recents));
   }
   function renameRecentPack(id) {
@@ -4048,14 +4186,7 @@ h += '<a class="ai-btn" href="' + urls.claude + '" target="_blank" rel="noopener
   function editRecentPack(id) {
     var recents = getRecentPacks();
     var pack = recents.filter(function (p) { return p.id === id; })[0];
-    if (pack) {
-      var ta = $('#pasteIn');
-      if (ta) {
-        ta.value = pack.text;
-        ta.scrollIntoView({ behavior: 'smooth' });
-        flash(ta, tr('recent_loaded'));
-      }
-    }
+    if (pack && EDITOR.openText(pack.text, pack.title + '.studypack.json')) go('edit');
   }
   /* ---------- events ---------- */
   function flash(btn, text) {
@@ -4670,8 +4801,9 @@ var root = document.documentElement;
     }
   }
 
-  function setThemeMode(mode) {
+  function setThemeMode(mode, keepCustom) {
     if (mode !== 'light' && mode !== 'dark' && mode !== 'system') return;
+    if (!keepCustom) THEMER.clear();   // picking a built-in mode always leaves any custom theme
     
     var oldDark = isDark();
     store.set('sp:theme', mode);
@@ -4871,10 +5003,940 @@ document.addEventListener('click', function (e) {
   /* stop the background animations while the page is hidden */
   document.addEventListener('visibilitychange', function () { var sk = $('#sky'); if (sk) sk.classList.toggle('paused', document.hidden); });
 
+  /* ---------- pack editor (merged from editor.html) ----------
+     Works on the raw study-pack JSON (key_terms / flashcards), not on the normalised S.pack.
+     "Apply to revision" runs the same spNormalise() the file loader uses, so what you edit is what students get. */
+  Object.assign(I18N.en, {
+    nav_edit: 'Edit pack', btn_edit: 'Edit this pack',
+    ed_title: 'Pack editor', ed_new: 'New', ed_open: 'Open JSON', ed_save: 'Save JSON', ed_copy: 'Copy JSON',
+    ed_apply: 'Apply to revision', ed_fromcur: 'Reload from current pack', ed_unsaved: '● Unsaved',
+    ed_mode_gui: 'Form', ed_mode_text: 'JSON text',
+    ed_details: 'Pack details', ed_f_id: 'Pack ID', ed_f_title: 'Title', ed_f_subject: 'Subject', ed_f_level: 'Level', ed_f_lang: 'Language',
+    ed_id_hint: 'Optional. Keeps students’ progress when the pack is renamed.',
+    ed_topics: 'Topics', ed_search_topics: 'Search topics', ed_no_topic_match: 'No topic matches.', ed_no_topics: 'No topics yet.',
+    ed_add_topic: '+', ed_topic_deleted: 'Topic deleted', ed_undo: 'Undo', ed_reorder: 'Reorder: drag, or Alt+Up/Down arrow', ed_delete: 'Delete',
+    ed_pick_topic: 'Pick a topic', ed_pick_topic_s: 'Choose one from the list to edit it.',
+    ed_start: 'Start your study pack', ed_start_s: 'Add a topic in the sidebar, or open an existing JSON file.',
+    ed_t_notes: 'Notes', ed_t_terms: 'Key terms', ed_t_cards: 'Flashcards', ed_t_questions: 'Questions',
+    ed_v_edit: 'Edit', ed_v_preview: 'Preview', ed_f_topic_id: 'ID', ed_f_summary: 'Summary',
+    ed_add_section: 'Add section', ed_add_term: 'Add term', ed_add_card: 'Add flashcard',
+    ed_items_n: ['{n} item', '{n} items'], ed_collapse: 'Collapse all', ed_nothing: 'Nothing here yet', ed_nothing_s: 'Use the button above to add the first item.', ed_item_deleted: 'Item deleted',
+    ed_f_heading: 'Heading', ed_points_hint: 'Points — one per line, **bold** supported', ed_f_term: 'Term', ed_f_def: 'Definition', ed_f_front: 'Front', ed_f_back: 'Back',
+    ed_d_section: 'New Section', ed_d_point: 'Point about **term**.', ed_d_term: 'New Term', ed_d_def: 'Definition here.', ed_d_front: 'Question?', ed_d_back: 'Answer.',
+    ed_d_qprompt: 'New question prompt?', ed_d_expl: 'Explanation.', ed_d_opt: 'Option {k}', ed_d_model: 'Model answer', ed_d_ans: 'answer1', ed_d_quote: 'Quote text.', ed_d_stmt: 'Statement {n}',
+    ed_search_q: 'Search questions', ed_no_q_match: 'No match.', ed_no_q: 'No questions yet.', ed_add: '+', ed_q_type: 'Question type',
+    ed_pick_q: 'Pick a question', ed_pick_q_s: 'Select one on the left, or add a new one.', ed_q_n: 'Question {n} · {t}', ed_q_deleted: 'Question deleted',
+    ed_f_prompt: 'Prompt', ed_f_context: 'Context', ed_f_source: 'Source', ed_opts_hint: 'Options — select the correct one', ed_add_opt: '+ Option', ed_rm_opt: 'Remove option', ed_correct: 'Correct answer {k}',
+    ed_f_answer: 'Answer', ed_f_model: 'Model answer', ed_f_answers: 'Answers (comma-separated alternatives for the one blank)', ed_left: 'Left', ed_right: 'Right', ed_add_pair: '+ Pair', ed_rm_pair: 'Remove pair',
+    ed_f_quote: 'Quote', ed_stmts: 'Statements', ed_add_stmt: '+ Statement', ed_rm_stmt: 'Remove statement', ed_f_expl: 'Explanation', ed_unsupported: 'Unsupported type “{type}” — use the JSON view to edit its other fields.',
+    ed_t: 'T', ed_f: 'F', ed_show_ans: 'Show answer', ed_flip: 'Flip card', ed_pv_none: 'Nothing to preview yet.',
+    ed_w_prompt: 'Prompt is empty.', ed_w_type_missing: 'Missing "type" (shown as mcq here).', ed_w_type_unknown: 'Unknown type "{type}".',
+    ed_w_opts2: 'Needs at least 2 options.', ed_w_opts_empty: '{n} empty option(s).', ed_w_opts_typ: '{n} options (4 is typical).',
+    ed_w_ans_int: '"answer" must be a whole number (got {got}).', ed_w_ans_range: '"answer" {a} is outside the options.', ed_w_ans_bool: '"answer" must be true or false (got {got}).',
+    ed_w_model: 'Model answer is empty or missing.', ed_w_cl_none: 'No answers.', ed_w_cl_empty: 'Some answers are empty.', ed_w_cl_blank: 'Prompt needs exactly one blank (____).',
+    ed_w_pairs2: 'Needs at least 2 pairs.', ed_w_pair_empty: 'A pair has an empty side.', ed_w_pair_dup: 'Duplicate side: {d}.', ed_w_pairs_typ: '{n} pairs (4 is typical).',
+    ed_w_quote: 'Quote is empty.', ed_w_stmts4: 'Needs 4 statements (the revision app skips the question otherwise).', ed_w_stmt_text: 'A statement has no text.', ed_w_stmt_bool: 'Every statement needs a true/false answer.', ed_w_stmts_over: 'More than 4 statements: only the first 4 are used.',
+    ed_w_expl: 'No explanation.', ed_w_tid_missing: 'Missing "id".', ed_w_tid_dup: 'Duplicate id "{id}".', ed_w_ttitle: 'Missing "title" (the topic would be skipped).', ed_w_tq: '{n} question(s) with problems.',
+    ed_issues: ['⚠ {n} issue', '⚠ {n} issues'], ed_issue_jump: 'Jump to the next issue', ed_issue_toast: 'Issue {i}/{n}: {m}',
+    ed_json_line: 'Line {l}, column {c}: ', ed_must_obj: 'A study pack must be a JSON object.', ed_commit: 'Update from text', ed_committed: 'Text applied to the form',
+    ed_r_topics: '{n} invalid topic(s) skipped', ed_r_items: '{n} invalid item(s) skipped', ed_r_fields: '{n} malformed field(s) reset', ed_r_pre: 'Repaired on load: ',
+    ed_saved: 'Download started', ed_copied: 'JSON copied to clipboard', ed_clip_blocked: 'Clipboard blocked — copy the text manually', ed_loaded: 'Loaded {f}', ed_read_fail: 'Failed to read file.',
+    ed_draft: 'Restored your unsaved draft.', ed_draft_reset: 'Start over', ed_discard: 'Discard unsaved changes?', ed_from_cur_done: 'Reloaded from the current revision pack',
+    ed_apply_err: 'Cannot apply:', ed_drop: 'Drop a .json file to open it', ed_display_fail: 'Could not display this file: {m}'
+  });
+  Object.assign(I18N.vi, {
+    nav_edit: 'Chỉnh sửa bộ ôn tập', btn_edit: 'Chỉnh sửa bộ này',
+    ed_title: 'Trình chỉnh sửa', ed_new: 'Mới', ed_open: 'Mở JSON', ed_save: 'Lưu JSON', ed_copy: 'Sao chép JSON',
+    ed_apply: 'Áp dụng vào ôn tập', ed_fromcur: 'Tải lại từ bộ hiện tại', ed_unsaved: '● Chưa lưu',
+    ed_mode_gui: 'Biểu mẫu', ed_mode_text: 'Văn bản JSON',
+    ed_details: 'Thông tin bộ ôn tập', ed_f_id: 'Mã bộ', ed_f_title: 'Tiêu đề', ed_f_subject: 'Môn học', ed_f_level: 'Cấp độ', ed_f_lang: 'Ngôn ngữ',
+    ed_id_hint: 'Không bắt buộc. Giữ tiến độ của học sinh khi đổi tên bộ.',
+    ed_topics: 'Chủ đề', ed_search_topics: 'Tìm chủ đề', ed_no_topic_match: 'Không có chủ đề phù hợp.', ed_no_topics: 'Chưa có chủ đề.',
+    ed_add_topic: '+', ed_topic_deleted: 'Đã xóa chủ đề', ed_undo: 'Hoàn tác', ed_reorder: 'Sắp xếp: kéo thả, hoặc Alt+mũi tên lên/xuống', ed_delete: 'Xóa',
+    ed_pick_topic: 'Chọn một chủ đề', ed_pick_topic_s: 'Chọn chủ đề trong danh sách để sửa.',
+    ed_start: 'Bắt đầu bộ ôn tập', ed_start_s: 'Thêm chủ đề ở thanh bên, hoặc mở một tệp JSON có sẵn.',
+    ed_t_notes: 'Ghi chú', ed_t_terms: 'Thuật ngữ', ed_t_cards: 'Thẻ ghi nhớ', ed_t_questions: 'Câu hỏi',
+    ed_v_edit: 'Sửa', ed_v_preview: 'Xem trước', ed_f_topic_id: 'Mã', ed_f_summary: 'Tóm tắt',
+    ed_add_section: 'Thêm phần', ed_add_term: 'Thêm thuật ngữ', ed_add_card: 'Thêm thẻ',
+    ed_items_n: '{n} mục', ed_collapse: 'Thu gọn tất cả', ed_nothing: 'Chưa có gì', ed_nothing_s: 'Dùng nút phía trên để thêm mục đầu tiên.', ed_item_deleted: 'Đã xóa mục',
+    ed_f_heading: 'Tiêu đề', ed_points_hint: 'Các ý — mỗi dòng một ý, hỗ trợ **in đậm**', ed_f_term: 'Thuật ngữ', ed_f_def: 'Định nghĩa', ed_f_front: 'Mặt trước', ed_f_back: 'Mặt sau',
+    ed_d_section: 'Phần mới', ed_d_point: 'Ý về **thuật ngữ**.', ed_d_term: 'Thuật ngữ mới', ed_d_def: 'Định nghĩa ở đây.', ed_d_front: 'Câu hỏi?', ed_d_back: 'Đáp án.',
+    ed_d_qprompt: 'Nội dung câu hỏi mới?', ed_d_expl: 'Giải thích.', ed_d_opt: 'Lựa chọn {k}', ed_d_model: 'Đáp án mẫu', ed_d_ans: 'đáp án 1', ed_d_quote: 'Nội dung đoạn tư liệu.', ed_d_stmt: 'Ý {n}',
+    ed_search_q: 'Tìm câu hỏi', ed_no_q_match: 'Không khớp.', ed_no_q: 'Chưa có câu hỏi.', ed_add: '+', ed_q_type: 'Loại câu hỏi',
+    ed_pick_q: 'Chọn một câu hỏi', ed_pick_q_s: 'Chọn câu bên trái, hoặc thêm câu mới.', ed_q_n: 'Câu {n} · {t}', ed_q_deleted: 'Đã xóa câu hỏi',
+    ed_f_prompt: 'Nội dung', ed_f_context: 'Ngữ cảnh', ed_f_source: 'Nguồn', ed_opts_hint: 'Các lựa chọn — chọn đáp án đúng', ed_add_opt: '+ Lựa chọn', ed_rm_opt: 'Xóa lựa chọn', ed_correct: 'Đáp án đúng {k}',
+    ed_f_answer: 'Đáp án', ed_f_model: 'Đáp án mẫu', ed_f_answers: 'Đáp án (cách nhau dấu phẩy, là các cách viết chấp nhận cho một chỗ trống)', ed_left: 'Trái', ed_right: 'Phải', ed_add_pair: '+ Cặp', ed_rm_pair: 'Xóa cặp',
+    ed_f_quote: 'Đoạn tư liệu', ed_stmts: 'Các ý', ed_add_stmt: '+ Ý', ed_rm_stmt: 'Xóa ý', ed_f_expl: 'Giải thích', ed_unsupported: 'Loại “{type}” chưa được hỗ trợ — hãy dùng chế độ JSON để sửa các trường khác.',
+    ed_t: 'Đ', ed_f: 'S', ed_show_ans: 'Xem đáp án', ed_flip: 'Lật thẻ', ed_pv_none: 'Chưa có gì để xem trước.',
+    ed_w_prompt: 'Nội dung câu hỏi đang trống.', ed_w_type_missing: 'Thiếu "type" (đang hiển thị như mcq).', ed_w_type_unknown: 'Loại "{type}" không hợp lệ.',
+    ed_w_opts2: 'Cần ít nhất 2 lựa chọn.', ed_w_opts_empty: '{n} lựa chọn đang trống.', ed_w_opts_typ: '{n} lựa chọn (thông thường là 4).',
+    ed_w_ans_int: '"answer" phải là số nguyên (hiện là {got}).', ed_w_ans_range: '"answer" {a} nằm ngoài danh sách lựa chọn.', ed_w_ans_bool: '"answer" phải là true hoặc false (hiện là {got}).',
+    ed_w_model: 'Đáp án mẫu trống hoặc thiếu.', ed_w_cl_none: 'Chưa có đáp án.', ed_w_cl_empty: 'Có đáp án đang trống.', ed_w_cl_blank: 'Nội dung cần đúng một chỗ trống (____).',
+    ed_w_pairs2: 'Cần ít nhất 2 cặp.', ed_w_pair_empty: 'Một cặp có vế trống.', ed_w_pair_dup: 'Trùng vế: {d}.', ed_w_pairs_typ: '{n} cặp (thông thường là 4).',
+    ed_w_quote: 'Đoạn tư liệu đang trống.', ed_w_stmts4: 'Cần 4 ý (nếu không, trang ôn tập sẽ bỏ qua câu này).', ed_w_stmt_text: 'Một ý chưa có nội dung.', ed_w_stmt_bool: 'Mỗi ý cần có đáp án đúng/sai.', ed_w_stmts_over: 'Nhiều hơn 4 ý: chỉ dùng 4 ý đầu.',
+    ed_w_expl: 'Chưa có giải thích.', ed_w_tid_missing: 'Thiếu "id".', ed_w_tid_dup: 'Trùng id "{id}".', ed_w_ttitle: 'Thiếu "title" (chủ đề sẽ bị bỏ qua).', ed_w_tq: '{n} câu hỏi có vấn đề.',
+    ed_issues: '⚠ {n} vấn đề', ed_issue_jump: 'Chuyển đến vấn đề tiếp theo', ed_issue_toast: 'Vấn đề {i}/{n}: {m}',
+    ed_json_line: 'Dòng {l}, cột {c}: ', ed_must_obj: 'Bộ ôn tập phải là một đối tượng JSON.', ed_commit: 'Cập nhật từ văn bản', ed_committed: 'Đã áp dụng văn bản vào biểu mẫu',
+    ed_r_topics: 'bỏ qua {n} chủ đề không hợp lệ', ed_r_items: 'bỏ qua {n} mục không hợp lệ', ed_r_fields: 'đặt lại {n} trường sai định dạng', ed_r_pre: 'Đã sửa khi tải: ',
+    ed_saved: 'Đã bắt đầu tải xuống', ed_copied: 'Đã sao chép JSON', ed_clip_blocked: 'Không truy cập được clipboard — hãy sao chép thủ công', ed_loaded: 'Đã tải {f}', ed_read_fail: 'Không đọc được tệp.',
+    ed_draft: 'Đã khôi phục bản nháp chưa lưu của bạn.', ed_draft_reset: 'Làm lại', ed_discard: 'Bỏ các thay đổi chưa lưu?', ed_from_cur_done: 'Đã tải lại từ bộ ôn tập hiện tại',
+    ed_apply_err: 'Không thể áp dụng:', ed_drop: 'Thả tệp .json vào đây để mở', ed_display_fail: 'Không hiển thị được tệp này: {m}'
+  });
+
+  var EDITOR = (function () {
+    var T = function (k, v) { return tr('ed_' + k, v); };
+    var TYPES = ['mcq', 'truefalse', 'short', 'cloze', 'match', 'tfs'];
+    var DRAFT = 'sp:editdraft';
+    var data = null, fileName = null, dirty = false, mode = 'gui', tab = 'notes', view = 'edit';
+    var selT = null, selQ = null, textDirty = false, ft = '', fq = '', jumpI = -1, lastFix = '';
+    var host = null, hook = null, fillT = function () {}, fillQ = function () {};
+    var opened = new WeakSet(), drag = null, tmr = null;
+    var q$ = function (s) { return host ? host.querySelector(s) : null; };
+    var str = function (v) { return typeof v === 'string' && v.trim(); };
+    var isT = function (v) { return v === true || v === 'True' || v === 'true'; };
+    var got = function (v) { return v === undefined ? 'nothing' : JSON.stringify(v); };
+    var emptyPack = function () { return { format: 'studypack', version: 1, title: '', subject: '', level: '', language: LANG, topics: [] }; };
+    var tIdx = function () { return selT ? data.topics.indexOf(selT) : -1; };
+    var qIdx = function () { return selT && selQ ? (selT.questions || []).indexOf(selQ) : -1; };
+
+    function h(tag, a) {
+      a = a || {};
+      var e = document.createElement(tag), kids = Array.prototype.slice.call(arguments, 2);
+      Object.keys(a).forEach(function (k) {
+        var v = a[k];
+        if (k === 'class') e.className = v;
+        else if (k.indexOf('on') === 0) e.addEventListener(k.slice(2), v);
+        else if (v !== false && v != null) e.setAttribute(k, v === true ? '' : v);
+      });
+      [].concat.apply([], kids).forEach(function (c) { if (c != null && c !== false) e.append(c.nodeType ? c : document.createTextNode(c)); });
+      return e;
+    }
+    function btn(t, fn, cls, extra) { return h('button', Object.assign({ type: 'button', class: cls || '', onclick: fn }, extra || {}), t); }
+    function empt(a, b) { return h('div', { class: 'ed-empty' }, h('b', {}, a), b || ''); }
+    function toast(m, act) {
+      var s = document.getElementById('edToast');
+      if (!s) { s = h('div', { id: 'edToast', class: 'ed-toast', role: 'status' }); document.body.append(s); }
+      s.replaceChildren(String(m));
+      if (act) s.append(btn(act.label, function () { act.fn(); s.classList.remove('show'); }));
+      s.classList.add('show'); s.style.pointerEvents = act ? 'auto' : 'none';
+      clearTimeout(tmr); tmr = setTimeout(function () { s.classList.remove('show'); }, act ? 7000 : String(m).length > 60 ? 9000 : 3000);
+    }
+    function touch() {
+      dirty = true; updateChip(); if (hook) hook();
+      try { store.set(DRAFT, JSON.stringify({ data: data, fileName: fileName })); } catch (e) { /* storage full */ }
+    }
+    function undoable(fn, msg) {
+      var snap = JSON.stringify(data), t0 = tIdx(), q0 = qIdx();
+      fn(); touch(); render();
+      toast(msg, { label: T('undo'), fn: function () {
+        data = JSON.parse(snap); selT = data.topics[t0] || null; selQ = selT && selT.questions ? (selT.questions[q0] || null) : null; touch(); render();
+      } });
+    }
+    function grow(el) { el.style.height = 'auto'; el.style.height = (el.scrollHeight + 2) + 'px'; }
+    function growAll() { requestAnimationFrame(function () { if (host) host.querySelectorAll('textarea.ag').forEach(grow); }); }
+
+    /* bound text field: auto-growing textarea or number input */
+    function txt(obj, key, o) {
+      o = o || {};
+      var cur = obj[key] != null ? obj[key] : '', el = h('textarea', { class: 'ag', rows: 1 });
+      el.value = Array.isArray(cur) ? cur.join('\n') : String(cur);
+      if (!o.multi) el.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey) e.preventDefault(); });
+      el.addEventListener('input', function () {
+        var v = el.value; grow(el);
+        if (o.opt && !String(v).trim()) delete obj[key]; else obj[key] = v;
+        touch(); if (o.after) o.after();
+      });
+      return el;
+    }
+    function field(l, el, col, hint) { return h('label', { class: 'ed-field' + (col ? ' col' : '') }, h('span', {}, l), h('span', { class: 'ed-fv' }, el, hint ? h('small', { class: 'ed-mut' }, hint) : null)); }
+    function seg(obj, key, tl, fl) {
+      var v = isT(obj[key]), name = 'r' + Math.random().toString(36).slice(2);
+      var mk = function (lab, val) { return h('label', { class: 'ed-radio' }, h('input', { type: 'radio', name: name, checked: v === val, onchange: function () { obj[key] = val; touch(); } }), ' ' + lab); };
+      return h('span', { class: 'ed-seg' }, mk(tl, true), mk(fl, false));
+    }
+
+    /* drag & drop + Alt+Arrow reordering */
+    function sortable(hd, item, arr, i, done, k) {
+      hd.draggable = true; hd.dataset.k = k + i;
+      hd.addEventListener('dragstart', function (e) { drag = { arr: arr, i: i }; e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', 'x'); item.classList.add('dragging'); });
+      hd.addEventListener('dragend', function () { item.classList.remove('dragging'); drag = null; });
+      item.addEventListener('dragover', function (e) { if (drag && drag.arr === arr) { e.preventDefault(); item.classList.add('over'); } });
+      item.addEventListener('dragleave', function () { item.classList.remove('over'); });
+      item.addEventListener('drop', function (e) {
+        item.classList.remove('over'); if (!drag || drag.arr !== arr) return; e.preventDefault(); e.stopPropagation();
+        var m = arr.splice(drag.i, 1)[0]; arr.splice(i, 0, m); drag = null; touch(); done();
+      });
+      hd.addEventListener('keydown', function (e) {
+        var d = !e.altKey ? 0 : e.key === 'ArrowUp' ? -1 : e.key === 'ArrowDown' ? 1 : 0; if (!d) return; e.preventDefault();
+        var j = i + d; if (j < 0 || j >= arr.length) return;
+        var t = arr[i]; arr[i] = arr[j]; arr[j] = t; touch(); done();
+        var n = q$('[data-k="' + k + j + '"]'); if (n) n.focus();
+      });
+    }
+    function handle(off) { return h('button', { type: 'button', class: 'ed-hd', disabled: off, 'aria-label': T('reorder') }, '⠿'); }
+
+    /* ---- file ops ---- */
+    function normalize(d) {
+      var O = function (v) { return v && typeof v === 'object' && !Array.isArray(v); };
+      var dropT = 0, dropI = 0, fixF = 0;
+      var list = function (o, k) {
+        if (o[k] === undefined) return [];
+        if (!Array.isArray(o[k])) { o[k] = []; fixF++; return o[k]; }
+        var n = o[k].length; o[k] = o[k].filter(O); dropI += n - o[k].length; return o[k];
+      };
+      var n0 = d.topics.length; d.topics = d.topics.filter(O); dropT = n0 - d.topics.length;
+      d.topics.forEach(function (t) {
+        ['notes', 'key_terms', 'flashcards'].forEach(function (k) { list(t, k); });
+        list(t, 'questions').forEach(function (qq) {
+          if ('options' in qq && !Array.isArray(qq.options)) { qq.options = []; fixF++; }
+          ['pairs', 'items'].forEach(function (k) {
+            if (k in qq) { if (Array.isArray(qq[k])) { var n = qq[k].length; qq[k] = qq[k].filter(O); dropI += n - qq[k].length; } else { qq[k] = []; fixF++; } }
+          });
+        });
+        (t.notes || []).forEach(function (s) {
+          if (typeof s.points === 'string') s.points = [s.points];
+          else if (s.points !== undefined && !Array.isArray(s.points)) { s.points = []; fixF++; }
+          if (Array.isArray(s.points)) s.points = s.points.map(String);
+        });
+      });
+      var m = [];
+      if (dropT) m.push(T('r_topics', { n: dropT }));
+      if (dropI) m.push(T('r_items', { n: dropI }));
+      if (fixF) m.push(T('r_fields', { n: fixF }));
+      return m.length ? T('r_pre') + m.join(', ') + '.' : '';
+    }
+    function jerr(raw, e) {
+      var ln, col, lc = e.message.match(/line (\d+) column (\d+)/), p = e.message.match(/position (\d+)/);
+      if (lc) { ln = +lc[1]; col = +lc[2]; }
+      else if (p) { var b = raw.slice(0, +p[1]).split('\n'); ln = b.length; col = b[b.length - 1].length + 1; }
+      return { ln: ln, col: col };
+    }
+    function parse(raw, inline) {
+      var p, fail = function (m) { if (inline && q$('#edErr')) q$('#edErr').textContent = m; else toast(m); return null; };
+      try { p = JSON.parse(String(raw).replace(/^﻿/, '')); }
+      catch (e) {
+        var pe = jerr(raw, e);
+        if (pe.ln && inline && q$('#edJson')) {
+          var ta = q$('#edJson'), L = raw.split('\n'), s = 0;
+          for (var i = 0; i < pe.ln - 1; i++) s += L[i].length + 1;
+          ta.focus(); ta.setSelectionRange(s, s + (L[pe.ln - 1] || '').length);
+        }
+        return fail((pe.ln ? T('json_line', { l: pe.ln, c: pe.col }) : '') + e.message);
+      }
+      if (!p || typeof p !== 'object' || Array.isArray(p)) return fail(T('must_obj'));
+      if (!Array.isArray(p.topics)) p.topics = [];
+      lastFix = normalize(p);
+      if (inline && q$('#edErr')) q$('#edErr').textContent = '';
+      return p;
+    }
+    function load(d, name, fix) {
+      var prev = [data, fileName];
+      data = d; fileName = name; dirty = !!fix; selT = null; selQ = null; textDirty = false;
+      try { render(); } catch (e) { data = prev[0]; fileName = prev[1]; dirty = false; render(); toast(T('display_fail', { m: e.message })); return false; }
+      try { store.set(DRAFT, JSON.stringify({ data: data, fileName: fileName })); } catch (e) { /* ignore */ }
+      return true;
+    }
+    function commitText() {
+      if (mode !== 'text' || !textDirty) return true;
+      var p = parse(q$('#edJson').value, true); if (!p) return false;
+      data = p; selT = selQ = null; textDirty = false; touch(); if (lastFix) toast(lastFix); return true;
+    }
+    function slug(s) { return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
+    function save() {
+      if (!commitText()) return;
+      var json = JSON.stringify(data, null, 2), name = fileName || ((slug(data.title) || 'studypack') + '.studypack.json');
+      var a = h('a', { href: URL.createObjectURL(new Blob([json], { type: 'application/json' })), download: name });
+      document.body.append(a); a.click(); a.remove();
+      fileName = name; dirty = false; updateChip(); toast(T('saved'));
+    }
+    function copy() {
+      if (!commitText()) return;
+      var json = JSON.stringify(data, null, 2);
+      var fallback = function () { mode = 'text'; render(); toast(T('clip_blocked')); };
+      try { navigator.clipboard.writeText(json).then(function () { toast(T('copied')); }, fallback); } catch (e) { fallback(); }
+    }
+    function openFile(f) {
+      if (!f) return;
+      var r = new FileReader();
+      r.onload = function () {
+        var p = parse(r.result, false);
+        if (p) { var fx = lastFix; if (load(p, f.name, fx)) toast(T('loaded', { f: f.name }) + (fx ? '. ' + fx : '')); }
+      };
+      r.onerror = function () { toast(T('read_fail')); };
+      r.readAsText(f, 'utf-8');
+    }
+    function okDiscard() { return !dirty || confirm(T('discard')); }
+    function fromPack() {
+      var P = S.pack, o = { format: 'studypack', version: 1 };
+      if (P.id) o.id = P.id;
+      o.title = P.title; o.subject = P.subject || ''; o.level = P.level || ''; o.language = P.language || '';
+      o.topics = P.topics.map(function (t) {
+        return {
+          id: t.id, title: t.title, summary: t.summary || '',
+          notes: t.notes.map(function (n) { return { heading: n.heading, points: n.points.slice() }; }),
+          key_terms: t.terms.map(function (x) { return { term: x.term, definition: x.definition }; }),
+          flashcards: t.cards.map(function (x) { return { front: x.front, back: x.back }; }),
+          questions: JSON.parse(JSON.stringify(t.questions))
+        };
+      });
+      return o;
+    }
+    function reloadFromCurrent() {
+      if (!okDiscard()) return;
+      data = S.pack ? fromPack() : emptyPack(); fileName = null; dirty = false; selT = selQ = null; textDirty = false;
+      store.set(DRAFT, ''); render(); toast(T('from_cur_done'));
+    }
+    function apply() {
+      if (!commitText()) return;
+      var n = spNormalise(JSON.parse(JSON.stringify(data)));
+      if (n.errors.length) { toast(T('apply_err') + ' ' + tr('v_' + n.errors[0].key, n.errors[0].vars)); return; }
+      setPack(n.pack, false);
+      saveRecentPackToStorage(n.pack.title, JSON.stringify(data, null, 2));
+      S.notice = { topics: n.pack.topics.length, files: 0, items: n.warnings.map(function (w) { return { file: '', m: w }; }) };
+      S.loadMsg = null; dirty = false; store.set(DRAFT, '');
+      go('overview');
+    }
+    function setMode(m) {
+      if (m === mode) return;
+      if (mode === 'text' && !commitText()) return;
+      mode = m; render();
+    }
+
+    /* ---- validation ---- */
+    function check(qq) {
+      var e = [], n = [], ty = qq.type, t = ty === undefined ? 'mcq' : ty;
+      if (!str(qq.prompt) && t !== 'tfs') e.push(T('w_prompt'));
+      if (ty === undefined) e.push(T('w_type_missing')); else if (TYPES.indexOf(ty) < 0) e.push(T('w_type_unknown', { type: ty }));
+      if (t === 'mcq') {
+        var o = qq.options;
+        if (!Array.isArray(o) || o.length < 2) e.push(T('w_opts2'));
+        else { var z = o.filter(function (x) { return !str(x); }).length; if (z) e.push(T('w_opts_empty', { n: z })); if (o.length !== 4) n.push(T('w_opts_typ', { n: o.length })); }
+        if (!Number.isInteger(qq.answer)) e.push(T('w_ans_int', { got: got(qq.answer) }));
+        else if (!Array.isArray(o) || qq.answer < 0 || qq.answer >= o.length) e.push(T('w_ans_range', { a: qq.answer }));
+      } else if (t === 'truefalse') {
+        if (typeof qq.answer !== 'boolean') e.push(T('w_ans_bool', { got: got(qq.answer) }));
+      } else if (t === 'short') {
+        if (!str(qq.answer)) e.push(T('w_model'));
+      } else if (t === 'cloze') {
+        var a = qq.answers, b = (String(qq.prompt == null ? '' : qq.prompt).match(/_{3,}/g) || []).length;
+        if (!Array.isArray(a) || !a.length) e.push(T('w_cl_none')); else if (a.some(function (x) { return !str(x); })) e.push(T('w_cl_empty'));
+        if (b !== 1) e.push(T('w_cl_blank'));
+      } else if (t === 'match') {
+        var p = qq.pairs;
+        if (!Array.isArray(p) || p.length < 2) e.push(T('w_pairs2'));
+        else {
+          if (p.some(function (x) { return !str(x.left) || !str(x.right); })) e.push(T('w_pair_empty'));
+          [['left'], ['right']].forEach(function (s) {
+            var r = p.map(function (x) { return String(x[s[0]] == null ? '' : x[s[0]]).trim().toLowerCase(); });
+            var d = r.filter(function (x, i) { return x && r.indexOf(x) !== i; }).filter(function (x, i, l) { return l.indexOf(x) === i; });
+            if (d.length) e.push(T('w_pair_dup', { d: d.join(', ') }));
+          });
+          if (p.length !== 4) n.push(T('w_pairs_typ', { n: p.length }));
+        }
+      } else if (t === 'tfs') {
+        var it = qq.items;
+        if (!str(qq.quote) && !str(qq.prompt)) e.push(T('w_quote'));
+        if (!Array.isArray(it) || it.length < 4) e.push(T('w_stmts4'));
+        else {
+          if (it.length > 4) n.push(T('w_stmts_over'));
+          if (it.some(function (x) { return !str(x.text); })) e.push(T('w_stmt_text'));
+          if (it.some(function (x) { return !(typeof x.answer === 'boolean' || x.answer === 'true' || x.answer === 'false'); })) e.push(T('w_stmt_bool'));
+        }
+      }
+      if (!str(qq.explanation)) n.push(T('w_expl'));
+      return { e: e, n: n };
+    }
+    function topicIssues(t, deep) {
+      var m = [], id = String(t.id == null ? '' : t.id).trim();
+      if (!id) m.push(T('w_tid_missing'));
+      else if (data.topics.filter(function (x) { return String(x.id == null ? '' : x.id).trim() === id; }).length > 1) m.push(T('w_tid_dup', { id: id }));
+      if (!str(t.title)) m.push(T('w_ttitle'));
+      if (deep) { var c = (t.questions || []).filter(function (qq) { return check(qq).e.length; }).length; if (c) m.push(T('w_tq', { n: c })); }
+      return m;
+    }
+    function badge(m) { return m.length ? h('span', { class: 'ed-wn', title: m.join('\n'), 'aria-label': m.join(' ') }, '⚠') : null; }
+    function allIssues() {
+      var L = [];
+      data.topics.forEach(function (t) {
+        var m = topicIssues(t, false); if (m.length) L.push({ t: t, q: null, m: m });
+        (t.questions || []).forEach(function (qq) { var r = check(qq); if (r.e.length) L.push({ t: t, q: qq, m: r.e }); });
+      });
+      return L;
+    }
+    function updateChip() {
+      var chip = q$('#edChip'), c = q$('#edWarn');
+      if (chip) chip.classList.toggle('on', dirty);
+      if (!c || !data) return;
+      var n = mode === 'gui' ? allIssues().length : 0;
+      c.hidden = !n; c.textContent = tr('ed_issues', { n: n }); c.title = T('issue_jump');
+    }
+    function jumpIssue() {
+      var L = allIssues(); if (!L.length) return;
+      jumpI = (jumpI + 1) % L.length; var x = L[jumpI];
+      selT = x.t; if (x.q) { tab = 'questions'; view = 'edit'; selQ = x.q; } else selQ = null;
+      render(); toast(T('issue_toast', { i: jumpI + 1, n: L.length, m: x.m.join(' ') }));
+    }
+
+    /* ---- layout ---- */
+    var tLabel = function (t) { return (t.id != null ? t.id : '') + ': ' + (t.title != null ? t.title : '…'); };
+    function toolbar() {
+      var fi = h('input', { type: 'file', accept: '.json,.txt,application/json,text/plain', hidden: true });
+      fi.addEventListener('change', function (e) { var f = e.target.files[0]; e.target.value = ''; if (f && okDiscard()) openFile(f); });
+      var pill = function (m, k) { return btn(T(k), function () { setMode(m); }, 'ed-pill' + (mode === m ? ' on' : ''), { 'aria-pressed': String(mode === m) }); };
+      return h('div', { class: 'ed-bar' },
+        h('h1', { class: 'page-h ed-h' }, T('title')),
+        h('span', { class: 'ed-chip', id: 'edChip' }, T('unsaved')),
+        h('button', { type: 'button', class: 'ed-warnchip', id: 'edWarn', hidden: true, onclick: jumpIssue }),
+        h('span', { class: 'ed-sp' }),
+        btn(T('new'), function () { if (okDiscard()) load(emptyPack(), null); }, 'btn sm'),
+        btn(T('open'), function () { if (okDiscard()) fi.click(); }, 'btn sm'),
+        btn(T('save'), save, 'btn sm'),
+        btn(T('copy'), copy, 'btn sm'),
+        btn(T('fromcur'), reloadFromCurrent, 'btn sm'),
+        h('span', { class: 'ed-modes' }, pill('gui', 'mode_gui'), pill('text', 'mode_text')),
+        btn(T('apply'), apply, 'btn primary sm'), fi);
+    }
+    function render() {
+      if (!host || !data) return;
+      host.replaceChildren(); hook = null;
+      var wrap = h('div', { class: 'ed' }); wrap.append(toolbar());
+      if (mode === 'text') {
+        var ta = h('textarea', { id: 'edJson', spellcheck: 'false', 'aria-describedby': 'edErr' }); ta.value = JSON.stringify(data, null, 2);
+        ta.addEventListener('input', function () { textDirty = true; q$('#edErr').textContent = ''; });
+        wrap.append(h('div', {}, ta, h('div', { id: 'edErr', role: 'alert' }),
+          btn(T('commit'), function () {
+            var p = parse(ta.value, true);
+            if (p) { data = p; selT = selQ = null; textDirty = false; touch(); ta.value = JSON.stringify(data, null, 2); toast(T('committed') + (lastFix ? '. ' + lastFix : '')); }
+          }, 'btn primary')));
+      } else {
+        wrap.append(h('div', { class: 'ed-main' }, h('aside', { class: 'ed-side' }, metaBox(), topicsBox()), h('section', { id: 'edBody' })));
+      }
+      host.append(wrap);
+      if (mode === 'gui') renderBody();
+      updateChip();
+    }
+    function metaBox() {
+      return h('div', { class: 'ed-box' }, h('h2', {}, T('details')),
+        field(T('f_id'), txt(data, 'id', { opt: true }), false, T('id_hint')),
+        field(T('f_title'), txt(data, 'title')), field(T('f_subject'), txt(data, 'subject')),
+        field(T('f_level'), txt(data, 'level')), field(T('f_lang'), txt(data, 'language')));
+    }
+    function topicsBox() {
+      var ul = h('ul', { class: 'ed-list', 'aria-label': T('topics') });
+      fillT = function () {
+        ul.replaceChildren(); var qf = ft.trim().toLowerCase();
+        data.topics.forEach(function (t, i) {
+          if (qf && !(tLabel(t) + ' ' + (t.summary || '')).toLowerCase().includes(qf)) return;
+          var li = h('li', { class: 'ed-item' + (t === selT ? ' sel' : '') }), hd = handle(!!qf);
+          li.append(hd, btn(tLabel(t), function () { selT = t; selQ = null; render(); }, 'ed-main', { 'aria-current': String(t === selT), title: tLabel(t) }), badge(topicIssues(t, true)),
+            btn('×', function () { undoable(function () { data.topics.splice(i, 1); if (selT === t) selT = selQ = null; }, T('topic_deleted')); }, 'ed-x', { 'aria-label': T('delete') }));
+          if (!qf) sortable(hd, li, data.topics, i, render, 't');
+          ul.append(li);
+        });
+        if (!ul.children.length) ul.append(h('li', { class: 'ed-empty' }, qf ? T('no_topic_match') : T('no_topics')));
+      };
+      fillT();
+      var s = h('input', { type: 'search', placeholder: T('search_topics'), value: ft, 'aria-label': T('search_topics') }); s.oninput = function () { ft = s.value; fillT(); };
+      return h('div', { class: 'ed-box' }, h('h2', {}, T('topics')), s, ul,
+        btn(T('add_topic'), function () {
+          var t = { id: 't' + (data.topics.length + 1), title: LANG === 'vi' ? 'Ch\u1ee7 \u0111\u1ec1 m\u1edbi' : 'New Topic', summary: '', notes: [], key_terms: [], flashcards: [], questions: [] };
+          data.topics.push(t); selT = t; selQ = null; touch(); render();
+        }, 'btn primary sm'));
+    }
+    function renderBody() {
+      hook = null; var b = q$('#edBody'); if (!b) return; b.replaceChildren();
+      if (!selT) { b.append(data.topics.length ? empt(T('pick_topic'), T('pick_topic_s')) : empt(T('start'), T('start_s'))); return; }
+      var t = selT, n = function (k) { return (t[k] || []).length; };
+      var tabs = [['notes', 't_notes', 'notes'], ['terms', 't_terms', 'key_terms'], ['cards', 't_cards', 'flashcards'], ['questions', 't_questions', 'questions']];
+      b.append(
+        h('div', { class: 'ed-row' }, h('label', { style: 'width:110px' }, T('f_topic_id'), txt(t, 'id', { after: fillT })), h('label', { class: 'g' }, T('f_title'), txt(t, 'title', { after: fillT }))),
+        h('label', {}, T('f_summary'), txt(t, 'summary', { after: fillT, multi: true })),
+        h('div', { class: 'ed-bar2' },
+          h('div', { class: 'ed-tabs', role: 'tablist' }, tabs.map(function (x) {
+            return h('button', { type: 'button', role: 'tab', class: 'ed-pill' + (tab === x[0] ? ' on' : ''), 'aria-selected': String(tab === x[0]), onclick: function () { tab = x[0]; selQ = null; renderBody(); } }, T(x[1]), h('span', { class: 'ed-cnt' }, n(x[2])));
+          })),
+          h('div', { class: 'ed-modes' }, [['edit', 'v_edit'], ['preview', 'v_preview']].map(function (x) {
+            return h('button', { type: 'button', class: 'ed-pill' + (view === x[0] ? ' on' : ''), 'aria-pressed': String(view === x[0]), onclick: function () { view = x[0]; renderBody(); } }, T(x[1]));
+          }))),
+        h('div', { id: 'edPane' }));
+      var p = q$('#edPane');
+      if (view === 'preview') ({ notes: pvNotes, terms: pvTerms, cards: pvFlash, questions: pvQs })[tab](t, p);
+      else ({ notes: paneNotes, terms: paneTerms, cards: paneFlash, questions: paneQuestions })[tab](t, p);
+      growAll();
+    }
+
+    /* ---- notes / terms / flashcards ---- */
+    var oneLine = function (s) { return String(s == null ? '' : s).slice(0, 70) || '(…)'; };
+    function listPane(pane, t, key, addLabel, mk, sum, build) {
+      var arr = t[key] = Array.isArray(t[key]) ? t[key] : [];
+      pane.append(h('div', { class: 'ed-row' },
+        btn('+ ' + addLabel, function () { var nn = mk(); arr.push(nn); opened.add(nn); touch(); renderBody(); window.scrollTo({ top: document.body.scrollHeight }); }, 'btn primary sm'),
+        h('span', { class: 'ed-mut' }, tr('ed_items_n', { n: arr.length })),
+        btn(T('collapse'), function () { pane.querySelectorAll('details').forEach(function (d) { d.open = false; }); }, 'btn sm', { style: 'margin-left:auto' })));
+      if (!arr.length) { pane.append(empt(T('nothing'), T('nothing_s'))); return; }
+      arr.forEach(function (it, i) {
+        var d = h('details', { class: 'ed-card', open: arr.length <= 6 || opened.has(it) }), hd = handle(false);
+        d.addEventListener('toggle', function () { if (d.open) opened.add(it); else opened.delete(it); });
+        var rm = btn('×', function (e) { e.preventDefault(); undoable(function () { arr.splice(i, 1); }, T('item_deleted')); }, 'ed-x', { 'aria-label': T('delete') });
+        var s = h('summary', {}, hd, h('span', { class: 'ed-t' }, (i + 1) + '. ' + sum(it)), rm);
+        hd.addEventListener('click', function (e) { e.preventDefault(); });
+        d.append(s, h('div', { class: 'ed-in' }, build(it))); sortable(hd, d, arr, i, renderBody, key); pane.append(d);
+      });
+    }
+    function paneNotes(t, p) {
+      listPane(p, t, 'notes', T('add_section'), function () { return { heading: T('d_section'), points: [T('d_point')] }; }, function (s) { return oneLine(s.heading); }, function (s) {
+        if (!Array.isArray(s.points)) s.points = [];
+        var ta = h('textarea', { class: 'ag', rows: 3 }); ta.value = s.points.join('\n');
+        ta.oninput = function () { s.points = ta.value.split('\n').map(function (x) { return x.trim(); }).filter(Boolean); grow(ta); touch(); };
+        return h('div', {}, field(T('f_heading'), txt(s, 'heading')), h('div', { class: 'ed-mut' }, T('points_hint')), ta);
+      });
+    }
+    function paneTerms(t, p) {
+      listPane(p, t, 'key_terms', T('add_term'), function () { return { term: T('d_term'), definition: T('d_def') }; }, function (x) { return oneLine(x.term); }, function (x) {
+        return h('div', {}, field(T('f_term'), txt(x, 'term')), field(T('f_def'), txt(x, 'definition', { multi: true })));
+      });
+    }
+    function paneFlash(t, p) {
+      listPane(p, t, 'flashcards', T('add_card'), function () { return { front: T('d_front'), back: T('d_back') }; }, function (x) { return oneLine(x.front); }, function (x) {
+        return h('div', {}, field(T('f_front'), txt(x, 'front')), field(T('f_back'), txt(x, 'back')));
+      });
+    }
+
+    /* ---- questions ---- */
+    function qLabel(i, qq) { var s = String(qq.prompt == null ? (qq.quote || '') : qq.prompt); return 'Q' + (i + 1) + ' [' + (qq.type || 'mcq') + ']: ' + s.slice(0, 35) + (s.length > 35 ? '...' : ''); }
+    function newQ(type) {
+      var qq = { type: type, prompt: T('d_qprompt'), explanation: T('d_expl') };
+      if (type === 'mcq') { qq.options = ['A', 'B', 'C', 'D'].map(function (k) { return T('d_opt', { k: k }); }); qq.answer = 0; }
+      else if (type === 'truefalse') qq.answer = true;
+      else if (type === 'short') qq.answer = T('d_model');
+      else if (type === 'cloze') { qq.prompt = '____'; qq.answers = [T('d_ans')]; }
+      else if (type === 'match') qq.pairs = [1, 2, 3, 4].map(function (n) { return { left: 'L' + n, right: 'R' + n }; });
+      else { qq.quote = T('d_quote'); qq.source = ''; qq.items = [true, false, true, false].map(function (a, i) { return { text: T('d_stmt', { n: i + 1 }), answer: a }; }); }
+      return qq;
+    }
+    function paneQuestions(t, p) {
+      var qs = t.questions = Array.isArray(t.questions) ? t.questions : [];
+      var ul = h('ul', { class: 'ed-list', style: 'max-height:52vh' });
+      fillQ = function () {
+        ul.replaceChildren(); var f = fq.trim().toLowerCase();
+        qs.forEach(function (qq, i) {
+          if (f && !qLabel(i, qq).toLowerCase().includes(f) && !String(qq.prompt).toLowerCase().includes(f)) return;
+          var li = h('li', { class: 'ed-item' + (qq === selQ ? ' sel' : '') }), hd = handle(!!f);
+          li.append(hd, btn(qLabel(i, qq), function () { selQ = qq; renderBody(); }, 'ed-main'), badge(check(qq).e),
+            btn('×', function () { undoable(function () { qs.splice(i, 1); if (selQ === qq) selQ = null; }, T('q_deleted')); }, 'ed-x', { 'aria-label': T('delete') }));
+          if (!f) sortable(hd, li, qs, i, renderBody, 'q');
+          ul.append(li);
+        });
+        if (!ul.children.length) ul.append(h('li', { class: 'ed-empty' }, f ? T('no_q_match') : T('no_q')));
+      };
+      fillQ();
+      var s = h('input', { type: 'search', placeholder: T('search_q'), value: fq, 'aria-label': T('search_q') }); s.oninput = function () { fq = s.value; fillQ(); };
+      var sel = h('select', { 'aria-label': T('q_type') }, TYPES.map(function (x) { return h('option', { value: x }, tr('qt_' + x)); }));
+      var left = h('div', {}, s, ul, h('div', { class: 'ed-row' }, sel, btn(T('add'), function () { var qq = newQ(sel.value); qs.push(qq); selQ = qq; touch(); renderBody(); }, 'btn primary sm')));
+      var right = h('div', {}, selQ && qs.indexOf(selQ) >= 0 ? qForm(selQ, qs.indexOf(selQ)) : empt(T('pick_q'), T('pick_q_s')));
+      p.append(h('div', { class: 'ed-split' }, left, right));
+    }
+    function qForm(qq, i) {
+      var type = qq.type || 'mcq';
+      var f = h('div', { class: 'ed-card pad' }, h('h3', {}, T('q_n', { n: i + 1, t: type })), field(T('f_prompt'), txt(qq, 'prompt', { after: function () { fillQ(); }, multi: true }), true));
+      var rr = function (fn) { fn(); touch(); renderBody(); };
+      if (type === 'mcq') {
+        if (!Array.isArray(qq.options)) qq.options = ['', '', '', ''];
+        f.append(field(T('f_context'), txt(qq, 'context', { opt: true, multi: true }), true), field(T('f_source'), txt(qq, 'source', { opt: true }), true), h('div', { class: 'ed-mut' }, T('opts_hint')));
+        qq.options.forEach(function (o, k) {
+          var el = h('textarea', { class: 'ag', rows: 1 }); el.value = o;
+          el.oninput = function () { qq.options[k] = el.value; grow(el); touch(); };
+          el.onkeydown = function (e) { if (e.key === 'Enter') e.preventDefault(); };
+          f.append(h('div', { class: 'ed-row fx' },
+            h('input', { type: 'radio', name: 'edans', 'aria-label': T('correct', { k: k + 1 }), checked: +qq.answer === k, onchange: function () { qq.answer = k; touch(); } }),
+            h('span', { class: 'g' }, el),
+            btn('×', function () { rr(function () { qq.options.splice(k, 1); var a = +qq.answer; if (k < a) qq.answer = a - 1; else if (k === a) qq.answer = 0; }); }, 'ed-x', { 'aria-label': T('rm_opt') })));
+        });
+        f.append(btn(T('add_opt'), function () { rr(function () { qq.options.push(''); }); }, 'btn sm'));
+      } else if (type === 'truefalse') f.append(field(T('f_answer'), seg(qq, 'answer', tr('tf_true'), tr('tf_false'))));
+      else if (type === 'short') f.append(field(T('f_model'), txt(qq, 'answer', { multi: true }), true));
+      else if (type === 'cloze') {
+        var el = h('textarea', { class: 'ag', rows: 1 }); el.value = Array.isArray(qq.answers) ? qq.answers.join(', ') : String(qq.answers == null ? '' : qq.answers);
+        el.oninput = function () { qq.answers = el.value.split(',').map(function (s) { return s.trim(); }).filter(Boolean); grow(el); touch(); };
+        f.append(field(T('f_answers'), el, true));
+      } else if (type === 'match') {
+        if (!Array.isArray(qq.pairs)) qq.pairs = [];
+        var g = h('div', { class: 'ed-grid3' }, h('span', { class: 'ed-mut' }, T('left')), h('span', { class: 'ed-mut' }, T('right')), h('span'));
+        qq.pairs.forEach(function (pr, k) { g.append(txt(pr, 'left'), txt(pr, 'right'), btn('×', function () { rr(function () { qq.pairs.splice(k, 1); }); }, 'ed-x on', { 'aria-label': T('rm_pair') })); });
+        f.append(g, h('div', { class: 'ed-row' }, btn(T('add_pair'), function () { rr(function () { qq.pairs.push({ left: '', right: '' }); }); }, 'btn sm')));
+      } else if (type === 'tfs') {
+        if (!Array.isArray(qq.items)) qq.items = [];
+        f.append(field(T('f_quote'), txt(qq, 'quote', { multi: true }), true), field(T('f_source'), txt(qq, 'source', { opt: true }), true), h('div', { class: 'ed-mut' }, T('stmts')));
+        qq.items.forEach(function (it, k) {
+          f.append(h('div', { class: 'ed-row fx' }, h('span', { class: 'g' }, txt(it, 'text')), seg(it, 'answer', T('t'), T('f')), btn('×', function () { rr(function () { qq.items.splice(k, 1); }); }, 'ed-x', { 'aria-label': T('rm_stmt') })));
+        });
+        f.append(btn(T('add_stmt'), function () { rr(function () { qq.items.push({ text: '', answer: true }); }); }, 'btn sm'));
+      }
+      if (TYPES.indexOf(type) < 0) f.append(h('p', { class: 'ed-mut' }, T('unsupported', { type: type })));
+      f.append(field(T('f_expl'), txt(qq, 'explanation', { multi: true }), true));
+      var wb = h('div', { class: 'ed-alert', role: 'status' }); f.insertBefore(wb, f.children[1]);
+      var paint = function () {
+        var r = check(qq);
+        wb.replaceChildren.apply(wb, r.e.map(function (x) { return h('div', { class: 'ed-wn' }, '⚠ ' + x); }).concat(r.n.map(function (x) { return h('div', { class: 'ed-mut' }, 'ℹ ' + x); })));
+        wb.hidden = !(r.e.length || r.n.length);
+      };
+      paint(); hook = function () { paint(); fillQ(); fillT(); };
+      return f;
+    }
+
+    /* ---- preview (learner's view) ---- */
+    var md = function (s) { return String(s == null ? '' : s).split(/\*\*(.+?)\*\*/g).map(function (p, i) { return i % 2 ? h('strong', {}, p) : p; }); };
+    function pvNotes(t, p) {
+      var a = t.notes || []; if (!a.length) return p.append(empt(T('pv_none')));
+      a.forEach(function (s) { p.append(h('section', { class: 'ed-card pad' }, h('h3', {}, s.heading), h('ul', {}, (s.points || []).map(function (x) { return h('li', {}, md(x)); })))); });
+    }
+    function pvTerms(t, p) {
+      var a = t.key_terms || []; if (!a.length) return p.append(empt(T('pv_none')));
+      p.append(h('dl', { class: 'ed-card pad' }, [].concat.apply([], a.map(function (x) { return [h('dt', { class: 'ed-dt' }, x.term), h('dd', { style: 'margin:0 0 4px' }, md(x.definition))]; }))));
+    }
+    function pvFlash(t, p) {
+      var a = t.flashcards || []; if (!a.length) return p.append(empt(T('pv_none')));
+      p.append(h('div', { class: 'ed-fcs' }, a.map(function (x) {
+        var b = false, c = h('button', { type: 'button', class: 'ed-fc', 'aria-label': T('flip') }, x.front);
+        c.onclick = function () { b = !b; c.classList.toggle('back', b); c.textContent = b ? x.back : x.front; };
+        return c;
+      })));
+    }
+    function opts(items, ok, done, hz) {
+      var row = h('div', { class: 'ed-opts' + (hz ? ' hz' : '') }), fin = false;
+      items.forEach(function (l, k) {
+        row.append(h('button', { type: 'button', class: 'ed-opt', onclick: function (e) {
+          if (fin) return; fin = true; e.currentTarget.classList.add(k === ok ? 'ok' : 'bad');
+          if (row.children[ok]) row.children[ok].classList.add('ok'); if (done) done();
+        } }, l));
+      });
+      return row;
+    }
+    function pvQs(t, p) {
+      var a = t.questions || []; if (!a.length) return p.append(empt(T('pv_none')));
+      a.forEach(function (qq, i) {
+        var ty = qq.type || 'mcq', ex = h('p', { class: 'ed-mut', hidden: true }, qq.explanation || ''), show = function () { ex.hidden = false; };
+        var c = h('div', { class: 'ed-card pad' }, h('div', { class: 'ed-mut' }, 'Q' + (i + 1) + ' · ' + ty), h('p', { class: 'ed-pq' }, md(qq.prompt)));
+        if (ty === 'mcq') { if (qq.context) c.append(h('p', { class: 'ed-mut' }, qq.context)); c.append(opts(qq.options || [], +qq.answer, show)); }
+        else if (ty === 'truefalse') c.append(opts([tr('tf_true'), tr('tf_false')], isT(qq.answer) ? 0 : 1, show, true));
+        else if (ty === 'tfs') {
+          c.append(h('blockquote', { style: 'margin:6px 0' }, qq.quote));
+          (qq.items || []).forEach(function (it) { c.append(h('div', {}, it.text), opts([tr('tf_true'), tr('tf_false')], isT(it.answer) ? 0 : 1, show, true)); });
+        } else {
+          var ans = h('p', { hidden: true, style: 'font-weight:500' }, ty === 'short' ? String(qq.answer == null ? '' : qq.answer) : ty === 'cloze' ? (Array.isArray(qq.answers) ? qq.answers.join(', ') : String(qq.answers == null ? '' : qq.answers)) : (qq.pairs || []).map(function (x) { return x.left + ' → ' + x.right; }).join('  |  '));
+          c.append(btn(T('show_ans'), function () { ans.hidden = false; show(); }, 'btn sm'), ans);
+        }
+        c.append(ex); p.append(c);
+      });
+    }
+
+    /* ---- public API ---- */
+    function ensure() {
+      if (data) return null;
+      var d = null; try { d = JSON.parse(store.get(DRAFT) || 'null'); } catch (e) { d = null; }
+      if (d && d.data && Array.isArray(d.data.topics) && d.data.topics.length) {
+        normalize(d.data); data = d.data; fileName = d.fileName || null; dirty = true; return 'draft';
+      }
+      data = S.pack ? fromPack() : emptyPack(); fileName = null; dirty = false; return null;
+    }
+    function mount(el) {
+      host = el;
+      var first = ensure();
+      host.addEventListener('dragover', function (e) { if (e.dataTransfer && [].indexOf.call(e.dataTransfer.types, 'Files') >= 0) { e.preventDefault(); host.classList.add('ed-dropping'); } });
+      host.addEventListener('dragleave', function (e) { if (e.target === host) host.classList.remove('ed-dropping'); });
+      host.addEventListener('drop', function (e) {
+        host.classList.remove('ed-dropping');
+        if (!e.dataTransfer || !e.dataTransfer.files || !e.dataTransfer.files.length) return;
+        e.preventDefault(); if (okDiscard()) openFile(e.dataTransfer.files[0]);
+      });
+      render();
+      if (first === 'draft') toast(T('draft'), { label: T('draft_reset'), fn: function () { data = S.pack ? fromPack() : emptyPack(); fileName = null; dirty = false; selT = selQ = null; store.set(DRAFT, ''); render(); } });
+    }
+    function openText(text, name) {
+      var p = parse(text, false); if (!p) return false;
+      var fx = lastFix; data = p; fileName = name || null; dirty = true; selT = selQ = null; textDirty = false; mode = 'gui';
+      try { store.set(DRAFT, JSON.stringify({ data: data, fileName: fileName })); } catch (e) { /* ignore */ }
+      return true;
+    }
+    document.addEventListener('keydown', function (e) {
+      if (S.view !== 'edit' || !(e.ctrlKey || e.metaKey)) return;
+      if (e.key.toLowerCase() === 's') { e.preventDefault(); save(); }
+    });
+    return { mount: mount, openText: openText };
+  })();
+
+  /* ---------- custom themes: colour tokens only ----------
+     A theme is 12 hex colours + a name + a light/dark base. It is never turned into CSS text:
+     every value must match #RRGGBB and is applied with style.setProperty on :root. No URLs, no selectors, no CSS. */
+  Object.assign(I18N.en, {
+    nav_theme: 'Custom theme',
+    th_title: 'Custom theme', th_lede: 'Create your own theme! A theme must pass the readability checks before it can be applied.',
+    th_active: 'Active theme: {n}', th_none: 'No custom theme is active (using Light / Dark / System).', th_reset: 'Reset to default',
+    th_name: 'Theme name', th_scheme: 'Base', th_light: 'Light', th_dark: 'Dark', th_from_light: 'Start from Light', th_from_dark: 'Start from Dark',
+    th_colors: 'Colours', th_preview: 'Preview', th_checks: 'Readability checks', th_need: 'Needs {n}:1', th_pass: 'Pass', th_fail: 'Fail',
+    th_t_bg: 'Page background', th_t_surface: 'Cards', th_t_ink: 'Text', th_t_muted: 'Secondary text', th_t_line: 'Borders', th_t_soft: 'Soft fill',
+    th_t_accent: 'Accent', th_t_accentInk: 'Text on accent', th_t_mark: 'Highlighter', th_t_good: 'Correct', th_t_bad: 'Wrong', th_t_warn: 'Warning',
+    th_c_ink_bg: 'Text on page', th_c_ink_surface: 'Text on cards', th_c_muted_bg: 'Secondary text on page', th_c_muted_surface: 'Secondary text on cards',
+    th_c_ink_soft: 'Text on soft fill', th_c_ink_mark: 'Text on highlighter', th_c_acc_ink: 'Text on accent', th_c_acc_bg: 'Accent on page',
+    th_c_good: '“Correct” feedback text', th_c_bad: '“Wrong” feedback text', th_c_warn: 'Warning text',
+    th_apply: 'Apply theme', th_blocked: 'Fix the failing checks to apply this theme.', th_applied: 'Theme applied', th_reset_done: 'Back to the default theme',
+    th_import: 'Import theme', th_choose: 'Choose file', th_paste: 'Or paste theme JSON', th_load_paste: 'Load pasted text', th_export: 'Export', th_download: 'Download', th_copy: 'Copy JSON', th_copied: 'Copied', th_imported: 'Theme loaded into the editor. Apply it when you are happy.',
+    th_hex: 'Use #RRGGBB', th_rescue: 'If a theme ever makes the app hard to use, add #reset-theme to the address and reload.',
+    th_pv_h: 'Sample topic', th_pv_p: 'Notes are easy to read, and a key term is marked like this.', th_pv_muted: 'Secondary text looks like this.', th_pv_btn: 'Primary', th_pv_btn2: 'Secondary',
+    th_pv_ok: 'Correct answer', th_pv_bad: 'Wrong answer', th_pv_warn: 'Careful', th_pv_nav: 'Selected topic', th_pv_term: 'key term',
+    th_e_size: 'The theme file is too large.', th_e_json: 'This is not valid JSON ({d}).', th_e_obj: 'A theme must be a JSON object.', th_e_format: 'Not a theme file (format must be "sp-theme").',
+    th_e_ver: 'Unsupported theme version.', th_e_name: 'The name must be 1 to 40 characters of plain text.', th_e_scheme: '"scheme" must be "light" or "dark".',
+    th_e_unknown: 'Unknown colour "{k}". Only the listed colour names are allowed.', th_e_color: 'Colour "{k}" must be written as #RRGGBB.'
+  });
+  Object.assign(I18N.vi, {
+    nav_theme: 'Giao diện tùy chỉnh',
+    th_title: 'Giao diện tùy chỉnh', th_lede: 'Tùy chỉnh màu sắc UI. UI phải đạt các phép kiểm tra độ dễ đọc trước khi áp dụng.',
+    th_active: 'Đang dùng: {n}', th_none: 'Chưa dùng giao diện tùy chỉnh (đang dùng Sáng / Tối / Hệ thống).', th_reset: 'Đặt lại mặc định',
+    th_name: 'Tên giao diện', th_scheme: 'Nền cơ sở', th_light: 'Sáng', th_dark: 'Tối', th_from_light: 'Bắt đầu từ Sáng', th_from_dark: 'Bắt đầu từ Tối',
+    th_colors: 'Màu sắc', th_preview: 'Xem trước', th_checks: 'Kiểm tra độ dễ đọc', th_need: 'Cần {n}:1', th_pass: 'Đạt', th_fail: 'Không đạt',
+    th_t_bg: 'Nền trang', th_t_surface: 'Thẻ', th_t_ink: 'Chữ', th_t_muted: 'Chữ phụ', th_t_line: 'Viền', th_t_soft: 'Nền nhạt',
+    th_t_accent: 'Màu nhấn', th_t_accentInk: 'Chữ trên màu nhấn', th_t_mark: 'Bút dạ quang', th_t_good: 'Đúng', th_t_bad: 'Sai', th_t_warn: 'Cảnh báo',
+    th_c_ink_bg: 'Chữ trên nền trang', th_c_ink_surface: 'Chữ trên thẻ', th_c_muted_bg: 'Chữ phụ trên nền trang', th_c_muted_surface: 'Chữ phụ trên thẻ',
+    th_c_ink_soft: 'Chữ trên nền nhạt', th_c_ink_mark: 'Chữ trên bút dạ quang', th_c_acc_ink: 'Chữ trên màu nhấn', th_c_acc_bg: 'Màu nhấn trên nền trang',
+    th_c_good: 'Chữ phản hồi “Đúng”', th_c_bad: 'Chữ phản hồi “Sai”', th_c_warn: 'Chữ cảnh báo',
+    th_apply: 'Áp dụng giao diện', th_blocked: 'Hãy sửa các mục không đạt để áp dụng.', th_applied: 'Đã áp dụng giao diện', th_reset_done: 'Đã về giao diện mặc định',
+    th_import: 'Nhập giao diện', th_choose: 'Chọn tệp', th_paste: 'Hoặc dán JSON giao diện', th_load_paste: 'Tải nội dung đã dán', th_export: 'Xuất', th_download: 'Tải xuống', th_copy: 'Sao chép JSON', th_copied: 'Đã sao chép', th_imported: 'Đã nạp giao diện vào trình chỉnh. Hãy áp dụng khi bạn đã hài lòng.',
+    th_hex: 'Dùng #RRGGBB', th_rescue: 'Nếu giao diện làm ứng dụng khó dùng, hãy thêm #reset-theme vào địa chỉ rồi tải lại trang.',
+    th_pv_h: 'Chủ đề mẫu', th_pv_p: 'Ghi chú dễ đọc, và thuật ngữ quan trọng được đánh dấu như thế này.', th_pv_muted: 'Chữ phụ trông như thế này.', th_pv_btn: 'Chính', th_pv_btn2: 'Phụ',
+    th_pv_ok: 'Đáp án đúng', th_pv_bad: 'Đáp án sai', th_pv_warn: 'Cẩn thận', th_pv_nav: 'Chủ đề đang chọn', th_pv_term: 'thuật ngữ',
+    th_e_size: 'Tệp giao diện quá lớn.', th_e_json: 'JSON không hợp lệ ({d}).', th_e_obj: 'Giao diện phải là một đối tượng JSON.', th_e_format: 'Không phải tệp giao diện ("format" phải là "sp-theme").',
+    th_e_ver: 'Phiên bản giao diện không được hỗ trợ.', th_e_name: 'Tên phải là văn bản thuần túy dài 1 đến 40 ký tự.', th_e_scheme: '"scheme" phải là "light" hoặc "dark".',
+    th_e_unknown: 'Màu "{k}" không hợp lệ. Chỉ được dùng các tên màu trong danh sách.', th_e_color: 'Màu "{k}" phải viết dạng #RRGGBB.'
+  });
+
+  var THEMER = (function () {
+    var T = function (k, v) { return tr('th_' + k, v); };
+    var KEY = 'sp:customtheme', MAX_BYTES = 8000;
+    var TOKENS = ['bg', 'surface', 'ink', 'muted', 'line', 'soft', 'accent', 'accentInk', 'mark', 'good', 'bad', 'warn'];
+    var VARS = { bg: '--bg', surface: '--surface', ink: '--ink', muted: '--muted', line: '--line', soft: '--soft', accent: '--accent', accentInk: '--accent-ink', mark: '--mark', good: '--good', bad: '--bad', warn: '--warn' };
+    var DERIVED = { good: '--good-bg', bad: '--bad-bg', warn: '--warn-bg' };
+    var BASE = {
+      light: { bg: '#F2F5E9', surface: '#FFFFFF', ink: '#14251A', muted: '#566559', line: '#D8DFCB', soft: '#E5EDD6', accent: '#006400', accentInk: '#FFFFFF', mark: '#FFE15A', good: '#17784F', bad: '#B8362B', warn: '#9A5B00' },
+      dark: { bg: '#0C1222', surface: '#141C32', ink: '#E6EAF7', muted: '#93A0C3', line: '#26304D', soft: '#1B2542', accent: '#8499FF', accentInk: '#0C1222', mark: '#6F5F0E', good: '#4CCB9F', bad: '#F2857A', warn: '#E8AE4B' }
+    };
+    var HEX = /^#[0-9a-fA-F]{6}$/;
+    var draft = null, host = null, refs = {}, msgTimer = null;
+
+    /* colour maths (WCAG 2.x relative luminance) */
+    function rgb(hx) { return [1, 3, 5].map(function (i) { return parseInt(hx.slice(i, i + 2), 16); }); }
+    function lum(hx) {
+      var c = rgb(hx).map(function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+      return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+    }
+    function ratio(a, b) { var x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); }
+    function mix(a, b, t) {
+      var x = rgb(a), y = rgb(b);
+      return '#' + x.map(function (v, i) { return ('0' + Math.round(v * t + y[i] * (1 - t)).toString(16)).slice(-2); }).join('').toUpperCase();
+    }
+    function derived(c) { var o = {}; Object.keys(DERIVED).forEach(function (k) { o[k] = mix(c[k], c.surface, 0.1); }); return o; }
+    function checks(c) {
+      var d = derived(c);
+      var L = [['ink_bg', c.ink, c.bg, 4.5], ['ink_surface', c.ink, c.surface, 4.5], ['muted_bg', c.muted, c.bg, 4.5], ['muted_surface', c.muted, c.surface, 4.5],
+        ['ink_soft', c.ink, c.soft, 4.5], ['ink_mark', c.ink, c.mark, 4.5], ['acc_ink', c.accentInk, c.accent, 4.5], ['acc_bg', c.accent, c.bg, 3],
+        ['good', c.good, d.good, 4.5], ['bad', c.bad, d.bad, 4.5], ['warn', c.warn, d.warn, 4.5]];
+      return L.map(function (x) { var r = ratio(x[1], x[2]); return { id: x[0], fg: x[1], bg: x[2], need: x[3], ratio: r, pass: r >= x[3] }; });
+    }
+    var allPass = function (c) { return checks(c).every(function (x) { return x.pass; }); };
+
+    /* strict validation: the only way a theme gets into the app */
+    function validate(raw) {
+      var err = function (key, vars) { return { errors: [{ key: key, vars: vars || {} }] }; };
+      var p = raw;
+      if (typeof raw === 'string') {
+        if (raw.length > MAX_BYTES) return err('size');
+        try { p = JSON.parse(raw.replace(/^﻿/, '')); } catch (e) { return err('json', { d: e.message }); }
+      }
+      if (!p || typeof p !== 'object' || Array.isArray(p)) return err('obj');
+      if (p.format !== 'sp-theme') return err('format');
+      if (p.version !== 1) return err('ver');
+      var name = typeof p.name === 'string' ? p.name.replace(/[\u0000-\u001f\u007f-\u009f​-‏‪-‮⁦-⁩﻿]/g, '').trim() : '';
+      if (!name || name.length > 40) return err('name');
+      if (p.scheme !== 'light' && p.scheme !== 'dark') return err('scheme');
+      var src = p.colors && typeof p.colors === 'object' && !Array.isArray(p.colors) ? p.colors : {}, colors = {}, errors = [];
+      Object.keys(src).forEach(function (k) { if (TOKENS.indexOf(k) < 0) errors.push({ key: 'unknown', vars: { k: String(k).slice(0, 30) } }); });
+      TOKENS.forEach(function (k) {
+        if (src[k] === undefined) colors[k] = BASE[p.scheme][k];
+        else if (typeof src[k] === 'string' && HEX.test(src[k])) colors[k] = src[k].toUpperCase();
+        else errors.push({ key: 'color', vars: { k: k } });
+      });
+      if (errors.length) return { errors: errors };
+      return { theme: { name: name, scheme: p.scheme, colors: colors } };
+    }
+    function toFile(t) { return { format: 'sp-theme', version: 1, name: t.name, scheme: t.scheme, colors: t.colors }; }
+
+    /* applying: setProperty with validated hex only */
+    function paint(el, colors) {
+      TOKENS.forEach(function (k) { el.style.setProperty(VARS[k], colors[k]); });
+      var d = derived(colors); Object.keys(d).forEach(function (k) { el.style.setProperty(DERIVED[k], d[k]); });
+    }
+    function unpaint(el) {
+      TOKENS.forEach(function (k) { el.style.removeProperty(VARS[k]); });
+      Object.keys(DERIVED).forEach(function (k) { el.style.removeProperty(DERIVED[k]); });
+    }
+    function stored() {
+      var raw = store.get(KEY); if (!raw) return null;
+      var r = validate(raw); if (!r.theme || !allPass(r.theme.colors)) { try { localStorage.removeItem(KEY); } catch (e) { /* ignore */ } return null; }
+      return r.theme;
+    }
+    function boot() {
+      if (location.hash === '#reset-theme') { try { localStorage.removeItem(KEY); } catch (e) { /* ignore */ } history.replaceState(null, '', location.pathname + location.search); return; }
+      var t = stored(); if (t) paint(document.documentElement, t.colors);
+    }
+    function clear() {
+      var had = !!store.get(KEY);
+      unpaint(document.documentElement); try { localStorage.removeItem(KEY); } catch (e) { /* ignore */ }
+      if (had && S.view === 'themes') render();
+    }
+    function apply() {
+      if (!allPass(draft.colors)) return;
+      var t = validate(toFile(draft)); if (!t.theme) return;
+      store.set(KEY, JSON.stringify(toFile(t.theme)));
+      setThemeMode(t.theme.scheme, true);
+      paint(document.documentElement, t.theme.colors);
+      say(T('applied')); render();
+    }
+
+    /* ---- editor page ---- */
+    function h(tag, a) {
+      a = a || {}; var e = document.createElement(tag), kids = Array.prototype.slice.call(arguments, 2);
+      Object.keys(a).forEach(function (k) { var v = a[k]; if (k === 'class') e.className = v; else if (k.indexOf('on') === 0) e.addEventListener(k.slice(2), v); else if (v !== false && v != null) e.setAttribute(k, v === true ? '' : v); });
+      [].concat.apply([], kids).forEach(function (c) { if (c != null && c !== false) e.append(c.nodeType ? c : document.createTextNode(c)); });
+      return e;
+    }
+    function say(m, bad) {
+      if (!refs.msg) return; refs.msg.textContent = m; refs.msg.className = 'th-msg' + (bad ? ' bad' : ''); refs.msg.hidden = !m;
+      clearTimeout(msgTimer); if (m) msgTimer = setTimeout(function () { if (refs.msg) refs.msg.hidden = true; }, 6000);
+    }
+    function errText(list) { return list.map(function (e) { return tr('th_e_' + e.key, e.vars); }).join(' '); }
+    function startFrom(scheme) {
+      var cur = stored();
+      draft = { name: cur ? cur.name : (LANG === 'vi' ? 'Giao diện của tôi' : 'My theme'), scheme: scheme, colors: JSON.parse(JSON.stringify(BASE[scheme])) };
+    }
+    function ensure() {
+      if (draft) return;
+      var cur = stored();
+      if (cur) draft = { name: cur.name, scheme: cur.scheme, colors: cur.colors };
+      else { startFrom(isDark() ? 'dark' : 'light'); draft.name = LANG === 'vi' ? 'Giao diện của tôi' : 'My theme'; }
+    }
+    function refresh() {
+      if (refs.pv) paint(refs.pv, draft.colors);
+      if (refs.checks) {
+        refs.checks.replaceChildren();
+        checks(draft.colors).forEach(function (c) {
+          refs.checks.append(h('tr', {},
+            h('td', {}, h('span', { class: 'th-sw', style: 'color:' + c.fg + ';background:' + c.bg }, 'Aa')),
+            h('td', {}, T('c_' + c.id)),
+            h('td', { class: 'th-num' }, c.ratio.toFixed(1) + ':1'),
+            h('td', { class: 'th-num' }, T('need', { n: c.need })),
+            h('td', { class: c.pass ? 'th-ok' : 'th-no' }, (c.pass ? '✓ ' : '✗ ') + T(c.pass ? 'pass' : 'fail'))));
+        });
+      }
+      var ok = allPass(draft.colors);
+      if (refs.apply) refs.apply.disabled = !ok;
+      if (refs.blocked) refs.blocked.hidden = ok;
+    }
+    function colorRow(k) {
+      var pick = h('input', { type: 'color', value: draft.colors[k].toLowerCase(), 'aria-label': T('t_' + k) });
+      var tx = h('input', { type: 'text', value: draft.colors[k], maxlength: '7', spellcheck: 'false', autocomplete: 'off', 'aria-label': T('t_' + k) + ' hex', title: T('hex') });
+      pick.addEventListener('input', function () { tx.value = pick.value.toUpperCase(); tx.classList.remove('bad'); draft.colors[k] = tx.value; refresh(); });
+      tx.addEventListener('input', function () {
+        var v = tx.value.trim(); if (v.charAt(0) !== '#') v = '#' + v;
+        if (HEX.test(v)) { tx.classList.remove('bad'); pick.value = v.toLowerCase(); draft.colors[k] = v.toUpperCase(); refresh(); } else tx.classList.add('bad');
+      });
+      return h('div', { class: 'th-crow' }, h('span', { class: 'th-cl' }, T('t_' + k)), pick, tx);
+    }
+    function preview() {
+      var pv = h('div', { class: 'th-pv' },
+        h('div', { class: 'th-pv-in' },
+          h('h3', {}, T('pv_h')),
+          h('p', { class: 'th-pv-read' }, T('pv_p'), ' ', h('mark', {}, T('pv_term'))),
+          h('p', { class: 'th-pv-muted' }, T('pv_muted')),
+          h('div', { class: 'th-pv-nav' }, T('pv_nav')),
+          h('div', { class: 'th-pv-btns' }, h('span', { class: 'th-pv-btn pri' }, T('pv_btn')), h('span', { class: 'th-pv-btn' }, T('pv_btn2')), h('span', { class: 'th-pv-chip' }, 'Aa')),
+          h('div', { class: 'th-pv-fb ok' }, T('pv_ok')), h('div', { class: 'th-pv-fb bad' }, T('pv_bad')), h('div', { class: 'th-pv-fb warn' }, T('pv_warn'))));
+      refs.pv = pv; return pv;
+    }
+    function download() {
+      var t = validate(toFile(draft)); if (!t.theme) { say(errText(t.errors), true); return; }
+      var slug = t.theme.name.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'theme';
+      var a = h('a', { href: URL.createObjectURL(new Blob([JSON.stringify(toFile(t.theme), null, 2)], { type: 'application/json' })), download: slug + '.sptheme.json' });
+      document.body.append(a); a.click(); a.remove();
+    }
+    function copyJson(btn) {
+      var t = validate(toFile(draft)); if (!t.theme) { say(errText(t.errors), true); return; }
+      var done = function () { var o = btn.textContent; btn.textContent = T('copied'); setTimeout(function () { btn.textContent = o; }, 1500); };
+      try { navigator.clipboard.writeText(JSON.stringify(toFile(t.theme), null, 2)).then(done, function () {}); } catch (e) { /* ignore */ }
+    }
+    function importText(text) {
+      var r = validate(text);
+      if (!r.theme) { say(errText(r.errors), true); return; }
+      draft = { name: r.theme.name, scheme: r.theme.scheme, colors: r.theme.colors };
+      render(); say(T('imported'));
+    }
+    function render() {
+      if (!host) return;
+      host.replaceChildren(); refs = {};
+      var cur = stored();
+      var nameIn = h('input', { type: 'text', value: draft.name, maxlength: '40', 'aria-label': T('name') });
+      nameIn.addEventListener('input', function () { draft.name = nameIn.value; });
+      var scheme = h('div', { class: 'th-pills', role: 'group', 'aria-label': T('scheme') }, ['light', 'dark'].map(function (s) {
+        return h('button', { type: 'button', class: 'th-pill' + (draft.scheme === s ? ' on' : ''), 'aria-pressed': String(draft.scheme === s), onclick: function () { draft.scheme = s; render(); } }, T(s));
+      }));
+      refs.apply = h('button', { type: 'button', class: 'btn primary', onclick: apply }, T('apply'));
+      refs.blocked = h('p', { class: 'th-bad-note', hidden: true }, T('blocked'));
+      refs.checks = h('tbody', {});
+      refs.msg = h('p', { class: 'th-msg', role: 'status', hidden: true });
+      var fileIn = h('input', { type: 'file', accept: '.json,application/json', hidden: true });
+      fileIn.addEventListener('change', function (e) {
+        var f = e.target.files[0]; e.target.value = ''; if (!f) return;
+        if (f.size > MAX_BYTES) { say(T('e_size'), true); return; }
+        var r = new FileReader(); r.onload = function () { importText(String(r.result)); }; r.onerror = function () { say(T('e_json', { d: 'read' }), true); }; r.readAsText(f, 'utf-8');
+      });
+      var paste = h('textarea', { class: 'th-paste', rows: 4, 'aria-label': T('paste'), placeholder: '{ "format": "sp-theme", "version": 1, ... }' });
+      var copyBtn = h('button', { type: 'button', class: 'btn sm' }, T('copy')); copyBtn.addEventListener('click', function () { copyJson(copyBtn); });
+
+      host.append(h('div', { class: 'eyebrow' }, T('title')),
+        h('h1', { class: 'page-h' }, T('title')), h('p', { class: 'lede' }, T('lede')),
+        h('div', { class: 'th-active' },
+          h('span', {}, cur ? T('active', { n: cur.name }) : T('none')),
+          h('button', { type: 'button', class: 'btn sm again', onclick: function () { clear(); say(T('reset_done')); } }, T('reset'))),
+        refs.msg,
+        h('div', { class: 'th-grid' },
+          h('div', { class: 'th-col' },
+            h('div', { class: 'th-box' },
+              h('label', { class: 'th-f' }, h('span', {}, T('name')), nameIn),
+              h('div', { class: 'th-f' }, h('span', {}, T('scheme')), scheme),
+              h('div', { class: 'th-row' },
+                h('button', { type: 'button', class: 'btn sm', onclick: function () { startFrom('light'); render(); } }, T('from_light')),
+                h('button', { type: 'button', class: 'btn sm', onclick: function () { startFrom('dark'); render(); } }, T('from_dark')))),
+            h('div', { class: 'th-box' }, h('h2', {}, T('colors')), TOKENS.map(colorRow)),
+            h('div', { class: 'th-row' }, refs.apply), refs.blocked,
+            h('div', { class: 'th-box' }, h('h2', {}, T('export')),
+              h('div', { class: 'th-row' }, h('button', { type: 'button', class: 'btn sm', onclick: download }, T('download')), copyBtn)),
+            h('div', { class: 'th-box' }, h('h2', {}, T('import')),
+              h('div', { class: 'th-row' }, h('button', { type: 'button', class: 'btn sm', onclick: function () { fileIn.click(); } }, T('choose')), fileIn),
+              h('label', { class: 'th-f col' }, h('span', {}, T('paste')), paste),
+              h('div', { class: 'th-row' }, h('button', { type: 'button', class: 'btn sm', onclick: function () { if (paste.value.trim()) importText(paste.value); } }, T('load_paste'))))),
+          h('div', { class: 'th-col th-sticky' },
+            h('div', { class: 'th-box' }, h('h2', {}, T('preview')), preview()),
+            h('div', { class: 'th-box' }, h('h2', {}, T('checks')), h('div', { class: 'scroll' }, h('table', { class: 'th-table' }, refs.checks))))),
+        h('p', { class: 'muted th-rescue' }, T('rescue')));
+      refresh();
+    }
+    function mount(el) { host = el; ensure(); render(); }
+    return { mount: mount, boot: boot, clear: clear, _validate: validate, _checks: checks, _BASE: BASE };
+  })();
+
   /* ---------- boot ---------- */
   function boot() {
     LANG = detectLang();
     applyStatic();
+    THEMER.boot();
     initTheme();
     var saved = store.get('sp:pack'), done = false;
     if (saved) {
