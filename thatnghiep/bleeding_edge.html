@@ -1328,6 +1328,54 @@ html, body { max-width: 100%; overflow-x: clip; }
 .an-bar { height: 8px; border-radius: 999px; background: var(--soft); overflow: hidden; }
 .an-bar i { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
 .an-weak { margin-left: 6px; vertical-align: 1px; }
+
+/* ---------- skeleton UI (no pack loaded) ---------- */
+.sk { display: block; position: relative; overflow: hidden; background: var(--soft); border-radius: 8px; }
+.sk::after { content: ""; position: absolute; inset: 0; transform: translateX(-100%); background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--surface) 75%, transparent), transparent); animation: skShimmer 1.6s ease-in-out infinite; }
+@keyframes skShimmer { to { transform: translateX(100%); } }
+.sk-cta { max-width: 62ch; }
+.sk-wrap { margin-top: 26px; opacity: 0.8; pointer-events: none; user-select: none; }
+.sk-card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px 20px; }
+.sk-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.sk-col { display: grid; gap: 10px; min-width: 0; }
+.sk-circle { width: 40px; height: 40px; border-radius: 50%; flex: none; }
+.sk-line { height: 14px; max-width: 100%; }
+.sk-line.sm { height: 10px; }
+.sk-btn { width: 84px; height: 34px; border-radius: 10px; flex: none; }
+.sk-heat { display: flex; gap: 5px; margin-left: auto; }
+.sk-heat .sk { width: 18px; height: 18px; border-radius: 4px; }
+.sk-prog { display: flex; align-items: center; gap: 28px; margin-top: 4px; padding: 22px; }
+.sk-big { width: 96px; height: 64px; flex: none; border-radius: 12px; }
+.sk-bar { height: 10px; border-radius: 5px; }
+.sk-bar.thin { height: 8px; }
+.sk-stats, .sk-acts { display: flex; flex-wrap: wrap; gap: 8px 28px; }
+.sk-acts { gap: 8px; }
+.sk-list { display: grid; gap: 8px; }
+.sk-trow { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 16px; align-items: center; padding: 16px; border-radius: 12px; }
+.rail-sk { display: grid; gap: 8px; padding: 6px 10px; }
+.rail-sk .sk { height: 14px; }
+.rail-sk .sk:nth-child(2) { width: 78%; }
+.rail-sk .sk:nth-child(3) { width: 60%; }
+.nav-i.nav-off { opacity: 0.45; cursor: not-allowed; }
+.nav-i.nav-off:hover { background: none; }
+@media (max-width: 640px) { .sk-prog { gap: 16px; } .sk-big { width: 64px; } .sk-trow { grid-template-columns: minmax(0, 1fr); } .sk-heat { margin-left: 0; } }
+@media (prefers-reduced-motion: reduce) { .sk::after { animation: none; } }
+
+/* ---------- onboarding tour ---------- */
+.tour { position: fixed; inset: 0; z-index: 9000; }
+.tour-hole { position: fixed; border-radius: 12px; box-shadow: 0 0 0 9999px rgb(8 14 30 / 0.62), 0 0 0 2px var(--accent); transition: left .28s cubic-bezier(.25,1,.5,1), top .28s cubic-bezier(.25,1,.5,1), width .28s cubic-bezier(.25,1,.5,1), height .28s cubic-bezier(.25,1,.5,1); pointer-events: none; }
+body.touring .scrim { opacity: 0 !important; transition: none !important; }
+.tour-hole.nohl { box-shadow: 0 0 0 9999px rgb(8 14 30 / 0.62); }
+.tour-card { position: fixed; width: min(380px, calc(100vw - 24px)); box-sizing: border-box; background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; box-shadow: 0 18px 48px rgb(8 14 30 / 0.35); transition: left .28s cubic-bezier(.25,1,.5,1), top .28s cubic-bezier(.25,1,.5,1); }
+.tour-top { display: flex; justify-content: space-between; align-items: center; min-height: 18px; gap: 12px; }
+.tour-card h2 { font-size: 19px; margin: 8px 0 6px; }
+.tour-card p { color: var(--muted); font-size: 14.5px; line-height: 1.5; margin: 0; }
+.tour-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+.tour-btns { display: flex; gap: 8px; margin-left: auto; flex-wrap: wrap; justify-content: flex-end; }
+.tour-dots { display: flex; gap: 5px; }
+.tour-dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--line); }
+.tour-dots i.on { background: var(--accent); width: 16px; border-radius: 3px; }
+@media (prefers-reduced-motion: reduce) { .tour-hole, .tour-card { transition: none; } }
 </style>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
@@ -1623,312 +1671,6 @@ EXAMPLE OF THE EXACT SHAPE (one short topic; your file contains all topics, and 
 END OF INSTRUCTIONS. The Word document follows, attached or pasted below.
 
 </script>
-<script type="application/json" id="sampleEn">
-{
-  "format": "studypack",
-  "version": 1,
-  "title": "Cells and Energy (example)",
-  "subject": "Biology",
-  "level": "Secondary",
-  "language": "en",
-  "topics": [
-    {
-      "id": "t1",
-      "title": "Cell structure",
-      "summary": "Animal and plant cells share most parts. Plant cells also have a cell wall, a permanent vacuole and chloroplasts.",
-      "notes": [
-        {
-          "heading": "Animal and plant cells",
-          "points": [
-            "All living things are made of **cells**, the basic unit of life.",
-            "Animal and plant cells both have a **nucleus**, **cytoplasm**, a **cell membrane** and **mitochondria**.",
-            "Only plant cells have a **cell wall**, a **permanent vacuole** and **chloroplasts**."
-          ]
-        },
-        {
-          "heading": "What each part does",
-          "points": [
-            "The **nucleus** contains DNA and controls the activities of the cell.",
-            "The **cell membrane** controls which substances enter and leave the cell.",
-            "**Mitochondria** are where aerobic respiration releases energy.",
-            "**Chloroplasts** contain chlorophyll and absorb light for photosynthesis.",
-            "The **cell wall** is made of cellulose and supports the cell."
-          ]
-        }
-      ],
-      "key_terms": [
-        {"term": "Nucleus", "definition": "The part of the cell that contains DNA and controls its activities."},
-        {"term": "Cytoplasm", "definition": "The jelly-like substance where most chemical reactions in the cell happen."},
-        {"term": "Mitochondria", "definition": "Structures where aerobic respiration releases energy."},
-        {"term": "Chloroplast", "definition": "A structure containing chlorophyll where photosynthesis takes place."},
-        {"term": "Cell wall", "definition": "A rigid layer of cellulose outside the membrane of plant cells."}
-      ],
-      "flashcards": [
-        {"front": "What does the nucleus do?", "back": "It contains DNA and controls the activities of the cell."},
-        {"front": "Which structures are found only in plant cells?", "back": "Cell wall, permanent vacuole and chloroplasts."},
-        {"front": "What is the job of the cell membrane?", "back": "It controls which substances enter and leave the cell."},
-        {"front": "Where does aerobic respiration take place?", "back": "In the mitochondria."},
-        {"front": "What is the cell wall made of?", "back": "Cellulose."}
-      ],
-      "questions": [
-        {"type": "mcq", "prompt": "Which structure controls the activities of the cell?", "options": ["Cell wall", "Nucleus", "Chloroplast", "Cell membrane"], "answer": 1, "explanation": "The nucleus holds the DNA, which carries the instructions for the cell."},
-        {"type": "truefalse", "prompt": "Animal cells have a cell wall made of cellulose.", "answer": false, "explanation": "Only plant cells have a cellulose cell wall."},
-        {"type": "mcq", "prompt": "Where does aerobic respiration release most of its energy in a cell?", "options": ["Mitochondria", "Nucleus", "Chloroplasts", "Vacuole"], "answer": 0, "explanation": "Mitochondria are the site of aerobic respiration."},
-        {"type": "short", "prompt": "Name two structures found in plant cells but not in animal cells.", "answer": "Any two of: cell wall, permanent vacuole, chloroplasts.", "explanation": ""},
-        {"type": "tfs", "prompt": "Read the passage and decide whether each statement is true or false.", "quote": "Plant cells have a rigid cell wall made of cellulose, a large permanent vacuole and chloroplasts. Animal cells have none of these.", "source": "", "items": [{"text": "The cell wall of a plant cell is made of cellulose.", "answer": true}, {"text": "Animal cells contain chloroplasts.", "answer": false}, {"text": "Plant cells have a large permanent vacuole.", "answer": true}, {"text": "Animal cells have a rigid cell wall.", "answer": false}], "explanation": "The passage lists the structures found only in plant cells."},
-        {"type": "cloze", "prompt": "The ____ contains DNA and controls the activities of the cell.", "answers": ["nucleus"], "explanation": "The nucleus holds the DNA."},
-        {"type": "match", "prompt": "Match each structure with its function.", "pairs": [{"left": "Nucleus", "right": "Holds DNA and controls the cell"}, {"left": "Mitochondrion", "right": "Releases energy by aerobic respiration"}, {"left": "Chloroplast", "right": "Carries out photosynthesis"}, {"left": "Cell wall", "right": "Gives a plant cell a rigid outer layer"}], "explanation": "Each structure has one main function."}
-      ]
-    },
-    {
-      "id": "t2",
-      "title": "Photosynthesis",
-      "summary": "Plants use light energy to turn carbon dioxide and water into glucose and oxygen.",
-      "notes": [
-        {
-          "heading": "The reaction",
-          "points": [
-            "**Photosynthesis** is the process plants use to make glucose using light energy.",
-            "Word equation: carbon dioxide + water -> glucose + oxygen, with light absorbed by **chlorophyll**.",
-            "Symbol equation: 6CO2 + 6H2O -> C6H12O6 + 6O2.",
-            "Gases move into and out of the leaf through the **stomata**."
-          ]
-        },
-        {
-          "heading": "Limiting factors",
-          "points": [
-            "The rate of photosynthesis is limited by light intensity, carbon dioxide concentration and temperature.",
-            "If one factor is in short supply it becomes the **limiting factor**, so raising the others does not increase the rate.",
-            "At high temperatures the enzymes involved **denature**, so the rate falls."
-          ]
-        },
-        {
-          "heading": "Uses of glucose",
-          "points": [
-            "Plants use glucose for respiration, store it as **starch**, or use it to make cellulose for cell walls."
-          ]
-        }
-      ],
-      "key_terms": [
-        {"term": "Photosynthesis", "definition": "The process in which plants use light energy to make glucose from carbon dioxide and water."},
-        {"term": "Chlorophyll", "definition": "The green pigment that absorbs light for photosynthesis."},
-        {"term": "Stomata", "definition": "Small pores in the leaf that let gases move in and out."},
-        {"term": "Limiting factor", "definition": "The factor in shortest supply, which sets the maximum rate of a reaction."}
-      ],
-      "flashcards": [
-        {"front": "Word equation for photosynthesis", "back": "Carbon dioxide + water -> glucose + oxygen (in light)."},
-        {"front": "Which pigment absorbs light for photosynthesis?", "back": "Chlorophyll."},
-        {"front": "Name three factors that can limit photosynthesis.", "back": "Light intensity, carbon dioxide concentration and temperature."},
-        {"front": "How do plants store spare glucose?", "back": "As starch."},
-        {"front": "What are stomata?", "back": "Pores in the leaf that let gases move in and out."}
-      ],
-      "questions": [
-        {"type": "mcq", "prompt": "Which gas does a plant take in for photosynthesis?", "options": ["Oxygen", "Nitrogen", "Carbon dioxide", "Hydrogen"], "answer": 2, "explanation": "Carbon dioxide is a reactant in photosynthesis."},
-        {"type": "mcq", "prompt": "Which substance made in photosynthesis is used by the plant as an energy source?", "options": ["Glucose", "Carbon dioxide", "Chlorophyll", "Water"], "answer": 0, "explanation": "Glucose is the product that the plant uses in respiration and stores as starch."},
-        {"type": "truefalse", "prompt": "Increasing the temperature always increases the rate of photosynthesis.", "answer": false, "explanation": "At high temperatures the enzymes denature and the rate falls."},
-        {"type": "mcq", "prompt": "Through which part of the leaf do gases move in and out?", "options": ["Xylem", "Stomata", "Cuticle", "Root hairs"], "answer": 1, "explanation": "Stomata are the pores that let gases pass."},
-        {"type": "short", "prompt": "Explain why the rate of photosynthesis can stop rising even when light intensity keeps increasing.", "answer": "Another factor, such as carbon dioxide concentration or temperature, has become the limiting factor.", "explanation": "Raising a factor that is not limiting has no further effect on the rate."}
-      ]
-    },
-    {
-      "id": "t3",
-      "title": "Respiration",
-      "summary": "Cells release energy from glucose, with oxygen (aerobic) or without it (anaerobic).",
-      "notes": [
-        {
-          "heading": "Aerobic respiration",
-          "points": [
-            "**Respiration** releases energy from glucose in every living cell.",
-            "Aerobic respiration needs oxygen: glucose + oxygen -> carbon dioxide + water, with energy released.",
-            "Symbol equation: C6H12O6 + 6O2 -> 6CO2 + 6H2O.",
-            "It takes place mainly in the **mitochondria**."
-          ]
-        },
-        {
-          "heading": "Anaerobic respiration",
-          "points": [
-            "**Anaerobic respiration** happens without oxygen and releases less energy.",
-            "In animal muscle cells, glucose is broken down to **lactic acid**.",
-            "In yeast, glucose is broken down to ethanol and carbon dioxide. This is called **fermentation**."
-          ]
-        }
-      ],
-      "key_terms": [
-        {"term": "Aerobic respiration", "definition": "Respiration that uses oxygen to release energy from glucose."},
-        {"term": "Anaerobic respiration", "definition": "Respiration without oxygen, which releases less energy."},
-        {"term": "Lactic acid", "definition": "The product of anaerobic respiration in animal muscle cells."},
-        {"term": "Fermentation", "definition": "Anaerobic respiration in yeast that produces ethanol and carbon dioxide."}
-      ],
-      "flashcards": [
-        {"front": "Word equation for aerobic respiration", "back": "Glucose + oxygen -> carbon dioxide + water (energy released)."},
-        {"front": "What is produced by anaerobic respiration in muscle cells?", "back": "Lactic acid."},
-        {"front": "What is produced by anaerobic respiration in yeast?", "back": "Ethanol and carbon dioxide."},
-        {"front": "Which type of respiration releases more energy?", "back": "Aerobic respiration."}
-      ],
-      "questions": [
-        {"type": "mcq", "prompt": "Which products form during aerobic respiration?", "options": ["Lactic acid and water", "Carbon dioxide and water", "Ethanol and carbon dioxide", "Glucose and oxygen"], "answer": 1, "explanation": "Glucose and oxygen react to give carbon dioxide and water."},
-        {"type": "truefalse", "prompt": "Anaerobic respiration in human muscles produces ethanol.", "answer": false, "explanation": "Human muscle cells produce lactic acid. Yeast produces ethanol."},
-        {"type": "mcq", "prompt": "Which substance builds up in muscles during vigorous exercise when oxygen supply is too low?", "options": ["Ethanol", "Lactic acid", "Starch", "Glucose"], "answer": 1, "explanation": "Without enough oxygen, muscle cells respire anaerobically and make lactic acid."},
-        {"type": "short", "prompt": "Give one similarity and one difference between aerobic and anaerobic respiration.", "answer": "Both release energy from glucose. Aerobic respiration uses oxygen and releases more energy; anaerobic does not use oxygen and releases less.", "explanation": ""}
-      ]
-    }
-  ]
-}
-
-</script>
-<script type="application/json" id="sampleVi">
-{
-  "format": "studypack",
-  "version": 1,
-  "title": "Tế bào và năng lượng (ví dụ)",
-  "subject": "Sinh học",
-  "level": "Trung học",
-  "language": "vi",
-  "topics": [
-    {
-      "id": "t1",
-      "title": "Cấu trúc tế bào",
-      "summary": "Tế bào động vật và thực vật có nhiều bộ phận giống nhau. Tế bào thực vật còn có thành tế bào, không bào lớn và lục lạp.",
-      "notes": [
-        {
-          "heading": "Tế bào động vật và tế bào thực vật",
-          "points": [
-            "Mọi sinh vật đều được cấu tạo từ **tế bào**, đơn vị cơ bản của sự sống.",
-            "Tế bào động vật và thực vật đều có **nhân**, **tế bào chất**, **màng tế bào** và **ty thể**.",
-            "Chỉ tế bào thực vật mới có **thành tế bào**, **không bào lớn** và **lục lạp**."
-          ]
-        },
-        {
-          "heading": "Chức năng của từng bộ phận",
-          "points": [
-            "**Nhân** chứa DNA và điều khiển các hoạt động của tế bào.",
-            "**Màng tế bào** kiểm soát các chất đi vào và ra khỏi tế bào.",
-            "**Ty thể** là nơi hô hấp hiếu khí giải phóng năng lượng.",
-            "**Lục lạp** chứa diệp lục và hấp thụ ánh sáng cho quá trình quang hợp.",
-            "**Thành tế bào** được cấu tạo từ xenlulozơ và có tác dụng nâng đỡ tế bào."
-          ]
-        }
-      ],
-      "key_terms": [
-        {"term": "Nhân", "definition": "Bộ phận của tế bào chứa DNA và điều khiển các hoạt động của tế bào."},
-        {"term": "Tế bào chất", "definition": "Chất dạng keo, nơi diễn ra phần lớn các phản ứng hóa học trong tế bào."},
-        {"term": "Ty thể", "definition": "Cấu trúc nơi hô hấp hiếu khí giải phóng năng lượng."},
-        {"term": "Lục lạp", "definition": "Cấu trúc chứa diệp lục, nơi diễn ra quang hợp."},
-        {"term": "Thành tế bào", "definition": "Lớp xenlulozơ cứng bao bên ngoài màng tế bào thực vật."}
-      ],
-      "flashcards": [
-        {"front": "Nhân có chức năng gì?", "back": "Chứa DNA và điều khiển các hoạt động của tế bào."},
-        {"front": "Những cấu trúc nào chỉ có ở tế bào thực vật?", "back": "Thành tế bào, không bào lớn và lục lạp."},
-        {"front": "Màng tế bào có nhiệm vụ gì?", "back": "Kiểm soát các chất đi vào và ra khỏi tế bào."},
-        {"front": "Hô hấp hiếu khí diễn ra ở đâu?", "back": "Ở ty thể."},
-        {"front": "Thành tế bào được cấu tạo từ chất gì?", "back": "Xenlulozơ."}
-      ],
-      "questions": [
-        {"type": "mcq", "prompt": "Cấu trúc nào điều khiển các hoạt động của tế bào?", "options": ["Thành tế bào", "Nhân", "Lục lạp", "Màng tế bào"], "answer": 1, "explanation": "Nhân chứa DNA, nơi mang các chỉ dẫn cho tế bào."},
-        {"type": "truefalse", "prompt": "Tế bào động vật có thành tế bào làm từ xenlulozơ.", "answer": false, "explanation": "Chỉ tế bào thực vật mới có thành tế bào bằng xenlulozơ."},
-        {"type": "mcq", "prompt": "Hô hấp hiếu khí giải phóng phần lớn năng lượng ở đâu trong tế bào?", "options": ["Ty thể", "Nhân", "Lục lạp", "Không bào"], "answer": 0, "explanation": "Ty thể là nơi diễn ra hô hấp hiếu khí."},
-        {"type": "short", "prompt": "Kể tên hai cấu trúc có ở tế bào thực vật nhưng không có ở tế bào động vật.", "answer": "Hai trong số: thành tế bào, không bào lớn, lục lạp.", "explanation": ""},
-        {"type": "tfs", "prompt": "Đọc đoạn tư liệu và chọn Đúng hoặc Sai cho từng ý.", "quote": "Tế bào thực vật có thành tế bào cứng làm từ xenlulozơ, không bào lớn tồn tại lâu dài và lục lạp. Tế bào động vật không có những cấu trúc này.", "source": "", "items": [{"text": "Thành tế bào thực vật được cấu tạo từ xenlulozơ.", "answer": true}, {"text": "Tế bào động vật có lục lạp.", "answer": false}, {"text": "Tế bào thực vật có không bào lớn tồn tại lâu dài.", "answer": true}, {"text": "Tế bào động vật có thành tế bào cứng.", "answer": false}], "explanation": "Đoạn tư liệu nêu các cấu trúc chỉ có ở tế bào thực vật."},
-        {"type": "cloze", "prompt": "____ chứa DNA và điều khiển hoạt động của tế bào.", "answers": ["Nhân", "Nhân tế bào"], "explanation": "Nhân chứa DNA của tế bào."},
-        {"type": "match", "prompt": "Nối mỗi cấu trúc với chức năng của nó.", "pairs": [{"left": "Nhân", "right": "Chứa DNA và điều khiển tế bào"}, {"left": "Ti thể", "right": "Giải phóng năng lượng bằng hô hấp hiếu khí"}, {"left": "Lục lạp", "right": "Thực hiện quang hợp"}, {"left": "Thành tế bào", "right": "Tạo lớp vỏ cứng cho tế bào thực vật"}], "explanation": "Mỗi cấu trúc có một chức năng chính."}
-      ]
-    },
-    {
-      "id": "t2",
-      "title": "Quang hợp",
-      "summary": "Thực vật dùng năng lượng ánh sáng để biến khí cacbonic và nước thành glucozơ và khí oxi.",
-      "notes": [
-        {
-          "heading": "Phản ứng quang hợp",
-          "points": [
-            "**Quang hợp** là quá trình thực vật tạo ra glucozơ nhờ năng lượng ánh sáng.",
-            "Phương trình chữ: khí cacbonic + nước -> glucozơ + khí oxi, với ánh sáng được **diệp lục** hấp thụ.",
-            "Phương trình hóa học: 6CO2 + 6H2O -> C6H12O6 + 6O2.",
-            "Các chất khí đi vào và ra khỏi lá qua **khí khổng**."
-          ]
-        },
-        {
-          "heading": "Các nhân tố giới hạn",
-          "points": [
-            "Tốc độ quang hợp bị giới hạn bởi cường độ ánh sáng, nồng độ khí cacbonic và nhiệt độ.",
-            "Nhân tố nào thiếu nhất sẽ trở thành **nhân tố giới hạn**, nên tăng các nhân tố còn lại cũng không làm tăng tốc độ.",
-            "Ở nhiệt độ cao, các enzim tham gia bị **biến tính**, nên tốc độ giảm."
-          ]
-        },
-        {
-          "heading": "Công dụng của glucozơ",
-          "points": [
-            "Thực vật dùng glucozơ cho hô hấp, dự trữ dưới dạng **tinh bột**, hoặc tạo xenlulozơ để xây dựng thành tế bào."
-          ]
-        }
-      ],
-      "key_terms": [
-        {"term": "Quang hợp", "definition": "Quá trình thực vật dùng năng lượng ánh sáng để tạo glucozơ từ khí cacbonic và nước."},
-        {"term": "Diệp lục", "definition": "Sắc tố màu xanh hấp thụ ánh sáng cho quang hợp."},
-        {"term": "Khí khổng", "definition": "Các lỗ nhỏ trên lá cho khí đi vào và ra."},
-        {"term": "Nhân tố giới hạn", "definition": "Nhân tố thiếu nhất, quyết định tốc độ tối đa của phản ứng."}
-      ],
-      "flashcards": [
-        {"front": "Phương trình chữ của quang hợp", "back": "Khí cacbonic + nước -> glucozơ + khí oxi (có ánh sáng)."},
-        {"front": "Sắc tố nào hấp thụ ánh sáng cho quang hợp?", "back": "Diệp lục."},
-        {"front": "Kể tên ba nhân tố có thể giới hạn quang hợp.", "back": "Cường độ ánh sáng, nồng độ khí cacbonic và nhiệt độ."},
-        {"front": "Thực vật dự trữ glucozơ dư thừa dưới dạng nào?", "back": "Tinh bột."},
-        {"front": "Khí khổng là gì?", "back": "Các lỗ nhỏ trên lá cho khí đi vào và ra."}
-      ],
-      "questions": [
-        {"type": "mcq", "prompt": "Thực vật hấp thụ khí nào cho quá trình quang hợp?", "options": ["Khí oxi", "Khí nitơ", "Khí cacbonic", "Khí hiđro"], "answer": 2, "explanation": "Khí cacbonic là chất tham gia của quang hợp."},
-        {"type": "mcq", "prompt": "Chất nào được tạo ra trong quang hợp và được cây dùng làm nguồn năng lượng?", "options": ["Glucozơ", "Khí cacbonic", "Diệp lục", "Nước"], "answer": 0, "explanation": "Glucozơ là sản phẩm mà cây dùng cho hô hấp và dự trữ dưới dạng tinh bột."},
-        {"type": "truefalse", "prompt": "Tăng nhiệt độ luôn làm tăng tốc độ quang hợp.", "answer": false, "explanation": "Ở nhiệt độ cao, enzim bị biến tính và tốc độ giảm."},
-        {"type": "mcq", "prompt": "Các chất khí đi vào và ra khỏi lá qua bộ phận nào?", "options": ["Mạch gỗ", "Khí khổng", "Lớp cutin", "Lông hút"], "answer": 1, "explanation": "Khí khổng là các lỗ cho khí đi qua."},
-        {"type": "short", "prompt": "Giải thích vì sao tốc độ quang hợp có thể ngừng tăng dù cường độ ánh sáng vẫn tăng.", "answer": "Một nhân tố khác, như nồng độ khí cacbonic hoặc nhiệt độ, đã trở thành nhân tố giới hạn.", "explanation": "Tăng một nhân tố không phải là nhân tố giới hạn thì không làm tốc độ tăng thêm."}
-      ]
-    },
-    {
-      "id": "t3",
-      "title": "Hô hấp",
-      "summary": "Tế bào giải phóng năng lượng từ glucozơ, có oxi (hiếu khí) hoặc không có oxi (kị khí).",
-      "notes": [
-        {
-          "heading": "Hô hấp hiếu khí",
-          "points": [
-            "**Hô hấp** giải phóng năng lượng từ glucozơ trong mọi tế bào sống.",
-            "Hô hấp hiếu khí cần oxi: glucozơ + khí oxi -> khí cacbonic + nước, kèm theo giải phóng năng lượng.",
-            "Phương trình hóa học: C6H12O6 + 6O2 -> 6CO2 + 6H2O.",
-            "Quá trình này diễn ra chủ yếu ở **ty thể**."
-          ]
-        },
-        {
-          "heading": "Hô hấp kị khí",
-          "points": [
-            "**Hô hấp kị khí** diễn ra khi không có oxi và giải phóng ít năng lượng hơn.",
-            "Ở tế bào cơ động vật, glucozơ bị phân giải thành **axit lactic**.",
-            "Ở nấm men, glucozơ bị phân giải thành etanol và khí cacbonic. Quá trình này gọi là **lên men**."
-          ]
-        }
-      ],
-      "key_terms": [
-        {"term": "Hô hấp hiếu khí", "definition": "Hô hấp dùng oxi để giải phóng năng lượng từ glucozơ."},
-        {"term": "Hô hấp kị khí", "definition": "Hô hấp không dùng oxi, giải phóng ít năng lượng hơn."},
-        {"term": "Axit lactic", "definition": "Sản phẩm của hô hấp kị khí trong tế bào cơ động vật."},
-        {"term": "Lên men", "definition": "Hô hấp kị khí ở nấm men, tạo ra etanol và khí cacbonic."}
-      ],
-      "flashcards": [
-        {"front": "Phương trình chữ của hô hấp hiếu khí", "back": "Glucozơ + khí oxi -> khí cacbonic + nước (giải phóng năng lượng)."},
-        {"front": "Hô hấp kị khí trong tế bào cơ tạo ra chất gì?", "back": "Axit lactic."},
-        {"front": "Hô hấp kị khí ở nấm men tạo ra chất gì?", "back": "Etanol và khí cacbonic."},
-        {"front": "Kiểu hô hấp nào giải phóng nhiều năng lượng hơn?", "back": "Hô hấp hiếu khí."}
-      ],
-      "questions": [
-        {"type": "mcq", "prompt": "Sản phẩm của hô hấp hiếu khí là gì?", "options": ["Axit lactic và nước", "Khí cacbonic và nước", "Etanol và khí cacbonic", "Glucozơ và khí oxi"], "answer": 1, "explanation": "Glucozơ phản ứng với oxi tạo ra khí cacbonic và nước."},
-        {"type": "truefalse", "prompt": "Hô hấp kị khí ở cơ người tạo ra etanol.", "answer": false, "explanation": "Tế bào cơ người tạo axit lactic. Nấm men mới tạo etanol."},
-        {"type": "mcq", "prompt": "Chất nào tích tụ trong cơ khi vận động mạnh mà không đủ oxi?", "options": ["Etanol", "Axit lactic", "Tinh bột", "Glucozơ"], "answer": 1, "explanation": "Thiếu oxi, tế bào cơ hô hấp kị khí và tạo ra axit lactic."},
-        {"type": "short", "prompt": "Nêu một điểm giống và một điểm khác nhau giữa hô hấp hiếu khí và hô hấp kị khí.", "answer": "Cả hai đều giải phóng năng lượng từ glucozơ. Hô hấp hiếu khí dùng oxi và giải phóng nhiều năng lượng hơn; hô hấp kị khí không dùng oxi và giải phóng ít năng lượng hơn.", "explanation": ""}
-      ]
-    }
-  ]
-}
-
-</script>
 <script>
 /* Interface text in English and Vietnamese. A value may be a string or [one, other] for plurals (chosen by the {n} variable). */
 var I18N = {
@@ -2070,9 +1812,7 @@ var I18N = {
     ready_pct: '{n}% ready',
 
     eyebrow_pack: 'Study pack',
-    tag_example: 'Example',
     topics_n: ['{n} topic', '{n} topics'],
-    note_example: 'This example pack lets you try every feature. {link} to replace it.',
     open_own: 'Open your own file',
     loaded_n: ['Loaded {n} topic', 'Loaded {n} topics'],
     loaded_from: [' from {n} file', ' from {n} files'],
@@ -2192,7 +1932,6 @@ var I18N = {
     paste_label: 'Or paste the JSON text',
     load_pasted: 'Load pasted text',
     local_note: 'Files are read in your browser. Nothing is uploaded anywhere.',
-    use_example: 'Use the example pack',
     pasted_name: 'Pasted text',
 
     teach_eyebrow: 'For teachers',
@@ -2241,7 +1980,39 @@ var I18N = {
     v_q_cloze: 'Topic {n} ({t}), question {s} must have exactly one blank written as ____ in its "prompt" and was skipped.',
     v_q_cloze_a: 'Topic {n} ({t}), question {s} has no "answers" and was skipped.',
     v_q_match: 'Topic {n} ({t}), question {s} needs at least 2 "pairs" with a different "left" and "right" in each, and was skipped.',
-    v_noitems: 'No usable notes, flashcards or questions were found in this file.'
+    v_noitems: 'No usable notes, flashcards or questions were found in this file.',
+    sk_h: 'No study pack yet',
+    sk_lede: 'Open a study pack and this page fills in with your progress, streak and topics. The grey shapes below show where everything will go.',
+    sk_cta: 'Open a study pack',
+    sk_tour: 'Take the quick tour',
+    nav_tour: 'Take the tour',
+    nav_empty_aria: 'Topics will appear here',
+    tour_aria: 'Guided tour',
+    tour_w_h: 'Welcome to Navel Desk',
+    tour_w_p: 'Want a quick tour of how everything works? It takes about a minute. You can skip it now and replay it any time from the sidebar.',
+    tour_start: 'Start the tour',
+    tour_skip_w: 'No thanks, skip',
+    tour_skip: 'Skip tour',
+    tour_next: 'Next',
+    tour_back: 'Back',
+    tour_close: 'Close',
+    tour_step: 'Step {i} of {n}',
+    tour_rail_h: 'Your sidebar',
+    tour_rail_p: 'Jump between your overview, exam mode, topics and tools. Tap the Navel Desk logo at the top to hide or show it.',
+    tour_open_h: 'Open a study pack',
+    tour_open_p: 'Start here. A study pack is a file from your teacher, or one you make yourself. Drop the file in, or paste its text.',
+    tour_make_h: 'Make your own pack',
+    tour_make_p: 'No file yet? Copy the ready-made prompt, give it to an AI together with your document, and it builds a pack for you.',
+    tour_skel_h: 'Your overview',
+    tour_skel_p: 'This is your home screen. It shows how ready you are to revise, your study streak, and every topic with its notes, flashcards and quiz progress.',
+    tour_exam_h: 'Exam mode',
+    tour_exam_p: 'Sit a timed practice exam that mixes questions from all your topics. It unlocks as soon as a pack is loaded.',
+    tour_timer_h: 'Focus timer',
+    tour_timer_p: 'Run a study timer while you work. Every finished session adds to your streak.',
+    tour_tools_h: 'Language and theme',
+    tour_tools_p: 'Switch between English and Tiếng Việt, and pick light, dark or system mode. More looks are waiting under Themes.',
+    tour_done_h: 'You are all set',
+    tour_done_p: 'Open your first study pack to begin. You can replay this tour any time from the sidebar.',
   },
 
   vi: {
@@ -2380,9 +2151,7 @@ var I18N = {
     streak_days: ' ngày',
     streak_note: 'Chuỗi',
     eyebrow_pack: 'Bộ ôn tập',
-    tag_example: 'Ví dụ',
     topics_n: '{n} chủ đề',
-    note_example: 'Bộ ví dụ này giúp bạn thử mọi tính năng. {link} để thay thế.',
     open_own: 'Mở tệp của bạn',
     loaded_n: 'Đã tải {n} chủ đề',
     loaded_from: ' từ {n} tệp',
@@ -2504,7 +2273,6 @@ var I18N = {
     paste_label: 'Hoặc dán nội dung JSON',
     load_pasted: 'Tải nội dung đã dán',
     local_note: 'Tệp được đọc ngay trong trình duyệt của bạn. Không có gì được tải lên đâu cả.',
-    use_example: 'Dùng bộ ví dụ',
     pasted_name: 'Nội dung đã dán',
 
     teach_eyebrow: 'Dành cho giáo viên',
@@ -2553,7 +2321,39 @@ var I18N = {
     v_q_cloze: 'Chủ đề {n} ({t}), câu hỏi {s} phải có đúng một chỗ trống viết là ____ trong "prompt" nên bị bỏ qua.',
     v_q_cloze_a: 'Chủ đề {n} ({t}), câu hỏi {s} không có "answers" nên bị bỏ qua.',
     v_q_match: 'Chủ đề {n} ({t}), câu hỏi {s} cần ít nhất 2 "pairs", mỗi cặp có "left" và "right" khác nhau, nên bị bỏ qua.',
-    v_noitems: 'Không tìm thấy ghi chú, thẻ ghi nhớ hoặc câu hỏi nào dùng được trong tệp này.'
+    v_noitems: 'Không tìm thấy ghi chú, thẻ ghi nhớ hoặc câu hỏi nào dùng được trong tệp này.',
+    sk_h: 'Chưa có bộ ôn tập',
+    sk_lede: 'Mở một bộ ôn tập và trang này sẽ hiện tiến độ, chuỗi ngày học và các chủ đề của bạn. Các khối xám bên dưới cho thấy mọi thứ sẽ nằm ở đâu.',
+    sk_cta: 'Mở bộ ôn tập',
+    sk_tour: 'Xem hướng dẫn nhanh',
+    nav_tour: 'Xem hướng dẫn',
+    nav_empty_aria: 'Các chủ đề sẽ hiện ở đây',
+    tour_aria: 'Hướng dẫn sử dụng',
+    tour_w_h: 'Chào mừng đến với Navel Desk',
+    tour_w_p: 'Bạn muốn xem nhanh cách mọi thứ hoạt động không? Chỉ mất khoảng một phút. Bạn có thể bỏ qua và xem lại bất cứ lúc nào từ thanh bên.',
+    tour_start: 'Bắt đầu hướng dẫn',
+    tour_skip_w: 'Không, bỏ qua',
+    tour_skip: 'Bỏ qua',
+    tour_next: 'Tiếp',
+    tour_back: 'Quay lại',
+    tour_close: 'Đóng',
+    tour_step: 'Bước {i}/{n}',
+    tour_rail_h: 'Thanh bên',
+    tour_rail_p: 'Chuyển nhanh giữa tổng quan, chế độ thi thử, các chủ đề và công cụ. Chạm vào logo Navel Desk ở trên cùng để ẩn hoặc hiện thanh này.',
+    tour_open_h: 'Mở bộ ôn tập',
+    tour_open_p: 'Bắt đầu từ đây. Bộ ôn tập là một tệp do giáo viên đưa hoặc do bạn tự tạo. Hãy thả tệp vào, hoặc dán nội dung của nó.',
+    tour_make_h: 'Tự tạo bộ ôn tập',
+    tour_make_p: 'Chưa có tệp? Sao chép câu lệnh có sẵn, đưa cho AI cùng với tài liệu của bạn, và nó sẽ tạo bộ ôn tập giúp bạn.',
+    tour_skel_h: 'Trang tổng quan',
+    tour_skel_p: 'Đây là màn hình chính. Nó cho thấy bạn đã sẵn sàng ôn tập đến đâu, chuỗi ngày học, và từng chủ đề với tiến độ ghi chú, thẻ ghi nhớ và câu hỏi.',
+    tour_exam_h: 'Thi thử',
+    tour_exam_p: 'Làm một bài thi thử có giới hạn thời gian, trộn câu hỏi từ mọi chủ đề. Mục này mở ra ngay khi bạn tải một bộ ôn tập.',
+    tour_timer_h: 'Đồng hồ tập trung',
+    tour_timer_p: 'Bật đồng hồ khi học. Mỗi phiên hoàn thành sẽ được cộng vào chuỗi ngày học.',
+    tour_tools_h: 'Ngôn ngữ và giao diện',
+    tour_tools_p: 'Đổi giữa English và Tiếng Việt, chọn chế độ sáng, tối hoặc theo hệ thống. Còn nhiều giao diện khác trong mục Giao diện.',
+    tour_done_h: 'Bạn đã sẵn sàng',
+    tour_done_p: 'Hãy mở bộ ôn tập đầu tiên để bắt đầu. Bạn có thể xem lại hướng dẫn này bất cứ lúc nào từ thanh bên.'
   }
 };
 
@@ -2789,7 +2589,7 @@ if (typeof module !== 'undefined' && module.exports) {
   }
 
 var S = {
-    pack: null, key: '', sample: false, prog: null,
+    pack: null, key: '', empty: false, prog: null,
     view: 'overview', scope: 'all', mode: 'notes',
     exam: { step: 'config', run: null, result: null },
     cards: null, quiz: null, qiv: null,
@@ -2803,18 +2603,22 @@ var S = {
   };
 
   /* ---------- pack + progress ---------- */
-  function sampleFor(lang) {
-    return spNormalise(JSON.parse($(lang === 'vi' ? '#sampleVi' : '#sampleEn').textContent)).pack;
+  /* No pack loaded yet: a blank placeholder so every view keeps working, with S.empty switching on the skeleton UI. */
+  function setEmpty() {
+    S.pack = { title: '', subject: '', level: '', language: '', topics: [] };
+    S.empty = true; S.key = 'empty'; S.prog = emptyProg();
+    S.cards = null; S.quiz = null; S.confirmReset = false;
+    $('#packName').textContent = '';
   }
-  function setPack(pack, sample) {
-    S.pack = pack; S.sample = !!sample;
+  function setPack(pack) {
+    S.pack = pack; S.empty = false;
     // Key = optional explicit pack "id" (survives renames), else title + topics (legacy formula, keeps old progress).
     var legacyKey = spHash(pack.title + '|' + pack.topics.map(function (t) { return t.id + ':' + t.title; }).join('|'));
-    S.key = sample ? 'example' : (pack.id ? spHash('id:' + pack.id) : legacyKey);
+    S.key = pack.id ? spHash('id:' + pack.id) : legacyKey;
     var p = null;
     try { p = JSON.parse(store.get('sp:prog:' + S.key) || 'null'); } catch (e) { p = null; }
     // First load with an id: carry over progress saved under the old title-based key.
-    if (!p && !sample && S.key !== legacyKey) {
+    if (!p && S.key !== legacyKey) {
       try { p = JSON.parse(store.get('sp:prog:' + legacyKey) || 'null'); } catch (e) { p = null; }
     }
     S.prog = emptyProg();
@@ -2823,7 +2627,7 @@ var S = {
       if (Array.isArray(p.hist)) S.prog.hist = p.hist;
     }
     S.cards = null; S.quiz = null; S.confirmReset = false; stopQT();
-    store.set('sp:pack', sample ? '' : JSON.stringify(pack));
+    store.set('sp:pack', JSON.stringify(pack));
     $('#packName').textContent = pack.title;
   }
   function saveProg() { store.set('sp:prog:' + S.key, JSON.stringify(S.prog)); }
@@ -2867,7 +2671,7 @@ function loadTexts(items) {
       saveRecentPackToStorage(n.pack.title, it.text);
     });
     if (!packs.length) { S.loadMsg = { errors: errs, warnings: warns }; S.view = 'load'; render(); return; }
-    setPack(spMerge(packs), false);
+    setPack(spMerge(packs));
     S.notice = { topics: S.pack.topics.length, files: items.length > 1 ? packs.length : 0, items: errs.concat(warns) };
     S.loadMsg = null;
     go('overview');
@@ -2879,14 +2683,12 @@ function loadTexts(items) {
       return f.text().then(function (t) { return { name: f.name, text: t }; }, function () { return { name: f.name, text: '' }; });
     })).then(loadTexts);
   }
-  function loadSample() {
-    setPack(sampleFor(LANG), true); S.notice = null; S.loadMsg = null; go('overview');
-  }
 
   /* ---------- navigation ---------- */
 function go(where, id, mode) {
     // 1. Active-View Guard: Do nothing if clicking the nav item you're already viewing
     openDebugPopup(false);
+    if (S.empty && (where === 'exam' || where === 'topic' || where === 'all')) where = 'overview';
     var wasDrawer = S.drawerOpen; setDrawer(false);
     if (where === 'overview' && S.view === 'overview') return;
     if (where === 'load' && S.view === 'load') return;
@@ -2937,6 +2739,7 @@ function go(where, id, mode) {
   /* ---------- rendering ---------- */
 function render() {
     var main;
+    if (S.empty && (S.view === 'study' || S.view === 'exam')) S.view = 'overview';
     if (S.view === 'overview') main = overviewHTML();
     else if (S.view === 'study') main = studyHTML();
     else if (S.view === 'exam') main = renderExam();
@@ -2962,19 +2765,21 @@ function render() {
     var h = '<nav class="rail" id="railNav" aria-label="' + esc(tr('nav_aria')) + '">';
     h += '<div class="rail-top"><b>Navel Desk</b><button class="rail-x" data-act="closeDrawer" aria-label="' + esc(tr('dismiss')) + '"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg></button></div>';
     h += '<button class="nav-i' + (S.view === 'overview' ? ' cur' : '') + '" data-go="overview"><span>' + tr('nav_overview') + '</span></button>';
-    h += '<button class="nav-i' + (S.view === 'exam' ? ' cur' : '') + '" data-go="exam"><span>' + tr('exam') + '</span></button>';
+    h += '<button class="nav-i' + (S.view === 'exam' ? ' cur' : '') + (S.empty ? ' nav-off' : '') + '" data-tour="nav-exam" data-go="exam"' + (S.empty ? ' disabled aria-disabled="true"' : '') + '><span>' + tr('exam') + '</span></button>';
     h += '<p class="rail-h">' + tr('nav_topics') + '</p><div class="rail-list">';
+    if (S.empty) h += '<div class="rail-sk" role="img" aria-label="' + esc(tr('nav_empty_aria')) + '"><i class="sk"></i><i class="sk"></i><i class="sk"></i></div>';
     S.pack.topics.forEach(function (t) {
       var st = topicStats(t), pct = Math.round(st.ready * 100);
       var cur = S.view === 'study' && S.scope === t.id;
       h += '<button class="nav-i' + (cur ? ' cur' : '') + '" data-go="topic" data-id="' + esc(t.id) + '" title="' + esc(t.title) + '"><span>' + esc(t.title) + '</span><i class="dot" style="--p:' + pct + '" title="' + esc(tr('ready_pct', { n: pct })) + '"></i></button>';
     });
     h += '</div><p class="rail-h">' + tr('nav_files') + '</p><div class="rail-list">';
-    h += '<button class="nav-i' + (S.view === 'load' ? ' cur' : '') + '" data-go="load"><span>' + tr('nav_open') + '</span></button>';
+    h += '<button class="nav-i' + (S.view === 'load' ? ' cur' : '') + '" data-tour="nav-open" data-go="load"><span>' + tr('nav_open') + '</span></button>';
     h += '<button class="nav-i' + (S.view === 'edit' ? ' cur' : '') + '" data-go="edit"><span>' + tr('nav_edit') + '</span></button>';
     h += '<button class="nav-i' + (S.view === 'themes' ? ' cur' : '') + '" data-go="themes"><span>' + tr('nav_theme') + '</span></button>';
-    h += '<button class="nav-i' + (S.view === 'teacher' ? ' cur' : '') + '" data-go="teacher"><span>' + tr('nav_make') + '</span></button>';
+    h += '<button class="nav-i' + (S.view === 'teacher' ? ' cur' : '') + '" data-tour="nav-make" data-go="teacher"><span>' + tr('nav_make') + '</span></button>';
     h += '<button class="nav-i' + (S.view === 'credits' ? ' cur' : '') + '" data-go="credits"><span>' + tr('nav_credits') + '</span></button>';
+    h += '<button class="nav-i" data-act="tourStart"><span>' + tr('nav_tour') + '</span></button>';
     h += '</div></nav>';
     return h;
   }
@@ -3042,13 +2847,14 @@ function deadlineKey() { return 'sp:deadline:' + S.key; }
     return h + '</div></div>';
   }
 function overviewHTML() {
+    if (S.empty) return skeletonHTML();
     var P = S.pack, tt = totals(), pct = Math.round(tt.ready * 100);
     var meta = [P.subject, P.level, tr('topics_n', { n: P.topics.length })].filter(Boolean).map(esc).join(' · ');
     
     var isMonth = S.streakView === 'month';
     var streakData = getStreakData(isMonth ? 30 : 7);
 
-    var h = '<div class="eyebrow">' + tr('eyebrow_pack') + (S.sample ? '<span class="tag">' + tr('tag_example') + '</span>' : '') + '</div>';
+    var h = '<div class="eyebrow">' + tr('eyebrow_pack') + '</div>';
     h += '<h1 class="page-h">' + esc(P.title) + '</h1><p class="lede">' + meta + '</p>';
     
     // Streak & Heatmap Widget với Toggle Tuần / Tháng
@@ -3064,7 +2870,6 @@ function overviewHTML() {
     }).join('') + '</div></div></div>';
 
     h += deadlineHTML() + '</div>';
-    if (S.sample) h += '<div class="note">' + tr('note_example', { link: '<button class="link" data-go="load">' + tr('open_own') + '</button>' }) + '</div>';
     if (S.notice) {
       h += '<div class="note"><b>' + tr('loaded_n', { n: S.notice.topics }) + (S.notice.files ? tr('loaded_from', { n: S.notice.files }) : '') + '.</b> <button class="link" data-act="dismiss">' + tr('dismiss') + '</button>';
       if (S.notice.items.length) {
@@ -4257,7 +4062,7 @@ function quizSetupHTML() {
 
     h += '<div class="drop" id="drop"><p><b>' + tr('drop_h') + '</b></p><p class="muted">' + tr('drop_sub') + '</p><button class="btn primary" data-act="pickfile">' + tr('choose_files') + '</button><input type="file" id="fileIn" accept=".json,.txt,application/json,text/plain" multiple hidden></div>';
     h += '<div style="margin-top: 20px;"><label for="pasteIn" style="font-weight:600">' + tr('paste_label') + '</label><textarea class="paste" id="pasteIn" placeholder="{ &quot;format&quot;: &quot;studypack&quot;, ... }" style="margin-top:8px"></textarea><div style="margin-top:8px"><button class="btn" data-act="loadpaste">' + tr('load_pasted') + '</button></div></div>';
-    h += '<p class="muted" style="margin-top: 16px;">' + tr('local_note') + ' <button class="link" data-act="sample">' + tr('use_example') + '</button></p></div>';
+    h += '<p class="muted" style="margin-top: 16px;">' + tr('local_note') + '</p></div>';
     return h;
   }
 /* ---------- credits & acknowledgements ----------
@@ -4533,7 +4338,6 @@ function setLang(l) {
     applyStatic(); 
     syncTheme(); 
     tRender();
-    if (S.sample) { setPack(sampleFor(LANG), true); S.notice = null; }
     if (S.pack) $('#packName').textContent = S.pack.title;
     render(); // Rebuilds DOM with new language text
 
@@ -4735,7 +4539,7 @@ function toggleExamFlag() {
         S.prog = emptyProg(); saveProg(); S.confirmReset = false; S.cards = null; render(); break;
       case 'pickfile': var fi = $('#fileIn'); if (fi) fi.click(); break;
       case 'loadpaste': var ta = $('#pasteIn'); if (ta && ta.value.trim()) loadTexts([{ name: tr('pasted_name'), text: ta.value }]); break;
-      case 'sample': loadSample(); break;
+      case 'tourStart': setDrawer(false); tourStart(); break;
       case 'dlClear': setDeadline(''); break;
       case 'copyprompt': copyPrompt(el); break;
       case 'focus': openPanel(true); if (!T.running) tStart(); break;
@@ -5496,7 +5300,7 @@ document.addEventListener('click', function (e) {
     }
     function reloadFromCurrent() {
       if (!okDiscard()) return;
-      data = S.pack ? fromPack() : emptyPack(); fileName = null; dirty = false; selT = selQ = null; textDirty = false;
+      data = S.pack && !S.empty ? fromPack() : emptyPack(); fileName = null; dirty = false; selT = selQ = null; textDirty = false;
       store.set(DRAFT, ''); render(); toast(T('from_cur_done'));
     }
     function apply() {
@@ -5850,7 +5654,7 @@ document.addEventListener('click', function (e) {
       if (d && d.data && Array.isArray(d.data.topics) && d.data.topics.length) {
         normalize(d.data); data = d.data; fileName = d.fileName || null; dirty = true; return 'draft';
       }
-      data = S.pack ? fromPack() : emptyPack(); fileName = null; dirty = false; return null;
+      data = S.pack && !S.empty ? fromPack() : emptyPack(); fileName = null; dirty = false; return null;
     }
     function mount(el) {
       host = el;
@@ -5863,7 +5667,7 @@ document.addEventListener('click', function (e) {
         e.preventDefault(); if (okDiscard()) openFile(e.dataTransfer.files[0]);
       });
       render();
-      if (first === 'draft') toast(T('draft'), { label: T('draft_reset'), fn: function () { data = S.pack ? fromPack() : emptyPack(); fileName = null; dirty = false; selT = selQ = null; store.set(DRAFT, ''); render(); } });
+      if (first === 'draft') toast(T('draft'), { label: T('draft_reset'), fn: function () { data = S.pack && !S.empty ? fromPack() : emptyPack(); fileName = null; dirty = false; selT = selQ = null; store.set(DRAFT, ''); render(); } });
     }
     function openText(text, name) {
       var p = parse(text, false); if (!p) return false;
@@ -6863,6 +6667,172 @@ var NDQR = (function () {
   window.addEventListener('hashchange', importFromHash);
 
 
+  /* ---------- skeleton (nothing loaded yet) ---------- */
+  function skeletonHTML() {
+    var h = '<div class="eyebrow">' + tr('eyebrow_pack') + '</div>';
+    h += '<div class="sk-cta"><h1 class="page-h">' + tr('sk_h') + '</h1><p class="lede">' + tr('sk_lede') + '</p>';
+    h += '<div class="actions" style="margin-top:16px"><button class="btn primary" data-go="load">' + tr('sk_cta') + '</button>';
+    h += '<button class="btn" data-act="tourStart">' + tr('sk_tour') + '</button></div></div>';
+    h += '<div class="sk-wrap" aria-hidden="true">';
+    h += '<div class="top-row"><div class="sk-card sk-row"><i class="sk sk-circle"></i><div class="sk-col"><i class="sk sk-line" style="width:90px"></i><i class="sk sk-line sm" style="width:140px"></i></div>';
+    h += '<div class="sk-heat"><i class="sk"></i><i class="sk"></i><i class="sk"></i><i class="sk"></i><i class="sk"></i><i class="sk"></i><i class="sk"></i></div></div>';
+    h += '<div class="sk-card sk-row"><i class="sk sk-circle"></i><div class="sk-col"><i class="sk sk-line" style="width:110px"></i><i class="sk sk-line sm" style="width:80px"></i></div><i class="sk sk-btn"></i></div></div>';
+    h += '<div class="sk-card sk-prog" data-tour="skel-prog"><i class="sk sk-big"></i><div class="sk-col" style="flex:1"><i class="sk sk-bar"></i>';
+    h += '<div class="sk-stats"><i class="sk sk-line sm" style="width:64px"></i><i class="sk sk-line sm" style="width:64px"></i><i class="sk sk-line sm" style="width:64px"></i></div>';
+    h += '<div class="sk-acts"><i class="sk sk-btn"></i><i class="sk sk-btn"></i><i class="sk sk-btn"></i></div></div></div>';
+    h += '<i class="sk sk-line" style="width:110px;height:22px;margin:34px 0 14px"></i><div class="sk-list">';
+    for (var i = 0; i < 3; i++) {
+      h += '<div class="sk-card sk-trow"><div class="sk-col"><i class="sk sk-line" style="width:' + (62 - i * 9) + '%"></i><i class="sk sk-line sm" style="width:' + (88 - i * 12) + '%"></i></div>';
+      h += '<div class="sk-col"><i class="sk sk-bar thin"></i><i class="sk sk-bar thin"></i><i class="sk sk-bar thin"></i></div></div>';
+    }
+    return h + '</div></div>';
+  }
+
+  /* ---------- onboarding tour ---------- */
+  var TOUR = { on: false, i: 0, prevFocus: null };
+  var TOUR_STEPS = [
+    { k: 'rail', rail: true, sel: '#railNav' },
+    { k: 'open', rail: true, sel: '[data-tour="nav-open"]' },
+    { k: 'make', rail: true, sel: '[data-tour="nav-make"]' },
+    { k: 'skel',  sel: '[data-tour="skel-prog"], .prog' },
+    { k: 'exam', rail: true, sel: '[data-tour="nav-exam"]' },
+    { k: 'timer', sel: '#timerChip' },
+    { k: 'tools', sel: '.tools' },
+    { k: 'done',  sel: null, last: true }
+  ];
+  function tourDone() { store.set('sp:tour', '1'); }
+  function tourTarget(st) {
+    if (!st.sel) return null;
+    var el = $(st.sel);
+    if (!el || !el.getClientRects().length) return null;
+    var r = el.getBoundingClientRect();
+    // Off-canvas (mobile drawer) or collapsed targets fall back to a centred card.
+    if (r.width < 2 || r.height < 2 || r.right <= 0 || r.left >= window.innerWidth) return null;
+    return el;
+  }
+  function tourOpen() {
+    if (TOUR.on) return;
+    TOUR.on = true; TOUR.prevFocus = document.activeElement;
+    var d = document.createElement('div');
+    d.id = 'tour'; d.className = 'tour';
+    d.innerHTML = '<div class="tour-hole"></div><div class="tour-card" role="dialog" aria-modal="true" aria-labelledby="tourT" aria-describedby="tourB"></div>';
+    document.body.appendChild(d);
+    document.body.classList.add('touring');
+    d.addEventListener('click', tourClick);
+    document.addEventListener('keydown', tourKey, true);
+    window.addEventListener('resize', tourPlace);
+    window.addEventListener('scroll', tourPlace, true);
+  }
+  function tourClose(markDone) {
+    if (markDone !== false) tourDone();
+    var d = $('#tour'); if (d) d.remove();
+    document.body.classList.remove('touring');
+    if (S.drawerOpen) setDrawer(false);
+    document.removeEventListener('keydown', tourKey, true);
+    window.removeEventListener('resize', tourPlace);
+    window.removeEventListener('scroll', tourPlace, true);
+    TOUR.on = false;
+    if (TOUR.prevFocus && TOUR.prevFocus.focus) { try { TOUR.prevFocus.focus(); } catch (e) { /* gone */ } }
+  }
+  function tourWelcome() {
+    if (TOUR.on || S.view !== 'overview') return;
+    tourOpen(); TOUR.i = -1; tourRender();
+  }
+  function tourStart() {
+    if (TOUR.on) return;
+    if (S.view !== 'overview') { S.view = 'overview'; render(); window.scrollTo(0, 0); }
+    tourOpen(); TOUR.i = 0; tourRender();
+  }
+  function tourRender() {
+    var card = $('#tour .tour-card'); if (!card) return;
+    var n = TOUR_STEPS.length, w = TOUR.i < 0, st = w ? null : TOUR_STEPS[TOUR.i];
+    var h = '<div class="tour-top"><span class="eyebrow">' + (w ? '' : esc(tr('tour_step', { i: TOUR.i + 1, n: n }))) + '</span>';
+    if (!w && !st.last) h += '<button class="link" data-tour-act="skip">' + tr('tour_skip') + '</button>';
+    h += '</div>';
+    h += '<h2 id="tourT">' + tr(w ? 'tour_w_h' : 'tour_' + st.k + '_h') + '</h2><p id="tourB">' + tr(w ? 'tour_w_p' : 'tour_' + st.k + '_p') + '</p>';
+    h += '<div class="tour-foot">';
+    if (w) {
+      h += '<div class="tour-btns"><button class="btn" data-tour-act="skip">' + tr('tour_skip_w') + '</button><button class="btn primary" data-tour-act="next">' + tr('tour_start') + '</button></div>';
+    } else {
+      h += '<div class="tour-dots" aria-hidden="true">';
+      for (var i = 0; i < n; i++) h += '<i' + (i === TOUR.i ? ' class="on"' : '') + '></i>';
+      h += '</div><div class="tour-btns">';
+      if (TOUR.i > 0 && !st.last) h += '<button class="btn" data-tour-act="back">' + tr('tour_back') + '</button>';
+      if (st.last) h += '<button class="btn" data-tour-act="finish">' + tr('tour_close') + '</button><button class="btn primary" data-tour-act="open">' + tr('sk_cta') + '</button>';
+      else h += '<button class="btn primary" data-tour-act="next">' + tr('tour_next') + '</button>';
+      h += '</div>';
+    }
+    card.innerHTML = h + '</div>';
+    var p = card.querySelector('.btn.primary'); if (p) p.focus({ preventScroll: true });
+    // On phones the sidebar is a drawer: slide it out for the sidebar steps, tuck it away for the rest.
+    var wantRail = !!(st && st.rail), was = S.drawerOpen;
+    setDrawer(wantRail);
+    if (p) p.focus({ preventScroll: true });
+    tourPlace();
+    if (S.drawerOpen !== was) {
+      var at = TOUR.i;
+      setTimeout(function () { if (TOUR.on && TOUR.i === at) tourPlace(); }, 320);
+    }
+  }
+  function tourPlace() {
+    var d = $('#tour'); if (!d) return;
+    var card = d.querySelector('.tour-card'), hole = d.querySelector('.tour-hole');
+    var vw = window.innerWidth, vh = window.innerHeight, M = 12, G = 14, pad = 8;
+    var st = TOUR.i < 0 ? null : TOUR_STEPS[TOUR.i], el = st ? tourTarget(st) : null;
+    if (el) {
+      var r = el.getBoundingClientRect();
+      if (r.top < 0 || r.bottom > vh) { el.scrollIntoView({ block: 'center' }); r = el.getBoundingClientRect(); }
+    }
+    var cw = card.offsetWidth, ch = card.offsetHeight, x, y;
+    if (!el) {
+      hole.style.cssText = 'left:' + vw / 2 + 'px;top:' + vh / 2 + 'px;width:0;height:0';
+      hole.classList.add('nohl');
+      x = (vw - cw) / 2; y = (vh - ch) / 2;
+    } else {
+      hole.classList.remove('nohl');
+      var hl = Math.max(0, r.left - pad), ht = Math.max(0, r.top - pad);
+      hole.style.cssText = 'left:' + hl + 'px;top:' + ht + 'px;width:' + Math.min(vw - hl, r.width + pad * 2) + 'px;height:' + Math.min(vh - ht, r.height + pad * 2) + 'px';
+      var cand = [
+        { x: r.right + pad + G, y: r.top + r.height / 2 - ch / 2 },
+        { x: r.left + r.width / 2 - cw / 2, y: r.bottom + pad + G },
+        { x: r.left + r.width / 2 - cw / 2, y: r.top - pad - G - ch },
+        { x: r.left - pad - G - cw, y: r.top + r.height / 2 - ch / 2 }
+      ];
+      var fit = null;
+      for (var i = 0; i < cand.length && !fit; i++) {
+        var c = cand[i];
+        if (c.x >= M && c.y >= M && c.x + cw <= vw - M && c.y + ch <= vh - M) fit = c;
+      }
+      if (!fit) fit = { x: (vw - cw) / 2, y: vh - ch - M }; // nothing fits beside it: dock to the bottom
+      x = fit.x; y = fit.y;
+    }
+    x = Math.min(Math.max(M, x), Math.max(M, vw - cw - M));
+    y = Math.min(Math.max(M, y), Math.max(M, vh - ch - M));
+    card.style.left = x + 'px'; card.style.top = y + 'px';
+  }
+  function tourClick(e) {
+    var b = e.target.closest('[data-tour-act]'); if (!b) return;
+    e.stopPropagation();
+    var a = b.getAttribute('data-tour-act');
+    if (a === 'next') { TOUR.i++; tourRender(); }
+    else if (a === 'back') { TOUR.i = Math.max(0, TOUR.i - 1); tourRender(); }
+    else if (a === 'open') { tourClose(); go('load'); }
+    else tourClose(); // skip / finish
+  }
+  function tourKey(e) {
+    if (!TOUR.on) return;
+    if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); tourClose(); }
+    else if (e.key === 'ArrowRight' && TOUR.i >= -0 && TOUR.i < TOUR_STEPS.length - 1) { e.preventDefault(); TOUR.i++; tourRender(); }
+    else if (e.key === 'ArrowLeft' && TOUR.i > 0) { e.preventDefault(); TOUR.i--; tourRender(); }
+    else if (e.key === 'Tab') {
+      var f = $('#tour').querySelectorAll('button'); if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (!$('#tour').contains(document.activeElement)) { e.preventDefault(); first.focus(); }
+      else if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  }
+
   /* ---------- boot ---------- */
   function boot() {
     LANG = detectLang();
@@ -6873,12 +6843,14 @@ var NDQR = (function () {
     if (saved) {
       try {
         var r = spNormalise(JSON.parse(saved));
-        if (r.pack) { setPack(r.pack, false); done = true; }
-      } catch (e) { /* fall back to the example */ }
+        if (r.pack) { setPack(r.pack); done = true; }
+      } catch (e) { /* fall back to the empty state */ }
     }
-    if (!done) setPack(sampleFor(LANG), true);
+    if (!done) setEmpty();
     tRender(); render();
     importFromHash();
+    // First visit with nothing loaded: offer the tour (skippable, remembered either way).
+    if (S.empty && !store.get('sp:tour') && !(location.hash && location.hash.length > 1)) setTimeout(tourWelcome, 500);
   }
   boot();
 })();
