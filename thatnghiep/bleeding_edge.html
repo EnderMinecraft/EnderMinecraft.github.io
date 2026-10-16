@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; manifest-src data:; worker-src 'self'; base-uri 'none'; form-action 'none'"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <meta name="apple-mobile-web-app-title" content="Navel Desk"><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22Sloppy%20Slop%22%2C%22short_name%22%3A%22NavelDesk%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230C1222%22%2C%22theme_color%22%3A%22%230C1222%22%7D"><link rel="icon" href="favicon.png" type="image/png"><link rel="apple-touch-icon" href="favicon.png"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}
+<!doctype html><html><head><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; manifest-src data:; worker-src 'self'; base-uri 'none'; form-action 'none'"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <meta name="apple-mobile-web-app-title" content="Navel Desk (Canary)"><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22Sloppy%20Slop%22%2C%22short_name%22%3A%22NavelDesk%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230C1222%22%2C%22theme_color%22%3A%22%230C1222%22%7D"><link rel="icon" href="favicon.png" type="image/png"><link rel="apple-touch-icon" href="favicon.png"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}
 /* ---------- pack editor (merged from editor.html). Every class is prefixed ed- so nothing collides with the app's .card/.bar/.seg/.opt. ---------- */
 .ed { display: grid; gap: 14px; min-width: 0; }
 .ed-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
@@ -159,7 +159,7 @@ html.rb-on.rb-fill :is(.btn, .tbtn):not(:disabled) {
 /* credits page */
 .cr-hero { display: flex; align-items: center; gap: 12px; padding: 18px 20px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
 .cr-hero b { font-size: clamp(20px, 3vw, 26px); }
-.cr-tag { font: 500 11px var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; padding: 3px 10px; border-radius: 999px; background: var(--good); color: var(--accent-ink); }
+.cr-tag { font: 500 11px var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; padding: 3px 10px; border-radius: 999px; background: var(--mark); color: var(--accent-ink); }
 .cr-sec .sec-h { margin: 0 0 10px; font-size: 18px; }
 .cr-sec p { margin: 0 0 10px; max-width: 62ch; }
 .cr-list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); overflow: hidden; }
@@ -169,7 +169,7 @@ html.rb-on.rb-fill :is(.btn, .tbtn):not(:disabled) {
 .cr-list a:hover { color: var(--accent); }
 .cr-note { margin-top: 8px; font-size: 13px; }
 </style></head><body>
-<title>Navel Desk</title>
+<title>Navel Desk (Canary)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
 
@@ -1441,7 +1441,7 @@ html, body { max-width: 100%; overflow-x: clip; }
     <div class="debug-row"><span class="muted" data-i18n="dbg_test">Test:</span> <button class="link" data-act="testHaptic" style="font:inherit" data-i18n="dbg_test_btn">Haptic test</button></div>
     <div class="debug-row"><span class="muted" data-i18n="dbg_mode">Mode:</span> <span id="dbgMode">-</span></div>
     <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center;">
-      <span class="muted" style="font-size: 11px;">Navel Desk</span>
+      <span class="muted" style="font-size: 11px;">Navel Desk (Canary)</span>
       <button class="btn" style="padding: 2px 8px; font-size: 11px;" data-act="refreshDebug" data-i18n="dbg_refresh">Refresh</button>
     </div>
   </div>
@@ -4264,7 +4264,7 @@ function quizSetupHTML() {
    Edit CREDITS to change what the page shows. Empty arrays hide their section. */
 var CREDITS = {
   appName: 'Navel Desk',
-  channel: 'Stable',
+  channel: 'Canary',
   people: [],      // e.g. { name: 'Your name', role_en: 'Design & code', role_vi: 'Thiết kế & lập trình' }
   thanks: [],      // e.g. { name: 'Ms. Lan', note_en: 'For the history notes', note_vi: 'Vì bộ ghi chú Lịch sử' }
   fonts: [
