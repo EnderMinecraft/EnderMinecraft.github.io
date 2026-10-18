@@ -1726,7 +1726,7 @@ var I18N = {
     cf_aria: 'Card filter', cf_all: 'All cards', cf_starred: '★ Starred', cf_weak: 'Weak spots',
     star_add: '☆ Star card', star_on: '★ Starred',
     no_starred: 'No starred cards here yet. Star tricky cards while you study (button below the card, or press S) and they will collect in this deck.',
-    no_weak: 'No weak spots right now. Cards you miss show up here until you move them back up to box 3.',
+    no_weak: 'No weak spots right now. Cards you miss show up here until they reach Mastered.',
     ov_starred: 'Review starred ({n})', ov_weak: 'Weak spots ({n})',
     share_btn: 'Share / QR', share_title: 'Share this study pack',
     share_note: 'Only the content is shared, not your progress. Anyone with the link can open it.',
@@ -1791,7 +1791,7 @@ var I18N = {
     an_trend_empty: 'Finish a quiz or exam and your accuracy trend will appear here.', an_avg_line: 'average',
     an_tip: '{d}: {p}% ({k}/{n})', an_types: 'By question type', an_types_empty: 'Question-type results appear after your first quiz or exam.',
     an_weakest: 'weakest', an_focus: 'Focus minutes, last 14 days', an_focus_empty: 'No focus sessions logged yet. Start the timer to track study time.',
-    an_boxes: 'Flashcard boxes', box_new: 'New', box_n: 'Box {n}',
+    an_boxes: 'Card mastery', box_new: 'New', box_1: 'Learning', box_2: 'Reviewing', box_3: 'Mastered',
     brand_aria: 'Navel Desk, back to overview',
     lang_aria: 'Language',
     theme_to_dark: 'Switch to dark mode',
@@ -2121,7 +2121,7 @@ var I18N = {
     cf_aria: 'Bộ lọc thẻ', cf_all: 'Tất cả thẻ', cf_starred: '★ Gắn sao', cf_weak: 'Điểm yếu',
     star_add: '☆ Gắn sao', star_on: '★ Đã gắn sao',
     no_starred: 'Chưa có thẻ nào gắn sao. Hãy gắn sao các thẻ khó khi học (nút dưới thẻ, hoặc nhấn S) và chúng sẽ được gom vào bộ này.',
-    no_weak: 'Hiện chưa có điểm yếu nào. Thẻ bạn trả lời sai sẽ hiện ở đây cho đến khi lên lại Hộp 3.',
+    no_weak: 'Hiện chưa có điểm yếu nào. Thẻ bạn trả lời sai sẽ hiện ở đây cho đến khi thẻ lên mức Đã thuộc.',
     ov_starred: 'Ôn thẻ gắn sao ({n})', ov_weak: 'Điểm yếu ({n})',
     share_btn: 'Chia sẻ / QR', share_title: 'Chia sẻ bộ ôn tập này',
     share_note: 'Chỉ chia sẻ nội dung, không kèm tiến độ của bạn. Ai có liên kết đều mở được.',
@@ -2186,7 +2186,7 @@ var I18N = {
     an_trend_empty: 'Hoàn thành một bài quiz hoặc đề thi để xem xu hướng độ chính xác tại đây.', an_avg_line: 'trung bình',
     an_tip: '{d}: {p}% ({k}/{n})', an_types: 'Theo dạng câu hỏi', an_types_empty: 'Kết quả theo dạng câu hỏi sẽ hiện sau bài quiz hoặc đề thi đầu tiên.',
     an_weakest: 'yếu nhất', an_focus: 'Số phút tập trung, 14 ngày qua', an_focus_empty: 'Chưa có phiên tập trung nào. Hãy bật bộ đếm giờ để theo dõi thời gian học.',
-    an_boxes: 'Các hộp thẻ', box_new: 'Mới', box_n: 'Hộp {n}',
+    an_boxes: 'Mức độ thuộc thẻ', box_new: 'Chưa học', box_1: 'Mới học', box_2: 'Đang nhớ', box_3: 'Đã thuộc',
     brand_aria: 'Navel Desk, về trang tổng quan',
     lang_aria: 'Ngôn ngữ',
     theme_to_dark: 'Chuyển sang chế độ tối',
@@ -7062,7 +7062,7 @@ var NDQR = (function () {
         else bx[(typeof st === 'object' ? (st.box || 1) : 3)]++;
       });
     });
-    var tot = bx[0] + bx[1] + bx[2] + bx[3], labs = [tr('box_new'), tr('box_n', { n: 1 }), tr('box_n', { n: 2 }), tr('box_n', { n: 3 })];
+    var tot = bx[0] + bx[1] + bx[2] + bx[3], labs = [tr('box_new'), tr('box_1'), tr('box_2'), tr('box_3')];
     h += '<div class="an-card"><h3>' + tr('an_boxes') + '</h3>';
     if (tot) {
       h += '<div class="an-stack" role="img" aria-label="' + esc(labs.map(function (l, i) { return l + ' ' + bx[i]; }).join(', ')) + '">' + bx.map(function (n, i) { return n ? '<i class="bx' + i + '" style="flex:' + n + '" title="' + esc(labs[i] + ': ' + n) + '"></i>' : ''; }).join('') + '</div>';
