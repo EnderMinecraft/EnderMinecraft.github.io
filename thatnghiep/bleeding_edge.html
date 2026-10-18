@@ -663,6 +663,8 @@ mark { background: linear-gradient(to top, var(--mark) 0 48%, transparent 48%); 
 .qset { display: grid; gap: 16px; max-width: 520px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px; }
 .qset label { display: grid; gap: 6px; font-weight: 600; font-size: 14px; }
 .qset select { padding: 9px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); }
+.qset input[type=number] { padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); font: 14px var(--font-mono); }
+.qset input[type=number]:focus { border-color: var(--accent); outline: none; }
 .qset .chk { display: flex; align-items: center; gap: 8px; font-weight: 500; }
 .quiz { max-width: 720px; display: grid; gap: 16px; }
 .q-top { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; font: 500 13px var(--font-mono); color: var(--muted); }
@@ -2042,7 +2044,18 @@ var I18N = {
 
     q_avail: ['{n} question available.', '{n} questions available.'],
     best_so_far: ' Best score so far: {n}%.',
+    q_mode_label: 'Question selection',
+    q_mode_count: 'By count',
+    q_mode_range: 'By range',
     q_count: 'Number of questions',
+    q_count_custom: 'Custom count…',
+    q_custom_count_label: 'Enter number of questions:',
+    q_max_of: 'max {n}',
+    q_range_label: 'Question range',
+    q_range_from: 'From question:',
+    q_range_to: 'To question:',
+    q_range_summary: 'Selected: {count} questions (#{from} to #{to} of {total})',
+    q_range_err: 'Start question must be less than or equal to end question',
     all_n: 'All ({n})',
     q_time: 'Time limit per question',
     no_limit: 'No limit',
@@ -2437,7 +2450,18 @@ var I18N = {
     true_ans: 'Đúng',
     q_avail: 'Có {n} câu hỏi.',
     best_so_far: ' Điểm cao nhất: {n}%.',
+    q_mode_label: 'Cách chọn câu hỏi',
+    q_mode_count: 'Theo số lượng',
+    q_mode_range: 'Khoảng câu (Range)',
     q_count: 'Số câu hỏi',
+    q_count_custom: 'Tùy chỉnh số câu…',
+    q_custom_count_label: 'Nhập số câu muốn làm:',
+    q_max_of: 'tối đa {n}',
+    q_range_label: 'Khoảng câu hỏi',
+    q_range_from: 'Từ câu:',
+    q_range_to: 'Đến câu:',
+    q_range_summary: 'Đã chọn: {count} câu (từ #{from} đến #{to} trên tổng {total} câu)',
+    q_range_err: 'Câu bắt đầu phải nhỏ hơn hoặc bằng câu kết thúc',
     all_n: 'Tất cả ({n})',
     q_time: 'Giới hạn thời gian mỗi câu',
     no_limit: 'Không giới hạn',
@@ -2936,7 +2960,7 @@ var S = {
     view: 'overview', scope: 'all', mode: 'notes',
     exam: { step: 'config', run: null, result: null },
     cards: null, quiz: null, qiv: null,
-    qopts: { count: 10, secs: 0, shuffle: true },
+    qopts: { mode: 'count', count: 10, countType: 'preset', customCount: 15, from: 1, to: 20, secs: 0, shuffle: true },
     copts: { shuffle: true, skipKnown: false, filter: 'all' },
     notice: null, loadMsg: null, confirmReset: false,
     animateMain: false,
@@ -4046,8 +4070,25 @@ function formatTime(ms) {
       scopeTopics(scope).forEach(function (t) {
         t.questions.forEach(function (q) { items.push({ tid: t.id, ttitle: t.title, q: q }); });
       });
-      if (S.qopts.shuffle) shuffle(items);
-      if (S.qopts.count > 0) items = items.slice(0, S.qopts.count);
+      var totalN = items.length;
+      if (totalN > 0) {
+        if (S.qopts.mode === 'range') {
+          var f = Math.max(1, Math.min(totalN, S.qopts.from || 1));
+          var t = Math.max(1, Math.min(totalN, S.qopts.to || totalN));
+          if (f > t) { var tmp = f; f = t; t = tmp; }
+          items = items.slice(f - 1, t);
+          if (S.qopts.shuffle) shuffle(items);
+        } else {
+          var count = totalN;
+          if (S.qopts.countType === 'custom') {
+            count = Math.max(1, Math.min(totalN, S.qopts.customCount || 10));
+          } else if (S.qopts.count > 0 && S.qopts.count < totalN) {
+            count = S.qopts.count;
+          }
+          if (S.qopts.shuffle) shuffle(items);
+          if (count > 0 && count < items.length) items = items.slice(0, count);
+        }
+      }
     }
     items.forEach(function (it) {
       it.res = null; it.typed = ''; it.revealed = false; it.timedOut = false;
@@ -4339,14 +4380,24 @@ function formatTime(ms) {
     if (!S.quiz) return quizSetupHTML();
     return S.quiz.done ? quizResultHTML() : questionHTML();
   }
-function quizSetupHTML() {
+  function quizSetupHTML() {
     var topics = scopeTopics(S.scope), n = 0, bests = [];
     topics.forEach(function (t) { n += t.questions.length; if (S.prog.quiz[t.id] != null) bests.push(S.prog.quiz[t.id]); });
-    var counts = [5, 10, 20].filter(function (c) { return c < n; });
+
+    var isRange = S.qopts.mode === 'range';
+    var isCustomCount = S.qopts.countType === 'custom';
+    var counts = [5, 10, 20, 50].filter(function (c) { return c < n; });
     var sel = S.qopts.count > 0 && S.qopts.count < n ? S.qopts.count : 0;
     
     // Lấy tên hiển thị hiện tại cho Dropdown Số câu hỏi (hỗ trợ đa ngôn ngữ)
-    var currentCountTitle = (sel === 0) ? tr('all_n', { n: n }) : sel;
+    var currentCountTitle = '';
+    if (isCustomCount) {
+      currentCountTitle = tr('q_count_custom') + ' (' + (S.qopts.customCount || Math.min(10, n)) + ')';
+    } else if (sel === 0) {
+      currentCountTitle = tr('all_n', { n: n });
+    } else {
+      currentCountTitle = sel;
+    }
 
     // Danh sách các mốc thời gian và tìm tiêu đề đang chọn
     var timeOptions = [[0, 'no_limit'], [20, 'sec20'], [30, 'sec30'], [60, 'min1'], [90, 'sec90']];
@@ -4355,18 +4406,64 @@ function quizSetupHTML() {
 
     var h = '<div class="qset"><p class="muted">' + tr('q_avail', { n: n }) + (bests.length && S.scope !== 'all' ? tr('best_so_far', { n: bests[0] }) : '') + '</p>';
     
-    // --- 1. Custom Dropdown: Số câu hỏi ---
-    h += '<label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--muted);">' + tr('q_count') + '</label>';
-    h += '<div class="c-select" id="dropdownQCount" style="margin-bottom: 12px;">';
-    h += '<button type="button" class="c-select-btn" data-act="toggleDropdown" data-target="dropdownQCount">';
-    h += '<span>' + currentCountTitle + '</span><span style="font-size: 10px; opacity: 0.6;">▼</span>';
-    h += '</button>';
-    h += '<div class="c-select-menu">';
-    counts.forEach(function (c) {
-      h += '<div class="c-select-item ' + (sel === c ? 'selected' : '') + '" data-act="selectQCount" data-val="' + c + '">' + c + '</div>';
-    });
-    h += '<div class="c-select-item ' + (sel === 0 ? 'selected' : '') + '" data-act="selectQCount" data-val="0">' + tr('all_n', { n: n }) + '</div>';
-    h += '</div></div>';
+    // --- 0. Chế độ chọn câu hỏi (Theo số lượng / Theo khoảng) ---
+    h += '<label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--muted);">' + tr('q_mode_label') + '</label>';
+    h += '<div class="th-pills" role="group" style="margin-bottom: 14px;">';
+    h += '<button type="button" class="th-pill' + (!isRange ? ' on' : '') + '" data-act="setQMode" data-val="count">' + tr('q_mode_count') + '</button>';
+    h += '<button type="button" class="th-pill' + (isRange ? ' on' : '') + '" data-act="setQMode" data-val="range">' + tr('q_mode_range') + '</button>';
+    h += '</div>';
+
+    if (!isRange) {
+      // --- 1. Theo số lượng: Dropdown Số câu hỏi ---
+      h += '<label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--muted);">' + tr('q_count') + '</label>';
+      h += '<div class="c-select" id="dropdownQCount" style="margin-bottom: 12px;">';
+      h += '<button type="button" class="c-select-btn" data-act="toggleDropdown" data-target="dropdownQCount">';
+      h += '<span>' + currentCountTitle + '</span><span style="font-size: 10px; opacity: 0.6;">▼</span>';
+      h += '</button>';
+      h += '<div class="c-select-menu">';
+      counts.forEach(function (c) {
+        h += '<div class="c-select-item ' + (!isCustomCount && sel === c ? 'selected' : '') + '" data-act="selectQCount" data-val="' + c + '">' + c + '</div>';
+      });
+      h += '<div class="c-select-item ' + (!isCustomCount && sel === 0 ? 'selected' : '') + '" data-act="selectQCount" data-val="0">' + tr('all_n', { n: n }) + '</div>';
+      h += '<div class="c-select-item ' + (isCustomCount ? 'selected' : '') + '" data-act="selectQCount" data-val="custom">' + tr('q_count_custom') + '</div>';
+      h += '</div></div>';
+
+      // Ô nhập số câu tùy chỉnh nếu được chọn
+      if (isCustomCount) {
+        var customVal = S.qopts.customCount || Math.min(10, n || 1);
+        h += '<div style="margin-top: -4px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">';
+        h += '<label for="qCustomCount" style="font-size: 13px; font-weight: 500; margin: 0; white-space: nowrap;">' + tr('q_custom_count_label') + '</label>';
+        h += '<input type="number" id="qCustomCount" min="1" max="' + n + '" value="' + customVal + '" style="width: 85px;">';
+        h += '<span class="muted" style="font-size: 12px;">(' + tr('q_max_of', { n: n }) + ')</span>';
+        h += '</div>';
+      }
+    } else {
+      // --- 1. Theo khoảng: Từ câu ... đến câu ... ---
+      var curF = S.qopts.from || 1;
+      var curT = S.qopts.to || Math.min(20, n || 1);
+      h += '<label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--muted);">' + tr('q_range_label') + '</label>';
+      h += '<div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 6px;">';
+      h += '<div style="display: flex; align-items: center; gap: 6px;">';
+      h += '<span style="font-size: 13px; color: var(--muted);">' + tr('q_range_from') + '</span>';
+      h += '<input type="number" id="qRangeFrom" min="1" max="' + n + '" value="' + curF + '" style="width: 75px;">';
+      h += '</div>';
+      h += '<div style="display: flex; align-items: center; gap: 6px;">';
+      h += '<span style="font-size: 13px; color: var(--muted);">' + tr('q_range_to') + '</span>';
+      h += '<input type="number" id="qRangeTo" min="1" max="' + n + '" value="' + curT + '" style="width: 75px;">';
+      h += '</div>';
+      h += '<span class="muted" style="font-size: 12px;">(' + tr('q_max_of', { n: n }) + ')</span>';
+      h += '</div>';
+
+      var rangeNote = '';
+      if (curF <= curT) {
+        var cF = Math.max(1, Math.min(n, curF));
+        var cT = Math.max(1, Math.min(n, curT));
+        rangeNote = tr('q_range_summary', { count: (cT - cF + 1), from: cF, to: cT, total: n });
+      } else {
+        rangeNote = '<span style="color: var(--bad);">' + tr('q_range_err') + '</span>';
+      }
+      h += '<div id="qRangeNote" class="muted" style="font-size: 12px; margin-bottom: 12px;">' + rangeNote + '</div>';
+    }
 
     // --- 2. Custom Dropdown: Thời gian ---
     h += '<label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--muted);">' + tr('q_time') + '</label>';
@@ -5055,11 +5152,25 @@ function toggleExamFlag() {
         }
         break;
       }
-      case 'selectQCount': {
-        S.qopts.count = parseInt(el.getAttribute('data-val'), 10);
+      case 'setQMode': {
+        S.qopts.mode = el.getAttribute('data-val') || 'count';
         render();
-        const trig = document.querySelector('#dropdownQCount .c-select-btn');
-        if (trig) trig.focus();
+        break;
+      }
+      case 'selectQCount': {
+        var val = el.getAttribute('data-val');
+        if (val === 'custom') {
+          S.qopts.countType = 'custom';
+          render();
+          var inp = document.getElementById('qCustomCount');
+          if (inp) { inp.focus(); inp.select(); }
+        } else {
+          S.qopts.countType = 'preset';
+          S.qopts.count = parseInt(val, 10);
+          render();
+          var trig = document.querySelector('#dropdownQCount .c-select-btn');
+          if (trig) trig.focus();
+        }
         break;
       }
       case 'selectQTime': {
@@ -5121,11 +5232,25 @@ function toggleExamFlag() {
       case 'cardSkip': cardSkip(); break;
       case 'cardPrev': cardPrev(); break;
       case 'restartCards': startCards(S.scope); render(); break;
-      case 'restartAll': S.copts.skipKnown = false; startCards(S.scope); render(); break;
-      case 'qstart':
+      case 'qstart': {
         var shuffleEl = document.getElementById('qShuffle');
-    if (shuffleEl) S.qopts.shuffle = shuffleEl.checked;
-        startQuiz(S.scope); break;
+        if (shuffleEl) S.qopts.shuffle = shuffleEl.checked;
+        var customEl = document.getElementById('qCustomCount');
+        if (customEl) {
+          var parsedC = parseInt(customEl.value, 10);
+          if (!isNaN(parsedC) && parsedC > 0) S.qopts.customCount = parsedC;
+        }
+        var rfEl = document.getElementById('qRangeFrom');
+        var rtEl = document.getElementById('qRangeTo');
+        if (rfEl && rtEl) {
+          var pF = parseInt(rfEl.value, 10);
+          var pT = parseInt(rtEl.value, 10);
+          if (!isNaN(pF)) S.qopts.from = pF;
+          if (!isNaN(pT)) S.qopts.to = pT;
+        }
+        startQuiz(S.scope);
+        break;
+      }
       case 'tfs': tfsPick(el); break;
       case 'mpick': matchPick(el.dataset.s, parseInt(el.dataset.i, 10)); break;
       case 'submit': submitItem(); break;
@@ -5335,6 +5460,35 @@ document.addEventListener('input', function (e) {
     var qIdx = parseInt(e.target.dataset.examInput, 10);
     selectExamAns(qIdx, e.target.value, true); // Truyền true để không bị refresh view khi đang gõ chữ
   }
+
+  if (e.target.id === 'qRangeFrom' || e.target.id === 'qRangeTo') {
+    var rf = document.getElementById('qRangeFrom');
+    var rt = document.getElementById('qRangeTo');
+    var note = document.getElementById('qRangeNote');
+    if (rf && rt) {
+      var totalN = 0;
+      scopeTopics(S.scope).forEach(function (t) { totalN += t.questions.length; });
+      var fVal = parseInt(rf.value, 10);
+      var tVal = parseInt(rt.value, 10);
+      if (!isNaN(fVal)) S.qopts.from = fVal;
+      if (!isNaN(tVal)) S.qopts.to = tVal;
+      if (note) {
+        if (!isNaN(fVal) && !isNaN(tVal)) {
+          if (fVal <= tVal) {
+            var cF = Math.max(1, Math.min(totalN, fVal));
+            var cT = Math.max(1, Math.min(totalN, tVal));
+            var count = cT - cF + 1;
+            note.innerHTML = tr('q_range_summary', { count: count, from: cF, to: cT, total: totalN });
+          } else {
+            note.innerHTML = '<span style="color: var(--bad);">' + tr('q_range_err') + '</span>';
+          }
+        }
+      }
+    }
+  } else if (e.target.id === 'qCustomCount') {
+    var cVal = parseInt(e.target.value, 10);
+    if (!isNaN(cVal) && cVal > 0) S.qopts.customCount = cVal;
+  }
 });
   document.addEventListener('dragover', function (e) {
     var d = e.target.closest('.drop'); if (d) { e.preventDefault(); d.classList.add('over'); }
@@ -5354,6 +5508,12 @@ document.addEventListener('keydown', function (e) {
         $('#timerChip').focus(); 
       } 
       return; 
+    }
+    if (e.key === 'Enter' && (e.target.id === 'qCustomCount' || e.target.id === 'qRangeFrom' || e.target.id === 'qRangeTo')) {
+      e.preventDefault();
+      var startBtn = document.querySelector('.qset button[data-act="qstart"]');
+      if (startBtn) startBtn.click();
+      return;
     }
     var tag = (e.target.tagName || '').toLowerCase();
     if (tag === 'input' || tag === 'textarea' || tag === 'select' || e.ctrlKey || e.metaKey || e.altKey) return;
