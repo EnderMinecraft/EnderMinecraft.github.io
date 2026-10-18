@@ -4,18 +4,10 @@
   "start_url": "/thatnghiep/bleeding_edge.html",
   "scope": "/thatnghiep/",
   "icons": [
-    {
-      "src": "/thatnghiep/web-app-manifest-192x192.png?v=20261019",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/thatnghiep/web-app-manifest-512x512.png?v=20261019",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
+    { "src": "/thatnghiep/web-app-manifest-192x192.png?v=20261020", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/thatnghiep/web-app-manifest-512x512.png?v=20261020", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/thatnghiep/web-app-manifest-192x192.png?v=20261020", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/thatnghiep/web-app-manifest-512x512.png?v=20261020", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ],
   "theme_color": "#0C1222",
   "background_color": "#0C1222",
