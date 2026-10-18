@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; manifest-src data:; worker-src 'self'; base-uri 'none'; form-action 'none'"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <meta name="apple-mobile-web-app-title" content="Navel Desk (Canary)"><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22Sloppy%20Slop%22%2C%22short_name%22%3A%22NavelDesk%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230C1222%22%2C%22theme_color%22%3A%22%230C1222%22%7D"><link rel="icon" href="favicon-canary.png" type="image/png"><link rel="apple-touch-icon" href="favicon-canary.png"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}
+<!doctype html><html><head><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; manifest-src data:; worker-src 'self'; base-uri 'none'; form-action 'none'"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <meta name="apple-mobile-web-app-title" content="Navel Desk"><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22Sloppy%20Slop%22%2C%22short_name%22%3A%22NavelDesk%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230C1222%22%2C%22theme_color%22%3A%22%230C1222%22%7D"><link rel="icon" href="favicon.png" type="image/png"><link rel="apple-touch-icon" href="favicon.png"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}
 /* ---------- pack editor (merged from editor.html). Every class is prefixed ed- so nothing collides with the app's .card/.bar/.seg/.opt. ---------- */
 .ed { display: grid; gap: 14px; min-width: 0; }
 .ed-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
@@ -159,7 +159,7 @@ html.rb-on.rb-fill :is(.btn, .tbtn):not(:disabled) {
 /* credits page */
 .cr-hero { display: flex; align-items: center; gap: 12px; padding: 18px 20px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
 .cr-hero b { font-size: clamp(20px, 3vw, 26px); }
-.cr-tag { font: 500 11px var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; padding: 3px 10px; border-radius: 999px; background: var(--mark); color: var(--ink); }
+.cr-tag { font: 500 11px var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; padding: 3px 10px; border-radius: 999px; background: var(--good); color: var(--accent-ink); }
 .cr-sec .sec-h { margin: 0 0 10px; font-size: 18px; }
 .cr-sec p { margin: 0 0 10px; max-width: 62ch; }
 .cr-list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); overflow: hidden; }
@@ -169,7 +169,7 @@ html.rb-on.rb-fill :is(.btn, .tbtn):not(:disabled) {
 .cr-list a:hover { color: var(--accent); }
 .cr-note { margin-top: 8px; font-size: 13px; }
 </style></head><body>
-<title>Navel Desk (Canary)</title>
+<title>Navel Desk</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
 
@@ -1273,6 +1273,33 @@ html, body { max-width: 100%; overflow-x: clip; }
 .cf { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
 .cf-b { border: 0; background: none; color: var(--muted); font: 600 13px var(--font-ui, inherit); padding: 5px 12px; border-radius: 999px; cursor: pointer; }
 .cf-b:hover { color: var(--ink); }
+.pg-card { min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; margin-bottom: 20px; display: grid; gap: 10px; }
+.pg-card h2 { margin: 0; font-size: 16px; }
+.pg-card p { margin: 0; }
+.pg-card select { width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); font: 13px/1.4 var(--font-ui, inherit); }
+.lb-filters { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 8px; margin: 10px 0 14px; }
+.lb-filters input, .lb-filters select { min-width: 0; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); font: 13px/1.4 inherit; }
+@media (max-width: 720px) { .lb-filters { grid-template-columns: 1fr 1fr; } .lb-filters input { grid-column: 1 / -1; } }
+.lb-list { display: grid; gap: 10px; margin-bottom: 22px; }
+.lb-row { display: flex; gap: 14px; justify-content: space-between; align-items: flex-start; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; }
+.lb-main { min-width: 0; flex: 1; } .lb-main h3 { margin: 0 0 2px; font-size: 16px; } .lb-main p { margin: 4px 0; }
+.lb-meta { font-size: 12px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 6px; align-items: center; }
+.lb-act { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.lb-prog { display: flex; align-items: center; gap: 8px; font-size: 12px; } .lb-prog progress { width: 160px; max-width: 50vw; }
+.lb-msg { font-size: 13px; } .lb-msg.err { color: var(--warn); }
+.lb-st { font-size: 12px; }
+.lb-chip { display: inline-block; padding: 1px 8px; border: 1px solid var(--line); border-radius: 999px; font-size: 11px; color: var(--muted); }
+.lb-chip.ok { color: var(--ink); } .lb-chip.warn { border-color: var(--warn); color: var(--warn); }
+@media (max-width: 600px) { .lb-row { flex-direction: column; } .lb-act { justify-content: flex-start; } }
+.rail-node { display: flex; align-items: center; gap: 2px; }
+.rail-node .nav-i { flex: 1; min-width: 0; }
+.rail-tg { flex: none; width: 22px; height: 30px; border: 0; background: none; color: var(--muted); cursor: pointer; border-radius: 6px; font-size: 12px; }
+.rail-tg:hover { background: var(--soft); color: var(--ink); }
+.rail-tgsp { flex: none; width: 22px; }
+.crumbs { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 4px; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+.crumbs .link { font-size: 13px; }
+.pg-chk { display: flex; gap: 8px; align-items: center; font-size: 13px; }
+.sh-box .pg-chk { margin-top: 4px; }
 .cf-b[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
 .star-row { display: flex; justify-content: center; }
 .star-btn { min-width: 160px; }
@@ -1489,7 +1516,7 @@ body.touring .scrim { opacity: 0 !important; transition: none !important; }
     <div class="debug-row"><span class="muted" data-i18n="dbg_test">Test:</span> <button class="link" data-act="testHaptic" style="font:inherit" data-i18n="dbg_test_btn">Haptic test</button></div>
     <div class="debug-row"><span class="muted" data-i18n="dbg_mode">Mode:</span> <span id="dbgMode">-</span></div>
     <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center;">
-      <span class="muted" style="font-size: 11px;">Navel Desk (Canary)</span>
+      <span class="muted" style="font-size: 11px;">Navel Desk</span>
       <button class="btn" style="padding: 2px 8px; font-size: 11px;" data-act="refreshDebug" data-i18n="dbg_refresh">Refresh</button>
     </div>
   </div>
@@ -1691,6 +1718,53 @@ var I18N = {
     share_file_warn: 'This copy of the app is opened from a local file, so links and QR codes will not open on other devices. Host the page at a web address to share it.',
     imp_title: 'Open shared pack?', imp_body: '“{title}” – {t} topics, {c} cards, {q} questions. Loading it switches to this pack; your other packs and progress stay saved.',
     imp_load: 'Load pack', imp_cancel: 'Cancel', imp_err: 'This share link could not be read. It may be cut off or damaged.',
+    pg_h: 'Progress backup', pg_note: 'Browsers can clear site data, and progress does not follow you to another device. Export a file now and then. Importing merges the file with what is here instead of overwriting it.',
+    pg_scope: 'Export scope', pg_all: 'All packs ({n})', pg_opt: '{t} · {c} cards, {h} attempts', pg_unknown: 'Unnamed pack ({k})',
+    pg_settings: 'Include appearance settings', pg_timers_note: 'Focus-timer days and streak are shared by all packs and always included.',
+    pg_export: 'Export progress', pg_import: 'Import…', pg_csv: 'History as CSV', pg_none: 'No saved progress yet.', pg_saved: 'Saved',
+    pg_imp_h: 'Import progress?', pg_imp_sum: 'File from {d}: {p} packs ({np} not opened on this device yet), {c} cards to add or update, {h} attempts to add, {q} quiz bests to raise, {t} focus days to update.',
+    pg_imp_unloaded: 'Progress for packs that are not open is stored now and applies when you open them.', pg_imp_set: 'Also apply the appearance settings in this file (the page reloads)',
+    pg_imp_go: 'Import and merge', pg_imp_nothing: 'Nothing new: this file adds nothing to what you already have.',
+    pg_done: 'Done. Progress was merged.', pg_reload: 'Reload',
+    pg_err_read: 'This file could not be read as JSON.', pg_err_fmt: 'This is not a Navel Desk progress file.',
+    pg_err_new: 'This file comes from a newer version of the app (schema {v}). Update the app and try again.', pg_err_write: 'Could not save (storage full or blocked). Nothing was changed.',
+    st_h: 'Storage', st_loading: 'Loading…', st_used: 'Used about {u} MB of {q} MB (this site, as estimated by the browser).', st_used_only: 'Used about {u} MB (this site, as estimated by the browser).',
+    st_na: 'This browser does not report how much storage is used.', st_checking: 'Checking storage…',
+    st_p_yes: 'Protected: the browser has agreed not to clear this data automatically.', st_p_no: 'Not protected: the browser may clear this data when the device runs low on space. Keep a progress export as a backup.',
+    st_p_na: 'This browser cannot protect storage from automatic clearing. Keep a progress export as a backup.',
+    st_mode_idb: 'Packs are stored in IndexedDB (large packs are fine).', st_mode_ls: 'IndexedDB is not available (private mode or blocked), so packs are kept in the older browser storage, which holds only about 5 MB. Very large packs may not be remembered.',
+    st_write_warn: 'Could not save to IndexedDB, so the app switched to the older storage for this session.',
+    v_depth: 'Subpack "{node}" is nested too deep: a pack can have at most {n} levels, counting the pack itself.',
+    v_node_obj: 'Subpack {n} was skipped because it is not an object.', v_node_title: 'Subpack {n} was skipped because it has no title.',
+    nd_crumb: 'Pack path', nd_subpacks: 'Subpacks', nd_sub_stats: '{t} topics · {c} cards · {q} questions', nd_ready: 'Ready',
+    nd_tog_open: 'Collapse {t}', nd_tog_closed: 'Expand {t}', nd_reset_node: 'Reset progress in this subpack', nd_reset_node_c: 'Click again to reset this subpack only',
+    nd_share_sub: 'Subpack: {t}',
+    ed_sp_pack: 'Subpack', ed_sp_root: '(whole pack)', ed_sp_add: 'Add subpack', ed_sp_title: 'Subpack title', ed_sp_new: 'New subpack',
+    ed_sp_deleted: 'Subpack deleted', ed_sp_del: 'Delete this subpack', ed_sp_max: 'A pack can have at most 3 levels.',
+    nav_library: 'Subject library',
+    lb_eyebrow: 'Library', lb_h: 'Subject library', lb_lede: 'Install whole subjects, study them offline, and keep your progress when you remove or update them.',
+    lb_tab_discover: 'Discover', lb_tab_installed: 'Installed', lb_tabs_aria: 'Library sections',
+    lb_search: 'Search subjects', lb_all_cat: 'All categories', lb_all_level: 'All levels', lb_all_tag: 'All tags',
+    lb_none: 'No subjects match.', lb_none_installed: 'Nothing installed yet. Find a subject in Discover.',
+    lb_keep_note: 'Removing a subject deletes its content but keeps your progress. Install it again and your progress matches again.',
+    lb_kb: '{n} KB', lb_mb: '{n} MB',
+    lb_install: 'Install', lb_open: 'Open', lb_update: 'Update', lb_remove: 'Remove', lb_cancel: 'Cancel',
+    lb_st_installed: 'Installed', lb_st_update: 'Update available',
+    lb_busy_dl: 'Downloading… {n}%', lb_busy_chk: 'Checking and saving…', lb_cancelled: 'Cancelled. Nothing was saved.',
+    lb_err_http: 'Could not download the file (HTTP {s}).', lb_err_net: 'Could not download the file. Check your connection and try again.',
+    lb_err_size: 'The downloaded file is not the expected size. Nothing was saved.', lb_err_hash: 'The downloaded file failed the integrity check. Nothing was saved.',
+    lb_err_pack: 'This subject file is not valid: {m}', lb_err_save: 'Could not save the subject on this device.', lb_err_open: 'Could not open this subject.',
+    lb_no_verify: 'Saved. The integrity check was skipped because this browser only allows it on https or localhost.', lb_verified: 'Saved. Integrity verified (SHA-256).',
+    lb_need_idb: 'Installing needs IndexedDB, which is not available here (private mode or blocked).',
+    lb_cat_net: 'Catalog loaded from the library.', lb_cat_cache: 'Could not reach the library, so this is the catalog saved earlier ({e}).',
+    lb_cat_none: 'Could not reach the library and no catalog is saved yet. Installed subjects still work offline.', lb_loading: 'Loading the catalog…',
+    lb_rm_h: 'Remove “{t}”?', lb_rm_body: 'The subject content is deleted from this device. Your progress is kept, and it matches again if you install the subject later.', lb_rm_go: 'Remove, keep progress',
+    lb_link_h: 'Install from the library?', lb_link_body: '“{t}”: {c} cards, {q} questions, {s}. It is downloaded from the subject library and saved on this device.',
+    lb_link_go: 'Install and open', lb_link_open: 'Open', lb_link_upd: 'Update and open',
+    lb_link_unknown: 'This library link points to a subject that is not in the catalog.', lb_link_fail: 'Could not read the library catalog, so this link cannot be opened right now.', lb_link_bad: 'This library link is not valid.',
+    lb_edit_h: 'Make your own copy?', lb_edit_body: 'Library subjects cannot be edited in place. You can edit your own copy, and the library subject stays untouched.',
+    lb_copy_fresh: 'Make a copy (new progress)', lb_copy_prog: 'Make a copy with my progress', lb_copy_title: '{t} (my copy)',
+    lb_share_note: 'Library link: the other person installs the same subject from the library.',
     an_title: 'Mastery analytics', an_acc: 'Average accuracy', an_acc_sub: ['last {n} attempt', 'last {n} attempts'], an_attempts: 'Attempts', an_attempts_sub: 'quizzes and exams',
     an_focus_kpi: 'Focus time', an_focus_sub: ['{n} session, all packs', '{n} sessions, all packs'], an_trend: 'Accuracy over time',
     an_trend_empty: 'Finish a quiz or exam and your accuracy trend will appear here.', an_avg_line: 'average',
@@ -1982,7 +2056,7 @@ var I18N = {
     v_q_match: 'Topic {n} ({t}), question {s} needs at least 2 "pairs" with a different "left" and "right" in each, and was skipped.',
     v_noitems: 'No usable notes, flashcards or questions were found in this file.',
     sk_h: 'No study pack yet',
-    sk_lede: 'Open a study pack and this page fills in with your progress, streak and topics.',
+    sk_lede: 'Open a study pack and this page fills in with your progress, streak and topics. The grey shapes below show where everything will go.',
     sk_cta: 'Open a study pack',
     sk_tour: 'Take the quick tour',
     nav_tour: 'Take the tour',
@@ -2032,6 +2106,53 @@ var I18N = {
     share_file_warn: 'Bạn đang mở ứng dụng từ tệp cục bộ, nên liên kết và mã QR sẽ không mở được trên thiết bị khác. Hãy đặt trang lên một địa chỉ web để chia sẻ.',
     imp_title: 'Mở bộ ôn tập được chia sẻ?', imp_body: '“{title}” – {t} chủ đề, {c} thẻ, {q} câu hỏi. Khi tải, ứng dụng chuyển sang bộ này; các bộ khác và tiến độ của bạn vẫn được giữ.',
     imp_load: 'Tải bộ này', imp_cancel: 'Hủy', imp_err: 'Không đọc được liên kết chia sẻ này. Có thể liên kết bị cắt hoặc hỏng.',
+    pg_h: 'Sao lưu tiến độ', pg_note: 'Trình duyệt có thể xóa dữ liệu trang, và tiến độ không tự theo bạn sang thiết bị khác. Hãy xuất file định kỳ. Khi nhập, file được gộp với dữ liệu hiện có chứ không ghi đè.',
+    pg_scope: 'Phạm vi xuất', pg_all: 'Tất cả bộ ({n})', pg_opt: '{t} · {c} thẻ, {h} lượt làm', pg_unknown: 'Bộ chưa đặt tên ({k})',
+    pg_settings: 'Kèm cài đặt giao diện', pg_timers_note: 'Các ngày dùng bộ đếm tập trung và chuỗi ngày dùng chung cho mọi bộ và luôn được xuất.',
+    pg_export: 'Xuất tiến độ', pg_import: 'Nhập…', pg_csv: 'Lịch sử CSV', pg_none: 'Chưa có tiến độ nào được lưu.', pg_saved: 'Đã lưu',
+    pg_imp_h: 'Nhập tiến độ?', pg_imp_sum: 'File ngày {d}: {p} bộ ({np} bộ chưa mở trên thiết bị này), {c} thẻ sẽ thêm hoặc cập nhật, {h} lượt làm sẽ thêm, {q} điểm quiz tốt nhất sẽ tăng, {t} ngày tập trung sẽ cập nhật.',
+    pg_imp_unloaded: 'Tiến độ của các bộ chưa mở được lưu ngay và áp dụng khi bạn mở bộ đó.', pg_imp_set: 'Áp dụng cả cài đặt giao diện trong file (trang sẽ tải lại)',
+    pg_imp_go: 'Nhập và gộp', pg_imp_nothing: 'Không có gì mới: file này không thêm gì vào dữ liệu hiện có.',
+    pg_done: 'Xong. Tiến độ đã được gộp.', pg_reload: 'Tải lại',
+    pg_err_read: 'Không đọc được file này dưới dạng JSON.', pg_err_fmt: 'Đây không phải file tiến độ của Navel Desk.',
+    pg_err_new: 'File này tạo bởi phiên bản app mới hơn (schema {v}). Hãy cập nhật app rồi thử lại.', pg_err_write: 'Không lưu được (bộ nhớ đầy hoặc bị chặn). Chưa có gì bị thay đổi.',
+    st_h: 'Bộ nhớ', st_loading: 'Đang tải…', st_used: 'Đã dùng khoảng {u} MB trên {q} MB (trang này, theo ước tính của trình duyệt).', st_used_only: 'Đã dùng khoảng {u} MB (trang này, theo ước tính của trình duyệt).',
+    st_na: 'Trình duyệt này không báo dung lượng đã dùng.', st_checking: 'Đang kiểm tra bộ nhớ…',
+    st_p_yes: 'Đã bảo vệ: trình duyệt đồng ý không tự xóa dữ liệu này.', st_p_no: 'Chưa được bảo vệ: trình duyệt có thể xóa dữ liệu này khi máy sắp hết chỗ. Hãy giữ một bản xuất tiến độ để dự phòng.',
+    st_p_na: 'Trình duyệt này không thể bảo vệ bộ nhớ khỏi bị tự xóa. Hãy giữ một bản xuất tiến độ để dự phòng.',
+    st_mode_idb: 'Các bộ được lưu trong IndexedDB (bộ lớn cũng được).', st_mode_ls: 'IndexedDB không dùng được (chế độ riêng tư hoặc bị chặn), nên các bộ được lưu ở nơi lưu cũ, chỉ chứa khoảng 5 MB. Bộ rất lớn có thể không được nhớ.',
+    st_write_warn: 'Không ghi được vào IndexedDB, nên ứng dụng chuyển sang nơi lưu cũ trong phiên này.',
+    v_depth: 'Gói con "{node}" lồng quá sâu: một bộ chỉ có tối đa {n} cấp, tính cả bộ gốc.',
+    v_node_obj: 'Gói con {n} bị bỏ qua vì không phải là một đối tượng.', v_node_title: 'Gói con {n} bị bỏ qua vì không có tiêu đề.',
+    nd_crumb: 'Đường dẫn bộ', nd_subpacks: 'Gói con', nd_sub_stats: '{t} chủ đề · {c} thẻ · {q} câu hỏi', nd_ready: 'Sẵn sàng',
+    nd_tog_open: 'Thu gọn {t}', nd_tog_closed: 'Mở rộng {t}', nd_reset_node: 'Xóa tiến độ trong gói con này', nd_reset_node_c: 'Bấm lần nữa để xóa chỉ gói con này',
+    nd_share_sub: 'Gói con: {t}',
+    ed_sp_pack: 'Gói con', ed_sp_root: '(cả bộ)', ed_sp_add: 'Thêm gói con', ed_sp_title: 'Tiêu đề gói con', ed_sp_new: 'Gói con mới',
+    ed_sp_deleted: 'Đã xóa gói con', ed_sp_del: 'Xóa gói con này', ed_sp_max: 'Một bộ có tối đa 3 cấp.',
+    nav_library: 'Thư viện môn học',
+    lb_eyebrow: 'Thư viện', lb_h: 'Thư viện môn học', lb_lede: 'Cài cả môn học, học ngoại tuyến và giữ nguyên tiến độ khi gỡ hoặc cập nhật.',
+    lb_tab_discover: 'Khám phá', lb_tab_installed: 'Đã cài', lb_tabs_aria: 'Các mục của thư viện',
+    lb_search: 'Tìm môn học', lb_all_cat: 'Mọi danh mục', lb_all_level: 'Mọi cấp độ', lb_all_tag: 'Mọi thẻ',
+    lb_none: 'Không có môn nào phù hợp.', lb_none_installed: 'Chưa cài môn nào. Hãy tìm một môn ở mục Khám phá.',
+    lb_keep_note: 'Gỡ môn học sẽ xóa nội dung nhưng giữ lại tiến độ của bạn. Cài lại thì tiến độ khớp lại như cũ.',
+    lb_kb: '{n} KB', lb_mb: '{n} MB',
+    lb_install: 'Cài', lb_open: 'Mở', lb_update: 'Cập nhật', lb_remove: 'Gỡ', lb_cancel: 'Hủy',
+    lb_st_installed: 'Đã cài', lb_st_update: 'Có bản cập nhật',
+    lb_busy_dl: 'Đang tải… {n}%', lb_busy_chk: 'Đang kiểm tra và lưu…', lb_cancelled: 'Đã hủy. Chưa lưu gì cả.',
+    lb_err_http: 'Không tải được tệp (HTTP {s}).', lb_err_net: 'Không tải được tệp. Hãy kiểm tra kết nối rồi thử lại.',
+    lb_err_size: 'Tệp tải về không đúng dung lượng dự kiến. Chưa lưu gì cả.', lb_err_hash: 'Tệp tải về không qua được bước kiểm tra toàn vẹn. Chưa lưu gì cả.',
+    lb_err_pack: 'Tệp môn học này không hợp lệ: {m}', lb_err_save: 'Không lưu được môn học trên thiết bị này.', lb_err_open: 'Không mở được môn học này.',
+    lb_no_verify: 'Đã lưu. Bỏ qua bước kiểm tra toàn vẹn vì trình duyệt chỉ cho phép khi dùng https hoặc localhost.', lb_verified: 'Đã lưu. Đã kiểm tra toàn vẹn (SHA-256).',
+    lb_need_idb: 'Cài môn học cần IndexedDB, nhưng ở đây không dùng được (chế độ riêng tư hoặc bị chặn).',
+    lb_cat_net: 'Đã tải danh mục từ thư viện.', lb_cat_cache: 'Không kết nối được thư viện, đây là danh mục đã lưu trước đó ({e}).',
+    lb_cat_none: 'Không kết nối được thư viện và chưa có danh mục nào được lưu. Các môn đã cài vẫn dùng được ngoại tuyến.', lb_loading: 'Đang tải danh mục…',
+    lb_rm_h: 'Gỡ “{t}”?', lb_rm_body: 'Nội dung môn học sẽ bị xóa khỏi thiết bị này. Tiến độ của bạn được giữ lại và sẽ khớp lại nếu sau này bạn cài lại môn.', lb_rm_go: 'Gỡ, giữ tiến độ',
+    lb_link_h: 'Cài từ thư viện?', lb_link_body: '“{t}”: {c} thẻ, {q} câu hỏi, {s}. Môn học được tải từ thư viện môn học và lưu trên thiết bị này.',
+    lb_link_go: 'Cài và mở', lb_link_open: 'Mở', lb_link_upd: 'Cập nhật và mở',
+    lb_link_unknown: 'Liên kết thư viện này trỏ tới một môn học không có trong danh mục.', lb_link_fail: 'Không đọc được danh mục thư viện nên chưa mở được liên kết này.', lb_link_bad: 'Liên kết thư viện này không hợp lệ.',
+    lb_edit_h: 'Tạo bản của riêng bạn?', lb_edit_body: 'Môn học trong thư viện không sửa tại chỗ được. Bạn có thể sửa bản sao của mình, môn trong thư viện giữ nguyên.',
+    lb_copy_fresh: 'Tạo bản sao (tiến độ mới)', lb_copy_prog: 'Tạo bản sao kèm tiến độ của tôi', lb_copy_title: '{t} (bản của tôi)',
+    lb_share_note: 'Liên kết thư viện: người nhận cài đúng môn này từ thư viện.',
     an_title: 'Phân tích mức độ nắm vững', an_acc: 'Độ chính xác trung bình', an_acc_sub: '{n} lượt gần nhất', an_attempts: 'Số lượt làm', an_attempts_sub: 'bài quiz và đề thi',
     an_focus_kpi: 'Thời gian tập trung', an_focus_sub: '{n} phiên, mọi bộ', an_trend: 'Độ chính xác theo thời gian',
     an_trend_empty: 'Hoàn thành một bài quiz hoặc đề thi để xem xu hướng độ chính xác tại đây.', an_avg_line: 'trung bình',
@@ -2323,7 +2444,7 @@ var I18N = {
     v_q_match: 'Chủ đề {n} ({t}), câu hỏi {s} cần ít nhất 2 "pairs", mỗi cặp có "left" và "right" khác nhau, nên bị bỏ qua.',
     v_noitems: 'Không tìm thấy ghi chú, thẻ ghi nhớ hoặc câu hỏi nào dùng được trong tệp này.',
     sk_h: 'Chưa có bộ ôn tập',
-    sk_lede: 'Mở một bộ ôn tập và trang này sẽ hiện tiến độ, chuỗi ngày học và các chủ đề của bạn.',
+    sk_lede: 'Mở một bộ ôn tập và trang này sẽ hiện tiến độ, chuỗi ngày học và các chủ đề của bạn. Các khối xám bên dưới cho thấy mọi thứ sẽ nằm ở đâu.',
     sk_cta: 'Mở bộ ôn tập',
     sk_tour: 'Xem hướng dẫn nhanh',
     nav_tour: 'Xem hướng dẫn',
@@ -2359,6 +2480,7 @@ var I18N = {
 
 if (typeof module !== 'undefined' && module.exports) { module.exports = { I18N: I18N }; }
 
+/* SP-CORE-BEGIN: tools/build-library.mjs runs exactly the code between this marker and SP-CORE-END */
 /* Core: parsing, validation, merging and hashing of study packs. Pure functions.
    Problems are returned as {key, vars} objects so the app can show them in the chosen language. */
 function spMsg(key, vars) { return { key: key, vars: vars || {} }; }
@@ -2384,7 +2506,7 @@ function spParse(text) {
   }
 }
 
-function spNormalise(data) {
+function spNormaliseFlat(data) {
   var errors = [];
   var warnings = [];
   if (!data || typeof data !== 'object' || !Array.isArray(data.topics) || !data.topics.length) {
@@ -2503,6 +2625,74 @@ function spNormalise(data) {
   return { pack: pack, errors: errors, warnings: warnings };
 }
 
+/* A pack may nest subpacks: a node has topics[] and packs[] (child nodes). Counting the pack itself, at most SP_MAX_DEPTH levels.
+   Result stays FLAT for the rest of the app: pack.topics holds every topic; a topic in a subpack has id "<path>/<id>" (so progress keys
+   become "<path>/<id>:<index>") and topic.node = path. pack.nodes lists the subpacks: {path, id, title, summary, parent, depth}.
+   A pack with no subpacks is exactly the old shape (ids and progress keys unchanged). */
+var SP_MAX_DEPTH = 3;
+function spNormalise(data) {
+  var kidsOf = function (n) { return n && typeof n === 'object' && Array.isArray(n.packs) ? n.packs : []; };
+  if (!kidsOf(data).length) {
+    var flat = spNormaliseFlat(data);
+    if (flat.pack) { flat.pack.nodes = []; flat.pack.topics.forEach(function (t) { t.node = ''; }); }
+    return flat;
+  }
+  var errors = [], warnings = [], items = 0;
+  var pack = { id: spStr(data.id), title: spStr(data.title) || 'Untitled study pack', subject: spStr(data.subject), level: spStr(data.level), language: spStr(data.language), topics: [], nodes: [] };
+  function note(list, m, label) { if (label) m.node = label; list.push(m); }
+  function walk(node, path, level, label) {
+    var tl = Array.isArray(node.topics) ? node.topics : [];
+    if (tl.length) {
+      var r = spNormaliseFlat({ topics: tl });
+      r.warnings.forEach(function (w) { note(warnings, w, label); });
+      /* a node whose topics are all unusable is skipped with a note; only an entirely empty pack is an error */
+      r.errors.forEach(function (e) { note(warnings, e, label); });
+      if (r.pack) r.pack.topics.forEach(function (t) {
+        t.id = path ? path + '/' + t.id : t.id; t.node = path; pack.topics.push(t);
+        items += t.notes.length + t.cards.length + t.questions.length;
+      });
+    }
+    var used = {};
+    kidsOf(node).forEach(function (k, i) {
+      var n = i + 1;
+      if (!k || typeof k !== 'object') { note(warnings, spMsg('node_obj', { n: n }), label); return; }
+      var title = spStr(k.title);
+      if (!title) { note(warnings, spMsg('node_title', { n: n }), label); return; }
+      if (level + 1 > SP_MAX_DEPTH) { errors.push(spMsg('depth', { node: title, n: SP_MAX_DEPTH })); return; }
+      var id = (spStr(k.id) || ('s' + n)).replace(/[\s\/]+/g, '-'), base = id, c = 2;
+      while (used[id]) { id = base + '-' + c++; }
+      used[id] = true;
+      var p2 = path ? path + '/' + id : id;
+      pack.nodes.push({ path: p2, id: id, title: title, summary: spStr(k.summary), parent: path, depth: level + 1 });
+      walk(k, p2, level + 1, label ? label + ' › ' + title : title);
+    });
+  }
+  walk(data, '', 1, '');
+  if (errors.length) return { errors: errors, warnings: warnings };
+  if (!items) { errors.push(spMsg('noitems')); return { errors: errors, warnings: warnings }; }
+  return { pack: pack, errors: errors, warnings: warnings };
+}
+
+/* Back to the nested JSON shape (storage, sharing, editor). topicFn(topic, localId) makes the output topic. */
+function spTopicOut(t, local) { var c = {}; for (var k in t) if (k !== 'node') c[k] = t[k]; c.id = local; return c; }
+function spSerialise(pack, topicFn, rootPath) {
+  topicFn = topicFn || spTopicOut; rootPath = rootPath || '';
+  var nodes = pack.nodes || [];
+  function build(path) {
+    var o = { topics: pack.topics.filter(function (t) { return (t.node || '') === path; }).map(function (t) { return topicFn(t, path ? t.id.slice(path.length + 1) : t.id); }) };
+    var kids = nodes.filter(function (n) { return n.parent === path; });
+    if (kids.length) o.packs = kids.map(function (n) { var c = { id: n.id, title: n.title }; if (n.summary) c.summary = n.summary; var b = build(n.path); c.topics = b.topics; if (b.packs) c.packs = b.packs; return c; });
+    return o;
+  }
+  var b = build(rootPath), out = {};
+  var info = rootPath ? nodes.filter(function (n) { return n.path === rootPath; })[0] : null;
+  if (!rootPath && pack.id) out.id = pack.id;
+  out.title = info ? info.title : pack.title;
+  out.subject = pack.subject; out.level = pack.level; out.language = pack.language;
+  out.topics = b.topics; if (b.packs) out.packs = b.packs;
+  return out;
+}
+
 function spMerge(packs) {
   if (packs.length === 1) return packs[0];
   var titles = [];
@@ -2510,6 +2700,18 @@ function spMerge(packs) {
   var title = titles.length <= 2 ? titles.join(' + ') : titles[0] + ' + ' + (titles.length - 1) + ' more';
   var pick = function (k) { for (var i = 0; i < packs.length; i++) if (packs[i][k]) return packs[i][k]; return ''; };
   var out = { id: packs.every(function (p) { return p.id; }) ? packs.map(function (p) { return p.id; }).join('+') : '', title: title, subject: pick('subject'), level: pick('level'), language: pick('language'), topics: [] };
+  if (packs.some(function (p) { return p.nodes && p.nodes.length; })) {
+    out.nodes = []; var usedN = {};
+    packs.forEach(function (p, i) {
+      var nid = (p.id || ('m' + (i + 1))).replace(/[\s\/]+/g, '-'), nb = nid, nc = 2;
+      while (usedN[nid]) { nid = nb + '-' + nc++; }
+      usedN[nid] = true;
+      out.nodes.push({ path: nid, id: nid, title: p.title, summary: '', parent: '', depth: 2 });
+      (p.nodes || []).forEach(function (n) { var c = {}; for (var k in n) c[k] = n[k]; c.path = nid + '/' + n.path; c.parent = n.parent ? nid + '/' + n.parent : nid; c.depth = n.depth + 1; out.nodes.push(c); });
+      p.topics.forEach(function (t) { var c = {}; for (var k in t) c[k] = t[k]; c.id = nid + '/' + t.id; c.node = t.node ? nid + '/' + t.node : nid; out.topics.push(c); });
+    });
+    return out;
+  }
   var used = {};
   packs.forEach(function (p) {
     p.topics.forEach(function (t) {
@@ -2522,6 +2724,7 @@ function spMerge(packs) {
       out.topics.push(copy);
     });
   });
+  out.nodes = [];
   return out;
 }
 
@@ -2530,9 +2733,10 @@ function spHash(s) {
   for (var i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0;
   return (h >>> 0).toString(36);
 }
+/* SP-CORE-END */
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { spStr: spStr, spParse: spParse, spNormalise: spNormalise, spMerge: spMerge, spHash: spHash };
+  module.exports = { spStr: spStr, spParse: spParse, spNormalise: spNormalise, spMerge: spMerge, spHash: spHash, spSerialise: spSerialise };
 }
 
 /* App: state, rendering, language, theme, focus timer. Uses I18N (i18n.js) and the spXxx helpers (core.js). */
@@ -2585,11 +2789,11 @@ if (typeof module !== 'undefined' && module.exports) {
     });
   }
   function msgText(x) {
-    return (x.file ? esc(x.file) + ': ' : '') + esc(tr('v_' + x.m.key, x.m.vars));
+    return (x.file ? esc(x.file) + ': ' : '') + (x.m.node ? esc(x.m.node) + ': ' : '') + esc(tr('v_' + x.m.key, x.m.vars));
   }
 
 var S = {
-    pack: null, key: '', empty: false, prog: null,
+    pack: null, key: '', empty: false, prog: null, node: '', railOpen: {}, libId: '',
     view: 'overview', scope: 'all', mode: 'notes',
     exam: { step: 'config', run: null, result: null },
     cards: null, quiz: null, qiv: null,
@@ -2605,12 +2809,12 @@ var S = {
   /* ---------- pack + progress ---------- */
   /* No pack loaded yet: a blank placeholder so every view keeps working, with S.empty switching on the skeleton UI. */
   function setEmpty() {
-    S.pack = { title: '', subject: '', level: '', language: '', topics: [] };
-    S.empty = true; S.key = 'empty'; S.prog = emptyProg();
+    S.pack = { title: '', subject: '', level: '', language: '', topics: [], nodes: [] };
+    S.node = ''; S.libId = ''; S.empty = true; S.key = 'empty'; S.prog = emptyProg();
     S.cards = null; S.quiz = null; S.confirmReset = false;
     $('#packName').textContent = '';
   }
-  function setPack(pack) {
+  function setPack(pack, noPersist) {
     S.pack = pack; S.empty = false;
     // Key = optional explicit pack "id" (survives renames), else title + topics (legacy formula, keeps old progress).
     var legacyKey = spHash(pack.title + '|' + pack.topics.map(function (t) { return t.id + ':' + t.title; }).join('|'));
@@ -2627,12 +2831,78 @@ var S = {
       if (Array.isArray(p.hist)) S.prog.hist = p.hist;
     }
     S.cards = null; S.quiz = null; S.confirmReset = false; stopQT();
-    store.set('sp:pack', JSON.stringify(pack));
+    S.node = ''; S.railOpen = {}; S.scope = 'all';
+    S.libId = pack.id && pack.id.indexOf('lib:') === 0 ? pack.id.slice(4) : '';
+    if (!noPersist) persistCurrent(pack);
+    store.set('sp:pname:' + S.key, String(pack.title || ''));
     $('#packName').textContent = pack.title;
   }
   function saveProg() { store.set('sp:prog:' + S.key, JSON.stringify(S.prog)); }
   function cardKnown(st) { return st && typeof st === 'object' ? (st.box || 1) >= 2 : !!st; }
-  function scopeTopics(scope) { return scope === 'all' ? S.pack.topics : S.pack.topics.filter(function (t) { return t.id === scope; }); }
+  /* ---- subpack navigation: S.node is the selected node's path ('' = the pack itself) ---- */
+  function inNode(tn, n) { tn = tn || ''; return !n || tn === n || tn.indexOf(n + '/') === 0; }
+  function nodeTopics(path) {
+    path = path == null ? S.node : path;
+    return path ? S.pack.topics.filter(function (t) { return inNode(t.node, path); }) : S.pack.topics;
+  }
+  function nodeInfo(path) {
+    var n = (S.pack.nodes || []).filter(function (x) { return x.path === path; })[0];
+    return n || { path: '', id: '', title: S.pack.title, summary: '', parent: null, depth: 1 };
+  }
+  function childNodes(path) { return (S.pack.nodes || []).filter(function (n) { return n.parent === path; }); }
+  function nodeCrumbs(path) {
+    var out = [], p = path, g = 0;
+    while (p && g++ < 10) { var n = nodeInfo(p); out.unshift(n); p = n.parent; }
+    out.unshift(nodeInfo(''));
+    return out;
+  }
+  function nodeStats(path) {
+    var ts = nodeTopics(path), o = { topics: ts.length, cards: 0, known: 0, qs: 0, ready: 0 };
+    ts.forEach(function (t) { var st = topicStats(t); o.cards += t.cards.length; o.known += st.known; o.qs += t.questions.length; o.ready += st.ready; });
+    o.ready = ts.length ? o.ready / ts.length : 0;
+    return o;
+  }
+  function syncPackName() {
+    var el = $('#packName'); if (!el || !S.pack) return;
+    el.textContent = S.pack.title + (S.node ? ' › ' + nodeInfo(S.node).title : '');
+  }
+  function ndNode(path) {
+    if (path && !(S.pack.nodes || []).some(function (n) { return n.path === path; })) path = '';
+    stopQT(); setDrawer(false);
+    S.node = path; S.view = 'overview'; S.scope = 'all'; S.cards = null; S.quiz = null; S.confirmReset = false;
+    syncPackName(); render(); window.scrollTo(0, 0);
+  }
+  function crumbsHTML(linkLast) {
+    if (!S.pack || !(S.pack.nodes || []).length) return '';
+    var cs = nodeCrumbs(S.node);
+    return '<nav class="crumbs" aria-label="' + esc(tr('nd_crumb')) + '">' + cs.map(function (n, i) {
+      var last = i === cs.length - 1;
+      if (last && !linkLast) return '<span aria-current="page"><b>' + esc(n.title) + '</b></span>';
+      return '<button class="link" data-act="nd_node" data-path="' + esc(n.path) + '">' + esc(n.title) + '</button>' + (last ? '' : '<span aria-hidden="true"> › </span>');
+    }).join('') + '</nav>';
+  }
+  function railNodeOpen(path) { return S.railOpen[path] !== undefined ? S.railOpen[path] : (path === '' || inNode(S.node, path)); }
+  function railTopicBtn(t, lvl) {
+    var st = topicStats(t), pct = Math.round(st.ready * 100), cur = S.view === 'study' && S.scope === t.id;
+    return '<button class="nav-i' + (cur ? ' cur' : '') + '" data-go="topic" data-id="' + esc(t.id) + '" title="' + esc(t.title) + '"' + (lvl ? ' style="padding-left:' + (10 + lvl * 12) + 'px"' : '') + '><span>' + esc(t.title) + '</span><i class="dot" style="--p:' + pct + '" title="' + esc(tr('ready_pct', { n: pct })) + '"></i></button>';
+  }
+  function railTree(path, lvl) {
+    var h = '';
+    S.pack.topics.forEach(function (t) { if ((t.node || '') === path) h += railTopicBtn(t, lvl); });
+    childNodes(path).forEach(function (n) {
+      var open = railNodeOpen(n.path), pct = Math.round(nodeStats(n.path).ready * 100), cur = S.view === 'overview' && S.node === n.path;
+      h += '<div class="rail-node" style="padding-left:' + ((lvl - 1) * 12) + 'px"><button class="rail-tg" data-act="nd_nodeTog" data-path="' + esc(n.path) + '" aria-expanded="' + open + '" aria-label="' + esc(tr(open ? 'nd_tog_open' : 'nd_tog_closed', { t: n.title })) + '">' + (open ? '▾' : '▸') + '</button>' +
+        '<button class="nav-i' + (cur ? ' cur' : '') + '" data-act="nd_node" data-path="' + esc(n.path) + '" title="' + esc(n.title) + '"><span>' + esc(n.title) + '</span><i class="dot" style="--p:' + pct + '" title="' + esc(tr('ready_pct', { n: pct })) + '"></i></button></div>';
+      if (open) h += railTree(n.path, lvl + 1);
+    });
+    return h;
+  }
+  function railTopics() {
+    if (!(S.pack.nodes || []).length) return S.pack.topics.map(function (t) { return railTopicBtn(t, 0); }).join('');
+    var pct = Math.round(nodeStats('').ready * 100), cur = S.view === 'overview' && S.node === '';
+    return '<div class="rail-node"><span class="rail-tgsp"></span><button class="nav-i' + (cur ? ' cur' : '') + '" data-act="nd_node" data-path="" title="' + esc(S.pack.title) + '"><span>' + esc(S.pack.title) + '</span><i class="dot" style="--p:' + pct + '"></i></button></div>' + railTree('', 1);
+  }
+  function scopeTopics(scope) { return scope === 'all' ? nodeTopics() : S.pack.topics.filter(function (t) { return t.id === scope; }); }
 
   function topicStats(t) {
     var known = 0;
@@ -2646,12 +2916,12 @@ var S = {
     return { known: known, best: best, ready: ready };
   }
   function totals() {
-    var o = { cards: 0, known: 0, qs: 0, ready: 0 };
-    S.pack.topics.forEach(function (t) {
+    var o = { cards: 0, known: 0, qs: 0, ready: 0 }, NT = nodeTopics();
+    NT.forEach(function (t) {
       var st = topicStats(t);
       o.cards += t.cards.length; o.known += st.known; o.qs += t.questions.length; o.ready += st.ready;
     });
-    o.ready = S.pack.topics.length ? o.ready / S.pack.topics.length : 0;
+    o.ready = NT.length ? o.ready / NT.length : 0;
     return o;
   }
 
@@ -2671,7 +2941,9 @@ function loadTexts(items) {
       saveRecentPackToStorage(n.pack.title, it.text);
     });
     if (!packs.length) { S.loadMsg = { errors: errs, warnings: warns }; S.view = 'load'; render(); return; }
-    setPack(spMerge(packs));
+    var mp = spMerge(packs); if (mp.id && mp.id.indexOf('lib:') === 0) mp.id = 'file:' + mp.id.slice(4);
+    setPack(mp);
+    askPersist();
     S.notice = { topics: S.pack.topics.length, files: items.length > 1 ? packs.length : 0, items: errs.concat(warns) };
     S.loadMsg = null;
     go('overview');
@@ -2688,6 +2960,7 @@ function loadTexts(items) {
 function go(where, id, mode) {
     // 1. Active-View Guard: Do nothing if clicking the nav item you're already viewing
     openDebugPopup(false);
+    if (where === 'edit' && S.libId && !S.empty) { libEditPrompt(); return; }
     if (S.empty && (where === 'exam' || where === 'topic' || where === 'all')) where = 'overview';
     var wasDrawer = S.drawerOpen; setDrawer(false);
     if (where === 'overview' && S.view === 'overview') return;
@@ -2697,6 +2970,7 @@ function go(where, id, mode) {
     if (where === 'themes' && S.view === 'themes') return;
     if (where === 'teacher' && S.view === 'teacher') return;
     if (where === 'credits' && S.view === 'credits') return;
+    if (where === 'library' && S.view === 'library') return;
     if (where === 'topic' && S.view === 'study' && S.scope === id) return;
     if (where === 'all' && S.view === 'study' && S.scope === 'all') return;
 
@@ -2708,7 +2982,7 @@ function go(where, id, mode) {
 
       main.classList.add('is-switching');
       setTimeout(function() {
-        if (where === 'topic') { S.view = 'study'; S.scope = id; S.mode = mode || 'notes'; S.cards = null; S.quiz = null; }
+        if (where === 'topic') { S.view = 'study'; S.scope = id; S.node = (S.pack.topics.filter(function (t) { return t.id === id; })[0] || {}).node || ''; syncPackName(); S.mode = mode || 'notes'; S.cards = null; S.quiz = null; }
         else if (where === 'all') { S.view = 'study'; S.scope = 'all'; S.mode = mode || 'cards'; S.cards = null; S.quiz = null; }
         else if (where === 'exam') { S.view = 'exam'; S.exam.step = 'config'; }
         else { S.view = where; }
@@ -2728,7 +3002,7 @@ function go(where, id, mode) {
         });
       }, wasDrawer ? 220 : 120);
     } else {
-      if (where === 'topic') { S.view = 'study'; S.scope = id; S.mode = mode || 'notes'; S.cards = null; S.quiz = null; }
+      if (where === 'topic') { S.view = 'study'; S.scope = id; S.node = (S.pack.topics.filter(function (t) { return t.id === id; })[0] || {}).node || ''; syncPackName(); S.mode = mode || 'notes'; S.cards = null; S.quiz = null; }
       else if (where === 'all') { S.view = 'study'; S.scope = 'all'; S.mode = mode || 'cards'; S.cards = null; S.quiz = null; }
       else { S.view = where; }
       render();
@@ -2747,11 +3021,12 @@ function render() {
     else if (S.view === 'themes') main = '<div id="thHost"></div>';
     else if (S.view === 'load') main = loadHTML();
     else if (S.view === 'credits') main = creditsHTML();
+    else if (S.view === 'library') main = libraryHTML();
     else main = teacherHTML();
     
     // Check if we are transitioning to a new view
     var mainClass = S.animateMain ? 'main is-switching' : 'main';
-    if (S.view === 'load' || S.view === 'teacher' || S.view === 'credits') mainClass += ' main-narrow';
+    if (S.view === 'load' || S.view === 'teacher' || S.view === 'credits' || S.view === 'library') mainClass += ' main-narrow';
     S.animateMain = false; // Reset flag
 
     $('#app').innerHTML = '<div class="shell' + (S.railOff ? ' rail-off' : '') + (S.view === 'exam' && S.exam && S.exam.step === 'doing' ? ' exam-focus' : '') + (S.drawerOpen ? ' drawer-open' : '') + '">' + navHTML() + '<div class="scrim" data-act="closeDrawer"></div><main class="' + mainClass + '" id="main">' + main + '</main></div>';
@@ -2768,13 +3043,10 @@ function render() {
     h += '<button class="nav-i' + (S.view === 'exam' ? ' cur' : '') + (S.empty ? ' nav-off' : '') + '" data-tour="nav-exam" data-go="exam"' + (S.empty ? ' disabled aria-disabled="true"' : '') + '><span>' + tr('exam') + '</span></button>';
     h += '<p class="rail-h">' + tr('nav_topics') + '</p><div class="rail-list">';
     if (S.empty) h += '<div class="rail-sk" role="img" aria-label="' + esc(tr('nav_empty_aria')) + '"><i class="sk"></i><i class="sk"></i><i class="sk"></i></div>';
-    S.pack.topics.forEach(function (t) {
-      var st = topicStats(t), pct = Math.round(st.ready * 100);
-      var cur = S.view === 'study' && S.scope === t.id;
-      h += '<button class="nav-i' + (cur ? ' cur' : '') + '" data-go="topic" data-id="' + esc(t.id) + '" title="' + esc(t.title) + '"><span>' + esc(t.title) + '</span><i class="dot" style="--p:' + pct + '" title="' + esc(tr('ready_pct', { n: pct })) + '"></i></button>';
-    });
+    h += railTopics();
     h += '</div><p class="rail-h">' + tr('nav_files') + '</p><div class="rail-list">';
     h += '<button class="nav-i' + (S.view === 'load' ? ' cur' : '') + '" data-tour="nav-open" data-go="load"><span>' + tr('nav_open') + '</span></button>';
+    h += '<button class="nav-i' + (S.view === 'library' ? ' cur' : '') + '" data-go="library"><span>' + tr('nav_library') + '</span></button>';
     h += '<button class="nav-i' + (S.view === 'edit' ? ' cur' : '') + '" data-go="edit"><span>' + tr('nav_edit') + '</span></button>';
     h += '<button class="nav-i' + (S.view === 'themes' ? ' cur' : '') + '" data-go="themes"><span>' + tr('nav_theme') + '</span></button>';
     h += '<button class="nav-i' + (S.view === 'teacher' ? ' cur' : '') + '" data-tour="nav-make" data-go="teacher"><span>' + tr('nav_make') + '</span></button>';
@@ -2849,13 +3121,13 @@ function deadlineKey() { return 'sp:deadline:' + S.key; }
 function overviewHTML() {
     if (S.empty) return skeletonHTML();
     var P = S.pack, tt = totals(), pct = Math.round(tt.ready * 100);
-    var meta = [P.subject, P.level, tr('topics_n', { n: P.topics.length })].filter(Boolean).map(esc).join(' · ');
+    var meta = [P.subject, P.level, tr('topics_n', { n: nodeTopics().length })].filter(Boolean).map(esc).join(' · ');
     
     var isMonth = S.streakView === 'month';
     var streakData = getStreakData(isMonth ? 30 : 7);
 
-    var h = '<div class="eyebrow">' + tr('eyebrow_pack') + '</div>';
-    h += '<h1 class="page-h">' + esc(P.title) + '</h1><p class="lede">' + meta + '</p>';
+    var h = (P.nodes && P.nodes.length) ? crumbsHTML(false) : '<div class="eyebrow">' + tr('eyebrow_pack') + '</div>';
+    h += '<h1 class="page-h">' + esc(S.node ? nodeInfo(S.node).title : P.title) + '</h1><p class="lede">' + meta + '</p>';
     
     // Streak & Heatmap Widget với Toggle Tuần / Tháng
     h += '<div class="top-row">';
@@ -2879,7 +3151,7 @@ function overviewHTML() {
     }
     h += '<section class="prog" aria-label="' + esc(tr('progress_aria')) + '"><div><div class="big">' + pct + '<span>%</span></div><p class="muted">' + tr('ready_to_revise') + '</p></div><div>';
     h += '<div class="bar" role="img" aria-label="' + esc(tr('ready_pct', { n: pct })) + '"><i style="width:' + pct + '%"></i></div>';
-    h += '<dl class="stats"><div><dt>' + tr('stat_topics') + '</dt><dd>' + P.topics.length + '</dd></div><div><dt>' + tr('stat_cards') + '</dt><dd>' + tt.known + '/' + tt.cards + '</dd></div><div><dt>' + tr('stat_q') + '</dt><dd>' + tt.qs + '</dd></div></dl>';
+    h += '<dl class="stats"><div><dt>' + tr('stat_topics') + '</dt><dd>' + nodeTopics().length + '</dd></div><div><dt>' + tr('stat_cards') + '</dt><dd>' + tt.known + '/' + tt.cards + '</dd></div><div><dt>' + tr('stat_q') + '</dt><dd>' + tt.qs + '</dd></div></dl>';
     h += '<div class="actions">';
     if (tt.qs) h += '<button class="btn primary" data-go="all" data-mode="quiz">' + tr('btn_quiz_all') + '</button>';
     if (tt.cards) h += '<button class="btn" data-go="all" data-mode="cards">' + tr('btn_cards_all') + '</button>';
@@ -2888,8 +3160,21 @@ function overviewHTML() {
     if (cc.starred) h += '<button class="btn" data-act="nd_reviewStarred">' + tr('ov_starred', { n: cc.starred }) + '</button>';
     h += '<button class="btn" data-act="focus">' + tr('btn_focus') + '</button><button class="btn" data-go="edit">' + tr('btn_edit') + '</button><button class="btn" data-act="nd_share">' + tr('share_btn') + '</button></div></div></section>';
     h += analyticsHTML();
-    h += '<h2 class="sec-h">' + tr('nav_topics') + '</h2><div class="tlist">';
-    P.topics.forEach(function (t) {
+    var kids = childNodes(S.node), direct = P.topics.filter(function (t) { return (t.node || '') === S.node; });
+    if (kids.length) {
+      h += '<h2 class="sec-h">' + tr('nd_subpacks') + '</h2><div class="tlist">';
+      kids.forEach(function (n) {
+        var ns = nodeStats(n.path), rp = Math.round(ns.ready * 100);
+        h += '<button class="trow" data-act="nd_node" data-path="' + esc(n.path) + '"><div><h3>' + esc(n.title) + '</h3>' + (n.summary ? '<p>' + esc(n.summary) + '</p>' : '') + '<p class="muted">' + esc(tr('nd_sub_stats', { t: ns.topics, c: ns.cards, q: ns.qs })) + '</p></div><div class="meters">';
+        h += meter(tr('nd_ready'), rp, rp + '%', rp === 0);
+        h += ns.cards ? meter(tr('meter_cards'), Math.round(ns.known / ns.cards * 100), ns.known + '/' + ns.cards, ns.known === 0) : '';
+        h += '</div></button>';
+      });
+      h += '</div>';
+    }
+    if (direct.length) h += '<h2 class="sec-h">' + tr('nav_topics') + '</h2>';
+    h += '<div class="tlist">';
+    direct.forEach(function (t) {
       var st = topicStats(t), read = !!S.prog.notes[t.id];
       h += '<button class="trow" data-go="topic" data-id="' + esc(t.id) + '"><div><h3>' + esc(t.title) + '</h3>' + (t.summary ? '<p>' + esc(t.summary) + '</p>' : '') + '</div><div class="meters">';
       h += t.notes.length ? meter(tr('meter_notes'), read ? 100 : 0, read ? tr('read') : tr('to_read'), !read) : '';
@@ -2898,7 +3183,7 @@ function overviewHTML() {
       h += '</div></button>';
     });
     h += '</div><p class="foot">' + tr('foot_saved') + ' ';
-    h += '<button class="link" data-act="reset">' + (S.confirmReset ? tr('reset_confirm') : tr('reset')) + '</button></p>';
+    h += '<button class="link" data-act="reset">' + (S.node ? tr(S.confirmReset ? 'nd_reset_node_c' : 'nd_reset_node') : (S.confirmReset ? tr('reset_confirm') : tr('reset'))) + '</button></p>';
     return h;
   }
 
@@ -2911,7 +3196,7 @@ function studyHTML() {
       quiz: topics.some(function (x) { return x.questions.length; })
     };
     if (!has[S.mode]) S.mode = ['notes', 'cards', 'quiz'].filter(function (m) { return has[m]; })[0] || 'notes';
-    var h = '<div class="eyebrow">' + (single ? tr('eyebrow_topic') : tr('eyebrow_all')) + '</div>';
+    var h = crumbsHTML(true) + '<div class="eyebrow">' + (single ? tr('eyebrow_topic') : tr('eyebrow_all')) + '</div>';
     h += '<h1 class="page-h">' + esc(single ? t.title : tr('all_topics')) + '</h1>';
     h += '<div class="tabs" role="tablist">';
     [['notes', 'tab_notes'], ['cards', 'tab_cards'], ['quiz', 'tab_quiz']].forEach(function (m) {
@@ -3193,7 +3478,7 @@ function renderExam() {
   const cfg = examCfg();
 
   if (S.exam.step === 'config') {
-    const scopeList = [{ id: 'all', title: tr('examAllTopics') }, ...S.pack.topics];
+    const scopeList = [{ id: 'all', title: tr('examAllTopics') }, ...nodeTopics()];
     if (!scopeList.some(t => t.id === cfg.scope)) cfg.scope = 'all';
     const currentScopeObj = scopeList.find(t => t.id === cfg.scope) || scopeList[0];
     const avail = examAvailTypes(cfg.scope);
@@ -4042,6 +4327,7 @@ function quizSetupHTML() {
     h += '<p class="lede">' + tr('load_lede') + '</p><div class="narrow">';
     h += msgHTML();
     
+    h += pgCardHTML() + stCardHTML();
     // Hiển thị danh sách Recent Packs nếu có
     if (recents.length > 0) {
       h += '<div class="rp-card">';
@@ -4069,7 +4355,7 @@ function quizSetupHTML() {
    Edit CREDITS to change what the page shows. Empty arrays hide their section. */
 var CREDITS = {
   appName: 'Navel Desk',
-  channel: 'Canary',
+  channel: 'Stable',
   people: [],      // e.g. { name: 'Your name', role_en: 'Design & code', role_vi: 'Thiết kế & lập trình' }
   thanks: [],      // e.g. { name: 'Ms. Lan', note_en: 'For the history notes', note_vi: 'Vì bộ ghi chú Lịch sử' }
   fonts: [
@@ -4161,19 +4447,92 @@ h += '<a class="ai-btn" href="' + urls.claude + '" target="_blank" rel="noopener
     return h;
   }
 /* ---------- Recent Packs Management ---------- */
-  function getRecentPacks() {
-    try { return JSON.parse(store.get('sp:recent_packs') || '[]'); } catch (e) { return []; }
+  /* ---------- storage layer: IndexedDB for pack content, localStorage for config + progress ---------- */
+  var db = (function () {
+    var h = null, api = { ok: false, err: '' };
+    api.open = function () {
+      return new Promise(function (res, rej) {
+        if (typeof indexedDB === 'undefined' || !indexedDB) { rej(new Error('IndexedDB unavailable')); return; }
+        var done = false, rq;
+        var t = setTimeout(function () { if (!done) { done = true; rej(new Error('IndexedDB open timed out')); } }, 4000);
+        try { rq = indexedDB.open('navel-desk', 2); } catch (e) { clearTimeout(t); rej(e); return; }
+        rq.onupgradeneeded = function () {
+          var d = rq.result;
+          if (!d.objectStoreNames.contains('packs')) d.createObjectStore('packs', { keyPath: 'id' });
+          if (!d.objectStoreNames.contains('meta')) d.createObjectStore('meta');
+          if (!d.objectStoreNames.contains('lib')) d.createObjectStore('lib', { keyPath: 'id' });
+          if (!d.objectStoreNames.contains('libmeta')) d.createObjectStore('libmeta', { keyPath: 'id' });
+        };
+        rq.onsuccess = function () {
+          clearTimeout(t);
+          if (done) { try { rq.result.close(); } catch (e) { /* ignore */ } return; }
+          done = true; h = rq.result; api.ok = true;
+          h.onversionchange = function () { try { h.close(); } catch (e) { /* ignore */ } api.ok = false; };
+          res();
+        };
+        rq.onerror = function () { clearTimeout(t); if (!done) { done = true; rej(rq.error || new Error('IndexedDB open failed')); } };
+      });
+    };
+    /* fn(objectStore) may return a request; its result becomes the promise value */
+    function tx(stores, mode, fn) {
+      return new Promise(function (res, rej) {
+        if (!h) { rej(new Error('IndexedDB closed')); return; }
+        var t, out;
+        try { t = h.transaction(stores, mode); } catch (e) { rej(e); return; }
+        t.oncomplete = function () { res(out); };
+        t.onerror = function () { rej(t.error || new Error('IndexedDB error')); };
+        t.onabort = function () { rej(t.error || new Error('IndexedDB aborted')); };
+        try {
+          var r = fn(t);
+          if (r && 'onsuccess' in r) r.onsuccess = function () { out = r.result; };
+        } catch (e) { try { t.abort(); } catch (e2) { /* ignore */ } rej(e); }
+      });
+    }
+    api.get = function (s, k) { return tx(s, 'readonly', function (t) { return t.objectStore(s).get(k); }); };
+    api.all = function (s) { return tx(s, 'readonly', function (t) { return t.objectStore(s).getAll(); }); };
+    api.put = function (s, v, k) { return tx(s, 'readwrite', function (t) { return k === undefined ? t.objectStore(s).put(v) : t.objectStore(s).put(v, k); }); };
+    api.del = function (s, k) { return tx(s, 'readwrite', function (t) { return t.objectStore(s).delete(k); }); };
+    /* library subjects: content ('lib') and small metadata ('libmeta') are written or removed together */
+    api.libPut = function (rec, meta) { return tx(['lib', 'libmeta'], 'readwrite', function (t) { t.objectStore('lib').put(rec); t.objectStore('libmeta').put(meta); }); };
+    api.libDel = function (id) { return tx(['lib', 'libmeta'], 'readwrite', function (t) { t.objectStore('lib').delete(id); t.objectStore('libmeta').delete(id); }); };
+    /* several packs puts/deletes in one transaction: all or nothing */
+    api.packsBatch = function (put, del) {
+      return tx('packs', 'readwrite', function (t) {
+        var os = t.objectStore('packs'); put.forEach(function (p) { os.put(p); }); del.forEach(function (id) { os.delete(id); });
+      });
+    };
+    return api;
+  })();
+  var ST = { mode: 'ls', err: '', warn: false, usage: null, quota: null, persisted: null, asked: false };
+  var RP = null;      /* recent packs, in memory: [{id,title,text,updatedAt}] newest first */
+  var CURPACK = null; /* raw JSON string of the open pack, read at boot */
+  function lsRecents() { try { var v = JSON.parse(store.get('sp:recent_packs') || '[]'); return Array.isArray(v) ? v : []; } catch (e) { return []; } }
+  function getRecentPacks() { return RP || lsRecents(); }
+  /* IndexedDB write failed mid-session: keep working from the older storage and say so, gently */
+  function dbFail(e) {
+    db.ok = false; ST.mode = 'ls'; ST.warn = true; ST.err = String(e && e.message || e);
+    try { store.set('sp:recent_packs', JSON.stringify(RP || [])); } catch (e2) { /* too big for the old storage */ }
+    paintStorage();
+  }
+  function persistRecents(changed, removed) {
+    if (db.ok) { db.packsBatch(changed, removed).catch(dbFail); }
+    else store.set('sp:recent_packs', JSON.stringify(RP || []));
+  }
+  function persistCurrent(pack) {
+    var lid = pack.id && pack.id.indexOf('lib:') === 0 ? pack.id.slice(4) : '';
+    var json = lid ? JSON.stringify({ $lib: lid }) : JSON.stringify(spSerialise(pack)); CURPACK = json; /* library packs: only a pointer, the content lives in the lib store */
+    if (db.ok) {
+      db.put('meta', json, 'current').catch(function (e) { dbFail(e); store.set('sp:pack', json); });
+    } else store.set('sp:pack', json);
   }
   function saveRecentPackToStorage(title, text) {
     if (!title || !text) return;
-    var recents = getRecentPacks();
-    var id = 'p_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4);
-    // Loại bỏ tệp cũ nếu trùng tiêu đề để tránh lặp
-    recents = recents.filter(function (p) { return p.title !== title; });
-    recents.unshift({ id: id, title: title, text: text, updatedAt: Date.now() });
-    // Giới hạn tối đa 5 tệp gần nhất
-    if (recents.length > 15) recents = recents.slice(0, 15);
-    store.set('sp:recent_packs', JSON.stringify(recents));
+    var recents = getRecentPacks().slice(), removed = [];
+    var rec = { id: 'p_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4), title: title, text: text, updatedAt: Date.now() };
+    recents = recents.filter(function (p) { if (p.title === title) { removed.push(p.id); return false; } return true; });
+    recents.unshift(rec);
+    if (recents.length > 15) { recents.slice(15).forEach(function (p) { removed.push(p.id); }); recents = recents.slice(0, 15); }
+    RP = recents; persistRecents([rec], removed);
   }
   function renameRecentPack(id) {
     var recents = getRecentPacks();
@@ -4181,16 +4540,83 @@ h += '<a class="ai-btn" href="' + urls.claude + '" target="_blank" rel="noopener
     if (!pack) return;
     var newTitle = prompt(tr('recent_rename_prompt'), pack.title);
     if (newTitle && newTitle.trim()) {
-      pack.title = newTitle.trim();
-      store.set('sp:recent_packs', JSON.stringify(recents));
+      pack.title = newTitle.trim(); RP = recents;
+      persistRecents([pack], []);
       render();
     }
   }
   function deleteRecentPack(id) {
-    var recents = getRecentPacks();
-    recents = recents.filter(function (p) { return p.id !== id; });
-    store.set('sp:recent_packs', JSON.stringify(recents));
+    RP = getRecentPacks().filter(function (p) { return p.id !== id; });
+    persistRecents([], [id]);
     render();
+  }
+  /* one-time move of the old localStorage copies; the old keys are removed only after the new copy reads back identical */
+  function migrateToDb() {
+    return db.get('meta', 'migrated').then(function (flag) {
+      if (flag) return;
+      var oldRecents = lsRecents(), oldCur = store.get('sp:pack');
+      var recs = oldRecents.filter(function (p) { return p && p.id && typeof p.text === 'string'; });
+      var work = Promise.resolve();
+      if (recs.length) work = work.then(function () { return db.packsBatch(recs, []); });
+      if (oldCur) work = work.then(function () { return db.put('meta', oldCur, 'current'); });
+      return work.then(function () {
+        return Promise.all([db.all('packs'), db.get('meta', 'current')]);
+      }).then(function (r) {
+        var byId = {}; r[0].forEach(function (p) { byId[p.id] = p; });
+        var good = recs.every(function (p) { var q = byId[p.id]; return q && q.text === p.text && q.title === p.title && q.updatedAt === p.updatedAt; }) && (!oldCur || r[1] === oldCur);
+        if (!good) throw new Error('migration verification failed');
+        return db.put('meta', 1, 'migrated');
+      }).then(function () {
+        try { localStorage.removeItem('sp:recent_packs'); localStorage.removeItem('sp:pack'); } catch (e) { /* ignore */ }
+      });
+    });
+  }
+  /* the open pack may be a library subject: the stored value is {"$lib": id}; swap in the content */
+  function resolveLibPointer() {
+    if (!CURPACK || CURPACK.indexOf('"$lib"') < 0) return Promise.resolve();
+    var id = null; try { id = JSON.parse(CURPACK).$lib; } catch (e) { id = null; }
+    if (!id || !db.ok) { CURPACK = null; return Promise.resolve(); }
+    return db.get('lib', 'lib:' + id).then(function (rec) {
+      try { var d = JSON.parse(rec.text); d.id = 'lib:' + id; CURPACK = JSON.stringify(d); } catch (e) { CURPACK = null; }
+    }, function () { CURPACK = null; });
+  }
+  function dbBoot() {
+    return db.open().then(migrateToDb).then(function () {
+      return Promise.all([db.all('packs'), db.get('meta', 'current')]);
+    }).then(function (r) {
+      RP = r[0].sort(function (a, b) { return (b.updatedAt || 0) - (a.updatedAt || 0); });
+      CURPACK = typeof r[1] === 'string' ? r[1] : null; ST.mode = 'idb';
+      return resolveLibPointer();
+    }).catch(function (e) {
+      db.ok = false; ST.mode = 'ls'; ST.err = String(e && e.message || e);
+      RP = lsRecents(); CURPACK = store.get('sp:pack');
+    });
+  }
+  /* ---- storage card (Files page): usage estimate, persistence, mode ---- */
+  function mb(n) { return (n / 1048576).toFixed(n < 10485760 ? 2 : 1); }
+  function paintStorage() {
+    var u = $('#stUsage'), p = $('#stPersist'), m = $('#stMode'); if (!u) return;
+    u.textContent = ST.usage == null ? tr('st_na') : (ST.quota ? tr('st_used', { u: mb(ST.usage), q: mb(ST.quota) }) : tr('st_used_only', { u: mb(ST.usage) }));
+    p.textContent = ST.persisted === true ? tr('st_p_yes') : ST.persisted === false ? tr('st_p_no') : ST.persisted === 'na' ? tr('st_p_na') : tr('st_checking');
+    m.textContent = (ST.mode === 'idb' ? tr('st_mode_idb') : tr('st_mode_ls')) + (ST.warn ? ' ' + tr('st_write_warn') : '');
+  }
+  function refreshStorage() {
+    var n = navigator.storage;
+    if (n && n.estimate) n.estimate().then(function (e) { ST.usage = e.usage == null ? null : e.usage; ST.quota = e.quota || null; paintStorage(); }, function () { /* keep n/a */ });
+    if (n && n.persisted) n.persisted().then(function (v) { ST.persisted = !!v; paintStorage(); }, function () { ST.persisted = 'na'; paintStorage(); });
+    else ST.persisted = 'na';
+    paintStorage();
+  }
+  /* asked once, right after the person loads a pack (a user gesture), never at page load */
+  function askPersist() {
+    var n = navigator.storage;
+    if (ST.asked || !n || !n.persist) return;
+    ST.asked = true;
+    n.persist().then(function (v) { ST.persisted = !!v; paintStorage(); }, function () { /* ignore */ });
+  }
+  function stCardHTML() {
+    setTimeout(refreshStorage, 0);
+    return '<div class="pg-card"><h2>' + tr('st_h') + '</h2><p class="muted" id="stUsage" aria-live="polite">' + tr('st_checking') + '</p><p class="muted" id="stPersist"></p><p class="muted" id="stMode" style="font-size:12px"></p></div>';
   }
   function loadRecentPack(id) {
     var recents = getRecentPacks();
@@ -4536,7 +4962,14 @@ function toggleExamFlag() {
       case 'dismiss': S.notice = null; render(); break;
       case 'reset':
         if (!S.confirmReset) { S.confirmReset = true; render(); break; }
-        S.prog = emptyProg(); saveProg(); S.confirmReset = false; S.cards = null; render(); break;
+        if (S.node) {
+          nodeTopics().forEach(function (t) {
+            delete S.prog.notes[t.id]; delete S.prog.quiz[t.id];
+            Object.keys(S.prog.cards).forEach(function (k) { if (k.indexOf(t.id + ':') === 0) delete S.prog.cards[k]; });
+          });
+          S.prog.hist = (S.prog.hist || []).filter(function (e) { return !inNode(e.node, S.node); });
+        } else S.prog = emptyProg();
+        saveProg(); S.confirmReset = false; S.cards = null; render(); break;
       case 'pickfile': var fi = $('#fileIn'); if (fi) fi.click(); break;
       case 'loadpaste': var ta = $('#pasteIn'); if (ta && ta.value.trim()) loadTexts([{ name: tr('pasted_name'), text: ta.value }]); break;
       case 'tourStart': setDrawer(false); tourStart(); break;
@@ -4594,7 +5027,9 @@ function toggleExamFlag() {
         C.again = Math.max(0, C.again - 1);
         for (i = C.queue.length - 1; i >= 0; i--) if (C.queue[i].id === c.id) { C.queue.splice(i, 1); break; }
       }
-      if (h.prev === undefined) delete S.prog.cards[c.id]; else S.prog.cards[c.id] = h.prev;
+      if (h.prev === undefined) S.prog.cards[c.id] = { box: 1, ts: Date.now() };
+      else if (h.prev && typeof h.prev === 'object') { h.prev.ts = Date.now(); S.prog.cards[c.id] = h.prev; }
+      else S.prog.cards[c.id] = h.prev;
       saveProg();
     }
     C.queue.unshift(c); C.flipped = false; render(); return true;
@@ -5105,7 +5540,7 @@ document.addEventListener('click', function (e) {
     var TYPES = ['mcq', 'truefalse', 'short', 'cloze', 'match', 'tfs'];
     var DRAFT = 'sp:editdraft';
     var data = null, fileName = null, dirty = false, mode = 'gui', tab = 'notes', view = 'edit';
-    var selT = null, selQ = null, textDirty = false, ft = '', fq = '', jumpI = -1, lastFix = '';
+    var edNode = null, selT = null, selQ = null, textDirty = false, ft = '', fq = '', jumpI = -1, lastFix = '';
     var host = null, hook = null, fillT = function () {}, fillQ = function () {};
     var opened = new WeakSet(), drag = null, tmr = null;
     var q$ = function (s) { return host ? host.querySelector(s) : null; };
@@ -5146,7 +5581,7 @@ document.addEventListener('click', function (e) {
       var snap = JSON.stringify(data), t0 = tIdx(), q0 = qIdx();
       fn(); touch(); render();
       toast(msg, { label: T('undo'), fn: function () {
-        data = JSON.parse(snap); selT = data.topics[t0] || null; selQ = selT && selT.questions ? (selT.questions[q0] || null) : null; touch(); render();
+        data = JSON.parse(snap); edNode = null; selT = data.topics[t0] || null; selQ = selT && selT.questions ? (selT.questions[q0] || null) : null; touch(); render();
       } });
     }
     function grow(el) { el.style.height = 'auto'; el.style.height = (el.scrollHeight + 2) + 'px'; }
@@ -5248,7 +5683,7 @@ document.addEventListener('click', function (e) {
     }
     function load(d, name, fix) {
       var prev = [data, fileName];
-      data = d; fileName = name; dirty = !!fix; selT = null; selQ = null; textDirty = false;
+      data = d; fileName = name; dirty = !!fix; edNode = null; selT = null; selQ = null; textDirty = false;
       try { render(); } catch (e) { data = prev[0]; fileName = prev[1]; dirty = false; render(); toast(T('display_fail', { m: e.message })); return false; }
       try { store.set(DRAFT, JSON.stringify({ data: data, fileName: fileName })); } catch (e) { /* ignore */ }
       return true;
@@ -5287,15 +5722,16 @@ document.addEventListener('click', function (e) {
       var P = S.pack, o = { format: 'studypack', version: 1 };
       if (P.id) o.id = P.id;
       o.title = P.title; o.subject = P.subject || ''; o.level = P.level || ''; o.language = P.language || '';
-      o.topics = P.topics.map(function (t) {
+      var tree = spSerialise(P, function (t, local) {
         return {
-          id: t.id, title: t.title, summary: t.summary || '',
+          id: local, title: t.title, summary: t.summary || '',
           notes: t.notes.map(function (n) { return { heading: n.heading, points: n.points.slice() }; }),
           key_terms: t.terms.map(function (x) { return { term: x.term, definition: x.definition }; }),
           flashcards: t.cards.map(function (x) { return { front: x.front, back: x.back }; }),
           questions: JSON.parse(JSON.stringify(t.questions))
         };
       });
+      o.topics = tree.topics; if (tree.packs) o.packs = tree.packs;
       return o;
     }
     function reloadFromCurrent() {
@@ -5307,6 +5743,7 @@ document.addEventListener('click', function (e) {
       if (!commitText()) return;
       var n = spNormalise(JSON.parse(JSON.stringify(data)));
       if (n.errors.length) { toast(T('apply_err') + ' ' + tr('v_' + n.errors[0].key, n.errors[0].vars)); return; }
+      if (n.pack.id && n.pack.id.indexOf('lib:') === 0) n.pack.id = 'my:' + n.pack.id.slice(4);
       setPack(n.pack, false);
       saveRecentPackToStorage(n.pack.title, JSON.stringify(data, null, 2));
       S.notice = { topics: n.pack.topics.length, files: 0, items: n.warnings.map(function (w) { return { file: '', m: w }; }) };
@@ -5438,31 +5875,73 @@ document.addEventListener('click', function (e) {
         field(T('f_title'), txt(data, 'title')), field(T('f_subject'), txt(data, 'subject')),
         field(T('f_level'), txt(data, 'level')), field(T('f_lang'), txt(data, 'language')));
     }
+    /* subpacks: the editor works on one node at a time (edNode); the topic list below belongs to that node */
+    function nodeList() {
+      var out = [{ n: data, label: T('sp_root'), depth: 1 }];
+      (function w(n, d, lab) {
+        (Array.isArray(n.packs) ? n.packs : []).forEach(function (k) {
+          if (!k || typeof k !== 'object') return;
+          var l = lab + ' \u203a ' + (k.title || '?'); out.push({ n: k, label: l, depth: d + 1 }); w(k, d + 1, l);
+        });
+      })(data, 1, T('sp_root'));
+      return out;
+    }
+    function cur() { var C = edNode && nodeList().some(function (x) { return x.n === edNode; }) ? edNode : data; if (!Array.isArray(C.topics)) C.topics = []; return C; }
+    function findParent(n, target) {
+      var ks = Array.isArray(n.packs) ? n.packs : [];
+      if (ks.indexOf(target) >= 0) return n;
+      for (var i = 0; i < ks.length; i++) { var r = ks[i] && findParent(ks[i], target); if (r) return r; }
+      return null;
+    }
+    function nodeBar() {
+      var list = nodeList(), C = cur(), idx = 0;
+      list.forEach(function (x, i) { if (x.n === C) idx = i; });
+      var sel = h('select', { 'aria-label': T('sp_pack') });
+      list.forEach(function (x, i) { var o = h('option', { value: String(i) }, x.label); if (i === idx) o.selected = true; sel.append(o); });
+      sel.onchange = function () { edNode = list[+sel.value].n; selT = selQ = null; render(); };
+      var kids = [h('label', {}, T('sp_pack'), sel)];
+      var add = btn(T('sp_add'), function () {
+        if (!Array.isArray(C.packs)) C.packs = [];
+        var k = { id: 's' + (C.packs.length + 1), title: T('sp_new'), topics: [], packs: [] };
+        C.packs.push(k); edNode = k; selT = selQ = null; touch(); render();
+      }, 'btn sm');
+      if (list[idx].depth >= 3) { add.disabled = true; add.title = T('sp_max'); }
+      kids.push(add);
+      if (C !== data) {
+        kids.push(h('label', {}, T('sp_title'), txt(C, 'title', {})));
+        kids.push(btn(T('sp_del'), function () {
+          var par = findParent(data, C); if (!par) return;
+          undoable(function () { par.packs.splice(par.packs.indexOf(C), 1); edNode = null; selT = selQ = null; }, T('sp_deleted'));
+        }, 'btn sm'));
+      }
+      return h('div', { class: 'ed-box' }, kids);
+    }
     function topicsBox() {
+      var C = cur();
       var ul = h('ul', { class: 'ed-list', 'aria-label': T('topics') });
       fillT = function () {
         ul.replaceChildren(); var qf = ft.trim().toLowerCase();
-        data.topics.forEach(function (t, i) {
+        C.topics.forEach(function (t, i) {
           if (qf && !(tLabel(t) + ' ' + (t.summary || '')).toLowerCase().includes(qf)) return;
           var li = h('li', { class: 'ed-item' + (t === selT ? ' sel' : '') }), hd = handle(!!qf);
           li.append(hd, btn(tLabel(t), function () { selT = t; selQ = null; render(); }, 'ed-main', { 'aria-current': String(t === selT), title: tLabel(t) }), badge(topicIssues(t, true)),
-            btn('×', function () { undoable(function () { data.topics.splice(i, 1); if (selT === t) selT = selQ = null; }, T('topic_deleted')); }, 'ed-x', { 'aria-label': T('delete') }));
-          if (!qf) sortable(hd, li, data.topics, i, render, 't');
+            btn('×', function () { undoable(function () { C.topics.splice(i, 1); if (selT === t) selT = selQ = null; }, T('topic_deleted')); }, 'ed-x', { 'aria-label': T('delete') }));
+          if (!qf) sortable(hd, li, C.topics, i, render, 't');
           ul.append(li);
         });
         if (!ul.children.length) ul.append(h('li', { class: 'ed-empty' }, qf ? T('no_topic_match') : T('no_topics')));
       };
       fillT();
       var s = h('input', { type: 'search', placeholder: T('search_topics'), value: ft, 'aria-label': T('search_topics') }); s.oninput = function () { ft = s.value; fillT(); };
-      return h('div', { class: 'ed-box' }, h('h2', {}, T('topics')), s, ul,
+      return h('div', { class: 'ed-box' }, nodeBar(), h('h2', {}, T('topics')), s, ul,
         btn(T('add_topic'), function () {
-          var t = { id: 't' + (data.topics.length + 1), title: LANG === 'vi' ? 'Ch\u1ee7 \u0111\u1ec1 m\u1edbi' : 'New Topic', summary: '', notes: [], key_terms: [], flashcards: [], questions: [] };
-          data.topics.push(t); selT = t; selQ = null; touch(); render();
+          var t = { id: 't' + (C.topics.length + 1), title: LANG === 'vi' ? 'Ch\u1ee7 \u0111\u1ec1 m\u1edbi' : 'New Topic', summary: '', notes: [], key_terms: [], flashcards: [], questions: [] };
+          C.topics.push(t); selT = t; selQ = null; touch(); render();
         }, 'btn primary sm'));
     }
     function renderBody() {
       hook = null; var b = q$('#edBody'); if (!b) return; b.replaceChildren();
-      if (!selT) { b.append(data.topics.length ? empt(T('pick_topic'), T('pick_topic_s')) : empt(T('start'), T('start_s'))); return; }
+      if (!selT) { b.append(cur().topics.length ? empt(T('pick_topic'), T('pick_topic_s')) : empt(T('start'), T('start_s'))); return; }
       var t = selT, n = function (k) { return (t[k] || []).length; };
       var tabs = [['notes', 't_notes', 'notes'], ['terms', 't_terms', 'key_terms'], ['cards', 't_cards', 'flashcards'], ['questions', 't_questions', 'questions']];
       b.append(
@@ -6312,7 +6791,7 @@ var NDQR = (function () {
   function isStar(id) { var st = S.prog.cards[id]; return !!(st && typeof st === 'object' && st.star); }
   function isWeak(id) { var st = S.prog.cards[id]; return !!(st && typeof st === 'object' && st.miss > 0 && (st.box || 1) < 3); }
   function cardNext(st, box, missed) {
-    var o = { box: box };
+    var o = { box: box, ts: Date.now() };
     if (st && typeof st === 'object') { if (st.star) o.star = 1; if (st.miss) o.miss = st.miss; }
     if (missed) o.miss = (o.miss || 0) + 1;
     return o;
@@ -6321,15 +6800,14 @@ var NDQR = (function () {
     if (!id) return;
     var st = S.prog.cards[id], o = {}, k;
     if (st && typeof st === 'object') for (k in st) o[k] = st[k]; else o.box = st ? 3 : 1;
-    if (o.star) {
-      delete o.star;
-      if ((o.box || 1) === 1 && !o.miss) { delete S.prog.cards[id]; } else S.prog.cards[id] = o;
-    } else { o.star = 1; S.prog.cards[id] = o; }
+    o.ts = Date.now();
+    if (o.star) { delete o.star; } else { o.star = 1; }
+    S.prog.cards[id] = o; /* a plain {box:1, ts} is kept on purpose: it records the un-star so a merge cannot resurrect it */
     saveProg(); haptic('tick'); render();
   }
   function cardCounts() {
     var c = { starred: 0, weak: 0 };
-    S.pack.topics.forEach(function (t) {
+    nodeTopics().forEach(function (t) {
       t.cards.forEach(function (_, i) { var id = t.id + ':' + i; if (isStar(id)) c.starred++; if (isWeak(id)) c.weak++; });
     });
     return c;
@@ -6362,7 +6840,7 @@ var NDQR = (function () {
       var t = it.q.type, b = ty[t] || (ty[t] = [0, 0]), s = itemScore(it);
       b[0]++; b[1] = r2(b[1] + s); n++; p += s;
     });
-    if (n) pushHist({ t: Date.now(), k: 'quiz', n: n, p: r2(p), ty: ty });
+    if (n) { var qe = { t: Date.now(), k: 'quiz', n: n, p: r2(p), ty: ty }; if (S.node) qe.node = S.node; pushHist(qe); }
   }
   function examEntryFrom(res) {
     var ty = {}, n = 0, p = 0;
@@ -6375,7 +6853,7 @@ var NDQR = (function () {
     return { n: n, p: r2(p), ty: ty };
   }
   function ndRecordExam(res) {
-    var e = examEntryFrom(res); e.t = Date.now(); e.k = 'exam';
+    var e = examEntryFrom(res); e.t = Date.now(); e.k = 'exam'; if (S.node) e.node = S.node;
     S.exam.histT = e.t;
     if (e.n) pushHist(e);
   }
@@ -6450,7 +6928,7 @@ var NDQR = (function () {
     return s + '</svg>';
   }
   function analyticsHTML() {
-    var hist = S.prog.hist || [], ft = focusTotal(), h = '<h2 class="sec-h">' + tr('an_title') + '</h2><div class="an-grid">';
+    var hist = (S.prog.hist || []).filter(function (e) { return inNode(e.node, S.node); }), ft = focusTotal(), h = '<h2 class="sec-h">' + tr('an_title') + '</h2><div class="an-grid">';
     /* KPIs */
     var last = hist.slice(-5), avg = last.length ? Math.round(last.reduce(function (a, x) { return a + attemptPct(x); }, 0) / last.length) : null, delta = '';
     if (hist.length > 5) {
@@ -6476,7 +6954,7 @@ var NDQR = (function () {
     h += '<div class="an-card"><h3>' + tr('an_focus') + '</h3>' + (any ? focusSVG(days) : '<p class="muted an-empty">' + tr('an_focus_empty') + '</p>') + '</div>';
     /* leitner boxes */
     var bx = [0, 0, 0, 0];
-    S.pack.topics.forEach(function (t) {
+    nodeTopics().forEach(function (t) {
       t.cards.forEach(function (_, i) {
         var st = S.prog.cards[t.id + ':' + i];
         if (st == null || st === false) bx[0]++;
@@ -6531,19 +7009,20 @@ var NDQR = (function () {
     return JSON.stringify(p, function (k, v) { return (v === '' || v == null || (Array.isArray(v) && !v.length)) ? undefined : v; });
   }
   function sharePack(scope) {
-    var P = S.pack, meta = { subject: P.subject, level: P.level, language: P.language };
-    if (scope === 'whole') return P;
-    var out = { title: P.title, subject: meta.subject, level: meta.level, language: meta.language, topics: [] };
+    var P = S.pack, nested = P.nodes && P.nodes.length;
+    if (scope === 'whole') return nested ? spSerialise(P) : P;
+    if (scope.indexOf('n:') === 0 && nodeInfo(scope.slice(2)).path) return spSerialise(P, null, scope.slice(2));
+    var out = { title: P.title, subject: P.subject, level: P.level, language: P.language, topics: [] };
     if (scope === 'starred') {
-      out.title = tr('share_starred_title', { t: P.title });
-      P.topics.forEach(function (t) {
+      out.title = tr('share_starred_title', { t: S.node ? nodeInfo(S.node).title : P.title });
+      nodeTopics().forEach(function (t) {
         var cs = t.cards.filter(function (_, i) { return isStar(t.id + ':' + i); });
         if (cs.length) out.topics.push({ id: t.id, title: t.title, cards: cs });
       });
     } else {
       var t = P.topics.filter(function (x) { return 't:' + x.id === scope; })[0];
-      if (!t) return P;
-      out.title = t.title; out.topics.push(t);
+      if (!t) return nested ? spSerialise(P) : P;
+      out.title = t.title; out.topics.push(spTopicOut(t, t.id));
     }
     return out;
   }
@@ -6565,12 +7044,16 @@ var NDQR = (function () {
     SH.opener = null;
   }
   function shareOpen(opener) {
-    SH.opener = opener || null; SH.scope = 'whole'; shareRender();
+    SH.opener = opener || null; SH.scope = S.node ? 'n:' + S.node : 'whole'; shareRender();
   }
   function shareRender() {
     var m = shareModal(), cc = cardCounts();
     if (SH.scope === 'starred' && !cc.starred) SH.scope = 'whole';
     var opts = '<option value="whole"' + (SH.scope === 'whole' ? ' selected' : '') + '>' + esc(tr('share_whole')) + '</option>';
+    (S.pack.nodes || []).forEach(function (n) {
+      var v = 'n:' + n.path, lab = nodeCrumbs(n.path).slice(1).map(function (x) { return x.title; }).join(' › ');
+      opts += '<option value="' + esc(v) + '"' + (SH.scope === v ? ' selected' : '') + '>' + esc(tr('nd_share_sub', { t: lab })) + '</option>';
+    });
     S.pack.topics.forEach(function (t) {
       var v = 't:' + t.id;
       opts += '<option value="' + esc(v) + '"' + (SH.scope === v ? ' selected' : '') + '>' + esc(tr('share_topic', { t: t.title })) + '</option>';
@@ -6589,11 +7072,12 @@ var NDQR = (function () {
       '<button class="btn" data-act="nd_shClose" id="shCloseBtn">' + tr('share_close') + '</button></div></div>';
     var stamp = ++SH.stamp;
     var cb = $('#shCloseBtn'); if (cb && !SH.focused) cb.focus();
-    buildLink(sharePack(SH.scope)).then(function (r) {
+    var linkP = S.libId && SH.scope === 'whole' ? Promise.resolve({ url: location.href.split('#')[0] + '#lib=' + S.libId, lib: true }) : buildLink(sharePack(SH.scope));
+    linkP.then(function (r) {
       if (stamp !== SH.stamp || !$('#shUrl')) return;
       SH.url = r.url;
       $('#shUrl').value = r.url; $('#shCopyBtn').disabled = false;
-      var meta = tr('share_size', { n: r.url.length }) + (r.plain ? ' · ' + tr('share_nocompress') : '');
+      var meta = tr('share_size', { n: r.url.length }) + (r.plain ? ' · ' + tr('share_nocompress') : '') + (r.lib ? ' · ' + tr('lb_share_note') : '');
       var q = r.url.length <= NDQR.capacity() ? NDQR.encode(r.url) : null;
       if (q) {
         NDQR.draw($('#shQr'), q, Math.max(3, Math.floor(300 / (q.size + 8))));
@@ -6630,6 +7114,7 @@ var NDQR = (function () {
     var b = m.querySelector('.btn.primary') || m.querySelector('.btn'); if (b) b.focus();
   }
   function importFromHash() {
+    if (/^#lib=/.test(location.hash)) { libFromHash(); return; }
     if (!/^#share=/.test(location.hash)) return;
     var mm = /^#share=([zp])([A-Za-z0-9_-]+)$/.exec(location.hash);
     try { history.replaceState(null, '', location.pathname + location.search); } catch (e) { /* ignore */ }
@@ -6645,6 +7130,457 @@ var NDQR = (function () {
       importModal('<h2 id="shT">' + tr('imp_title') + '</h2><p>' + tr('imp_body', { title: esc(n.pack.title), t: n.pack.topics.length, c: c, q: q }) + '</p><div class="sh-act"><button class="btn primary" data-act="nd_impLoad">' + tr('imp_load') + '</button><button class="btn" data-act="nd_shClose">' + tr('imp_cancel') + '</button></div>');
     }).catch(fail);
   }
+
+
+  /* ---------- subject library: static files next to the app (library/catalog.json + library/subjects/<id>.json) ---------- */
+  var LB_DIR = 'library/';
+  var LB = { tab: 'discover', q: '', cat: '', level: '', tag: '', catalog: null, catFrom: '', catErr: '', installed: {}, busy: {}, msg: {}, loaded: false, pending: false, t: 0, openAfter: '' };
+  function lbValidEntry(e) {
+    return e && typeof e === 'object' && /^[a-z0-9][a-z0-9-]{1,63}$/.test(e.id || '') && typeof e.title === 'string' && /^subjects\/[A-Za-z0-9._-]+\.json$/.test(e.file || '') &&
+      typeof e.sha256 === 'string' && e.sha256.length === 64 && isFinite(+e.bytes) && e.rev != null;
+  }
+  function lbEntry(id) { return (LB.catalog || []).filter(function (e) { return e.id === id; })[0] || null; }
+  function lbSize(n) { return n >= 1048576 ? tr('lb_mb', { n: (n / 1048576).toFixed(1) }) : tr('lb_kb', { n: Math.max(1, Math.round(n / 1024)) }); }
+  function lbLoadInstalled() {
+    if (!db.ok) { LB.installed = {}; return Promise.resolve(); }
+    return db.all('libmeta').then(function (rows) { LB.installed = {}; rows.forEach(function (m) { if (m && m.libId) LB.installed[m.libId] = m; }); }, function () { LB.installed = {}; });
+  }
+  function lbFetchCatalog() {
+    return fetch(LB_DIR + 'catalog.json', { cache: 'no-cache' }).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).then(function (j) {
+      if (!j || j.schema !== 1 || !Array.isArray(j.subjects)) throw new Error('unexpected catalog format');
+      LB.catalog = j.subjects.filter(lbValidEntry); LB.catFrom = 'net'; LB.catErr = '';
+      if (db.ok) db.put('meta', { at: Date.now(), subjects: LB.catalog }, 'catalog').catch(function () { /* cache is optional */ });
+    }).catch(function (e) {
+      LB.catErr = String(e && e.message || e);
+      if (!db.ok) { LB.catFrom = LB.catalog ? 'cache' : ''; return; }
+      return db.get('meta', 'catalog').then(function (c) {
+        if (c && Array.isArray(c.subjects)) { LB.catalog = c.subjects.filter(lbValidEntry); LB.catFrom = 'cache'; } else if (!LB.catalog) LB.catFrom = '';
+      }, function () { /* nothing saved */ });
+    });
+  }
+  function lbEnsure(force) {
+    if (LB.pending || (LB.loaded && !force && Date.now() - LB.t < 30000)) return Promise.resolve();
+    LB.pending = true;
+    return lbLoadInstalled().then(lbFetchCatalog).then(function () {
+      LB.loaded = true; LB.t = Date.now(); LB.pending = false;
+      if (S.view === 'library') lbPaintAll();
+    }, function () { LB.pending = false; });
+  }
+  function lbTags() { var o = {}; (LB.catalog || []).forEach(function (e) { (e.tags || []).forEach(function (t) { o[t] = 1; }); }); return Object.keys(o).sort(); }
+  function lbVals(k) { var o = {}; (LB.catalog || []).forEach(function (e) { if (e[k]) o[e[k]] = 1; }); return Object.keys(o).sort(); }
+  function lbRowHTML(id) {
+    var e = lbEntry(id), inst = LB.installed[id], b = LB.busy[id], m = LB.msg[id];
+    var title = e ? e.title : (inst ? inst.title : id), upd = !!(inst && e && String(inst.rev) !== String(e.rev));
+    var h = '<article class="lb-row" data-lb="' + esc(id) + '"><div class="lb-main"><h3>' + esc(title) + '</h3>';
+    if (e && e.description) h += '<p class="muted">' + esc(e.description) + '</p>';
+    h += '<p class="lb-meta">';
+    if (e) h += '<span class="lb-chip">' + esc(e.category || '') + '</span><span class="lb-chip">' + esc(e.level || '') + '</span><span class="lb-chip">' + esc(String(e.lang || '').toUpperCase()) + '</span> ';
+    if (e && e.counts) h += esc(tr('nd_sub_stats', { t: e.counts.topics, c: e.counts.cards, q: e.counts.questions })) + ' · ';
+    h += esc(lbSize(e ? +e.bytes : (inst ? +inst.bytes : 0)));
+    if (inst) h += ' · <span class="lb-chip ' + (upd ? 'warn' : 'ok') + '">' + esc(tr(upd ? 'lb_st_update' : 'lb_st_installed')) + '</span>';
+    h += '</p>';
+    if (b) h += '<div class="lb-prog"><progress max="100" value="' + b.pct + '" aria-label="' + esc(title) + '"></progress> <span>' + esc(b.phase === 'save' ? tr('lb_busy_chk') : tr('lb_busy_dl', { n: b.pct })) + '</span></div>';
+    if (m && !b) h += '<p class="lb-msg ' + (m.kind === 'err' ? 'err' : 'info') + '"' + (m.kind === 'err' ? ' role="alert"' : '') + '>' + esc(tr(m.key, m.vars)) + '</p>';
+    h += '</div><div class="lb-act">';
+    if (b) { if (b.phase !== 'save') h += '<button class="btn" data-act="nd_lbCancel" data-id="' + esc(id) + '">' + tr('lb_cancel') + '</button>'; }
+    else if (inst) {
+      h += '<button class="btn primary" data-act="nd_lbOpen" data-id="' + esc(id) + '">' + tr('lb_open') + '</button>';
+      if (upd) h += '<button class="btn" data-act="nd_lbInstall" data-id="' + esc(id) + '">' + tr('lb_update') + '</button>';
+      h += '<button class="btn" data-act="nd_lbRemove" data-id="' + esc(id) + '">' + tr('lb_remove') + '</button>';
+    } else if (e) h += '<button class="btn primary" data-act="nd_lbInstall" data-id="' + esc(id) + '">' + tr('lb_install') + '</button>';
+    return h + '</div></article>';
+  }
+  function lbListHTML() {
+    var ids;
+    if (LB.tab === 'installed') ids = Object.keys(LB.installed).sort(function (a, b) { return String(LB.installed[a].title).localeCompare(LB.installed[b].title); });
+    else {
+      var q = LB.q.trim().toLowerCase();
+      ids = (LB.catalog || []).filter(function (e) {
+        if (LB.cat && e.category !== LB.cat) return false;
+        if (LB.level && e.level !== LB.level) return false;
+        if (LB.tag && (e.tags || []).indexOf(LB.tag) < 0) return false;
+        return !q || (e.title + ' ' + (e.description || '') + ' ' + (e.category || '') + ' ' + (e.tags || []).join(' ')).toLowerCase().indexOf(q) >= 0;
+      }).map(function (e) { return e.id; });
+    }
+    if (!ids.length) return '<p class="muted">' + tr(LB.tab === 'installed' ? 'lb_none_installed' : 'lb_none') + '</p>';
+    return ids.map(lbRowHTML).join('');
+  }
+  function lbBodyHTML() {
+    if (!LB.catalog && LB.tab === 'discover' && LB.loaded) LB.tab = 'installed'; /* no catalog at all: only the installed tab is useful */
+    var h = '';
+    if (LB.catalog) {
+      h += '<div class="tabs" role="tablist" aria-label="' + esc(tr('lb_tabs_aria')) + '">' + [['discover', 'lb_tab_discover'], ['installed', 'lb_tab_installed']].map(function (t) {
+        return '<button class="tab" role="tab" data-act="nd_lbTab" data-tab="' + t[0] + '" aria-selected="' + (LB.tab === t[0]) + '">' + tr(t[1]) + (t[0] === 'installed' ? ' (' + Object.keys(LB.installed).length + ')' : '') + '</button>';
+      }).join('') + '</div>';
+    }
+    var st = !LB.loaded ? tr('lb_loading') : LB.catFrom === 'net' ? tr('lb_cat_net') : LB.catFrom === 'cache' ? tr('lb_cat_cache', { e: LB.catErr }) : tr('lb_cat_none');
+    h += '<p class="muted lb-st" id="lbStatus" aria-live="polite">' + esc(st) + '</p>';
+    if (LB.tab === 'installed') h += '<p class="note lb-keep">' + tr('lb_keep_note') + '</p>';
+    else if (LB.catalog) {
+      var sel = function (id, k, all, vals) { return '<select id="' + id + '" aria-label="' + esc(tr(all)) + '"><option value="">' + esc(tr(all)) + '</option>' + vals.map(function (v) { return '<option value="' + esc(v) + '"' + (LB[k] === v ? ' selected' : '') + '>' + esc(v) + '</option>'; }).join('') + '</select>'; };
+      h += '<div class="lb-filters"><input type="search" id="lbQ" value="' + esc(LB.q) + '" placeholder="' + esc(tr('lb_search')) + '" aria-label="' + esc(tr('lb_search')) + '">' +
+        sel('lbCat', 'cat', 'lb_all_cat', lbVals('category')) + sel('lbLevel', 'level', 'lb_all_level', lbVals('level')) + sel('lbTag', 'tag', 'lb_all_tag', lbTags()) + '</div>';
+    }
+    return h + '<div id="lbList" class="lb-list">' + lbListHTML() + '</div>';
+  }
+  function libraryHTML() {
+    lbEnsure();
+    return '<div class="eyebrow">' + tr('lb_eyebrow') + '</div><h1 class="page-h">' + tr('lb_h') + '</h1><p class="lede">' + tr('lb_lede') + '</p><div id="lbBody">' + lbBodyHTML() + '</div>' + stCardHTML();
+  }
+  function lbPaintAll() { var b = $('#lbBody'); if (b) { b.innerHTML = lbBodyHTML(); } }
+  function lbPaintRow(id) {
+    var row = document.querySelector('[data-lb="' + id + '"]'); if (!row) return;
+    var t = document.createElement('div'); t.innerHTML = lbRowHTML(id); row.replaceWith(t.firstChild);
+  }
+  document.addEventListener('input', function (e) { if (e.target && e.target.id === 'lbQ') { LB.q = e.target.value; var l = $('#lbList'); if (l) l.innerHTML = lbListHTML(); } });
+  document.addEventListener('change', function (e) {
+    var id = e.target && e.target.id, map = { lbCat: 'cat', lbLevel: 'level', lbTag: 'tag' };
+    if (map[id]) { LB[map[id]] = e.target.value; var l = $('#lbList'); if (l) l.innerHTML = lbListHTML(); }
+  });
+  function lbSha256(bytes) {
+    return crypto.subtle.digest('SHA-256', bytes).then(function (buf) { return Array.prototype.map.call(new Uint8Array(buf), function (x) { return ('0' + x.toString(16)).slice(-2); }).join(''); });
+  }
+  function lbDownload(url, onProgress, signal) {
+    return fetch(url, { signal: signal }).then(function (res) {
+      if (!res.ok) { var er = new Error('http'); er.status = res.status; throw er; }
+      if (!res.body || !res.body.getReader) return res.arrayBuffer().then(function (b) { return new Uint8Array(b); });
+      var rd = res.body.getReader(), parts = [], got = 0;
+      function pump() {
+        return rd.read().then(function (x) {
+          if (x.done) { var out = new Uint8Array(got), o = 0; parts.forEach(function (p) { out.set(p, o); o += p.length; }); return out; }
+          parts.push(x.value); got += x.value.length; onProgress(got); return pump();
+        });
+      }
+      return pump();
+    });
+  }
+  function lbFail(id, key, vars) { delete LB.busy[id]; LB.msg[id] = { kind: 'err', key: key, vars: vars || {} }; lbPaintRow(id); }
+  function lbInstall(id) {
+    var e = lbEntry(id); if (!e || LB.busy[id]) return;
+    if (!db.ok) { LB.msg[id] = { kind: 'err', key: 'lb_need_idb' }; lbPaintRow(id); return; }
+    var ctl = typeof AbortController !== 'undefined' ? new AbortController() : null, total = +e.bytes || 1;
+    LB.busy[id] = { pct: 0, phase: 'dl', ctl: ctl, cancelled: false }; delete LB.msg[id]; lbPaintRow(id);
+    var last = 0, skipped = false, bytes, sha = '';
+    lbDownload(LB_DIR + e.file + '?v=' + encodeURIComponent(e.rev), function (got) {
+      var b = LB.busy[id]; if (!b) return;
+      b.pct = Math.min(99, Math.floor(got / total * 100));
+      if (Date.now() - last > 80) { last = Date.now(); lbPaintRow(id); }
+    }, ctl && ctl.signal).then(function (u8) {
+      bytes = u8; var b = LB.busy[id]; if (!b || b.cancelled) throw new Error('cancelled');
+      b.phase = 'save'; b.pct = 100; lbPaintRow(id);
+      if (bytes.length !== +e.bytes) { var er = new Error('size'); er.code = 'size'; throw er; }
+      if (window.crypto && crypto.subtle && crypto.subtle.digest) {
+        return lbSha256(bytes).then(function (hex) { if (hex !== String(e.sha256).toLowerCase()) { var er2 = new Error('hash'); er2.code = 'hash'; throw er2; } sha = hex; });
+      }
+      skipped = true; sha = String(e.sha256);
+    }).then(function () {
+      var text = new TextDecoder('utf-8').decode(bytes), d, n;
+      try { d = JSON.parse(text); } catch (x) { var ep = new Error(x.message); ep.code = 'pack'; throw ep; }
+      d.id = 'lib:' + id; n = spNormalise(d);
+      if (!n.pack) { var e3 = new Error(msgText({ m: n.errors[0] }).replace(/<[^>]+>/g, '')); e3.code = 'pack'; throw e3; }
+      var meta = { id: 'lib:' + id, libId: id, title: e.title, rev: e.rev, bytes: bytes.length, sha256: sha, installedAt: Date.now(), verified: !skipped };
+      return db.libPut({ id: 'lib:' + id, text: text }, meta).then(function () { LB.installed[id] = meta; }, function () { var e4 = new Error('save'); e4.code = 'save'; throw e4; });
+    }).then(function () {
+      delete LB.busy[id]; LB.msg[id] = { kind: 'info', key: skipped ? 'lb_no_verify' : 'lb_verified' };
+      var openNow = LB.openAfter === id || S.libId === id; var stay = S.libId === id && LB.openAfter !== id; LB.openAfter = '';
+      lbPaintAll(); refreshStorage(); askPersist();
+      if (openNow) lbOpen(id, stay);
+    }, function (err) {
+      if (err && (err.name === 'AbortError' || err.message === 'cancelled')) { delete LB.busy[id]; LB.msg[id] = { kind: 'info', key: 'lb_cancelled' }; lbPaintRow(id); return; }
+      var c = err && err.code;
+      if (err && err.message === 'http') lbFail(id, 'lb_err_http', { s: err.status });
+      else if (c === 'size') lbFail(id, 'lb_err_size'); else if (c === 'hash') lbFail(id, 'lb_err_hash');
+      else if (c === 'pack') lbFail(id, 'lb_err_pack', { m: err.message }); else if (c === 'save') lbFail(id, 'lb_err_save');
+      else lbFail(id, 'lb_err_net');
+    });
+  }
+  function lbCancel(id) { var b = LB.busy[id]; if (!b) return; b.cancelled = true; if (b.ctl) b.ctl.abort(); }
+  function lbOpen(id, stay) {
+    db.get('lib', 'lib:' + id).then(function (rec) {
+      var d = JSON.parse(rec.text); d.id = 'lib:' + id;
+      var n = spNormalise(d); if (!n.pack) throw new Error('invalid');
+      setPack(n.pack); S.notice = null; S.loadMsg = null;
+      if (stay) render(); else go('overview');
+      askPersist();
+    }).catch(function () { LB.msg[id] = { kind: 'err', key: 'lb_err_open' }; lbPaintRow(id); });
+  }
+  function lbRemoveAsk(id) {
+    var m = LB.installed[id]; if (!m) return;
+    importModal('<h2 id="shT">' + tr('lb_rm_h', { t: esc(m.title) }) + '</h2><p>' + tr('lb_rm_body') + '</p><div class="sh-act"><button class="btn primary" data-act="nd_lbRemoveGo" data-id="' + esc(id) + '">' + tr('lb_rm_go') + '</button><button class="btn" data-act="nd_shClose">' + tr('lb_cancel') + '</button></div>');
+  }
+  function lbRemove(id) {
+    db.libDel('lib:' + id).then(function () {
+      delete LB.installed[id]; delete LB.msg[id];
+      if (S.libId === id) { setEmpty(); CURPACK = null; db.del('meta', 'current').catch(function () { /* ignore */ }); }
+      if (S.view === 'library') { lbPaintAll(); } render(); refreshStorage();
+    }, function () { LB.msg[id] = { kind: 'err', key: 'lb_err_save' }; lbPaintRow(id); });
+  }
+  /* ---- #lib=<id> links ---- */
+  function lbLinkModal(h) { importModal(h); }
+  function libFromHash() {
+    var m = /^#lib=([a-z0-9][a-z0-9-]{1,63})$/.exec(location.hash);
+    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) { /* ignore */ }
+    var close = '<div class="sh-act"><button class="btn primary" data-act="nd_shClose">' + tr('share_close') + '</button></div>';
+    var msg = function (k) { lbLinkModal('<h2 id="shT">' + tr('lb_link_h') + '</h2><p>' + tr(k) + '</p>' + close); };
+    if (!m) { msg('lb_link_bad'); return; }
+    var id = m[1];
+    lbLoadInstalled().then(function () { return lbFetchCatalog(); }).then(function () {
+      var e = lbEntry(id), inst = LB.installed[id];
+      if (!LB.catalog) { if (inst) { lbLinkGo(id, true); } else msg('lb_link_fail'); return; }
+      if (!e) { msg('lb_link_unknown'); return; }
+      var upd = inst && String(inst.rev) !== String(e.rev), label = inst ? (upd ? 'lb_link_upd' : 'lb_link_open') : 'lb_link_go';
+      lbLinkModal('<h2 id="shT">' + tr('lb_link_h') + '</h2><p>' + tr('lb_link_body', { t: esc(e.title), c: e.counts ? e.counts.cards : '?', q: e.counts ? e.counts.questions : '?', s: esc(lbSize(+e.bytes)) }) + '</p><div class="sh-act"><button class="btn primary" data-act="nd_lbLinkGo" data-id="' + esc(id) + '">' + tr(label) + '</button><button class="btn" data-act="nd_shClose">' + tr('imp_cancel') + '</button></div>');
+    });
+  }
+  function lbLinkGo(id, offline) {
+    var e = lbEntry(id), inst = LB.installed[id];
+    if (inst && (offline || !e || String(inst.rev) === String(e.rev))) { lbOpen(id); return; }
+    LB.openAfter = id; S.view = 'library'; render(); window.scrollTo(0, 0);
+    lbEnsure(true).then(function () { lbInstall(id); });
+  }
+  /* ---- library packs are read-only: Edit offers "my copy" ---- */
+  function libEditPrompt() {
+    importModal('<h2 id="shT">' + tr('lb_edit_h') + '</h2><p>' + tr('lb_edit_body') + '</p><div class="sh-act"><button class="btn primary" data-act="nd_lbCopyFresh">' + tr('lb_copy_fresh') + '</button><button class="btn" data-act="nd_lbCopyProg">' + tr('lb_copy_prog') + '</button><button class="btn" data-act="nd_shClose">' + tr('lb_cancel') + '</button></div>');
+  }
+  function lbMakeCopy(withProgress) {
+    var tree = spSerialise(S.pack), oldKey = S.key, base = S.libId.replace(/[^a-z0-9-]/g, '').slice(0, 24);
+    var newId = 'my_' + base + '_' + Date.now().toString(36);
+    tree.id = newId; tree.title = tr('lb_copy_title', { t: S.pack.title });
+    if (withProgress) { var old = store.get('sp:prog:' + oldKey); if (old) store.set('sp:prog:' + spHash('id:' + newId), old); }
+    var n = spNormalise(JSON.parse(JSON.stringify(tree))); if (!n.pack) return;
+    shareClose(); setPack(n.pack);
+    saveRecentPackToStorage(n.pack.title, JSON.stringify(tree, null, 2));
+    go('edit');
+  }
+
+  /* ---- progress backup: export / import with merge ---- */
+  var PG = { scope: 'all', settings: false, pending: null };
+  var PG_SET_KEYS = ['sp:lang', 'sp:theme', 'sp:rail', 'sp:haptic', 'sp:customtheme', 'sp:customtheme:override', 'sp:rainbow'];
+  function pgLS(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function pgJSON(k) { try { return JSON.parse(pgLS(k) || 'null'); } catch (e) { return null; } }
+  function pgKeys(prefix) {
+    var o = [];
+    try { for (var i = 0; i < localStorage.length; i++) { var k = localStorage.key(i); if (k && k.indexOf(prefix) === 0) o.push(k); } } catch (e) { /* unavailable */ }
+    return o;
+  }
+  function pgBad(k) { return k === '__proto__' || k === 'constructor' || k === 'prototype'; }
+  function pgNum(x) { x = +x; return isFinite(x) ? x : 0; }
+  function pgCardNorm(st) {
+    if (st && typeof st === 'object') {
+      var o = { box: Math.min(3, Math.max(1, Math.round(pgNum(st.box)) || 1)) };
+      if (st.star) o.star = 1;
+      if (pgNum(st.miss) > 0) o.miss = Math.round(pgNum(st.miss));
+      if (pgNum(st.ts) > 0) o.ts = pgNum(st.ts);
+      return o;
+    }
+    return { box: st ? 3 : 1 }; /* legacy boolean: true = box 3; no ts, so it counts as oldest */
+  }
+  function pgCleanProg(p) {
+    var o = emptyProg(), k;
+    if (!p || typeof p !== 'object') return o;
+    if (p.notes && typeof p.notes === 'object') for (k in p.notes) if (!pgBad(k) && p.notes[k]) o.notes[k] = true;
+    if (p.cards && typeof p.cards === 'object') for (k in p.cards) {
+      if (pgBad(k)) continue;
+      var v = p.cards[k];
+      if (v === true || v === false) o.cards[k] = v; else if (v && typeof v === 'object') o.cards[k] = pgCardNorm(v);
+    }
+    if (p.quiz && typeof p.quiz === 'object') for (k in p.quiz) if (!pgBad(k) && isFinite(+p.quiz[k]) && p.quiz[k] !== null) o.quiz[k] = +p.quiz[k];
+    if (Array.isArray(p.hist)) o.hist = p.hist.filter(function (e) { return e && typeof e === 'object' && isFinite(+e.t) && +e.t > 0; });
+    return o;
+  }
+  function pgProgOf(key) {
+    return pgCleanProg(key === S.key && !S.empty ? S.prog : pgJSON('sp:prog:' + key));
+  }
+  function pgTitleOf(key) {
+    if (key === S.key && !S.empty) return S.pack.title || '';
+    return pgLS('sp:pname:' + key) || '';
+  }
+  function pgList() {
+    var seen = {}, out = [];
+    pgKeys('sp:prog:').forEach(function (k) { seen[k.slice(8)] = 1; });
+    if (!S.empty) seen[S.key] = 1;
+    delete seen.empty;
+    Object.keys(seen).forEach(function (key) {
+      var p = pgProgOf(key), c = Object.keys(p.cards).length;
+      var any = c || p.hist.length || Object.keys(p.notes).length || Object.keys(p.quiz).length;
+      if (!any && key !== S.key) return;
+      out.push({ key: key, title: pgTitleOf(key), cards: c, hist: p.hist.length });
+    });
+    out.sort(function (a, b) { return (a.key === S.key ? 0 : 1) - (b.key === S.key ? 0 : 1) || a.title.localeCompare(b.title); });
+    return out;
+  }
+  function pgLabel(p) { return p.title || tr('pg_unknown', { k: p.key }); }
+
+  function pgCardHTML() {
+    var list = pgList(), opts = '<option value="all"' + (PG.scope === 'all' ? ' selected' : '') + '>' + esc(tr('pg_all', { n: list.length })) + '</option>';
+    if (PG.scope !== 'all' && !list.some(function (p) { return p.key === PG.scope; })) PG.scope = 'all';
+    list.forEach(function (p) {
+      opts += '<option value="' + esc(p.key) + '"' + (PG.scope === p.key ? ' selected' : '') + '>' + esc(tr('pg_opt', { t: pgLabel(p), c: p.cards, h: p.hist })) + '</option>';
+    });
+    return '<div class="pg-card"><h2>' + tr('pg_h') + '</h2><p class="muted">' + tr('pg_note') + '</p>' +
+      '<label for="pgScope" class="muted" style="font-size:13px">' + tr('pg_scope') + '</label><select id="pgScope">' + opts + '</select>' +
+      '<label class="pg-chk"><input type="checkbox" id="pgSet"' + (PG.settings ? ' checked' : '') + '> ' + tr('pg_settings') + '</label>' +
+      '<p class="muted" style="font-size:12px">' + tr('pg_timers_note') + '</p>' +
+      '<div class="row-btns"><button class="btn primary" data-act="nd_pgExport">' + tr('pg_export') + '</button>' +
+      '<button class="btn" data-act="nd_pgImport">' + tr('pg_import') + '</button>' +
+      '<button class="btn" data-act="nd_pgCsv">' + tr('pg_csv') + '</button></div>' +
+      '<input type="file" id="pgFile" accept=".json,application/json" hidden></div>';
+  }
+
+  /* ---- export ---- */
+  function pgBuild(scope, withSettings) {
+    var keys = scope === 'all' ? pgList().map(function (p) { return p.key; }) : [scope];
+    var out = { schema: 1, app: 'navel-desk', exportedAt: new Date().toISOString(), streak: getStreakData(7).streak, packs: {}, timers: {} };
+    keys.forEach(function (k) {
+      var e = { prog: pgProgOf(k) }, t = pgTitleOf(k), dl = pgLS('sp:deadline:' + k);
+      if (t) e.title = t;
+      if (/^\d{4}-\d{2}-\d{2}$/.test(dl || '')) e.deadline = dl;
+      out.packs[k] = e;
+    });
+    pgKeys('sp:timer:').forEach(function (k) { var v = pgJSON(k); if (v && typeof v === 'object') out.timers[k.slice(9)] = { n: pgNum(v.n), m: pgNum(v.m) }; });
+    if (withSettings) { out.settings = {}; PG_SET_KEYS.forEach(function (k) { var v = pgLS(k); if (v != null) out.settings[k] = v; }); }
+    return out;
+  }
+  function pgToday() { var d = new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+  function pgDownload(name, text, mime) {
+    var b = new Blob([text], { type: mime }), a = document.createElement('a');
+    a.href = URL.createObjectURL(b); a.download = name;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+  }
+  function pgCsvCell(v) {
+    var s = String(v == null ? '' : v);
+    if (/^[=+\-@\t\r]/.test(s)) s = "'" + s; /* spreadsheet formula guard */
+    return /[",\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  }
+  function pgCsv(scope) {
+    var keys = scope === 'all' ? pgList().map(function (p) { return p.key; }) : [scope];
+    var rows = [['pack', 'time', 'kind', 'questions', 'points', 'by_type (points/questions)']];
+    keys.forEach(function (k) {
+      var p = pgProgOf(k), label = pgTitleOf(k) || k;
+      p.hist.slice().sort(function (a, b) { return a.t - b.t; }).forEach(function (e) {
+        var ty = e.ty && typeof e.ty === 'object' ? Object.keys(e.ty).map(function (t) { var b = e.ty[t] || [0, 0]; return t + '=' + b[1] + '/' + b[0]; }).join('; ') : '';
+        rows.push([label, new Date(e.t).toISOString(), e.k || '', e.n, e.p, ty]);
+      });
+    });
+    return '\ufeff' + rows.map(function (r) { return r.map(pgCsvCell).join(','); }).join('\r\n') + '\r\n';
+  }
+
+  /* ---- import: validate, plan (dry run), apply ---- */
+  function pgValidate(text) {
+    var d;
+    try { d = JSON.parse(String(text).replace(/^\ufeff/, '')); } catch (e) { return { err: 'pg_err_read' }; }
+    if (!d || typeof d !== 'object' || Array.isArray(d) || d.app !== 'navel-desk' || typeof d.schema !== 'number' || !d.packs || typeof d.packs !== 'object') return { err: 'pg_err_fmt' };
+    if (d.schema > 1) return { err: 'pg_err_new', vars: { v: d.schema } };
+    var o = { exportedAt: d.exportedAt, packs: {}, timers: {}, settings: null };
+    Object.keys(d.packs).forEach(function (k) {
+      if (!/^[A-Za-z0-9_-]{1,64}$/.test(k) || k === 'empty' || pgBad(k)) return;
+      var e = d.packs[k]; if (!e || typeof e !== 'object') return;
+      o.packs[k] = { title: typeof e.title === 'string' ? e.title.slice(0, 300) : '', deadline: /^\d{4}-\d{2}-\d{2}$/.test(e.deadline || '') ? e.deadline : '', prog: pgCleanProg(e.prog) };
+    });
+    if (d.timers && typeof d.timers === 'object') Object.keys(d.timers).forEach(function (k) {
+      var v = d.timers[k]; if (/^\d{4}-\d{1,2}-\d{1,2}$/.test(k) && v && typeof v === 'object') o.timers[k] = { n: Math.max(0, pgNum(v.n)), m: Math.max(0, pgNum(v.m)) };
+    });
+    if (d.settings && typeof d.settings === 'object') {
+      var s = {}, any = false;
+      PG_SET_KEYS.forEach(function (k) { if (typeof d.settings[k] === 'string' && d.settings[k].length < 20000) { s[k] = d.settings[k]; any = true; } });
+      if (any) o.settings = s;
+    }
+    return { data: o };
+  }
+  function pgMergeProg(a, b, st) {
+    var out = emptyProg(), k;
+    for (k in a.notes) out.notes[k] = a.notes[k];
+    for (k in b.notes) if (!out.notes[k]) out.notes[k] = true;
+    for (k in a.quiz) out.quiz[k] = a.quiz[k];
+    for (k in b.quiz) { if (!(k in out.quiz)) { out.quiz[k] = b.quiz[k]; st.quiz++; } else if (b.quiz[k] > out.quiz[k]) { out.quiz[k] = b.quiz[k]; st.quiz++; } }
+    for (k in a.cards) out.cards[k] = a.cards[k];
+    for (k in b.cards) {
+      var y = pgCardNorm(b.cards[k]);
+      if (!(k in out.cards)) { out.cards[k] = y; if (y.box > 1 || y.star || y.miss) st.cards++; continue; }
+      var x = pgCardNorm(out.cards[k]), tx = x.ts || 0, ty = y.ts || 0;
+      var win = ty > tx ? y : tx > ty ? x : ((y.box || 1) > (x.box || 1) ? y : x); /* equal ts: the higher box wins */
+      var r = { box: win.box };
+      if (win.star) r.star = 1;
+      var miss = Math.max(x.miss || 0, y.miss || 0); if (miss) r.miss = miss;
+      var ts = Math.max(tx, ty); if (ts) r.ts = ts;
+      if (JSON.stringify(r) !== JSON.stringify(x)) { out.cards[k] = r; st.cards++; }
+    }
+    var seen = {}, merged = a.hist.slice();
+    merged.forEach(function (e) { seen[e.t + '|' + (e.k || '')] = 1; });
+    b.hist.forEach(function (e) { var id = e.t + '|' + (e.k || ''); if (!seen[id]) { seen[id] = 1; merged.push(e); st.hist++; } });
+    merged.sort(function (p, q) { return p.t - q.t; });
+    if (merged.length > 400) merged = merged.slice(merged.length - 400); /* same cap pushHist applies */
+    out.hist = merged;
+    return out;
+  }
+  function pgPlan(data) {
+    var plan = { packs: [], timers: {}, settings: data.settings, exportedAt: data.exportedAt, tot: { packs: 0, packsNew: 0, cards: 0, hist: 0, quiz: 0, days: 0 } };
+    Object.keys(data.packs).forEach(function (key) {
+      var inc = data.packs[key], st = { cards: 0, hist: 0, quiz: 0 };
+      var isNew = key !== S.key && pgLS('sp:prog:' + key) == null;
+      var merged = pgMergeProg(pgProgOf(key), inc.prog, st);
+      plan.packs.push({ key: key, title: inc.title, deadline: inc.deadline, isNew: isNew, merged: merged, dirty: isNew || st.cards > 0 || st.hist > 0 || st.quiz > 0 || (!!inc.title && !pgLS('sp:pname:' + key)) });
+      plan.tot.packs++; if (isNew) plan.tot.packsNew++;
+      plan.tot.cards += st.cards; plan.tot.hist += st.hist; plan.tot.quiz += st.quiz;
+    });
+    Object.keys(data.timers).forEach(function (dk) {
+      var cur = pgJSON('sp:timer:' + dk), inc = data.timers[dk];
+      var m = { n: Math.max(pgNum(cur && cur.n), inc.n), m: Math.max(pgNum(cur && cur.m), inc.m) };
+      if (!cur || m.n !== pgNum(cur.n) || m.m !== pgNum(cur.m)) { plan.timers[dk] = m; plan.tot.days++; }
+    });
+    return plan;
+  }
+  function pgApply(plan, withSettings) {
+    var writes = [], done = [], i;
+    plan.packs.forEach(function (p) {
+      if (!p.dirty) return;
+      writes.push(['sp:prog:' + p.key, JSON.stringify(p.merged)]);
+      if (p.title && !pgLS('sp:pname:' + p.key)) writes.push(['sp:pname:' + p.key, p.title]);
+      if (p.deadline && !pgLS('sp:deadline:' + p.key)) writes.push(['sp:deadline:' + p.key, p.deadline]);
+    });
+    Object.keys(plan.timers).forEach(function (dk) { writes.push(['sp:timer:' + dk, JSON.stringify(plan.timers[dk])]); });
+    if (withSettings && plan.settings) Object.keys(plan.settings).forEach(function (k) { writes.push([k, plan.settings[k]]); });
+    try {
+      for (i = 0; i < writes.length; i++) { var old = pgLS(writes[i][0]); localStorage.setItem(writes[i][0], writes[i][1]); done.push([writes[i][0], old]); }
+    } catch (e) {
+      done.reverse().forEach(function (d) { try { if (d[1] == null) localStorage.removeItem(d[0]); else localStorage.setItem(d[0], d[1]); } catch (e2) { /* best effort */ } });
+      return false;
+    }
+    plan.packs.forEach(function (p) { if (p.dirty && p.key === S.key && !S.empty) S.prog = p.merged; });
+    return true;
+  }
+  function pgMsg(key, vars, withReload) {
+    importModal('<h2 id="shT">' + tr('pg_imp_h') + '</h2><p>' + tr(key, vars) + '</p><div class="sh-act">' +
+      (withReload ? '<button class="btn primary" data-act="nd_pgReload">' + tr('pg_reload') + '</button>' : '') +
+      '<button class="btn' + (withReload ? '' : ' primary') + '" data-act="nd_shClose">' + tr('share_close') + '</button></div>');
+  }
+  function pgReadFile(f) {
+    f.text().then(function (t) {
+      var v = pgValidate(t);
+      if (v.err) { pgMsg(v.err, v.vars); return; }
+      PG.pending = v.data;
+      var plan = pgPlan(v.data), tt = plan.tot;
+      var when = new Date(v.data.exportedAt); when = isNaN(+when) ? '?' : when.toLocaleDateString();
+      var nothing = !tt.packsNew && !tt.cards && !tt.hist && !tt.quiz && !tt.days && !plan.packs.some(function (p) { return p.dirty; });
+      var h = '<h2 id="shT">' + tr('pg_imp_h') + '</h2><p>' + tr('pg_imp_sum', { d: esc(when), p: tt.packs, np: tt.packsNew, c: tt.cards, h: tt.hist, q: tt.quiz, t: tt.days }) + '</p>';
+      if (nothing) h += '<p class="muted">' + tr('pg_imp_nothing') + '</p>';
+      else if (tt.packsNew) h += '<p class="muted">' + tr('pg_imp_unloaded') + '</p>';
+      if (plan.settings) h += '<label class="pg-chk"><input type="checkbox" id="pgApplySet"> ' + tr('pg_imp_set') + '</label>';
+      h += '<div class="sh-act">' + (nothing ? '' : '<button class="btn primary" data-act="nd_pgApply">' + tr('pg_imp_go') + '</button>') +
+        '<button class="btn' + (nothing ? ' primary' : '') + '" data-act="nd_shClose">' + tr(nothing ? 'share_close' : 'imp_cancel') + '</button></div>';
+      importModal(h);
+    }, function () { pgMsg('pg_err_read'); });
+  }
+  document.addEventListener('change', function (e) {
+    var id = e.target && e.target.id;
+    if (id === 'pgScope') PG.scope = e.target.value;
+    else if (id === 'pgSet') PG.settings = !!e.target.checked;
+    else if (id === 'pgFile') { var f = e.target.files && e.target.files[0]; e.target.value = ''; if (f) pgReadFile(f); }
+  });
   function ndAct(name, el) {
     switch (name) {
       case 'nd_star': if (S.cards && S.cards.queue.length) toggleStar(S.cards.queue[0].id); break;
@@ -6652,6 +7588,34 @@ var NDQR = (function () {
       case 'nd_reviewWeak': reviewFilter('weak'); break;
       case 'nd_reviewStarred': reviewFilter('starred'); break;
       case 'nd_share': shareOpen(el); break;
+      case 'nd_node': ndNode(el.dataset.path || ''); break;
+      case 'nd_lbTab': LB.tab = el.dataset.tab === 'installed' ? 'installed' : 'discover'; lbPaintAll(); break;
+      case 'nd_lbInstall': lbInstall(el.dataset.id); break;
+      case 'nd_lbOpen': lbOpen(el.dataset.id); break;
+      case 'nd_lbCancel': lbCancel(el.dataset.id); break;
+      case 'nd_lbRemove': lbRemoveAsk(el.dataset.id); break;
+      case 'nd_lbRemoveGo': shareClose(); lbRemove(el.dataset.id); break;
+      case 'nd_lbLinkGo': shareClose(); lbLinkGo(el.dataset.id); break;
+      case 'nd_lbCopyFresh': lbMakeCopy(false); break;
+      case 'nd_lbCopyProg': lbMakeCopy(true); break;
+      case 'nd_nodeTog': {
+        var tp = el.dataset.path; S.railOpen[tp] = !railNodeOpen(tp); render();
+        var again = document.querySelector('[data-act="nd_nodeTog"][data-path="' + (window.CSS && CSS.escape ? CSS.escape(tp) : tp) + '"]'); if (again) again.focus();
+        break;
+      }
+      case 'nd_pgExport': pgDownload('navel-desk-progress-' + pgToday() + '.json', JSON.stringify(pgBuild(PG.scope, PG.settings), null, 1), 'application/json'); flash(el, tr('pg_saved')); break;
+      case 'nd_pgCsv': pgDownload('navel-desk-history-' + pgToday() + '.csv', pgCsv(PG.scope), 'text/csv;charset=utf-8'); flash(el, tr('pg_saved')); break;
+      case 'nd_pgImport': { var fi = $('#pgFile'); if (fi) fi.click(); break; }
+      case 'nd_pgApply': {
+        var data = PG.pending; if (!data) break;
+        var cb = $('#pgApplySet'), withSet = !!(cb && cb.checked), plan = pgPlan(data);
+        PG.pending = null;
+        if (!pgApply(plan, withSet)) { pgMsg('pg_err_write'); break; }
+        pgMsg('pg_done', null, withSet && !!plan.settings);
+        if (S.view === 'overview' || S.view === 'load') render();
+        break;
+      }
+      case 'nd_pgReload': location.reload(); break;
       case 'nd_shClose': shareClose(); break;
       case 'nd_shCopy': shareCopy(el); break;
       case 'nd_shQr': shareSaveQr(); break;
@@ -6834,23 +7798,36 @@ var NDQR = (function () {
   }
 
   /* ---------- boot ---------- */
-  function boot() {
-    LANG = detectLang();
-    applyStatic();
-    THEMER.boot();
-    initTheme();
-    var saved = store.get('sp:pack'), done = false;
-    if (saved) {
+  function bootFinish() {
+    var done = false;
+    if (CURPACK) {
       try {
-        var r = spNormalise(JSON.parse(saved));
-        if (r.pack) { setPack(r.pack); done = true; }
+        var r = spNormalise(JSON.parse(CURPACK));
+        if (r.pack) { setPack(r.pack, true); done = true; }
       } catch (e) { /* fall back to the empty state */ }
     }
     if (!done) setEmpty();
     tRender(); render();
     importFromHash();
+    refreshStorage();
     // First visit with nothing loaded: offer the tour (skippable, remembered either way).
     if (S.empty && !store.get('sp:tour') && !(location.hash && location.hash.length > 1)) setTimeout(tourWelcome, 500);
+  }
+  function boot() {
+    LANG = detectLang();
+    applyStatic();
+    THEMER.boot();
+    initTheme();
+    setEmpty(); /* placeholder so nothing that renders early meets a null pack */
+    var ov = null, t = setTimeout(function () {
+      ov = document.createElement('div'); ov.setAttribute('role', 'status');
+      ov.style.cssText = 'position:fixed;inset:0;z-index:2000;display:grid;place-items:center;background:var(--bg,#fff);color:var(--muted,#666);font:600 15px system-ui,sans-serif';
+      ov.textContent = tr('st_loading'); document.body.appendChild(ov);
+    }, 250);
+    dbBoot().then(function () {
+      clearTimeout(t); if (ov) ov.remove();
+      bootFinish();
+    });
   }
   boot();
 })();
