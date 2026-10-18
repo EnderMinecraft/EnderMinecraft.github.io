@@ -1638,14 +1638,17 @@ Each topic has these fields, all present:
 
 READY-MADE QUESTIONS (APPLIES WHENEVER THE DOCUMENT ALREADY CONTAINS QUESTIONS)
 - If the document contains questions, exercises, quizzes or exam items (multiple choice, true/false, short answer, fill in the blank, matching), count them first, then convert EVERY one into a question object. Do not sample, merge, shorten or cap them, even if there are more than 100. The only questions you may leave out are the ones described in QUESTIONS THAT NEED AN IMAGE. Writing extra questions of your own is allowed, but never instead of converting the ones in the document.
-- Keep the original wording, the original options and their original order, and the original numbering order. Never shorten, summarise or cut the question text, the stem, the passage, the data or the statements, however long they are (there is no word limit for a converted question: long chemical formulas, equations, multi-line stems and tables written as text stay complete). Use the answer key in the document for "answer" and "explanation". If a question has no answer key, work the answer out only from the document's own content. If it truly cannot be decided from the document, leave that one out and report how many you left out in the chat reply.
-- A multiple-choice question keeps its original number of options (2 to 6) and its original correct option. A question with a stem and several statements a), b), c), d) to judge true or false becomes a "tfs" (stem in "prompt" or "quote"). A numeric or one-line answer becomes "short" or "cloze". Pairs to connect become "match".
+- Keep the original wording, the original options and their original order, and the original numbering order. Never shorten, summarise or cut the question text, the stem, the passage, the data or the statements, however long they are (there is NO word limit for questions, passages, or stems: long reading passages, multi-paragraph texts, chemical formulas, equations, multi-line stems and tables written as text stay complete and unabridged). Use the answer key in the document for "answer" and "explanation". If a question has no answer key, work the answer out only from the document's own content. If it truly cannot be decided from the document, leave that one out and report how many you left out in the chat reply.
+- A multiple-choice question keeps its original number of options (2 to 6) and its original correct option. A question with a passage, stem or data and several statements a), b), c), d) to judge true or false becomes a "tfs". In "tfs", ALWAYS put the reading passage, stem, context, or data into "quote" in full, and put a short instruction into "prompt" (e.g. "Read the passage and decide whether each statement is true or false." or "Dựa vào thông tin sau, hãy xác định tính đúng/sai của từng mệnh đề." or ""). A numeric or one-line answer becomes "short" or "cloze". Pairs to connect become "match".
 - Put each converted question in the topic it belongs to. If the document has a separate question bank or exercise section, create topics named after its parts (for example "Practice questions: Chapter 1") that hold those questions. Such a topic may have empty "notes", "key_terms" and "flashcards" arrays.
 - The rule "answerable from the notes" does not apply to converted questions: they keep their original content.
-  - mcq: {"type": "mcq", "prompt": string, "options": [exactly 4 strings for questions you write yourself; keep the original 2 to 6 options for converted questions], "answer": 0-based index of the correct option, "explanation": string}. One option is clearly correct. Distractors are plausible and come from the same topic. Never use "all of the above" or "none of the above". Vary the position of the correct option from question to question. Optional: "context" (a source passage; at most 200 words for questions you write yourself, no limit for converted questions) and "source" (its citation), only when the question depends on a quotation or source text in the document.
+  - mcq: {"type": "mcq", "prompt": string, "options": [exactly 4 strings for questions you write yourself; keep the original 2 to 6 options for converted questions], "answer": 0-based index of the correct option, "explanation": string}. One option is clearly correct. Distractors are plausible and come from the same topic. Never use "all of the above" or "none of the above". Vary the position of the correct option from question to question. Optional: "context" (a source passage or reading excerpt, preserved in full without any truncation or summarisation; there is NO word limit) and "source" (its citation), only when the question depends on a quotation or source text in the document.
   - truefalse: {"type": "truefalse", "prompt": a full statement, "answer": true or false as a JSON boolean, "explanation": string}. Roughly half of the statements are false.
   - short: {"type": "short", "prompt": string, "answer": model answer in one or two sentences, "explanation": string or ""}.
-  - tfs (one source passage with true/false statements): {"type": "tfs", "prompt": one instruction sentence or "", "quote": the passage, stem, experiment description or data the statements refer to, in full, at most 300 words for questions you write yourself and no limit for converted questions, "source": its citation or "", "items": [exactly 4 objects {"text": a statement (any length, keep long statements complete), "answer": true or false as a JSON boolean}], "explanation": string}. Use only when the document has a passage, table or data to read. Make 1 to 3 of the 4 statements false.
+  - tfs (one source passage with true/false statements): {"type": "tfs", "prompt": string, "quote": string, "source": its citation or "", "items": [exactly 4 objects {"text": string, "answer": true or false as a JSON boolean}], "explanation": string}. Use whenever the document has a reading passage, data set, table, case study, or experiment stem followed by true/false statements.
+    * ABSOLUTE RULE FOR "quote": MUST contain the entire passage, reading text, stem, experiment description, case study, context, or data table IN FULL, completely unabridged, verbatim from the source. NEVER truncate, never summarise, never cut with ellipsis (...), never omit sentences or paragraphs, and NEVER apply any arbitrary word limit. Long passages (even multi-paragraph texts of 500–1,500+ words), formulas, and data tables must stay 100% complete so all 4 statements can be accurately evaluated.
+    * RULE FOR "prompt": Keep "prompt" strictly for a short instruction sentence (e.g. "Read the passage and decide whether each statement is true or false.", "Dựa vào đoạn tư liệu sau, hãy xác định các nhận định đúng hay sai." or ""). NEVER put the reading passage into "prompt" (the website styles "quote" in a dedicated reading blockquote, whereas "prompt" is rendered as a headline).
+    * RULE FOR "items": Exactly 4 statements. Strip leading label prefixes like "a)", "b)", "c)", "d)" or "1.", "2." from the start of each statement's "text" (the website automatically formats and prefixes a), b), c), d) on screen). Keep the statement text itself complete without shortening. Make 1 to 3 of the 4 statements false.
   - cloze (fill in one blank): {"type": "cloze", "prompt": a sentence in which the missing word, number, date or name is replaced by ____ (four underscores), "answers": [1 to 4 accepted answers as strings, shortest form first], "explanation": string}. Exactly one ____ per question.
   - match (match pairs): {"type": "match", "prompt": a short instruction, "pairs": [4 to 5 objects {"left": string, "right": string}], "explanation": string}. Use for date and event, term and definition, or name and role. Every left and every right must be different.
   - Every question you write yourself must be answerable from that topic's notes and must never need a picture. Never write "according to the text", "see the figure" or refer to the document.
@@ -1654,9 +1657,9 @@ READY-MADE QUESTIONS (APPLIES WHENEVER THE DOCUMENT ALREADY CONTAINS QUESTIONS)
 QUESTIONS THAT NEED AN IMAGE (SKIP THEM)
 - The website shows text only. It cannot show pictures, so a question that cannot be understood or answered without looking at a picture must NOT be put in the file. Skip it completely: no question object, no placeholder, no "see the figure".
 - Skip a question when its stem, its options or its statements depend on content that exists only in an image: a figure, photo, diagram, graph or chart, drawn structural or skeletal formula, apparatus or experiment drawing, circuit, map, scanned table, screenshot, or any option that is itself a picture (for example "Which diagram shows ...?", "In the figure, ...", "Based on the graph, ...", "Hình vẽ bên", "Quan sát hình", "Dựa vào đồ thị", "Sơ đồ sau").
-- Keep the question when everything it needs is written as text, even if it mentions a figure in passing. A table, a data set, an equation or a formula typed as text is not an image: convert it and put it in "quote" or "context". If the picture only decorates the question and the answer does not depend on it, keep the question and delete only the phrase that points at the picture.
+- Keep the question when everything it needs is written as text, even if it mentions a figure in passing. A table, a data set, an equation or a formula typed as text is not an image: convert it and put it in "quote" or "context" in full without shortening. If the picture only decorates the question and the answer does not depend on it, keep the question and delete only the phrase that points at the picture.
 - When a statement group (a, b, c, d) has some statements that need the image and some that do not, skip the whole question, because the file needs exactly 4 statements.
-- Skipping is only about pictures. Never skip a question because it is long, hard, has long formulas or has a long passage.
+- Skipping is only about pictures. Never skip or truncate a question because it is long, hard, has long formulas or has a long reading passage.
 - Count the skipped questions and report the number in the chat reply (see DELIVERY RULES). The information in the pictures does not count as information units for COVERAGE.
 
 CONTENT FORMAT
@@ -1664,15 +1667,17 @@ CONTENT FORMAT
 - Write formulas and units in plain text: CO2, H2O, m/s^2, x^2, 6CO2 + 6H2O -> C6H12O6 + 6O2.
 - Turn every table in the document into note points (one point per row or per fact) and, where useful, flashcards. Do not skip table content.
 - Ignore pictures, page numbers, headers and footers, but keep information that appears in captions or labels.
-- Condense wording, not content. Shorten sentences, but keep every fact, number, name, date and unit.
+- Condense wording in notes points, not content. Shorten sentences in notes points, but keep every fact, number, name, date and unit. NEVER shorten, condense, or truncate questions, passages, stems, or quotes.
 
 CHECK BEFORE YOU DELIVER (SILENTLY)
 - The file is valid JSON that starts with { and ends with }, and it was delivered as a file, not pasted in the chat.
 - Coverage: at least 90% of the document's information units are in the notes, and your percentage estimate is in the chat reply.
 - Every mcq has exactly 4 options (or the original number, 2 to 6, for converted questions) and an integer "answer" that is a valid 0-based option index.
 - Every question already written in the document is in the file: the number found equals converted plus skipped for needing an image (or any other shortfall is reported in the chat reply). No question in the file needs a picture to be understood or answered. No question text was shortened.
+- In every "tfs" question, "quote" contains the full, complete passage or stem verbatim: no text was truncated, no paragraphs were dropped, and no ellipsis (...) was added.
+- In every "tfs" question, "items" has exactly 4 statements with boolean answers, and statement texts do not have redundant "a) ", "b) " prefixes.
 - Every truefalse "answer" is true or false without quotation marks.
-- Every tfs has exactly 4 items with boolean answers. Every cloze prompt has exactly one ____ and an "answers" array. Every match has 4 to 5 pairs.
+- Every cloze prompt has exactly one ____ and an "answers" array. Every match has 4 to 5 pairs.
 - Topic ids are unique and no field is missing. Use "" or [] when a field is empty.
 - Nothing in the file is absent from the document.
 
@@ -2617,9 +2622,10 @@ function spNormaliseFlat(data) {
         if (!sa) { at('q_short', s); return; }
         topic.questions.push({ type: 'short', prompt: prompt, answer: sa, explanation: expl });
       } else if (type === 'tfs') {
-        var tquote = spStr(q.quote), tits = [];
+        var tquote = spStr(q.quote || q.context || q.passage || q.stem), tits = [];
         (Array.isArray(q.items) ? q.items : []).forEach(function (it) {
-          var tx = spStr(it && (it.text != null ? it.text : it.t));
+          var rawTx = it && (it.text != null ? it.text : it.t);
+          var tx = spStr(rawTx != null ? String(rawTx).replace(/^[a-dA-D1-4][\)\.\:\-]\s*/, '') : '');
           var av = it && (it.answer != null ? it.answer : it.a);
           if (typeof av === 'string') av = av.trim().toLowerCase() === 'true' ? true : av.trim().toLowerCase() === 'false' ? false : null;
           if (tx && typeof av === 'boolean') tits.push({ text: tx, answer: av });
@@ -3440,7 +3446,7 @@ function computeExamResult(questions, timeUsed) {
 
 function examPromptHTML(item) {
   var q = item.q, h = '';
-  if ((q.type === 'mcq' && q.context) || (q.type === 'tfs' && q.quote)) h += '<div style="margin-bottom:14px">' + ctxHTML(q) + '</div>';
+  if ((q.type === 'mcq' && (q.context || q.quote)) || (q.type === 'tfs' && (q.quote || q.context))) h += '<div style="margin-bottom:14px">' + ctxHTML(q) + '</div>';
   if (q.type === 'cloze') h += '<div style="font-size: 16px; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: var(--ink);">' + clozePrompt(q) + '</div>';
   else if (q.prompt) h += '<div style="font-size: 16px; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: var(--ink);">' + esc(q.prompt) + '</div>';
   return h;
@@ -4146,7 +4152,7 @@ function formatTime(ms) {
   }
 });
   function ctxHTML(t) {
-    var body = t.type === 'tfs' ? t.quote : t.context;
+    var body = t.type === 'tfs' ? (t.quote || t.context) : (t.context || t.quote);
     return '<blockquote class="ctx"><p>' + esc(body) + '</p>' + (t.source ? '<cite>' + esc(t.source) + '</cite>' : '') + '</blockquote>';
   }
   function tfLabel(b) { return tr(b ? 'tf_true' : 'tf_false'); }
@@ -4231,7 +4237,7 @@ function formatTime(ms) {
   }
   function qTitle(t) {
     var p = t.prompt || '';
-    if (t.type === 'tfs' && !p) p = String(t.quote || '').slice(0, 140);
+    if (t.type === 'tfs' && !p) p = String(t.quote || t.context || '');
     if (t.type === 'cloze') p = p.replace(/_{3,}/, '____');
     return p;
   }
@@ -4328,7 +4334,7 @@ function quizSetupHTML() {
     h += '</div><div class="q-prog" aria-hidden="true">' + q.items.map(function (x, i) {
       return '<i class="' + (x.res ? (x.res.correct ? 'd' : 'w') : (i === q.i ? 'd' : '')) + '"></i>';
     }).join('') + '</div>';
-    if ((t.type === 'mcq' && t.context) || (t.type === 'tfs' && t.quote)) h += ctxHTML(t);
+    if ((t.type === 'mcq' && (t.context || t.quote)) || (t.type === 'tfs' && (t.quote || t.context))) h += ctxHTML(t);
     if (t.type === 'cloze') h += '<h2 class="q-p">' + clozePrompt(t) + '</h2>';
     else if (t.prompt) h += '<h2 class="q-p">' + esc(t.prompt) + '</h2>';
     if (t.type === 'tfs') h += tfsBody(it, fb);
