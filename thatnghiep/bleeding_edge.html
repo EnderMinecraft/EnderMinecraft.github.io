@@ -173,7 +173,7 @@ html.rb-on.rb-fill :is(.btn, .tbtn):not(:disabled) {
 /* credits page */
 .cr-hero { display: flex; align-items: center; gap: 12px; padding: 18px 20px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
 .cr-hero b { font-size: clamp(20px, 3vw, 26px); }
-.cr-tag { font: 500 11px var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; padding: 3px 10px; border-radius: 999px; background: var(--mark); color: var(--ink); }
+.cr-tag { font: 500 11px var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; padding: 3px 10px; border-radius: 999px; background: var(--good); color: var(--accent-ink); }
 .cr-sec .sec-h { margin: 0 0 10px; font-size: 18px; }
 .cr-sec p { margin: 0 0 10px; max-width: 62ch; }
 .cr-list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); overflow: hidden; }
@@ -183,7 +183,7 @@ html.rb-on.rb-fill :is(.btn, .tbtn):not(:disabled) {
 .cr-list a:hover { color: var(--accent); }
 .cr-note { margin-top: 8px; font-size: 13px; }
 </style></head><body>
-<title>Navel Desk (Canary)</title>
+<title>Navel Desk</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
 
@@ -1530,7 +1530,7 @@ body.touring .scrim { opacity: 0 !important; transition: none !important; }
     <div class="debug-row"><span class="muted" data-i18n="dbg_storage">LocalStorage:</span> <span id="dbgStorage">-</span></div>
     <div class="debug-row"><span class="muted" data-i18n="dbg_mode">Mode:</span> <span id="dbgMode">-</span></div>
     <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center;">
-      <span class="muted" style="font-size: 11px;">Navel Desk (Canary)</span>
+      <span class="muted" style="font-size: 11px;">Navel Desk</span>
       <button class="btn" style="padding: 2px 8px; font-size: 11px;" data-act="refreshDebug" data-i18n="dbg_refresh">Refresh</button>
     </div>
   </div>
@@ -1719,7 +1719,7 @@ var I18N = {
     cf_aria: 'Card filter', cf_all: 'All cards', cf_starred: '★ Starred', cf_weak: 'Weak spots',
     star_add: '☆ Star card', star_on: '★ Starred',
     no_starred: 'No starred cards here yet. Star tricky cards while you study (button below the card, or press S) and they will collect in this deck.',
-    no_weak: 'No weak spots right now. Cards you miss show up here until you move them back up to box 3.',
+    no_weak: 'No weak spots right now. Cards you miss show up here until they reach Mastered.',
     ov_starred: 'Review starred ({n})', ov_weak: 'Weak spots ({n})',
     share_btn: 'Share / QR', share_title: 'Share this study pack',
     share_note: 'Only the content is shared, not your progress. Anyone with the link can open it.',
@@ -1784,7 +1784,7 @@ var I18N = {
     an_trend_empty: 'Finish a quiz or exam and your accuracy trend will appear here.', an_avg_line: 'average',
     an_tip: '{d}: {p}% ({k}/{n})', an_types: 'By question type', an_types_empty: 'Question-type results appear after your first quiz or exam.',
     an_weakest: 'weakest', an_focus: 'Focus minutes, last 14 days', an_focus_empty: 'No focus sessions logged yet. Start the timer to track study time.',
-    an_boxes: 'Flashcard boxes', box_new: 'New', box_n: 'Box {n}',
+    an_boxes: 'Card mastery', box_new: 'New', box_1: 'Learning', box_2: 'Reviewing', box_3: 'Mastered',
     brand_aria: 'Navel Desk, back to overview',
     lang_aria: 'Language',
     theme_to_dark: 'Switch to dark mode',
@@ -2112,7 +2112,7 @@ var I18N = {
     cf_aria: 'Bộ lọc thẻ', cf_all: 'Tất cả thẻ', cf_starred: '★ Gắn sao', cf_weak: 'Điểm yếu',
     star_add: '☆ Gắn sao', star_on: '★ Đã gắn sao',
     no_starred: 'Chưa có thẻ nào gắn sao. Hãy gắn sao các thẻ khó khi học (nút dưới thẻ, hoặc nhấn S) và chúng sẽ được gom vào bộ này.',
-    no_weak: 'Hiện chưa có điểm yếu nào. Thẻ bạn trả lời sai sẽ hiện ở đây cho đến khi lên lại Hộp 3.',
+    no_weak: 'Hiện chưa có điểm yếu nào. Thẻ bạn trả lời sai sẽ hiện ở đây cho đến khi thẻ lên mức Đã thuộc.',
     ov_starred: 'Ôn thẻ gắn sao ({n})', ov_weak: 'Điểm yếu ({n})',
     share_btn: 'Chia sẻ / QR', share_title: 'Chia sẻ bộ ôn tập này',
     share_note: 'Chỉ chia sẻ nội dung, không kèm tiến độ của bạn. Ai có liên kết đều mở được.',
@@ -2177,7 +2177,7 @@ var I18N = {
     an_trend_empty: 'Hoàn thành một bài quiz hoặc đề thi để xem xu hướng độ chính xác tại đây.', an_avg_line: 'trung bình',
     an_tip: '{d}: {p}% ({k}/{n})', an_types: 'Theo dạng câu hỏi', an_types_empty: 'Kết quả theo dạng câu hỏi sẽ hiện sau bài quiz hoặc đề thi đầu tiên.',
     an_weakest: 'yếu nhất', an_focus: 'Số phút tập trung, 14 ngày qua', an_focus_empty: 'Chưa có phiên tập trung nào. Hãy bật bộ đếm giờ để theo dõi thời gian học.',
-    an_boxes: 'Các hộp thẻ', box_new: 'Mới', box_n: 'Hộp {n}',
+    an_boxes: 'Mức độ thuộc thẻ', box_new: 'Chưa học', box_1: 'Mới học', box_2: 'Đang nhớ', box_3: 'Đã thuộc',
     brand_aria: 'Navel Desk, về trang tổng quan',
     lang_aria: 'Ngôn ngữ',
     theme_to_dark: 'Chuyển sang chế độ tối',
@@ -4381,7 +4381,7 @@ function quizSetupHTML() {
    Edit CREDITS to change what the page shows. Empty arrays hide their section. */
 var CREDITS = {
   appName: 'Navel Desk',
-  channel: 'Canary',
+  channel: 'Stable',
   people: [],      // e.g. { name: 'Your name', role_en: 'Design & code', role_vi: 'Thiết kế & lập trình' }
   thanks: [],      // e.g. { name: 'Ms. Lan', note_en: 'For the history notes', note_vi: 'Vì bộ ghi chú Lịch sử' }
   fonts: [
@@ -7009,7 +7009,7 @@ var NDQR = (function () {
         else bx[(typeof st === 'object' ? (st.box || 1) : 3)]++;
       });
     });
-    var tot = bx[0] + bx[1] + bx[2] + bx[3], labs = [tr('box_new'), tr('box_n', { n: 1 }), tr('box_n', { n: 2 }), tr('box_n', { n: 3 })];
+    var tot = bx[0] + bx[1] + bx[2] + bx[3], labs = [tr('box_new'), tr('box_1'), tr('box_2'), tr('box_3')];
     h += '<div class="an-card"><h3>' + tr('an_boxes') + '</h3>';
     if (tot) {
       h += '<div class="an-stack" role="img" aria-label="' + esc(labs.map(function (l, i) { return l + ' ' + bx[i]; }).join(', ')) + '">' + bx.map(function (n, i) { return n ? '<i class="bx' + i + '" style="flex:' + n + '" title="' + esc(labs[i] + ': ' + n) + '"></i>' : ''; }).join('') + '</div>';
