@@ -881,7 +881,7 @@ table.f code { font-family: var(--font-mono); font-size: 13px; }
 .dl-info { display: flex; align-items: center; gap: 14px; }
 .dl-icon { font-size: 24px; }
 .dl-num { font: 700 24px var(--font-mono); color: var(--accent); letter-spacing: -0.02em; }
-.dl-num.urgent { color: #D2493B; }
+.dl-num.urgent { color: var(--bad); }
 .dl-label { font-size: 13px; color: var(--muted); }
 .dl-ctrl { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .dl-ctrl input[type=date] { font: 500 13px var(--font-mono); color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; }
@@ -2786,7 +2786,8 @@ if (typeof module !== 'undefined' && module.exports) {
   var rich = function (s) { return esc(s).replace(/\*\*(.+?)\*\*/g, '<mark>$1</mark>'); };
   var store = {
     get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
-    set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) { /* storage unavailable */ } }
+    set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) { /* storage unavailable */ } },
+    remove: function (k) { try { localStorage.removeItem(k); } catch (e) { /* storage unavailable */ } }
   };
   var shuffle = function (a) {
     for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
@@ -3546,7 +3547,7 @@ function examReviewItem(item, i, g) {
 function renderExam() {
   let html = `<div style="max-width: 1100px; margin: 0 auto; padding: 16px;">`;
   const runKey = 'sp:run:' + S.key;
-  const savedRun = localStorage.getItem(runKey);
+  const savedRun = store.get(runKey);
   const cfg = examCfg();
 
   if (S.exam.step === 'config') {
@@ -3864,15 +3865,19 @@ function examSelfGrade(idx, ok) {
 }
 
 function saveExamRun() {
-  if (S.exam.run) localStorage.setItem('sp:run:' + S.key, JSON.stringify(S.exam.run));
+  if (S.exam.run) store.set('sp:run:' + S.key, JSON.stringify(S.exam.run));
 }
 function resumeExam() {
-  const saved = localStorage.getItem('sp:run:' + S.key);
+  const saved = store.get('sp:run:' + S.key);
   if (saved) {
-    S.exam.run = JSON.parse(saved);
-    S.exam.step = 'doing';
-    startExamTimer();
-    render();
+    try {
+      S.exam.run = JSON.parse(saved);
+      S.exam.step = 'doing';
+      startExamTimer();
+      render();
+    } catch (e) {
+      store.remove('sp:run:' + S.key);
+    }
   }
 }
 function exitExam() {
@@ -3932,7 +3937,7 @@ function submitExam() {
   ndRecordExam(S.exam.result);
   S.exam.filter = 'all';
   S.exam.step = 'result';
-  localStorage.removeItem('sp:run:' + S.key);
+  store.remove('sp:run:' + S.key);
   render();
   window.scrollTo(0, 0);
 }
@@ -4861,29 +4866,33 @@ function setLang(l) {
     if (S.pack) $('#packName').textContent = S.pack.title;
     render(); // Rebuilds DOM with new language text
 
-    // 3. Scan the newly rendered DOM and animate ONLY elements whose text actually changed
+    // 3. Scan the newly rendered DOM and batch-animate changed elements without layout thrashing
     var newMain = $('#main');
     if (newMain) {
+      var changed = [];
       newMain.querySelectorAll('h1, h2, h3, p, span, button, a').forEach(function(el, idx) {
         var newText = el.textContent.trim();
         var oldText = oldTexts.get(idx);
-        
-        // Only trigger the slide-down entrance if the text content is different
-        // Skip elements that manage their own opacity/transform (flashcard swipe tags are hidden until a drag and are centred with a transform)
         if (oldText && oldText !== newText && !el.closest('.swipe-tag')) {
           el.style.opacity = '0';
           el.style.transform = 'translateY(-6px)';
-          
-          // Force reflow
-          void el.offsetWidth; 
-          
-          // Smooth Apple-style entrance curve; afterwards hand opacity/transform back to the stylesheet instead of pinning them
+          changed.push(el);
+        }
+      });
+      if (changed.length) {
+        // Single forced reflow for the batch
+        void newMain.offsetWidth;
+        changed.forEach(function(el) {
           el.style.transition = 'opacity 0.25s cubic-bezier(0.25, 1, 0.5, 1), transform 0.25s cubic-bezier(0.25, 1, 0.5, 1)';
           el.style.opacity = '1';
           el.style.transform = 'translateY(0)';
-          setTimeout(function () { el.style.opacity = ''; el.style.transform = ''; el.style.transition = ''; }, 300);
-        }
-      });
+        });
+        setTimeout(function () {
+          changed.forEach(function(el) {
+            el.style.opacity = ''; el.style.transform = ''; el.style.transition = '';
+          });
+        }, 300);
+      }
     }
   }
 function toggleExamFlag() {
@@ -4956,12 +4965,16 @@ function toggleExamFlag() {
         const val = el.getAttribute('data-val');
         S.exam.config.scope = val;
         render();
+        const trig = document.querySelector('#dropdownScope .c-select-btn');
+        if (trig) trig.focus();
         break;
       }
       case 'selectMode': {
         const val = el.getAttribute('data-val');
         S.exam.config.mode = val;
         render();
+        const trig = document.querySelector('#dropdownMode .c-select-btn');
+        if (trig) trig.focus();
         break;
       }
       case 'selectQuizCount': {
@@ -4975,15 +4988,19 @@ function toggleExamFlag() {
         break;
       }
       case 'selectQCount': {
-    S.qopts.count = parseInt(el.getAttribute('data-val'), 10);
-    render();
-    break;
-  }
-  case 'selectQTime': {
-    S.qopts.secs = parseInt(el.getAttribute('data-val'), 10);
-    render();
-    break;
-  }
+        S.qopts.count = parseInt(el.getAttribute('data-val'), 10);
+        render();
+        const trig = document.querySelector('#dropdownQCount .c-select-btn');
+        if (trig) trig.focus();
+        break;
+      }
+      case 'selectQTime': {
+        S.qopts.secs = parseInt(el.getAttribute('data-val'), 10);
+        render();
+        const trig = document.querySelector('#dropdownQTime .c-select-btn');
+        if (trig) trig.focus();
+        break;
+      }
       case 'toggleQuizShuffle': {
         if (S.currentTopic) {
           if (!S.currentTopic.quizConfig) S.currentTopic.quizConfig = { shuffle: true };
@@ -5213,35 +5230,26 @@ function toggleExamFlag() {
       openDebugPopup(false);
     }
   });
-document.addEventListener('click', function(e) {
-  if (!e.target.closest('.c-select')) {
-    document.querySelectorAll('.c-select').forEach(c => c.classList.remove('open'));
-  }
-});
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.c-select')) {
+      document.querySelectorAll('.c-select.open').forEach(c => {
+        c.classList.remove('open');
+        const btn = c.querySelector('.c-select-btn');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+      });
+    }
+  });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
       openDebugPopup(false);
       setDrawer(false);
+      document.querySelectorAll('.c-select.open').forEach(c => {
+        c.classList.remove('open');
+        const btn = c.querySelector('.c-select-btn');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+      });
     }
   });
-  document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.c-select.open').forEach(c => {
-      c.classList.remove('open');
-      const btn = c.querySelector('.c-select-btn');
-      if (btn) btn.setAttribute('aria-expanded', 'false');
-    });
-  }
-});
-document.addEventListener('click', function(e) {
-  if (!e.target.closest('.c-select')) {
-    document.querySelectorAll('.c-select').forEach(c => {
-      c.classList.remove('open');
-      const btn = c.querySelector('.c-select-btn');
-      if (btn) btn.setAttribute('aria-expanded', 'false');
-    });
-  }
-});
   document.addEventListener('change', function (e) {
     var id = e.target.id;
     if (id === 'cShuffle') { S.copts.shuffle = e.target.checked; startCards(S.scope); render(); }
@@ -5281,6 +5289,47 @@ document.addEventListener('keydown', function (e) {
     }
     var tag = (e.target.tagName || '').toLowerCase();
     if (tag === 'input' || tag === 'textarea' || tag === 'select' || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (S.view === 'exam' && S.exam && S.exam.step === 'doing' && S.exam.run) {
+      var qIdx = S.exam.run.currentIndex;
+      var curQ = S.exam.run.questions[qIdx];
+      var k = e.key.toLowerCase();
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        prevExamQ();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        nextExamQ();
+      } else if (k === 'f') {
+        if (curQ && curQ.q.type === 'truefalse') {
+          e.preventDefault();
+          selectExamAns(qIdx, false);
+        } else {
+          e.preventDefault();
+          toggleExamFlag();
+        }
+      } else if (k === 'p') {
+        e.preventDefault();
+        toggleExamFlag();
+      } else if (curQ) {
+        var qt = curQ.q;
+        if (qt.type === 'mcq') {
+          var pos = 'abcdef'.indexOf(k) >= 0 && k.length === 1 ? 'abcdef'.indexOf(k) : ('123456'.indexOf(k) >= 0 && k.length === 1 ? '123456'.indexOf(k) : -1);
+          if (pos >= 0 && pos < qt.options.length) {
+            e.preventDefault();
+            selectExamAns(qIdx, pos);
+          }
+        } else if (qt.type === 'truefalse') {
+          if (k === 't' || k === '1') {
+            e.preventDefault();
+            selectExamAns(qIdx, true);
+          } else if (k === '2') {
+            e.preventDefault();
+            selectExamAns(qIdx, false);
+          }
+        }
+      }
+      return;
+    }
     if (S.view !== 'study') return;
     if (S.mode === 'cards' && S.cards && S.cards.queue.length) {
       if (e.key === ' ' || (e.key === 'Enter' && tag !== 'button')) { e.preventDefault(); act('flip'); }
@@ -5302,21 +5351,13 @@ document.addEventListener('keydown', function (e) {
     }
   });
   document.addEventListener('mousemove', function(e) {
-    var card = e.target.closest('.face, .trow');
+    var card = e.target.closest('.face, .trow, .exam-card');
     if (card) {
       var rect = card.getBoundingClientRect();
       card.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
       card.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
     }
   });
-  document.addEventListener('mousemove', function(e) {
-  var card = e.target.closest('.face, .trow, .exam-card');
-  if (card) {
-    var rect = card.getBoundingClientRect();
-    card.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
-    card.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
-  }
-});
 /* ---------- light / dark theme ---------- */
 var root = document.documentElement;
   var mq = (typeof window !== 'undefined' && window.matchMedia) ? window.matchMedia('(prefers-color-scheme: dark)') : null;
