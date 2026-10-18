@@ -129,18 +129,43 @@ details.ed-card > .ed-in { padding: 4px 14px 12px; }
 @property --rb-h { syntax: '<angle>'; inherits: true; initial-value: 0deg; }
 @keyframes rbspin { to { --rb-h: var(--rb-range, 360deg); } }
 html.rb-on,
-html.rb-on :is(.btn, .tbtn, .bar i, .m-b i, .an-bar i, .chip .prg, .dot):not(:disabled) {
+html.rb-on :is(.btn, .tbtn, .pill, .th-pill, .ed-pill, .cf-b, .bar i, .m-b i, .an-bar i, .chip .prg, .dot):not(:disabled) {
   --rb: calc(var(--rb-h) + var(--rb-off, 0deg));
   animation: rbspin var(--rb-dur, 5s) linear infinite;
   animation-direction: var(--rb-dir, normal);
 }
-html.rb-on.rb-border :is(.btn, .tbtn):not(:disabled) {
+html.rb-on.rb-border :is(.btn, .tbtn, .pill):not(:disabled) {
   border-color: hsl(var(--rb) var(--rb-s, 90%) var(--rb-l, 55%)) !important;
   box-shadow: 0 0 0 1px hsl(var(--rb) var(--rb-s, 90%) var(--rb-l, 55%)), 0 0 14px -2px hsl(var(--rb) var(--rb-s, 90%) var(--rb-l, 55%) / .6) !important;
 }
-html.rb-on.rb-fill :is(.btn, .tbtn):not(:disabled) {
+html.rb-on.rb-border :is(.th-pill, .ed-pill).on,
+html.rb-on.rb-border .cf-b[aria-pressed="true"] {
+  border-color: hsl(var(--rb) var(--rb-s, 90%) var(--rb-l, 55%)) !important;
+  box-shadow: 0 0 0 1px hsl(var(--rb) var(--rb-s, 90%) var(--rb-l, 55%)), 0 0 14px -2px hsl(var(--rb) var(--rb-s, 90%) var(--rb-l, 55%) / .7) !important;
+  color: hsl(var(--rb) var(--rb-s, 90%) var(--rb-l, 55%)) !important;
+  background: color-mix(in srgb, hsl(var(--rb) var(--rb-s, 90%) var(--rb-l, 55%)) 22%, var(--bg)) !important;
+}
+html.rb-on.rb-border :is(.th-pill, .ed-pill):not(.on):hover,
+html.rb-on.rb-border .cf-b:not([aria-pressed="true"]):hover {
+  border-color: hsl(var(--rb) var(--rb-s, 90%) var(--rb-l, 55%)) !important;
+}
+html.rb-on.rb-fill :is(.btn, .tbtn, .pill):not(:disabled) {
   background: linear-gradient(var(--rb-angle, 90deg), hsl(var(--rb) var(--rb-s, 90%) calc(var(--rb-l, 55%) * .7)), hsl(calc(var(--rb) + 50deg) var(--rb-s, 90%) calc(var(--rb-l, 55%) * .7)), hsl(calc(var(--rb) + 100deg) var(--rb-s, 90%) calc(var(--rb-l, 55%) * .7))) !important;
   border-color: transparent !important; color: #fff !important; text-shadow: 0 1px 2px rgba(0,0,0,.55);
+}
+html.rb-on.rb-fill :is(.th-pill, .ed-pill).on,
+html.rb-on.rb-fill .cf-b[aria-pressed="true"] {
+  background: linear-gradient(var(--rb-angle, 90deg), hsl(var(--rb) var(--rb-s, 90%) calc(var(--rb-l, 55%) * .7)), hsl(calc(var(--rb) + 50deg) var(--rb-s, 90%) calc(var(--rb-l, 55%) * .7)), hsl(calc(var(--rb) + 100deg) var(--rb-s, 90%) calc(var(--rb-l, 55%) * .7))) !important;
+  border-color: transparent !important; color: #fff !important; text-shadow: 0 1px 2px rgba(0,0,0,.55);
+  box-shadow: 0 2px 10px hsl(var(--rb) var(--rb-s, 90%) var(--rb-l, 55%) / .45) !important;
+}
+html.rb-on.rb-fill :is(.th-pill, .ed-pill):not(.on):hover,
+html.rb-on.rb-fill .cf-b:not([aria-pressed="true"]):hover {
+  border-color: hsl(var(--rb) var(--rb-s, 90%) var(--rb-l, 55%)) !important;
+}
+html.rb-on :is(.th-pill, .ed-pill):not(.on),
+html.rb-on .cf-b:not([aria-pressed="true"]) {
+  border-color: color-mix(in srgb, hsl(var(--rb) var(--rb-s, 90%) var(--rb-l, 55%)) 30%, var(--line));
 }
 /* rainbow progress bars */
 html.rb-on :is(.bar i, .m-b i, .an-bar i) {
@@ -180,7 +205,7 @@ html.rb-on .chip.on {
 .th-rbv { min-width: 56px; text-align: right; font-variant-numeric: tabular-nums; color: var(--ink); }
 @media (prefers-reduced-motion: reduce) {
   html.rb-on,
-  html.rb-on :is(.btn, .tbtn, .bar i, .m-b i, .an-bar i, .chip .prg, .dot):not(:disabled) { animation: none; }
+  html.rb-on :is(.btn, .tbtn, .pill, .th-pill, .ed-pill, .cf-b, .bar i, .m-b i, .an-bar i, .chip .prg, .dot):not(:disabled) { animation: none; }
 }
 .th-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .th-table td { padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
@@ -6391,7 +6416,7 @@ document.addEventListener('click', function (e) {
     th_import: 'Import theme', th_choose: 'Choose file', th_paste: 'Or paste theme JSON', th_load_paste: 'Load pasted text', th_export: 'Export', th_download: 'Download', th_copy: 'Copy JSON', th_copied: 'Copied', th_imported: 'Theme loaded into the editor. Apply it when you are happy.',
     th_override: 'Override contrast check', th_override_hint: 'Lets you apply a theme even if it fails the readability checks. Some text may be hard to read.', th_overridden: 'Contrast check is overridden. This theme has {n} failing check(s), so some text may be hard to read.',
     th_w_title: 'This theme fails {n} readability check(s)', th_w_body: 'Some text may be hard to read. You can still import it, but applying it will need the override toggle.', th_w_import: 'Import anyway', th_w_cancel: 'Cancel',
-    th_rb_title: 'Rainbow buttons & accents', th_rb_on: 'Rainbow RGB effects', th_rb_hint: 'Buttons, progress bars and rings slowly cycle through colours. This is separate from your theme. “Border glow” keeps your theme’s text colours, so contrast stays valid; “Fill” uses white text on bright colours.', th_rb_style: 'Style', th_rb_border: 'Border glow', th_rb_fill: 'Fill', th_rb_dir: 'Direction', th_rb_forward: 'Forward', th_rb_reverse: 'Reverse', th_rb_alternate: 'Bounce', th_rb_angle: 'Gradient angle', th_rb_hue: 'Start hue', th_rb_range: 'Hue range', th_rb_full: 'Full rainbow', th_rb_speed: 'Speed', th_rb_sat: 'Saturation', th_rb_lum: 'Lightness', th_rb_reset: 'Reset rainbow', th_rb_demo1: 'Primary button', th_rb_demo2: 'Button', th_rb_demo_prog: 'Progress preview', th_rb_motion: 'Reduced motion is on for your device, so colours stay still.', th_imported_fail: 'Theme loaded with failing contrast checks. Turn on “Override contrast check” to apply it.',
+    th_rb_title: 'Rainbow buttons & accents', th_rb_on: 'Rainbow RGB effects', th_rb_hint: 'Buttons, progress bars and rings slowly cycle through colours. This is separate from your theme. “Border glow” keeps your theme’s text colours, so contrast stays valid; “Fill” uses white text on bright colours.', th_rb_style: 'Style', th_rb_border: 'Border glow', th_rb_fill: 'Fill', th_rb_dir: 'Direction', th_rb_forward: 'Forward', th_rb_reverse: 'Reverse', th_rb_alternate: 'Bounce', th_rb_angle: 'Gradient angle', th_rb_hue: 'Start hue', th_rb_range: 'Hue range', th_rb_full: 'Full rainbow', th_rb_speed: 'Speed', th_rb_sat: 'Saturation', th_rb_lum: 'Lightness', th_rb_reset: 'Reset rainbow', th_rb_demo1: 'Primary button', th_rb_demo2: 'Button', th_rb_demo_pill: 'Pill button', th_rb_demo_prog: 'Progress preview', th_rb_motion: 'Reduced motion is on for your device, so colours stay still.', th_imported_fail: 'Theme loaded with failing contrast checks. Turn on “Override contrast check” to apply it.',
     th_hex: 'Use #RRGGBB', th_rescue: 'If a theme ever makes the app hard to use, add #reset-theme to the address and reload.',
     th_pv_h: 'Sample topic', th_pv_p: 'Notes are easy to read, and a key term is marked like this.', th_pv_muted: 'Secondary text looks like this.', th_pv_btn: 'Primary', th_pv_btn2: 'Secondary',
     th_pv_ok: 'Correct answer', th_pv_bad: 'Wrong answer', th_pv_warn: 'Careful', th_pv_nav: 'Selected topic', th_pv_term: 'key term',
@@ -6414,7 +6439,7 @@ document.addEventListener('click', function (e) {
     th_import: 'Nhập giao diện', th_choose: 'Chọn tệp', th_paste: 'Hoặc dán JSON giao diện', th_load_paste: 'Tải nội dung đã dán', th_export: 'Xuất', th_download: 'Tải xuống', th_copy: 'Sao chép JSON', th_copied: 'Đã sao chép', th_imported: 'Đã nạp giao diện vào trình chỉnh. Hãy áp dụng khi bạn đã hài lòng.',
     th_override: 'Bỏ qua kiểm tra độ tương phản', th_override_hint: 'Cho phép áp dụng giao diện dù không đạt các kiểm tra dễ đọc. Một số chữ có thể khó đọc.', th_overridden: 'Đã bỏ qua kiểm tra độ tương phản. Giao diện này có {n} mục không đạt nên một số chữ có thể khó đọc.',
     th_w_title: 'Giao diện này không đạt {n} mục kiểm tra dễ đọc', th_w_body: 'Một số chữ có thể khó đọc. Bạn vẫn có thể nhập, nhưng để áp dụng cần bật tùy chọn bỏ qua kiểm tra.', th_w_import: 'Vẫn nhập', th_w_cancel: 'Hủy',
-    th_rb_title: 'Hiệu ứng cầu vồng', th_rb_on: 'Hiệu ứng cầu vồng RGB', th_rb_hint: 'Các nút bấm, thanh tiến độ và vòng tròn tiến độ đổi màu từ từ. Tách biệt với giao diện của bạn. “Viền phát sáng” giữ màu chữ của giao diện nên độ tương phản vẫn đúng; “Tô màu” dùng chữ trắng trên nền màu sáng.', th_rb_style: 'Kiểu', th_rb_border: 'Viền phát sáng', th_rb_fill: 'Tô màu', th_rb_dir: 'Chiều chuyển động', th_rb_forward: 'Thuận', th_rb_reverse: 'Ngược', th_rb_alternate: 'Đổi chiều', th_rb_angle: 'Góc chuyển màu', th_rb_hue: 'Màu (hue) bắt đầu', th_rb_range: 'Dải màu', th_rb_full: 'Cả cầu vồng', th_rb_speed: 'Tốc độ', th_rb_sat: 'Độ bão hòa', th_rb_lum: 'Độ sáng', th_rb_reset: 'Đặt lại cầu vồng', th_rb_demo1: 'Nút chính', th_rb_demo2: 'Nút', th_rb_demo_prog: 'Xem trước tiến độ', th_rb_motion: 'Thiết bị đang bật giảm chuyển động nên màu sẽ đứng yên.', th_imported_fail: 'Đã nạp giao diện nhưng có mục tương phản không đạt. Hãy bật “Bỏ qua kiểm tra độ tương phản” để áp dụng.',
+    th_rb_title: 'Hiệu ứng cầu vồng', th_rb_on: 'Hiệu ứng cầu vồng RGB', th_rb_hint: 'Các nút bấm, thanh tiến độ và vòng tròn tiến độ đổi màu từ từ. Tách biệt với giao diện của bạn. “Viền phát sáng” giữ màu chữ của giao diện nên độ tương phản vẫn đúng; “Tô màu” dùng chữ trắng trên nền màu sáng.', th_rb_style: 'Kiểu', th_rb_border: 'Viền phát sáng', th_rb_fill: 'Tô màu', th_rb_dir: 'Chiều chuyển động', th_rb_forward: 'Thuận', th_rb_reverse: 'Ngược', th_rb_alternate: 'Đổi chiều', th_rb_angle: 'Góc chuyển màu', th_rb_hue: 'Màu (hue) bắt đầu', th_rb_range: 'Dải màu', th_rb_full: 'Cả cầu vồng', th_rb_speed: 'Tốc độ', th_rb_sat: 'Độ bão hòa', th_rb_lum: 'Độ sáng', th_rb_reset: 'Đặt lại cầu vồng', th_rb_demo1: 'Nút chính', th_rb_demo2: 'Nút', th_rb_demo_pill: 'Nút pill', th_rb_demo_prog: 'Xem trước tiến độ', th_rb_motion: 'Thiết bị đang bật giảm chuyển động nên màu sẽ đứng yên.', th_imported_fail: 'Đã nạp giao diện nhưng có mục tương phản không đạt. Hãy bật “Bỏ qua kiểm tra độ tương phản” để áp dụng.',
     th_hex: 'Dùng #RRGGBB', th_rescue: 'Nếu giao diện làm ứng dụng khó dùng, hãy thêm #reset-theme vào địa chỉ rồi tải lại trang.',
     th_pv_h: 'Chủ đề mẫu', th_pv_p: 'Ghi chú dễ đọc, và thuật ngữ quan trọng được đánh dấu như thế này.', th_pv_muted: 'Chữ phụ trông như thế này.', th_pv_btn: 'Chính', th_pv_btn2: 'Phụ',
     th_pv_ok: 'Đáp án đúng', th_pv_bad: 'Đáp án sai', th_pv_warn: 'Cẩn thận', th_pv_nav: 'Chủ đề đang chọn', th_pv_term: 'thuật ngữ',
@@ -6703,7 +6728,9 @@ document.addEventListener('click', function (e) {
         slider('lum', 25, 75, T('rb_lum'), function (v) { return v + '%'; }),
         slider('speed', 1, 10, T('rb_speed'), function (v) { return v + '/10'; }),
         h('div', { class: 'th-row' },
-          h('button', { type: 'button', class: 'btn sm primary' }, T('rb_demo1')), h('button', { type: 'button', class: 'btn sm' }, T('rb_demo2')),
+          h('button', { type: 'button', class: 'btn sm primary' }, T('rb_demo1')),
+          h('button', { type: 'button', class: 'btn sm' }, T('rb_demo2')),
+          h('button', { type: 'button', class: 'pill' }, T('rb_demo_pill')),
           h('button', { type: 'button', class: 'btn sm again', onclick: function () { clearRb(); render(); } }, T('rb_reset'))),
         h('div', { class: 'th-f', style: 'margin-top:12px' },
           h('span', {}, T('rb_demo_prog')),
