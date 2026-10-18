@@ -1,6 +1,6 @@
 /* Service worker – Revision Desk (offline-first)
  * Đặt sw.js cùng thư mục với file HTML. Đổi VERSION mỗi khi bạn cập nhật HTML để ép làm mới cache. */
-const VERSION = 'v1';
+const VERSION = 'v2';
 const CACHE = 'revision-desk-' + VERSION;
 const FONT_CACHE = 'revision-desk-fonts';
 const PRECACHE = ['./', 'favicon.png'];
@@ -58,7 +58,7 @@ self.addEventListener('fetch', (event) => {
 
   // Chỉ xử lý cùng origin; link ngoài (chatgpt, claude, gemini) để trình duyệt tự xử lý
   if (url.origin !== self.location.origin) return;
-
+  if (/\.webmanifest$|web-app-manifest-.*\.png$/.test(url.pathname)) return;  // thêm dòng này
   // Điều hướng trang: network-first, rớt mạng thì dùng bản cache
   if (req.mode === 'navigate') {
     event.respondWith(
