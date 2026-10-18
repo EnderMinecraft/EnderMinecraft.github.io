@@ -11,7 +11,7 @@
     <link rel="icon" type="image/svg+xml" href="/thatnghiep/favicon.svg?v=20261019" />
     <link rel="shortcut icon" href="/thatnghiep/favicon.ico?v=20261019" />
     <link rel="apple-touch-icon" sizes="180x180" href="/thatnghiep/apple-touch-icon.png?v=20261019" />
-    <meta name="apple-mobile-web-app-title" content="Navel Desk Canary" />
+    <meta name="apple-mobile-web-app-title" content="Navel Desk" />
     <style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}
 /* ---------- pack editor (merged from editor.html). Every class is prefixed ed- so nothing collides with the app's .card/.bar/.seg/.opt. ---------- */
 .ed { display: grid; gap: 14px; min-width: 0; }
@@ -477,6 +477,13 @@ mark { background: linear-gradient(to top, var(--mark) 0 48%, transparent 48%); 
 .rail { position: sticky; top: calc(76px + env(safe-area-inset-top, 0px)); display: flex; flex-direction: column; gap: 2px; max-height: calc(100vh - 100px); overflow: auto; }
 .rail-h { margin: 18px 10px 6px; font: 500 12px/1 var(--font-mono); text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
 .rail-list { display: flex; flex-direction: column; gap: 2px; }
+.ui-dlg { border: 1px solid var(--line); border-radius: 16px; background: var(--surface); color: var(--ink); padding: 20px; width: min(92vw, 420px); box-shadow: 0 20px 60px rgba(0,0,0,.35); }
+.ui-dlg::backdrop { background: rgba(5,8,18,.6); }
+.ui-dlg h2 { margin: 0 0 8px; font-size: 18px; }
+.ui-dlg p { margin: 0 0 14px; color: var(--muted); line-height: 1.5; }
+.ui-dlg-in { width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--ink); font: inherit; margin-bottom: 14px; }
+.ui-dlg-btns { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
+.ui-dlg-btns .btn { min-height: 44px; }
 .nav-i { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; text-align: left; background: none; border: 0; border-radius: 8px; padding: 8px 10px; color: var(--ink); }
 .nav-i:hover { background: var(--soft); }
 .nav-i.cur { background: var(--ink); color: var(--bg); font-weight: 600; }
@@ -1719,7 +1726,7 @@ var I18N = {
     cf_aria: 'Card filter', cf_all: 'All cards', cf_starred: '★ Starred', cf_weak: 'Weak spots',
     star_add: '☆ Star card', star_on: '★ Starred',
     no_starred: 'No starred cards here yet. Star tricky cards while you study (button below the card, or press S) and they will collect in this deck.',
-    no_weak: 'No weak spots right now. Cards you miss show up here until they reach Mastered.',
+    no_weak: 'No weak spots right now. Cards you miss show up here until you move them back up to box 3.',
     ov_starred: 'Review starred ({n})', ov_weak: 'Weak spots ({n})',
     share_btn: 'Share / QR', share_title: 'Share this study pack',
     share_note: 'Only the content is shared, not your progress. Anyone with the link can open it.',
@@ -1784,7 +1791,7 @@ var I18N = {
     an_trend_empty: 'Finish a quiz or exam and your accuracy trend will appear here.', an_avg_line: 'average',
     an_tip: '{d}: {p}% ({k}/{n})', an_types: 'By question type', an_types_empty: 'Question-type results appear after your first quiz or exam.',
     an_weakest: 'weakest', an_focus: 'Focus minutes, last 14 days', an_focus_empty: 'No focus sessions logged yet. Start the timer to track study time.',
-    an_boxes: 'Card mastery', box_new: 'New', box_1: 'Learning', box_2: 'Reviewing', box_3: 'Mastered',
+    an_boxes: 'Flashcard boxes', box_new: 'New', box_n: 'Box {n}',
     brand_aria: 'Navel Desk, back to overview',
     lang_aria: 'Language',
     theme_to_dark: 'Switch to dark mode',
@@ -1820,6 +1827,8 @@ var I18N = {
     recent_rename: 'Rename',
     recent_delete: 'Delete',
     recent_rename_prompt: 'Enter a new name for this pack:',
+    dlg_ok: 'OK', dlg_cancel: 'Cancel', dlg_save: 'Save', dlg_rename_h: 'Rename pack',
+    exam_time_h: 'Time is up', exam_time_ok: 'View results',
     recent_loaded: 'Pack text loaded into the paste box!',
     exam: "Mock Exam",
     examConfig: "Exam Configuration",
@@ -2112,7 +2121,7 @@ var I18N = {
     cf_aria: 'Bộ lọc thẻ', cf_all: 'Tất cả thẻ', cf_starred: '★ Gắn sao', cf_weak: 'Điểm yếu',
     star_add: '☆ Gắn sao', star_on: '★ Đã gắn sao',
     no_starred: 'Chưa có thẻ nào gắn sao. Hãy gắn sao các thẻ khó khi học (nút dưới thẻ, hoặc nhấn S) và chúng sẽ được gom vào bộ này.',
-    no_weak: 'Hiện chưa có điểm yếu nào. Thẻ bạn trả lời sai sẽ hiện ở đây cho đến khi thẻ lên mức Đã thuộc.',
+    no_weak: 'Hiện chưa có điểm yếu nào. Thẻ bạn trả lời sai sẽ hiện ở đây cho đến khi lên lại Hộp 3.',
     ov_starred: 'Ôn thẻ gắn sao ({n})', ov_weak: 'Điểm yếu ({n})',
     share_btn: 'Chia sẻ / QR', share_title: 'Chia sẻ bộ ôn tập này',
     share_note: 'Chỉ chia sẻ nội dung, không kèm tiến độ của bạn. Ai có liên kết đều mở được.',
@@ -2177,7 +2186,7 @@ var I18N = {
     an_trend_empty: 'Hoàn thành một bài quiz hoặc đề thi để xem xu hướng độ chính xác tại đây.', an_avg_line: 'trung bình',
     an_tip: '{d}: {p}% ({k}/{n})', an_types: 'Theo dạng câu hỏi', an_types_empty: 'Kết quả theo dạng câu hỏi sẽ hiện sau bài quiz hoặc đề thi đầu tiên.',
     an_weakest: 'yếu nhất', an_focus: 'Số phút tập trung, 14 ngày qua', an_focus_empty: 'Chưa có phiên tập trung nào. Hãy bật bộ đếm giờ để theo dõi thời gian học.',
-    an_boxes: 'Mức độ thuộc thẻ', box_new: 'Chưa học', box_1: 'Mới học', box_2: 'Đang nhớ', box_3: 'Đã thuộc',
+    an_boxes: 'Các hộp thẻ', box_new: 'Mới', box_n: 'Hộp {n}',
     brand_aria: 'Navel Desk, về trang tổng quan',
     lang_aria: 'Ngôn ngữ',
     theme_to_dark: 'Chuyển sang chế độ tối',
@@ -2213,6 +2222,8 @@ var I18N = {
     recent_rename: 'Đổi tên',
     recent_delete: 'Xóa',
     recent_rename_prompt: 'Nhập tên mới cho bộ ôn tập:',
+    dlg_ok: 'OK', dlg_cancel: 'Hủy', dlg_save: 'Lưu', dlg_rename_h: 'Đổi tên bộ ôn tập',
+    exam_time_h: 'Hết giờ', exam_time_ok: 'Xem kết quả',
     recent_loaded: 'Đã nạp nội dung vào ô dán!',
     exam: "Thi thử",
     examConfig: "Cấu hình Đề Thi Thử",
@@ -2784,6 +2795,41 @@ if (typeof module !== 'undefined' && module.exports) {
 
   /* ---------- language ---------- */
   var LANG = 'en';
+  /* In-app dialog (replaces alert / prompt / confirm).
+     o: { title, body, input:true, value, ok, cancel:false (notice only), cancelLabel, focusCancel }
+     Resolves: confirm -> true/false, prompt -> string/null, notice -> true. */
+  function uiDialog(o) {
+    return new Promise(function (resolve) {
+      var d = document.createElement('dialog');
+      if (typeof d.showModal !== 'function') {            /* very old browsers: fall back to the native dialogs */
+        if (o.input) resolve(window.prompt(o.body || o.title, o.value || ''));
+        else if (o.cancel === false) { window.alert(o.body || o.title); resolve(true); }
+        else resolve(window.confirm(o.body || o.title));
+        return;
+      }
+      var notice = o.cancel === false, done = false;
+      d.className = 'ui-dlg'; d.setAttribute('aria-labelledby', 'uiDlgT');
+      d.innerHTML = '<h2 id="uiDlgT">' + esc(o.title || '') + '</h2>' + (o.body ? '<p>' + esc(o.body) + '</p>' : '') +
+        (o.input ? '<input class="ui-dlg-in" type="text" maxlength="120" aria-labelledby="uiDlgT">' : '') +
+        '<div class="ui-dlg-btns">' + (notice ? '' : '<button type="button" class="btn" data-r="0">' + esc(o.cancelLabel || tr('dlg_cancel')) + '</button>') +
+        '<button type="button" class="btn primary" data-r="1">' + esc(o.ok || tr('dlg_ok')) + '</button></div>';
+      var inp = d.querySelector('input');
+      if (inp) inp.value = o.value || '';
+      function finish(ok) {
+        if (done) return; done = true;
+        var v = o.input ? (ok ? inp.value : null) : ok;
+        d.close(); d.remove(); resolve(v);
+      }
+      d.addEventListener('click', function (e) {
+        var b = e.target.closest && e.target.closest('[data-r]'); if (b) finish(b.dataset.r === '1');
+      });
+      d.addEventListener('cancel', function (e) { e.preventDefault(); finish(notice); });   /* Esc */
+      if (inp) inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); finish(true); } });
+      document.body.appendChild(d); d.showModal();
+      var f = o.focusCancel ? d.querySelector('[data-r="0"]') : (inp || d.querySelector('.btn.primary'));
+      if (f) { f.focus(); if (inp && f === inp) inp.select(); }
+    });
+  }
   function tr(key, vars) {
     var d = I18N[LANG] || I18N.en, v = d[key];
     if (v == null) v = I18N.en[key];
@@ -3844,8 +3890,8 @@ function startExamTimer() {
     const timerEl = document.getElementById('examTimer');
     if (remaining <= 0) {
       clearInterval(window._examTimerInterval);
-      alert(tr('examTimeUp'));
       submitExam();
+      uiDialog({ title: tr('exam_time_h'), body: tr('examTimeUp'), ok: tr('exam_time_ok'), cancel: false });
       return;
     }
     const mins = Math.floor(remaining / 60000);
@@ -4564,12 +4610,13 @@ h += '<a class="ai-btn" href="' + urls.claude + '" target="_blank" rel="noopener
     var recents = getRecentPacks();
     var pack = recents.filter(function (p) { return p.id === id; })[0];
     if (!pack) return;
-    var newTitle = prompt(tr('recent_rename_prompt'), pack.title);
-    if (newTitle && newTitle.trim()) {
-      pack.title = newTitle.trim(); RP = recents;
-      persistRecents([pack], []);
-      render();
-    }
+    uiDialog({ title: tr('dlg_rename_h'), body: tr('recent_rename_prompt'), input: true, value: pack.title, ok: tr('dlg_save') }).then(function (newTitle) {
+      if (newTitle && newTitle.trim()) {
+        pack.title = newTitle.trim(); RP = recents;
+        persistRecents([pack], []);
+        render();
+      }
+    });
   }
   function deleteRecentPack(id) {
     RP = getRecentPacks().filter(function (p) { return p.id !== id; });
@@ -5541,6 +5588,7 @@ document.addEventListener('click', function (e) {
     ed_issues: ['⚠ {n} issue', '⚠ {n} issues'], ed_issue_jump: 'Jump to the next issue', ed_issue_toast: 'Issue {i}/{n}: {m}',
     ed_json_line: 'Line {l}, column {c}: ', ed_must_obj: 'A study pack must be a JSON object.', ed_commit: 'Update from text', ed_committed: 'Text applied to the form',
     ed_r_topics: '{n} invalid topic(s) skipped', ed_r_items: '{n} invalid item(s) skipped', ed_r_fields: '{n} malformed field(s) reset', ed_r_pre: 'Repaired on load: ',
+    ed_discard_yes: 'Discard', ed_keep: 'Keep editing', ed_discard_h: 'Unsaved changes',
     ed_saved: 'Download started', ed_copied: 'JSON copied to clipboard', ed_clip_blocked: 'Clipboard blocked — copy the text manually', ed_loaded: 'Loaded {f}', ed_read_fail: 'Failed to read file.',
     ed_draft: 'Restored your unsaved draft.', ed_draft_reset: 'Start over', ed_discard: 'Discard unsaved changes?', ed_from_cur_done: 'Reloaded from the current revision pack',
     ed_apply_err: 'Cannot apply:', ed_drop: 'Drop a .json file to open it', ed_display_fail: 'Could not display this file: {m}'
@@ -5579,6 +5627,7 @@ document.addEventListener('click', function (e) {
     ed_issues: '⚠ {n} vấn đề', ed_issue_jump: 'Chuyển đến vấn đề tiếp theo', ed_issue_toast: 'Vấn đề {i}/{n}: {m}',
     ed_json_line: 'Dòng {l}, cột {c}: ', ed_must_obj: 'Bộ ôn tập phải là một đối tượng JSON.', ed_commit: 'Cập nhật từ văn bản', ed_committed: 'Đã áp dụng văn bản vào biểu mẫu',
     ed_r_topics: 'bỏ qua {n} chủ đề không hợp lệ', ed_r_items: 'bỏ qua {n} mục không hợp lệ', ed_r_fields: 'đặt lại {n} trường sai định dạng', ed_r_pre: 'Đã sửa khi tải: ',
+    ed_discard_yes: 'Bỏ thay đổi', ed_keep: 'Tiếp tục sửa', ed_discard_h: 'Thay đổi chưa lưu',
     ed_saved: 'Đã bắt đầu tải xuống', ed_copied: 'Đã sao chép JSON', ed_clip_blocked: 'Không truy cập được clipboard — hãy sao chép thủ công', ed_loaded: 'Đã tải {f}', ed_read_fail: 'Không đọc được tệp.',
     ed_draft: 'Đã khôi phục bản nháp chưa lưu của bạn.', ed_draft_reset: 'Làm lại', ed_discard: 'Bỏ các thay đổi chưa lưu?', ed_from_cur_done: 'Đã tải lại từ bộ ôn tập hiện tại',
     ed_apply_err: 'Không thể áp dụng:', ed_drop: 'Thả tệp .json vào đây để mở', ed_display_fail: 'Không hiển thị được tệp này: {m}'
@@ -5766,7 +5815,10 @@ document.addEventListener('click', function (e) {
       r.onerror = function () { toast(T('read_fail')); };
       r.readAsText(f, 'utf-8');
     }
-    function okDiscard() { return !dirty || confirm(T('discard')); }
+    function okDiscard(go) {
+      if (!dirty) { go(); return; }
+      uiDialog({ title: T('discard_h'), body: T('discard'), ok: T('discard_yes'), cancelLabel: T('keep'), focusCancel: true }).then(function (ok) { if (ok) go(); });
+    }
     function fromPack() {
       var P = S.pack, o = { format: 'studypack', version: 1 };
       if (P.id) o.id = P.id;
@@ -5784,9 +5836,10 @@ document.addEventListener('click', function (e) {
       return o;
     }
     function reloadFromCurrent() {
-      if (!okDiscard()) return;
-      data = S.pack && !S.empty ? fromPack() : emptyPack(); fileName = null; dirty = false; selT = selQ = null; textDirty = false;
-      store.set(DRAFT, ''); render(); toast(T('from_cur_done'));
+      okDiscard(function () {
+        data = S.pack && !S.empty ? fromPack() : emptyPack(); fileName = null; dirty = false; selT = selQ = null; textDirty = false;
+        store.set(DRAFT, ''); render(); toast(T('from_cur_done'));
+      });
     }
     function apply() {
       if (!commitText()) return;
@@ -5884,15 +5937,15 @@ document.addEventListener('click', function (e) {
     var tLabel = function (t) { return (t.id != null ? t.id : '') + ': ' + (t.title != null ? t.title : '…'); };
     function toolbar() {
       var fi = h('input', { type: 'file', accept: '.json,.txt,application/json,text/plain', hidden: true });
-      fi.addEventListener('change', function (e) { var f = e.target.files[0]; e.target.value = ''; if (f && okDiscard()) openFile(f); });
+      fi.addEventListener('change', function (e) { var f = e.target.files[0]; e.target.value = ''; if (f) okDiscard(function () { openFile(f); }); });
       var pill = function (m, k) { return btn(T(k), function () { setMode(m); }, 'ed-pill' + (mode === m ? ' on' : ''), { 'aria-pressed': String(mode === m) }); };
       return h('div', { class: 'ed-bar' },
         h('h1', { class: 'page-h ed-h' }, T('title')),
         h('span', { class: 'ed-chip', id: 'edChip' }, T('unsaved')),
         h('button', { type: 'button', class: 'ed-warnchip', id: 'edWarn', hidden: true, onclick: jumpIssue }),
         h('span', { class: 'ed-sp' }),
-        btn(T('new'), function () { if (okDiscard()) load(emptyPack(), null); }, 'btn sm'),
-        btn(T('open'), function () { if (okDiscard()) fi.click(); }, 'btn sm'),
+        btn(T('new'), function () { okDiscard(function () { load(emptyPack(), null); }); }, 'btn sm'),
+        btn(T('open'), function () { okDiscard(function () { fi.click(); }); }, 'btn sm'),
         btn(T('save'), save, 'btn sm'),
         btn(T('copy'), copy, 'btn sm'),
         btn(T('fromcur'), reloadFromCurrent, 'btn sm'),
@@ -6192,7 +6245,7 @@ document.addEventListener('click', function (e) {
       host.addEventListener('drop', function (e) {
         host.classList.remove('ed-dropping');
         if (!e.dataTransfer || !e.dataTransfer.files || !e.dataTransfer.files.length) return;
-        e.preventDefault(); if (okDiscard()) openFile(e.dataTransfer.files[0]);
+        e.preventDefault(); var df = e.dataTransfer.files[0]; okDiscard(function () { openFile(df); });
       });
       render();
       if (first === 'draft') toast(T('draft'), { label: T('draft_reset'), fn: function () { data = S.pack && !S.empty ? fromPack() : emptyPack(); fileName = null; dirty = false; selT = selQ = null; store.set(DRAFT, ''); render(); } });
@@ -7009,7 +7062,7 @@ var NDQR = (function () {
         else bx[(typeof st === 'object' ? (st.box || 1) : 3)]++;
       });
     });
-    var tot = bx[0] + bx[1] + bx[2] + bx[3], labs = [tr('box_new'), tr('box_1'), tr('box_2'), tr('box_3')];
+    var tot = bx[0] + bx[1] + bx[2] + bx[3], labs = [tr('box_new'), tr('box_n', { n: 1 }), tr('box_n', { n: 2 }), tr('box_n', { n: 3 })];
     h += '<div class="an-card"><h3>' + tr('an_boxes') + '</h3>';
     if (tot) {
       h += '<div class="an-stack" role="img" aria-label="' + esc(labs.map(function (l, i) { return l + ' ' + bx[i]; }).join(', ')) + '">' + bx.map(function (n, i) { return n ? '<i class="bx' + i + '" style="flex:' + n + '" title="' + esc(labs[i] + ': ' + n) + '"></i>' : ''; }).join('') + '</div>';
