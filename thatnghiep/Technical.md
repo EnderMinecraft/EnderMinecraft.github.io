@@ -314,7 +314,7 @@ Sau đó truy cập: `http://localhost:8000/bleeding_edge.html`.
 ### 8.2. Kiểm tra cú pháp JavaScript
 Trước khi lưu và commit, hãy kiểm tra toàn bộ các khối script inline trong tệp HTML thông qua Node.js:
 ```bash
-python scratch/check_scripts.py
+python tools/check_scripts.py
 ```
 *(Script này sẽ bóc tách toàn bộ các thẻ `<script>` không phải `text/plain` và chạy `node --check` để đảm bảo không có lỗi cú pháp syntax).*
 
@@ -322,9 +322,9 @@ python scratch/check_scripts.py
 Dự án có sẵn bộ test tự động điều khiển trình duyệt Headless Chrome không phụ thuộc framework kiểm thử bên ngoài:
 ```bash
 # Kiểm tra toàn diện giao diện, lưu trữ, thi thử và bộ soạn thảo:
-node scratch/auto_test_devtools.mjs
+node tools/auto_test_devtools.mjs
 
 # Kiểm tra cơ chế tự co giãn Title, khoảng cách nút gói con và dialog xung đột trùng lặp:
-node scratch/test_editor_and_import_conflict.mjs
+node tools/test_editor_and_import_conflict.mjs
 ```
 Các kết quả kiểm thử và ảnh chụp màn hình (screenshots) sẽ được ghi nhận tự động vào thư mục `scratch/screenshots/`.
