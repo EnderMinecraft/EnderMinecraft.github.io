@@ -25,6 +25,32 @@
       },
       "file": "subjects/math-12.json",
       "added": "2026-10-20"
+    },
+    {
+      "id": "phy-12",
+      "title": "Vật lí 12",
+      "category": "Physics",
+      "level": "High school",
+      "lang": "vi",
+      "description": "Vật lí 12 Kết nối tri thức - Vật lí nhiệt, Khí lí tưởng, Từ trường và Vật lí hạt nhân.",
+      "tags": [
+        "vat-li",
+        "lop-12",
+        "nhiet-hoc",
+        "khi-li-tuong",
+        "tu-truong",
+        "hat-nhan"
+      ],
+      "rev": 1,
+      "bytes": 88893,
+      "sha256": "5a1294a7877b74db04951718eb9318d9b395e6fbc4f6fb67f66195277113c0ca",
+      "counts": {
+        "topics": 25,
+        "cards": 59,
+        "questions": 55
+      },
+      "file": "subjects/phy-12.json",
+      "added": "2026-10-20"
     }
   ]
 }
