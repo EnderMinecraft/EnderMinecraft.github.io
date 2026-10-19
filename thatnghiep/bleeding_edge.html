@@ -1068,9 +1068,10 @@ table.f code { font-family: var(--font-mono); font-size: 13px; }
 .nav-row .btn svg { width: 16px; height: 16px; flex: none; }
 @media (max-width: 560px) { .nav-row .btn { min-height: 44px; } }
 
-/* ---------- mobile / responsive fixes ---------- */
 .rp-card { min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; margin-bottom: 20px; }
-.rp-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; margin-top: 10px; }
+.rp-search { width: 100%; padding: 8px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); font: 14px/1.4 var(--font-ui); margin-top: 10px; box-sizing: border-box; }
+.rp-search:focus { border-color: var(--accent); outline: none; }
+.rp-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; margin-top: 10px; max-height: 520px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
 .tlist, .res-list { grid-template-columns: minmax(0, 1fr); }
 .rp-row { min-width: 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 10px; padding: 10px 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; }
 .rp-info { min-width: 0; flex: 1 1 160px; }
@@ -1893,6 +1894,8 @@ var I18N = {
     dbg_vibrate: '(vibrate)',
     streak_tip: ['{d}: {n} session', '{d}: {n} sessions'],
     recent_h: 'Recent Packs',
+    recent_search: 'Search recent packs...',
+    recent_none_found: 'No recent packs match your search.',
     recent_open: 'Open',
     recent_edit: 'Edit',
     recent_rename: 'Rename',
@@ -2299,6 +2302,8 @@ var I18N = {
     dbg_vibrate: '(rung)',
     streak_tip: '{d}: {n} phiên',
     recent_h: 'Bộ ôn tập gần đây',
+    recent_search: 'Tìm kiếm bộ ôn tập gần đây...',
+    recent_none_found: 'Không tìm thấy bộ ôn tập nào phù hợp.',
     recent_open: 'Mở',
     recent_edit: 'Sửa',
     recent_rename: 'Đổi tên',
@@ -4605,6 +4610,31 @@ function formatTime(ms) {
     if (m.warnings.length) h += '<details><summary>' + tr('other_issues', { n: m.warnings.length }) + '</summary><ul>' + m.warnings.map(function (e) { return '<li>' + msgText(e) + '</li>'; }).join('') + '</ul></details>';
     return h + '</div>';
   }
+  var RP_Q = '';
+  function rpListHTML(recents) {
+    var q = (RP_Q || '').trim().toLowerCase();
+    var filtered = recents;
+    if (q) {
+      filtered = recents.filter(function (p) {
+        return (p.title || '').toLowerCase().indexOf(q) >= 0;
+      });
+    }
+    if (!filtered.length) {
+      return '<p class="muted" style="text-align:center;padding:16px 8px;margin:0;">' + tr('recent_none_found') + '</p>';
+    }
+    var h = '';
+    filtered.forEach(function (p) {
+      h += '<div class="rp-row">';
+      h += '<div class="rp-info"><b class="rp-title">' + esc(p.title) + '</b><small class="muted">' + new Date(p.updatedAt).toLocaleDateString() + '</small></div>';
+      h += '<div class="rp-actions">';
+      h += '<button class="btn sm" data-act="loadRecent" data-id="' + esc(p.id) + '">' + tr('recent_open') + '</button>';
+      h += '<button class="btn sm" data-act="editRecent" data-id="' + esc(p.id) + '">' + tr('recent_edit') + '</button>';
+      h += '<button class="btn sm" data-act="renameRecent" data-id="' + esc(p.id) + '">' + tr('recent_rename') + '</button>';
+      h += '<button class="btn sm again" data-act="deleteRecent" data-id="' + esc(p.id) + '">' + tr('recent_delete') + '</button>';
+      h += '</div></div>';
+    });
+    return h;
+  }
   function loadHTML() {
     var recents = getRecentPacks();
     var h = '<div class="eyebrow">' + tr('nav_files') + '</div><h1 class="page-h">' + tr('load_h') + '</h1>';
@@ -4614,19 +4644,15 @@ function formatTime(ms) {
     h += pgCardHTML() + stCardHTML();
     // Hiển thị danh sách Recent Packs nếu có
     if (recents.length > 0) {
+      var q = (RP_Q || '').trim().toLowerCase();
+      var countText = q ? recents.filter(function (p) { return (p.title || '').toLowerCase().indexOf(q) >= 0; }).length + '/' + recents.length : recents.length;
       h += '<div class="rp-card">';
-      h += '<h2 class="sec-h" style="margin-top:0; font-size: 16px;">' + tr('recent_h') + '</h2>';
-      h += '<div class="rp-list">';
-      recents.forEach(function(p) {
-        h += '<div class="rp-row">';
-        h += '<div class="rp-info"><b class="rp-title">' + esc(p.title) + '</b><small class="muted">' + new Date(p.updatedAt).toLocaleDateString() + '</small></div>';
-        h += '<div class="rp-actions">';
-        h += '<button class="btn sm" data-act="loadRecent" data-id="' + esc(p.id) + '">' + tr('recent_open') + '</button>';
-        h += '<button class="btn sm" data-act="editRecent" data-id="' + esc(p.id) + '">' + tr('recent_edit') + '</button>';
-        h += '<button class="btn sm" data-act="renameRecent" data-id="' + esc(p.id) + '">' + tr('recent_rename') + '</button>';
-        h += '<button class="btn sm again" data-act="deleteRecent" data-id="' + esc(p.id) + '">' + tr('recent_delete') + '</button>';
-        h += '</div></div>';
-      });
+      h += '<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">';
+      h += '<h2 class="sec-h" style="margin:0;font-size:16px;">' + tr('recent_h') + ' <span class="muted" style="font-size:13px;font-weight:normal;" id="rpCount">(' + countText + ')</span></h2>';
+      h += '</div>';
+      h += '<input type="search" id="rpQ" class="rp-search" value="' + esc(RP_Q) + '" placeholder="' + esc(tr('recent_search')) + '" aria-label="' + esc(tr('recent_search')) + '">';
+      h += '<div class="rp-list" id="rpList">';
+      h += rpListHTML(recents);
       h += '</div></div>';
     }
 
@@ -4815,7 +4841,7 @@ h += '<a class="ai-btn" href="' + urls.claude + '" target="_blank" rel="noopener
     var rec = { id: 'p_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4), title: title, text: text, updatedAt: Date.now() };
     recents = recents.filter(function (p) { if (p.title === title) { removed.push(p.id); return false; } return true; });
     recents.unshift(rec);
-    if (recents.length > 15) { recents.slice(15).forEach(function (p) { removed.push(p.id); }); recents = recents.slice(0, 15); }
+    if (recents.length > 100) { recents.slice(100).forEach(function (p) { removed.push(p.id); }); recents = recents.slice(0, 100); }
     RP = recents; persistRecents([rec], removed);
   }
   function renameRecentPack(id) {
@@ -5532,6 +5558,16 @@ document.addEventListener('input', function (e) {
   } else if (e.target.id === 'qCustomCount') {
     var cVal = parseInt(e.target.value, 10);
     if (!isNaN(cVal) && cVal > 0) S.qopts.customCount = cVal;
+  } else if (e.target.id === 'rpQ') {
+    RP_Q = e.target.value;
+    var listEl = document.getElementById('rpList');
+    if (listEl) listEl.innerHTML = rpListHTML(getRecentPacks());
+    var countEl = document.getElementById('rpCount');
+    if (countEl) {
+      var all = getRecentPacks(), q = RP_Q.trim().toLowerCase();
+      var cnt = q ? all.filter(function (p) { return (p.title || '').toLowerCase().indexOf(q) >= 0; }).length : all.length;
+      countEl.textContent = '(' + (q ? cnt + '/' + all.length : all.length) + ')';
+    }
   }
 });
   document.addEventListener('dragover', function (e) {
