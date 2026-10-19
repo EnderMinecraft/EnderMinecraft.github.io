@@ -51,6 +51,35 @@
       },
       "file": "subjects/phy-12.json",
       "added": "2026-10-20"
+    },
+    {
+      "id": "chem-12",
+      "title": "Hoá học 12",
+      "category": "Chemistry",
+      "level": "High school",
+      "lang": "vi",
+      "description": "Hoá học 12 Kết nối tri thức - Ester-Lipid, Carbohydrate, Hợp chất Nitrogen, Polymer, Pin điện & Điện phân, Kim loại và Phức chất.",
+      "tags": [
+        "hoa-hoc",
+        "lop-12",
+        "ester-lipid",
+        "carbohydrate",
+        "nitrogen",
+        "polymer",
+        "dien-phan",
+        "kim-loai",
+        "phuc-chat"
+      ],
+      "rev": 1,
+      "bytes": 80417,
+      "sha256": "f3d968f72c7674fd8fbfdb0c07aeb0d0bf30d147af532f1d737f3d81f76085f9",
+      "counts": {
+        "topics": 30,
+        "cards": 52,
+        "questions": 44
+      },
+      "file": "subjects/chem-12.json",
+      "added": "2026-10-20"
     }
   ]
 }

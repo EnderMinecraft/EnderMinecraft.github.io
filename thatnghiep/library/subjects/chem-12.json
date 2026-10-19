@@ -1,0 +1,1727 @@
+{
+ "id": "chem-12",
+ "title": "Hoá học 12",
+ "subject": "Hoá học",
+ "level": "Lớp 12",
+ "language": "vi",
+ "topics": [],
+ "packs": [
+  {
+   "id": "chuong-01-ester-lipid",
+   "title": "Chương 1. Ester – Lipid",
+   "topics": [
+    {
+     "id": "bai-01-ester-lipid",
+     "title": "Bài 1. Ester – Lipid",
+     "summary": "Khái niệm, danh pháp, tính chất vật lí, hoá học của ester và lipid (chất béo, acid béo omega-3, omega-6).",
+     "notes": [
+      {
+       "heading": "Khái niệm và danh pháp của ester",
+       "points": [
+        "Khi thay thế nhóm -OH ở nhóm carboxyl (-COOH) của carboxylic acid bằng nhóm -OR' thì thu được **ester**.",
+        "Ester đơn chức no, mạch hở có công thức chung là **CnH2nO2** (n >= 2); công thức tổng quát là RCOOR'.",
+        "Tên gọi của ester đơn chức: **Tên gốc R' + tên gốc carboxylic acid** (đuôi ate), ví dụ CH3COOC2H5 là ethyl acetate hoặc ethyl ethanoate.",
+        "Các ester thường có mùi thơm đặc trưng của hoa quả (isoamyl acetate có mùi chuối chín, ethyl butyrate có mùi dứa)."
+       ]
+      },
+      {
+       "heading": "Tính chất hoá học của ester",
+       "points": [
+        "Phản ứng thuỷ phân trong môi trường acid là phản ứng thuận nghịch: **RCOOR' + H2O <=> RCOOH + R'OH** (xúc tác H2SO4 đặc, đun nóng).",
+        "Phản ứng thuỷ phân trong môi trường kiềm là phản ứng một chiều, gọi là **phản ứng xà phòng hoá**: **RCOOR' + NaOH -> RCOONa + R'OH**."
+       ]
+      },
+      {
+       "heading": "Lipid và chất béo",
+       "points": [
+        "**Chất béo** (triglyceride) là triester của glycerol với các acid béo, có công thức chung là (RCOO)3C3H5.",
+        "Các acid béo no thường gặp: **palmitic acid** (C15H31COOH, no), **stearic acid** (C17H35COOH, no); tạo ra mỡ động vật ở thể rắn.",
+        "Các acid béo không no thường gặp: **oleic acid** (C17H33COOH, có 1 liên kết đôi cis), **linoleic acid** (C17H31COOH, có 2 liên kết đôi cis); tạo ra dầu thực vật ở thể lỏng.",
+        "Chất béo lỏng có thể chuyển thành chất béo rắn bằng **phản ứng hydrogen hoá** (cộng H2 vào liên kết đôi C=C với xúc tác Ni, đun nóng)."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Ester",
+       "definition": "Hợp chất hữu cơ tạo thành khi thay nhóm -OH của acid carboxylic bằng nhóm -OR'."
+      },
+      {
+       "term": "Chất béo (triglyceride)",
+       "definition": "Triester của glycerol với các acid béo mạch carbon dài không phân nhánh."
+      },
+      {
+       "term": "Phản ứng xà phòng hoá",
+       "definition": "Phản ứng thuỷ phân ester hoặc chất béo trong dung dịch kiềm tạo ra xà phòng."
+      },
+      {
+       "term": "Hydrogen hoá chất béo",
+       "definition": "Quá trình cộng hydrogen vào chất béo lỏng không no để tạo chất béo rắn no."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Viết công thức cấu tạo của chất béo triolein.",
+       "back": "(C17H33COO)3C3H5 (chất béo không no ở thể lỏng)."
+      },
+      {
+       "front": "Phản ứng xà phòng hoá chất béo trong dung dịch NaOH sinh ra sản phẩm gì?",
+       "back": "Muối sodium của acid béo (xà phòng) và glycerol C3H5(OH)3."
+      },
+      {
+       "front": "Ester isoamyl acetate có mùi thơm đặc trưng của loại quả nào?",
+       "back": "Mùi chuối chín."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Thuỷ phân hoàn toàn chất béo tristearin (C17H35COO)3C3H5 trong dung dịch NaOH đun nóng thu được muối nào?",
+       "options": [
+        "C17H35COONa",
+        "C15H31COONa",
+        "C17H33COONa",
+        "CH3COONa"
+       ],
+       "answer": 0,
+       "explanation": "(C17H35COO)3C3H5 + 3NaOH -> 3C17H35COONa + C3H5(OH)3. Muối thu được là sodium stearate."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Phản ứng thuỷ phân ester trong môi trường acid là phản ứng một chiều hoàn toàn.",
+       "answer": false,
+       "explanation": "Thuỷ phân ester trong môi trường acid là phản ứng thuận nghịch; thuỷ phân trong môi trường kiềm mới là phản ứng một chiều."
+      },
+      {
+       "type": "short",
+       "prompt": "Cho biết tên gọi thông thường của ester có công thức CH3COOC2H5.",
+       "answer": "Ethyl acetate",
+       "explanation": "CH3COOC2H5 có tên gọi là ethyl acetate (hoặc ethyl ethanoate)."
+      }
+     ]
+    },
+    {
+     "id": "bai-02-xa-phong-va-chat-giat-rua",
+     "title": "Bài 2. Xà phòng và chất giặt rửa",
+     "summary": "Khái niệm, thành phần cấu tạo, cơ chế tẩy rửa của xà phòng và chất giặt rửa tổng hợp.",
+     "notes": [
+      {
+       "heading": "Cấu tạo và cơ chế tẩy rửa của xà phòng",
+       "points": [
+        "**Xà phòng** là hỗn hợp muối sodium hoặc potassium của các acid béo và chất phụ gia.",
+        "Phân tử chất giặt rửa có cấu trúc hai phần: đầu phân cực **ưa nước** (-COO-, -SO3-, -OSO3-) và đuôi hydrocarbon dài không phân cực **kị nước** (ưa dầu).",
+        "Cơ chế tẩy rửa: đuôi kị nước bám vào vết dầu mỡ, đầu ưa nước quay ra ngoài nước, phân tán vết bẩn thành các hạt nhỏ lơ lửng rồi bị rửa trôi."
+       ]
+      },
+      {
+       "heading": "Chất giặt rửa tổng hợp và môi trường",
+       "points": [
+        "Chất giặt rửa tổng hợp thường là muối sodium alkylsulfate hoặc alkylbenzene sulfonate sản xuất từ dầu mỏ.",
+        "Ưu điểm của chất giặt rửa tổng hợp: dùng được cả trong **nước cứng** (nước chứa nhiều ion Ca2+, Mg2+) vì không tạo kết tủa mất tác dụng như xà phòng."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Đầu ưa nước",
+       "definition": "Nhóm phân cực mang điện tích trong phân tử chất hoạt động bề mặt tương tác tốt với nước."
+      },
+      {
+       "term": "Đuôi kị nước",
+       "definition": "Mạch hydrocarbon dài không phân cực có xu hướng hoà tan và bám vào chất béo, dầu mỡ."
+      },
+      {
+       "term": "Nước cứng",
+       "definition": "Nước tự nhiên chứa nồng độ cao các cation Ca2+ và Mg2+ làm giảm hiệu quả xà phòng."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Tại sao xà phòng thông thường giảm hoặc mất tác dụng giặt rửa trong nước cứng?",
+       "back": "Vì muối acid béo tạo kết tủa không tan với Ca2+ và Mg2+ (như (RCOO)2Ca), làm mất chất hoạt động bề mặt."
+      },
+      {
+       "front": "Nêu hai phần trong cấu tạo phân tử của chất giặt rửa.",
+       "back": "Đầu phân cực ưa nước và đuôi hydrocarbon không phân cực kị nước."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Hợp chất nào sau đây là thành phần chính của xà phòng truyền thống?",
+       "options": [
+        "C17H35COONa",
+        "CH3[CH2]11OSO3Na",
+        "CH3COONa",
+        "C2H5OH"
+       ],
+       "answer": 0,
+       "explanation": "Xà phòng là muối sodium hoặc potassium của acid béo mạch dài như sodium stearate C17H35COONa."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Chất giặt rửa tổng hợp có thể giặt rửa bình thường và hiệu quả trong nước cứng.",
+       "answer": true,
+       "explanation": "Đúng, vì muối sulfonate của Ca2+ và Mg2+ tan được trong nước nên không bị kết tủa."
+      }
+     ]
+    },
+    {
+     "id": "bai-03-on-tap-chuong-1",
+     "title": "Bài 3. Ôn tập chương 1",
+     "summary": "Hệ thống hoá kiến thức về ester, lipid, chất béo, xà phòng và các phản ứng chuyển hoá đặc trưng.",
+     "notes": [
+      {
+       "heading": "Tổng kết ester và lipid",
+       "points": [
+        "Ester: điều chế bằng phản ứng este hoá giữa acid carboxylic và alcohol có xúc tác acid vô cơ.",
+        "Chất béo: triester của glycerol với acid béo, nguồn dự trữ năng lượng sinh học quan trọng cho con người."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Chỉ số xà phòng hoá",
+       "definition": "Số miligam KOH cần thiết để trung hoà acid tự do và xà phòng hoá ester trong 1 gam chất béo."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Công thức phân tử tổng quát của ester no, đơn chức, mạch hở là gì?",
+       "back": "CnH2nO2 (n >= 2)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Đun nóng ethyl acetate với lượng dư dung dịch NaOH, sản phẩm thu được sau phản ứng gồm:",
+       "options": [
+        "Sodium acetate và ethanol",
+        "Acetic acid và ethanol",
+        "Sodium formate và methanol",
+        "Sodium acetate và methanol"
+       ],
+       "answer": 0,
+       "explanation": "CH3COOC2H5 + NaOH -> CH3COONa + C2H5OH."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "chuong-02-carbohydrate",
+   "title": "Chương 2. Carbohydrate",
+   "topics": [
+    {
+     "id": "bai-04-glucose-va-fructose",
+     "title": "Bài 4. Giới thiệu về carbohydrate. Glucose và fructose",
+     "summary": "Phân loại carbohydrate, cấu tạo phân tử, tính chất hoá học của glucose và fructose, phản ứng tráng bạc và lên men.",
+     "notes": [
+      {
+       "heading": "Khái niệm và phân loại carbohydrate",
+       "points": [
+        "**Carbohydrate** là những hợp chất hữu cơ tạp chức, thường có công thức chung là Cn(H2O)m.",
+        "Gồm ba nhóm chính: **Monosaccharide** (glucose, fructose, không bị thuỷ phân), **Disaccharide** (saccharose, maltose, thuỷ phân tạo 2 monosaccharide) và **Polysaccharide** (tinh bột, cellulose, thuỷ phân tạo nhiều glucose)."
+       ]
+      },
+      {
+       "heading": "Cấu tạo và tính chất của glucose và fructose",
+       "points": [
+        "Glucose (C6H12O6) dạng mạch hở có 5 nhóm -OH kề nhau và 1 nhóm aldehyde (-CHO); trong dung dịch tồn tại chủ yếu ở dạng mạch vòng alpha và beta.",
+        "Glucose có tính chất của **polyalcohol**: hoà tan Cu(OH)2 ở nhiệt độ thường tạo dung dịch phức màu xanh lam.",
+        "Glucose có tính chất của **aldehyde**: tác dụng với thuốc thử Tollens [Ag(NH3)2]OH tạo kết tủa bạc trắng (phản ứng tráng bạc); làm mất màu nước bromine.",
+        "Fructose (C6H12O6) có nhóm ketone (-CO-); trong môi trường kiềm fructose chuyển hoá thuận nghịch thành glucose nên cũng tham gia phản ứng tráng bạc."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Carbohydrate",
+       "definition": "Hợp chất hữu cơ tạp chức chứa các nhóm hydroxy và nhóm carbonyl, công thức chung Cn(H2O)m."
+      },
+      {
+       "term": "Thuốc thử Tollens",
+       "definition": "Dung dịch phức bạc amoniac [Ag(NH3)2]OH dùng để nhận biết nhóm chức aldehyde bằng phản ứng tráng bạc."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Tại sao fructose không có nhóm aldehyde (-CHO) nhưng vẫn tráng bạc được?",
+       "back": "Vì trong môi trường kiềm của thuốc thử tráng bạc, fructose chuyển hoá thuận nghịch thành glucose."
+      },
+      {
+       "front": "Hiện tượng khi cho dung dịch glucose vào Cu(OH)2 ở nhiệt độ thường là gì?",
+       "back": "Cu(OH)2 tan tạo thành dung dịch phức màu xanh lam thẩm."
+      },
+      {
+       "front": "Chất nào dùng để phân biệt glucose và fructose bằng phản ứng hoá học?",
+       "back": "Dung dịch nước bromine (glucose làm mất màu nước bromine, fructose thì không)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Để phân biệt dung dịch glucose và dung dịch fructose, thuốc thử thích hợp nhất là:",
+       "options": [
+        "Dung dịch nước bromine",
+        "Thuốc thử Tollens",
+        "Cu(OH)2 trong NaOH",
+        "Kim loại Na"
+       ],
+       "answer": 0,
+       "explanation": "Glucose có nhóm -CHO làm mất màu nước bromine, còn fructose có nhóm ketone nên không phản ứng với nước bromine trong môi trường acid nhẹ."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Nồng độ glucose trong máu người trưởng thành khỏe mạnh khi đói được duy trì ổn định trong khoảng 4,4 - 7,2 mmol/L.",
+       "answer": true,
+       "explanation": "Đây là chỉ số sinh lí chuẩn của đường huyết trong cơ thể người."
+      }
+     ]
+    },
+    {
+     "id": "bai-05-saccharose-va-maltose",
+     "title": "Bài 5. Saccharose và maltose",
+     "summary": "Cấu tạo phân tử disaccharide, tính chất của polyalcohol và phản ứng thuỷ phân của saccharose và maltose.",
+     "notes": [
+      {
+       "heading": "Cấu tạo và tính chất của saccharose",
+       "points": [
+        "**Saccharose** (C12H22O11, đường mía) cấu tạo từ một gốc alpha-glucose và một gốc beta-fructose qua liên kết alpha-1,2-glycoside.",
+        "Phân tử saccharose không còn nhóm -OH hemiacetal tự do nên **không có tính khử** (không tráng bạc, không khử Cu(OH)2 đun nóng).",
+        "Thuỷ phân saccharose trong môi trường acid hoặc có enzyme xúc tác sinh ra hỗn hợp **glucose và fructose** đồng lượng."
+       ]
+      },
+      {
+       "heading": "Maltose (đường mạch nha)",
+       "points": [
+        "Maltose (C12H22O11) cấu tạo từ hai gốc alpha-glucose qua liên kết alpha-1,4-glycoside, có nhóm -OH hemiacetal nên **có tính khử** (tráng bạc được)."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Saccharose",
+       "definition": "Disaccharide không có tính khử, gồm gốc alpha-glucose và beta-fructose liên kết qua C1-O-C2."
+      },
+      {
+       "term": "Maltose",
+       "definition": "Disaccharide có tính khử, gồm hai gốc alpha-glucose liên kết qua C1-O-C4."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Dung dịch saccharose có tráng bạc được không? Vì sao?",
+       "back": "Không, vì các nhóm -OH hemiacetal của cả glucose và fructose đều tham gia tạo liên kết glycoside."
+      },
+      {
+       "front": "Sản phẩm thuỷ phân hoàn toàn của saccharose gồm những chất nào?",
+       "back": "Glucose và fructose."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Chất nào sau đây KHÔNG tham gia phản ứng tráng bạc với thuốc thử Tollens?",
+       "options": [
+        "Saccharose",
+        "Glucose",
+        "Fructose",
+        "Maltose"
+       ],
+       "answer": 0,
+       "explanation": "Saccharose không có nhóm chức aldehyde tự do cũng không mở vòng tạo hemiacetal nên không tráng bạc."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Thuỷ phân hoàn toàn maltose chỉ thu được một loại monosaccharide duy nhất là glucose.",
+       "answer": true,
+       "explanation": "Maltose được tạo từ hai đơn vị alpha-glucose nên khi thuỷ phân hoàn toàn chỉ thu được glucose."
+      }
+     ]
+    },
+    {
+     "id": "bai-06-tinh-bot-va-cellulose",
+     "title": "Bài 6. Tinh bột và cellulose",
+     "summary": "Cấu trúc polymer tự nhiên của tinh bột (amylose, amylopectin) và cellulose; phản ứng thuỷ phân, phản ứng màu với iodine và phản ứng ester hoá.",
+     "notes": [
+      {
+       "heading": "Tinh bột (Starch)",
+       "points": [
+        "Tinh bột (C6H10O5)n gồm hai thành phần: **amylose** (mạch không phân nhánh xoắn lò xo, liên kết alpha-1,4) và **amylopectin** (mạch phân nhánh, liên kết alpha-1,4 và alpha-1,6).",
+        "Hồ tinh bột tác dụng với dung dịch **iodine** tạo hợp chất bọc có màu **xanh tím** đặc trưng; khi đun nóng mất màu, để nguội màu xanh tím xuất hiện trở lại.",
+        "Thuỷ phân tinh bột bằng acid hoặc enzyme amylase tạo sản phẩm cuối cùng là **glucose**."
+       ]
+      },
+      {
+       "heading": "Cellulose",
+       "points": [
+        "Cellulose (C6H10O5)n là polymer mạch thẳng dài không phân nhánh, cấu tạo từ các mắt xích **beta-glucose** liên kết qua beta-1,4-glycoside.",
+        "Cellulose tan được trong **nước Schweizer** (dung dịch Cu(OH)2 trong amoniac đặc).",
+        "Mỗi mắt xích C6H10O5 có 3 nhóm -OH tự do, viết dạng [C6H7O2(OH)3]n; phản ứng với HNO3 đặc tạo **cellulose trinitrate** dùng làm thuốc súng không khói."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Amylose",
+       "definition": "Thành phần tinh bột mạch không phân nhánh tạo cấu trúc xoắn giữ iodine."
+      },
+      {
+       "term": "Amylopectin",
+       "definition": "Thành phần tinh bột mạch phân nhánh có thêm liên kết alpha-1,6-glycoside."
+      },
+      {
+       "term": "Nước Schweizer",
+       "definition": "Dung dịch phức [Cu(NH3)4](OH)2 hoà tan được cellulose để chế tạo sợi nhân tạo."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Thuốc thử đặc trưng để nhận biết hồ tinh bột là gì?",
+       "back": "Dung dịch iodine (tạo dung dịch màu xanh tím đặc trưng)."
+      },
+      {
+       "front": "Hợp chất cellulose trinitrate được điều chế từ cellulose và chất nào? Dùng để làm gì?",
+       "back": "Điều chế từ cellulose tác dụng với HNO3 đặc (xúc tác H2SO4 đặc); dùng làm thuốc súng không khói."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Thuốc súng không khói được điều chế trực tiếp từ phản ứng của nitric acid đặc với chất nào sau đây?",
+       "options": [
+        "Cellulose",
+        "Tinh bột",
+        "Saccharose",
+        "Glucose"
+       ],
+       "answer": 0,
+       "explanation": "[C6H7O2(OH)3]n + 3nHNO3 -> [C6H7O2(ONO2)3]n + 3nH2O (cellulose trinitrate)."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Phân tử tinh bột và phân tử cellulose là đồng phân cấu tạo của nhau vì cùng có công thức đơn giản (C6H10O5)n.",
+       "answer": false,
+       "explanation": "Sai, vì hệ số trùng hợp n của tinh bột và cellulose rất khác nhau (n của cellulose lớn hơn rất nhiều) nên phân tử khối khác nhau, không phải đồng phân."
+      }
+     ]
+    },
+    {
+     "id": "bai-07-on-tap-chuong-2",
+     "title": "Bài 7. Ôn tập chương 2",
+     "summary": "Bảng so sánh cấu tạo, phản ứng đặc trưng (Cu(OH)2, tráng bạc, thuỷ phân, màu iodine) và ứng dụng của các loại carbohydrate.",
+     "notes": [
+      {
+       "heading": "Tổng kết tính chất hoá học carbohydrate",
+       "points": [
+        "Tác dụng Cu(OH)2 tạo phức xanh lam: glucose, fructose, saccharose, maltose.",
+        "Phản ứng tráng bạc Tollens: glucose, fructose, maltose.",
+        "Phản ứng thuỷ phân: saccharose, maltose, tinh bột, cellulose.",
+        "Tạo màu xanh tím với iodine: tinh bột."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Monosaccharide",
+       "definition": "Đường đơn giản nhất không thể bị thuỷ phân thành carbohydrate nhỏ hơn."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Kể tên các carbohydrate có phản ứng tráng bạc với thuốc thử Tollens.",
+       "back": "Glucose, fructose và maltose."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Chất nào sau đây khi thuỷ phân hoàn toàn trong môi trường acid chỉ cho một loại monosaccharide duy nhất?",
+       "options": [
+        "Tinh bột",
+        "Saccharose",
+        "Fructose",
+        "Ethyl acetate"
+       ],
+       "answer": 0,
+       "explanation": "Tinh bột thuỷ phân hoàn toàn chỉ thu được alpha-glucose."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "chuong-03-hop-chat-chua-nitrogen",
+   "title": "Chương 3. Hợp chất chứa nitrogen",
+   "topics": [
+    {
+     "id": "bai-08-amine",
+     "title": "Bài 8. Amine",
+     "summary": "Khái niệm, bậc của amine, danh pháp, tính chất vật lí, tính base, phản ứng với acid nitrous và phản ứng thế nhân thơm của aniline.",
+     "notes": [
+      {
+       "heading": "Khái niệm, phân loại và bậc của amine",
+       "points": [
+        "**Amine** là dẫn xuất của ammonia (NH3) khi thay thế nguyên tử hydrogen bằng gốc hydrocarbon.",
+        "**Bậc của amine** bằng số nguyên tử H trong NH3 được thay thế: bậc một (R-NH2), bậc hai (R-NH-R'), bậc ba (R-N(R')-R'').",
+        "Tên thay thế: Tên hydrocarbon + vị trí + amine; tên gốc - chức: Tên gốc alkyl/aryl + amine."
+       ]
+      },
+      {
+       "heading": "Tính chất hoá học của amine",
+       "points": [
+        "Nguyên tử nitrogen còn cặp electron chưa liên kết nên amine có **tính base yếu**; dung dịch methylamine làm quỳ tím hoá xanh.",
+        "Aniline (C6H5NH2) có tính base rất yếu do ảnh hưởng của vòng benzene, **không làm đổi màu quỳ tím**.",
+        "Aniline phản ứng với nước bromine tạo kết tủa trắng **2,4,6-tribromoaniline** (dùng nhận biết aniline)."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Bậc của amine",
+       "definition": "Số nguyên tử hydrogen trong phân tử ammonia bị thay thế bởi gốc hydrocarbon."
+      },
+      {
+       "term": "Aniline",
+       "definition": "Amine thơm đơn giản nhất C6H5NH2, chất lỏng ít tan trong nước, tính base rất yếu."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Dung dịch aniline có làm quỳ tím đổi màu không? Vì sao?",
+       "back": "Không đổi màu quỳ tím, vì vòng benzene hút electron làm giảm mật độ electron trên nguyên tử N, tính base rất yếu."
+      },
+      {
+       "front": "Hiện tượng xảy ra khi nhỏ nước bromine vào dung dịch aniline là gì?",
+       "back": "Xuất hiện kết tủa trắng 2,4,6-tribromoaniline."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Hợp chất amine nào sau đây thuộc loại amine bậc hai?",
+       "options": [
+        "CH3-NH-CH3",
+        "CH3-NH2",
+        "(CH3)3N",
+        "C6H5-NH2"
+       ],
+       "answer": 0,
+       "explanation": "CH3-NH-CH3 (dimethylamine) có 2 gốc hydrocarbon liên kết với nguyên tử N nên là amine bậc 2."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Các amine khí như methylamine, dimethylamine có mùi khai tanh tương tự ammonia và tan rất tốt trong nước.",
+       "answer": true,
+       "explanation": "Các amine phân tử nhỏ tan tốt trong nước do tạo liên kết hydrogen liên phân tử với nước."
+      }
+     ]
+    },
+    {
+     "id": "bai-09-amino-acid-va-peptide",
+     "title": "Bài 9. Amino acid và peptide",
+     "summary": "Cấu tạo lưỡng tính của amino acid, điểm đẳng điện, liên kết peptide và phản ứng màu biuret của peptide.",
+     "notes": [
+      {
+       "heading": "Amino acid",
+       "points": [
+        "**Amino acid** là hợp chất hữu cơ tạp chức, phân tử chứa đồng thời nhóm amino (-NH2) và nhóm carboxyl (-COOH).",
+        "Tồn tại chủ yếu ở dạng **ion lưỡng cực** (+H3N-R-COO-), là chất rắn kết tinh, nhiệt độ nóng chảy cao và dễ tan trong nước.",
+        "Có tính chất **lưỡng tính**: tác dụng được với cả acid mạnh và base mạnh."
+       ]
+      },
+      {
+       "heading": "Peptide",
+       "points": [
+        "**Peptide** là hợp chất chứa từ 2 đến 50 gốc alpha-amino acid liên kết với nhau bằng các **liên kết peptide (-CO-NH-)**.",
+        "Từ tripeptide trở lên (có từ 2 liên kết peptide trở lên) phản ứng với Cu(OH)2 trong môi trường kiềm tạo hợp chất màu tím đặc trưng (**phản ứng màu biuret**); dipeptide không có phản ứng này."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Amino acid",
+       "definition": "Hợp chất tạp chức chứa nhóm amino (-NH2) và carboxyl (-COOH)."
+      },
+      {
+       "term": "Liên kết peptide",
+       "definition": "Liên kết amide -CO-NH- giữa nhóm alpha-carboxyl của amino acid này với nhóm alpha-amino của amino acid khác."
+      },
+      {
+       "term": "Phản ứng màu biuret",
+       "definition": "Phản ứng tạo phức màu tím giữa peptide (từ tripeptide trở lên) với Cu(OH)2 trong môi trường kiềm."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Dipeptide có cho phản ứng màu biuret với Cu(OH)2 không?",
+       "back": "Không, chỉ các peptide có từ 2 liên kết peptide trở lên (tripeptide trở lên) mới có phản ứng màu biuret."
+      },
+      {
+       "front": "Tại sao amino acid có nhiệt độ nóng chảy cao và dễ tan trong nước?",
+       "back": "Vì trong tinh thể và dung dịch, amino acid tồn tại chủ yếu ở dạng ion lưỡng cực có lực hút tĩnh điện mạnh."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Chất nào sau đây KHÔNG cho phản ứng màu biuret với Cu(OH)2 trong môi trường kiềm?",
+       "options": [
+        "Gly-Ala (dipeptide)",
+        "Gly-Ala-Val (tripeptide)",
+        "Albumin (lòng trắng trứng)",
+        "Tetrapeptide"
+       ],
+       "answer": 0,
+       "explanation": "Dipeptide chỉ có 1 liên kết peptide nên không tạo phức màu biuret với Cu(OH)2."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Glycine (H2N-CH2-COOH) vừa tác dụng được với dung dịch HCl vừa tác dụng được với dung dịch NaOH.",
+       "answer": true,
+       "explanation": "Amino acid có tính lưỡng tính do chứa nhóm -COOH có tính acid và -NH2 có tính base."
+      }
+     ]
+    },
+    {
+     "id": "bai-10-protein-va-enzyme",
+     "title": "Bài 10. Protein và enzyme",
+     "summary": "Cấu trúc đại phân tử polypeptide của protein, tính chất đông tụ bởi nhiệt và acid, vai trò xúc tác sinh học đặc hiệu của enzyme.",
+     "notes": [
+      {
+       "heading": "Protein",
+       "points": [
+        "**Protein** là các đại phân tử sinh học cấu tạo từ một hay nhiều chuỗi polypeptide gồm trên 50 đơn vị alpha-amino acid.",
+        "Protein hình sợi (keratin tóc móng, collagen da sụn) không tan trong nước; protein hình cầu (albumin lòng trắng trứng, hemoglobin máu) tan tạo dung dịch keo.",
+        "Protein bị **đông tụ** (kết tủa biến tính) khi đun nóng hoặc thêm acid, base, muối kim loại nặng."
+       ]
+      },
+      {
+       "heading": "Enzyme",
+       "points": [
+        "Enzyme phần lớn là protein có tính chất **xúc tác sinh học** có tính chọn lọc rất cao, làm tăng tốc độ phản ứng trong cơ thể sống hàng triệu lần ở điều kiện êm dịu."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Protein",
+       "definition": "Hợp chất cao phân tử cấu tạo từ các chuỗi polypeptide với khối lượng phân tử rất lớn."
+      },
+      {
+       "term": "Sự đông tụ protein",
+       "definition": "Hiện tượng protein bị biến tính và mất cấu trúc không gian khi gặp nhiệt độ cao, acid hoặc base."
+      },
+      {
+       "term": "Enzyme",
+       "definition": "Chất xúc tác sinh học có bản chất protein, có tính đặc hiệu và hiệu quả xúc tác cực cao."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Hiện tượng gì xảy ra khi đun sôi lòng trắng trứng gà?",
+       "back": "Protein albumin trong lòng trắng trứng bị đông tụ tạo thành khối rắn màu trắng."
+      },
+      {
+       "front": "Nêu phản ứng màu của protein với nitric acid đặc HNO3.",
+       "back": "Tạo kết tủa màu vàng (phản ứng xanthoproteic do nitro hoá vòng thơm)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Hiện tượng riêu cua nổi lên khi nấu canh cua là minh hoạ cho tính chất nào của protein?",
+       "options": [
+        "Sự đông tụ do nhiệt",
+        "Sự thuỷ phân hoàn toàn",
+        "Phản ứng este hoá",
+        "Phản ứng trùng hợp"
+       ],
+       "answer": 0,
+       "explanation": "Protein trong nước cua bị đông tụ kết tụ lại nổi lên trên mặt nước khi đun nóng."
+      }
+     ]
+    },
+    {
+     "id": "bai-11-on-tap-chuong-3",
+     "title": "Bài 11. Ôn tập chương 3",
+     "summary": "Tổng kết mối quan hệ chuyển hoá giữa amine, amino acid, peptide và protein, cùng bảng nhận biết các hợp chất chứa nitrogen.",
+     "notes": [
+      {
+       "heading": "Hệ thống kiến thức hợp chất nitrogen",
+       "points": [
+        "Amine: tính base, tạo phức Cu2+, thế nhân thơm.",
+        "Amino acid: tính lưỡng tính, điểm đẳng điện, tạo liên kết peptide.",
+        "Protein: phản ứng màu biuret (tím), đông tụ bởi nhiệt."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Polyamide",
+       "definition": "Polymer chứa nhiều liên kết amide -CO-NH- trong mạch chính."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Amino acid thiên nhiên tạo nên protein trong cơ thể thuộc loại amino acid nào?",
+       "back": "Thuộc loại alpha-amino acid."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Chất nào sau đây làm quỳ tím chuyển sang màu xanh?",
+       "options": [
+        "Methylamine",
+        "Aniline",
+        "Glycine",
+        "Phenol"
+       ],
+       "answer": 0,
+       "explanation": "Methylamine có tính base mạnh hơn ammonia nên làm quỳ tím chuyển sang màu xanh."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "chuong-04-polymer",
+   "title": "Chương 4. Polymer",
+   "topics": [
+    {
+     "id": "bai-12-dai-cuong-ve-polymer",
+     "title": "Bài 12. Đại cương về polymer",
+     "summary": "Khái niệm polymer, monomer, mắt xích, danh pháp, cấu trúc mạch (không nhánh, phân nhánh, mạng không gian) và phương pháp tổng hợp.",
+     "notes": [
+      {
+       "heading": "Khái niệm và cấu trúc polymer",
+       "points": [
+        "**Polymer** là những hợp chất có phân tử khối rất lớn do nhiều đơn vị nhỏ gọi là **mắt xích** liên kết với nhau.",
+        "Mạch polymer có ba dạng hình học: **mạch không phân nhánh** (amylose, PE, PVC), **mạch phân nhánh** (amylopectin, glycogen) và **mạng không gian** (cao su lưu hoá, nhựa bakelite/rezit)."
+       ]
+      },
+      {
+       "heading": "Phương pháp tổng hợp polymer",
+       "points": [
+        "**Phản ứng trùng hợp**: quá trình kết hợp nhiều phân tử nhỏ (monomer) giống nhau hoặc tương tự nhau thành polymer; monomer phải có **liên kết đôi C=C** hoặc vòng kém bền.",
+        "**Phản ứng trùng ngưng**: quá trình kết hợp nhiều monomer thành polymer đồng thời giải phóng các phân tử nhỏ khác (như H2O); monomer phải chứa **ít nhất hai nhóm chức** có khả năng phản ứng."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Trùng hợp",
+       "definition": "Phản ứng cộng hợp liên tiếp nhiều phân tử nhỏ có liên kết bội thành phân tử polymer lớn."
+      },
+      {
+       "term": "Trùng ngưng",
+       "definition": "Phản ứng kết hợp nhiều monomer chứa nhóm chức đa chức thành polymer và giải phóng phân tử nhỏ như nước."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Nêu điều kiện về cấu tạo để một monomer tham gia phản ứng trùng hợp.",
+       "back": "Phân tử phải có liên kết bội (như C=C) hoặc vòng kém bền."
+      },
+      {
+       "front": "Kể tên các polymer có cấu trúc mạng không gian ba chiều.",
+       "back": "Cao su lưu hoá và nhựa bakelite (rezit)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Polymer nào sau đây được tổng hợp bằng phản ứng trùng ngưng?",
+       "options": [
+        "Nylon-6,6",
+        "Polyethylene (PE)",
+        "Poly(vinyl chloride) (PVC)",
+        "Polystyrene (PS)"
+       ],
+       "answer": 0,
+       "explanation": "Nylon-6,6 được điều chế từ trùng ngưng hexamethylenediamine và adipic acid, giải phóng H2O."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Cao su lưu hoá có cấu trúc polymer mạch phân nhánh.",
+       "answer": false,
+       "explanation": "Cao su lưu hoá có các cầu nối disulfide -S-S- tạo thành cấu trúc mạng không gian ba chiều."
+      }
+     ]
+    },
+    {
+     "id": "bai-13-vat-lieu-polymer",
+     "title": "Bài 13. Vật liệu polymer",
+     "summary": "Các loại vật liệu polymer thông dụng: chất dẻo, vật liệu composite, tơ nhân tạo, tơ tổng hợp, cao su tự nhiên và cao su tổng hợp, keo dán.",
+     "notes": [
+      {
+       "heading": "Chất dẻo và Composite",
+       "points": [
+        "Chất dẻo là vật liệu polymer có tính dẻo (PE, PP, PVC, PS, plexiglas).",
+        "Vật liệu composite gồm chất nền (polymer) và chất cốt (sợi thuỷ tinh, sợi carbon) làm tăng độ bền cơ học và chịu nhiệt."
+       ]
+      },
+      {
+       "heading": "Tơ và Cao su",
+       "points": [
+        "Tơ chia thành: tơ tự nhiên (bông, len, tơ tằm), tơ hoá học gồm **tơ tổng hợp** (nylon-6,6, capron, nitron/olon) và **tơ bán tổng hợp/nhân tạo** (visco, cellulose acetate).",
+        "Cao su có tính đàn hồi cao: **cao su tự nhiên** (polyisoprene dạng cis), **cao su buna** (trùng hợp buta-1,3-diene), cao su buna-S, cao su buna-N."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Tơ bán tổng hợp (nhân tạo)",
+       "definition": "Tơ chế tạo bằng cách biến đổi hoá học một phần polymer thiên nhiên (như tơ visco, tơ acetate từ cellulose)."
+      },
+      {
+       "term": "Cao su lưu hoá",
+       "definition": "Cao su thiên nhiên được gia nhiệt với lưu huỳnh tạo các cầu nối -S-S- tăng độ đàn hồi và chịu nhiệt."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Tơ visco và tơ cellulose acetate thuộc loại tơ nào?",
+       "back": "Tơ bán tổng hợp (tơ nhân tạo)."
+      },
+      {
+       "front": "Bản chất hoá học của quá trình lưu hoá cao su là gì?",
+       "back": "Tạo các cầu nối disulfide -S-S- liên kết các mạch polymer thành mạng lưới không gian."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Loại tơ nào sau đây là tơ bán tổng hợp (tơ nhân tạo)?",
+       "options": [
+        "Tơ visco",
+        "Tơ tằm",
+        "Tơ nylon-6,6",
+        "Tơ nitron"
+       ],
+       "answer": 0,
+       "explanation": "Tơ visco được chế biến từ cellulose thiên nhiên qua xử lí hoá chất nên là tơ bán tổng hợp."
+      }
+     ]
+    },
+    {
+     "id": "bai-14-on-tap-chuong-4",
+     "title": "Bài 14. Ôn tập chương 4",
+     "summary": "Phân loại vật liệu polymer, tái chế rác thải nhựa và các biện pháp bảo vệ môi trường chống ô nhiễm trắng.",
+     "notes": [
+      {
+       "heading": "Ô nhiễm rác thải nhựa",
+       "points": [
+        "Rác thải nhựa mất hàng trăm năm để phân huỷ, gây ô nhiễm đất và nguồn nước (ô nhiễm trắng).",
+        "Cần đẩy mạnh giải pháp 3R: Giảm thiểu (Reduce), Tái sử dụng (Reuse) và Tái chế (Recycle)."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Ô nhiễm trắng",
+       "definition": "Tình trạng ô nhiễm môi trường nghiêm trọng do rác thải nhựa và túi nilon khó phân huỷ gây ra."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Quy tắc 3R trong xử lí rác thải nhựa gồm những từ nào?",
+       "back": "Reduce (Giảm thiểu), Reuse (Tái sử dụng), Recycle (Tái chế)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Poly(vinyl chloride) (PVC) được ứng dụng rộng rãi làm vỏ bọc dây điện nhờ vào đặc tính nào?",
+       "options": [
+        "Cách điện tốt và độ bền cao",
+        "Dẫn điện tốt",
+        "Độ đàn hồi cực cao như cao su",
+        "Tan nhanh trong nước"
+       ],
+       "answer": 0,
+       "explanation": "PVC có tính cách điện tốt, dai và bền nên được dùng làm vỏ bọc bảo vệ dây cáp điện."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "chuong-05-pin-dien-va-dien-phan",
+   "title": "Chương 5. Pin điện và điện phân",
+   "topics": [
+    {
+     "id": "bai-15-the-dien-cuc-va-nguon-dien-hoa-hoc",
+     "title": "Bài 15. Thế điện cực và nguồn điện hoá học",
+     "summary": "Cặp oxi hoá - khử của kim loại, thế điện cực chuẩn E0, quy tắc alpha dự đoán chiều phản ứng, cấu tạo và suất điện động của pin Galvani.",
+     "notes": [
+      {
+       "heading": "Cặp oxi hoá – khử và thế điện cực chuẩn",
+       "points": [
+        "Dạng oxi hoá và dạng khử của cùng một nguyên tố kim loại tạo nên **cặp oxi hoá - khử** M^n+/M.",
+        "Thế điện cực chuẩn E0 đo xu hướng nhận electron của dạng oxi hoá trong điều kiện chuẩn (nồng độ ion 1 M, 25 độ C, 1 bar); thế điện cực hydrogen chuẩn quy ước bằng 0 V.",
+        "E0 càng lớn thì dạng oxi hoá càng mạnh, dạng khử càng yếu.",
+        "**Quy tắc alpha**: Chất khử của cặp có E0 nhỏ hơn phản ứng với chất oxi hoá của cặp có E0 lớn hơn sinh ra chất oxi hoá yếu hơn và chất khử yếu hơn."
+       ]
+      },
+      {
+       "heading": "Pin Galvani",
+       "points": [
+        "Pin Galvani biến hoá năng thành điện năng qua phản ứng oxi hoá - khử tự diễn biến.",
+        "Ở **anode** (cực âm): xảy ra quá trình oxi hoá kim loại nhường electron (Zn -> Zn2+ + 2e).",
+        "Ở **cathode** (cực dương): xảy ra quá trình khử ion nhận electron (Cu2+ + 2e -> Cu).",
+        "Suất điện động chuẩn của pin: **E0_pin = E0_cathode - E0_anode** (luôn > 0)."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Thế điện cực chuẩn E0",
+       "definition": "Điện thế chênh lệch giữa điện cực chuẩn của kim loại so với điện cực hydrogen chuẩn."
+      },
+      {
+       "term": "Pin Galvani",
+       "definition": "Hệ thiết bị chuyển hoá trực tiếp hoá năng từ phản ứng oxi hoá khử thành điện năng tự phát."
+      },
+      {
+       "term": "Cầu muối",
+       "definition": "Ống chứa dung dịch chất điện li trơ (như KCl, KNO3) giữ trung hoà điện tích giữa hai nửa pin."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Viết công thức tính suất điện động chuẩn của pin điện hoá Galvani.",
+       "back": "E0_pin = E0_cathode - E0_anode (lấy cực dương trừ cực âm)."
+      },
+      {
+       "front": "Trong pin Galvani, quá trình nào xảy ra ở cực anode (cực âm)?",
+       "back": "Quá trình oxi hoá (chất khử nhường electron)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Biết E0(Zn2+/Zn) = -0,762 V và E0(Cu2+/Cu) = +0,340 V. Suất điện động chuẩn của pin điện hoá Zn - Cu bằng:",
+       "options": [
+        "1,102 V",
+        "0,422 V",
+        "-0,422 V",
+        "0,762 V"
+       ],
+       "answer": 0,
+       "explanation": "E0_pin = E0_Cu - E0_Zn = 0,340 - (-0,762) = +1,102 V."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Trong pin điện hoá, anode là cực dương và tại đó xảy ra quá trình khử.",
+       "answer": false,
+       "explanation": "Sai, trong pin điện hoá (nguồn điện), anode là cực âm và tại đó xảy ra quá trình oxi hoá."
+      }
+     ]
+    },
+    {
+     "id": "bai-16-dien-phan",
+     "title": "Bài 16. Điện phân",
+     "summary": "Nguyên tắc và thứ tự điện phân nóng chảy và dung dịch, ứng dụng sản xuất nhôm, tinh luyện đồng và mạ điện.",
+     "notes": [
+      {
+       "heading": "Khái niệm và nguyên tắc điện phân",
+       "points": [
+        "**Điện phân** là quá trình oxi hoá - khử xảy ra trên bề mặt các điện cực dưới tác dụng của dòng điện một chiều đi qua chất điện li nóng chảy hoặc dung dịch.",
+        "Trong bình điện phân: **cathode** nối với cực âm (xảy ra quá trình khử cation), **anode** nối với cực dương (xảy ra quá trình oxi hoá anion).",
+        "Thứ tự khử ở cathode: cation có tính oxi hoá mạnh hơn bị khử trước (theo thứ tự: Ag+ > Cu2+ > H+ > H2O); các ion kim loại kiềm, kiềm thổ, Al3+ không bị khử trong dung dịch nước.",
+        "Thứ tự oxi hoá ở anode trơ: I- > Br- > Cl- > H2O; các gốc chứa oxy như SO4 2-, NO3- không bị điện phân trong dung dịch."
+       ]
+      },
+      {
+       "heading": "Ứng dụng công nghiệp của điện phân",
+       "points": [
+        "Sản xuất nhôm (Al) bằng cách điện phân nóng chảy Al2O3 có pha **cryolite (Na3AlF6)** để hạ nhiệt độ nóng chảy và tăng độ dẫn điện.",
+        "Tinh luyện đồng (anode tan bằng đồng thô, cathode bằng đồng tinh khiết) và công nghệ mạ kim loại chống gỉ."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Điện phân",
+       "definition": "Phản ứng hoá học cưỡng bức xảy ra ở các điện cực nhờ năng lượng của dòng điện một chiều."
+      },
+      {
+       "term": "Cryolite (Na3AlF6)",
+       "definition": "Phụ gia hạ nhiệt độ nóng chảy của Al2O3 từ 2050 độ C xuống khoảng 1000 độ C trong công nghiệp sản xuất nhôm."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Vai trò của cryolite trong quá trình điện phân nóng chảy sản xuất nhôm là gì?",
+       "back": "Hạ nhiệt độ nóng chảy của Al2O3, tăng độ dẫn điện và tạo khối lỏng nhẹ nổi lên ngăn nhôm bị oxi hoá."
+      },
+      {
+       "front": "Khi điện phân dung dịch NaCl có màng ngăn xốp, các sản phẩm thu được là gì?",
+       "back": "Khí Cl2 ở anode, khí H2 và dung dịch NaOH ở cathode."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Kim loại nhôm (aluminium) được sản xuất trong công nghiệp bằng phương pháp nào sau đây?",
+       "options": [
+        "Điện phân Al2O3 nóng chảy với cryolite",
+        "Nhiệt luyện khử Al2O3 bằng than cốc",
+        "Điện phân dung dịch AlCl3",
+        "Thuỷ luyện đẩy nhôm bằng kim loại sắt"
+       ],
+       "answer": 0,
+       "explanation": "Do Al có tính khử mạnh nên chỉ điều chế được bằng phương pháp điện phân nóng chảy Al2O3."
+      }
+     ]
+    },
+    {
+     "id": "bai-17-on-tap-chuong-5",
+     "title": "Bài 17. Ôn tập chương 5",
+     "summary": "So sánh cơ chế hoạt động của pin điện hoá (sinh điện) và bình điện phân (tiêu thụ điện), bảng điện phân tổng hợp.",
+     "notes": [
+      {
+       "heading": "So sánh pin điện và bình điện phân",
+       "points": [
+        "Pin điện biến hoá năng thành điện năng (phản ứng tự phát); điện phân biến điện năng thành hoá năng (phản ứng cưỡng bức).",
+        "Ở cả hai hệ, cathode luôn là nơi xảy ra quá trình khử, anode luôn là nơi xảy ra quá trình oxi hoá."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Dãy điện hoá kim loại",
+       "definition": "Dãy sắp xếp các cặp oxi hoá khử theo chiều tăng dần thế điện cực chuẩn E0."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Dấu của cực anode và cathode trong pin điện hoá và bình điện phân khác nhau như thế nào?",
+       "back": "Pin điện: anode (-), cathode (+). Bình điện phân: anode (+), cathode (-)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "truefalse",
+       "prompt": "Ở cả pin điện hoá và bình điện phân, tại cathode luôn luôn xảy ra quá trình khử.",
+       "answer": true,
+       "explanation": "Đúng theo định nghĩa quốc tế: Cathode là điện cực diễn ra quá trình khử (nhận electron)."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "chuong-06-dai-cuong-ve-kim-loai",
+   "title": "Chương 6. Đại cương về kim loại",
+   "topics": [
+    {
+     "id": "bai-18-cau-tao-va-lien-ket-trong-tinh-the-kim-loai",
+     "title": "Bài 18. Cấu tạo và liên kết trong tinh thể kim loại",
+     "summary": "Đặc điểm cấu tạo nguyên tử kim loại, các kiểu mạng tinh thể (lập phương tâm khối, tâm diện, lục phương) và bản chất liên kết kim loại.",
+     "notes": [
+      {
+       "heading": "Cấu tạo nguyên tử và tinh thể kim loại",
+       "points": [
+        "Nguyên tử kim loại thường có ít electron lớp ngoài cùng (1, 2 hoặc 3 electron), bán kính nguyên tử tương đối lớn, năng lượng ion hoá nhỏ.",
+        "Liên kết kim loại được hình thành do lực hút tĩnh điện giữa các **ion dương kim loại** ở nút mạng và các **electron hoá trị tự do** chuyển động hỗn loạn trong toàn mạng tinh thể."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Liên kết kim loại",
+       "definition": "Liên kết tạo bởi lực hút tĩnh điện giữa ion dương kim loại và biển electron tự do."
+      },
+      {
+       "term": "Electron tự do",
+       "definition": "Các electron hoá trị bứt khỏi nguyên tử chuyển động tự do trong mạng tinh thể kim loại."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Bản chất của liên kết kim loại là gì?",
+       "back": "Lực hút tĩnh điện giữa các ion dương ở nút mạng và các electron hoá trị tự do."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Đa số các nguyên tử kim loại có đặc điểm cấu hình electron lớp ngoài cùng là:",
+       "options": [
+        "Có từ 1 đến 3 electron",
+        "Có từ 5 đến 7 electron",
+        "Có 8 electron bão hoà",
+        "Có 4 electron"
+       ],
+       "answer": 0,
+       "explanation": "Nguyên tử kim loại thường có 1, 2 hoặc 3 electron lớp ngoài cùng dễ nhường để đạt cấu hình bền."
+      }
+     ]
+    },
+    {
+     "id": "bai-19-tinh-chat-vat-li-va-hoa-hoc-cua-kim-loai",
+     "title": "Bài 19. Tính chất vật lí và tính chất hoá học của kim loại",
+     "summary": "Bốn tính chất vật lí chung do electron tự do gây ra (dẻo, dẫn điện, dẫn nhiệt, ánh kim) và tính khử đặc trưng của kim loại.",
+     "notes": [
+      {
+       "heading": "Tính chất vật lí của kim loại",
+       "points": [
+        "Bốn tính chất vật lí chung của kim loại: **tính dẻo, tính dẫn điện, tính dẫn nhiệt và ánh kim** đều do các **electron tự do** trong tinh thể gây ra.",
+        "Kim loại dẻo nhất là vàng (Au); dẫn điện tốt nhất là bạc (Ag), tiếp theo là đồng (Cu), vàng (Au), nhôm (Al).",
+        "Kim loại có nhiệt độ nóng chảy cao nhất là tungsten (W, 3 410 độ C); kim loại cứng nhất là chromium (Cr, rạch được kính)."
+       ]
+      },
+      {
+       "heading": "Tính chất hoá học của kim loại",
+       "points": [
+        "Tính chất hoá học chung của kim loại là **tính khử** (dễ nhường electron): M -> M^n+ + n e.",
+        "Tác dụng với phi kim (O2, Cl2, S), tác dụng với nước (kim loại kiềm, kiềm thổ), tác dụng với acid và dung dịch muối."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Tính dẻo kim loại",
+       "definition": "Khả năng biến dạng không vỡ vụn khi chịu ngoại lực do các lớp tinh thể trượt lên nhau nhờ đệm electron."
+      },
+      {
+       "term": "Tính khử của kim loại",
+       "definition": "Khả năng nhường electron hoá trị để trở thành cation kim loại."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Kể tên 4 tính chất vật lí chung của kim loại do electron tự do gây ra.",
+       "back": "Tính dẻo, tính dẫn điện, tính dẫn nhiệt và ánh kim."
+      },
+      {
+       "front": "Kim loại nào dẫn điện tốt nhất trong số tất cả các kim loại?",
+       "back": "Bạc (Ag), tiếp theo là đồng (Cu)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Kim loại có độ cứng lớn nhất trong tất cả các kim loại là:",
+       "options": [
+        "Chromium (Cr)",
+        "Tungsten (W)",
+        "Sắt (Fe)",
+        "Đồng (Cu)"
+       ],
+       "answer": 0,
+       "explanation": "Chromium có độ cứng bằng 8,5 trên thang Mohs, có thể cắt được thuỷ tinh."
+      }
+     ]
+    },
+    {
+     "id": "bai-20-kim-loai-trong-tu-nhien-va-tach-kim-loai",
+     "title": "Bài 20. Kim loại trong tự nhiên và phương pháp tách kim loại",
+     "summary": "Trạng thái tự nhiên, các loại quặng phổ biến và ba phương pháp điều chế kim loại: nhiệt luyện, thuỷ luyện và điện phân.",
+     "notes": [
+      {
+       "heading": "Nguyên tắc và phương pháp tách kim loại",
+       "points": [
+        "Nguyên tắc điều chế kim loại là **khử ion kim loại thành nguyên tử**: M^n+ + n e -> M.",
+        "**Nhiệt luyện**: Dùng chất khử (C, CO, H2) khử oxide kim loại ở nhiệt độ cao (áp dụng cho kim loại sau Al như Fe, Zn, Cu).",
+        "**Thuỷ luyện**: Dùng dung dịch hoà tan quặng rồi dùng kim loại có tính khử mạnh hơn đẩy kim loại yếu ra khỏi dung dịch.",
+        "**Điện phân**: Điện phân nóng chảy (điều chế kim loại mạnh từ Li đến Al); điện phân dung dịch (điều chế kim loại trung bình và yếu sau Al)."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Nhiệt luyện",
+       "definition": "Phương pháp khử ion kim loại trong oxide ở nhiệt độ cao bằng các chất khử như CO, C, H2."
+      },
+      {
+       "term": "Thuỷ luyện",
+       "definition": "Phương pháp dùng kim loại tự do đẩy ion kim loại yếu hơn ra khỏi dung dịch muối."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Nguyên tắc chung của việc điều chế kim loại từ hợp chất là gì?",
+       "back": "Khử ion kim loại thành nguyên tử tự do: M^n+ + ne -> M."
+      },
+      {
+       "front": "Phương pháp nào là duy nhất để điều chế các kim loại hoạt động mạnh (nhóm IA, IIA, Al)?",
+       "back": "Điện phân nóng chảy hợp chất của chúng."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Khí CO có thể khử được oxide kim loại nào sau đây ở nhiệt độ cao để tạo ra kim loại tự do?",
+       "options": [
+        "Fe2O3",
+        "Al2O3",
+        "MgO",
+        "Na2O"
+       ],
+       "answer": 0,
+       "explanation": "CO chỉ khử được oxide của các kim loại đứng sau Al trong dãy hoạt động hoá học."
+      }
+     ]
+    },
+    {
+     "id": "bai-21-hop-kim",
+     "title": "Bài 21. Hợp kim",
+     "summary": "Khái niệm hợp kim, tính chất cơ lí hoá vượt trội của hợp kim so với kim loại thành phần, hợp kim của sắt (gang, thép) và duralumin.",
+     "notes": [
+      {
+       "heading": "Khái niệm và tính chất hợp kim",
+       "points": [
+        "**Hợp kim** là vật liệu kim loại chứa một kim loại cơ bản và một số kim loại khác hoặc phi kim.",
+        "Hợp kim thường có độ cứng lớn hơn, độ bền cơ học cao hơn và khả năng chống ăn mòn tốt hơn so với kim loại nguyên chất.",
+        "**Gang** là hợp kim Fe - C trong đó C chiếm 2% - 4%; **Thép** là hợp kim Fe - C trong đó C chiếm dưới 2% khối lượng.",
+        "**Duralumin** là hợp kim nhôm siêu nhẹ và bền (khoảng 90% Al, 4% Cu, Mg, Mn) dùng làm thân vỏ máy bay."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Gang",
+       "definition": "Hợp kim của sắt với carbon (hàm lượng carbon từ 2% đến 4%) cùng một số nguyên tố khác."
+      },
+      {
+       "term": "Thép",
+       "definition": "Hợp kim của sắt với carbon trong đó hàm lượng carbon nhỏ hơn 2% khối lượng."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Phân biệt gang và thép dựa vào hàm lượng nguyên tố carbon.",
+       "back": "Gang chứa 2% - 4% C; Thép chứa ít hơn 2% C."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Thành phần chính của hợp kim duralumin được ứng dụng chế tạo vỏ máy bay là kim loại nào?",
+       "options": [
+        "Nhôm (Al)",
+        "Sắt (Fe)",
+        "Đồng (Cu)",
+        "Kẽm (Zn)"
+       ],
+       "answer": 0,
+       "explanation": "Duralumin có hơn 90% là kim loại nhôm kết hợp với đồng, magie tạo độ cứng và nhẹ."
+      }
+     ]
+    },
+    {
+     "id": "bai-22-su-an-mon-kim-loai",
+     "title": "Bài 22. Sự ăn mòn kim loại",
+     "summary": "Khái niệm ăn mòn hoá học và ăn mòn điện hoá học, cơ chế rỉ sét và các phương pháp bảo vệ kim loại (phủ bề mặt, dùng điện cực hi sinh).",
+     "notes": [
+      {
+       "heading": "Các dạng ăn mòn kim loại",
+       "points": [
+        "**Ăn mòn hoá học**: kim loại phản ứng trực tiếp với các chất oxi hoá trong môi trường, không phát sinh dòng điện.",
+        "**Ăn mòn điện hoá học**: quá trình phá huỷ kim loại do tác dụng của dung dịch chất điện li và tạo nên dòng electron di chuyển giữa hai cực pin vi mô.",
+        "Ba điều kiện của ăn mòn điện hoá: 1. Hai điện cực khác chất; 2. Tiếp xúc trực tiếp hoặc qua dây dẫn; 3. Cùng tiếp xúc với dung dịch chất điện li."
+       ]
+      },
+      {
+       "heading": "Phương pháp chống ăn mòn kim loại",
+       "points": [
+        "**Phương pháp phủ bề mặt**: sơn, mạ kim loại không gỉ (mạ thiếc, mạ kẽm), bôi dầu mỡ ngăn tiếp xúc môi trường.",
+        "**Phương pháp điện hoá (dùng điện cực hi sinh)**: gắn tấm kẽm (Zn) vào vỏ tàu biển bằng thép ngâm dưới nước biển, Zn có tính khử mạnh hơn sẽ bị ăn mòn thay thế để bảo vệ sắt."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Ăn mòn điện hoá học",
+       "definition": "Sự phá huỷ kim loại do tạo thành vô số pin điện hoá vi mô trong môi trường chất điện li."
+      },
+      {
+       "term": "Điện cực hi sinh",
+       "definition": "Kim loại hoạt động mạnh hơn (như Zn, Mg) được gắn vào kết cấu thép để chịu ăn mòn bảo vệ thép."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Nêu 3 điều kiện để xảy ra sự ăn mòn điện hoá học kim loại.",
+       "back": "1. Hai điện cực khác chất; 2. Tiếp xúc với nhau; 3. Cùng ngâm trong dung dịch chất điện li."
+      },
+      {
+       "front": "Tại sao người ta thường gắn những khối kẽm vào vỏ tàu biển bằng thép?",
+       "back": "Kẽm có tính khử mạnh hơn sắt nên đóng vai trò anode bị ăn mòn trước (hi sinh), bảo vệ vỏ tàu không bị rỉ."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Để bảo vệ đường ống dẫn dầu bằng thép chôn ngầm dưới đất khỏi bị ăn mòn điện hoá, người ta thường gắn thêm khối kim loại nào?",
+       "options": [
+        "Kẽm (Zn) hoặc Magie (Mg)",
+        "Đồng (Cu)",
+        "Chì (Pb)",
+        "Bạc (Ag)"
+       ],
+       "answer": 0,
+       "explanation": "Gắn kim loại có tính khử mạnh hơn Fe (như Zn hoặc Mg) để chúng đóng vai trò anode hi sinh bị ăn mòn bảo vệ ống thép."
+      }
+     ]
+    },
+    {
+     "id": "bai-23-on-tap-chuong-6",
+     "title": "Bài 23. Ôn tập chương 6",
+     "summary": "Tổng kết toàn diện kiến thức kim loại: cấu tạo, tính chất vật lí, hoá học, điều chế và chống ăn mòn.",
+     "notes": [
+      {
+       "heading": "Hệ thống hoá đại cương kim loại",
+       "points": [
+        "Cấu tạo: mạng tinh thể và liên kết kim loại bởi electron tự do.",
+        "Tính chất: tính khử đặc trưng, ăn mòn điện hoá là dạng ăn mòn phổ biến và nguy hiểm nhất."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Mạ điện",
+       "definition": "Phương pháp phủ một lớp kim loại mỏng lên vật liệu bằng phương pháp điện phân anode tan."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Sự khác biệt căn bản giữa ăn mòn hoá học và ăn mòn điện hoá học là gì?",
+       "back": "Ăn mòn điện hoá làm phát sinh dòng electron giữa các cực vi mô; ăn mòn hoá học thì không phát sinh dòng điện."
+      }
+     ],
+     "questions": [
+      {
+       "type": "truefalse",
+       "prompt": "Gang và thép đều là hợp kim của kim loại sắt với phi kim carbon.",
+       "answer": true,
+       "explanation": "Đúng, sự khác nhau căn bản giữa gang và thép nằm ở tỉ lệ phần trăm khối lượng của nguyên tố carbon."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "chuong-07-nguyen-to-nhom-ia-va-iia",
+   "title": "Chương 7. Nguyên tố nhóm IA và nhóm IIA",
+   "topics": [
+    {
+     "id": "bai-24-nguyen-to-nhom-ia",
+     "title": "Bài 24. Nguyên tố nhóm IA",
+     "summary": "Đặc điểm kim loại kiềm: tính khử rất mạnh, bảo quản trong dầu hoả, màu ngọn lửa đặc trưng, sản xuất xút và phương pháp Solvay sản xuất soda.",
+     "notes": [
+      {
+       "heading": "Đơn chất kim loại kiềm (Nhóm IA)",
+       "points": [
+        "Gồm Li, Na, K, Rb, Cs; có cấu hình electron lớp ngoài cùng dạng **ns1**, số oxi hoá duy nhất trong hợp chất là **+1**.",
+        "Là kim loại nhẹ, mềm (cắt được bằng dao), nhiệt độ nóng chảy thấp do liên kết kim loại yếu trong mạng lập phương tâm khối.",
+        "Có **tính khử rất mạnh**: phản ứng mãnh liệt với nước ở nhiệt độ thường tạo dung dịch kiềm và giải phóng H2; bảo quản bằng cách **ngâm trong dầu hoả**.",
+        "Màu ngọn lửa đặc trưng: **Li+ màu đỏ tía, Na+ màu vàng, K+ màu tím nhạt**."
+       ]
+      },
+      {
+       "heading": "Hợp chất quan trọng của kim loại kiềm",
+       "points": [
+        "NaCl: nguyên liệu sản xuất xút (NaOH), nước Javel và khí chlorine bằng phương pháp điện phân dung dịch có màng ngăn.",
+        "NaHCO3 (baking soda): chất lưỡng tính, kém bền nhiệt (bị phân huỷ tạo Na2CO3, CO2, H2O), làm bột nở thực phẩm và thuốc giảm đau dạ dày.",
+        "Phương pháp Solvay: sản xuất soda Na2CO3 từ nguyên liệu đá vôi CaCO3, muối ăn NaCl và khí NH3."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Kim loại kiềm",
+       "definition": "Các kim loại thuộc nhóm IA có 1 electron hoá trị, tính khử rất mạnh."
+      },
+      {
+       "term": "Phương pháp Solvay",
+       "definition": "Quy trình công nghiệp sản xuất soda Na2CO3 từ NaCl, NH3 và CO2."
+      },
+      {
+       "term": "Baking soda (NaHCO3)",
+       "definition": "Muối sodium hydrogencarbonate dùng làm bột nở thực phẩm và xử lí acid dư."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Tại sao kim loại kiềm (Na, K) phải bảo quản bằng cách ngâm chìm trong dầu hoả?",
+       "back": "Để ngăn kim loại tiếp xúc với hơi nước và khí oxy trong không khí vì chúng phản ứng rất mãnh liệt."
+      },
+      {
+       "front": "Nêu màu ngọn lửa khi đốt hợp chất của các ion Li+, Na+, K+.",
+       "back": "Li+ màu đỏ tía; Na+ màu vàng tươi; K+ màu tím nhạt."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Kim loại natri (sodium) thường được bảo quản an toàn trong phòng thí nghiệm bằng cách nào?",
+       "options": [
+        "Ngâm chìm trong dầu hoả",
+        "Ngâm trong cồn ethanol",
+        "Ngâm trong nước",
+        "Để hở ngoài không khí"
+       ],
+       "answer": 0,
+       "explanation": "Sodium phản ứng mãnh liệt với nước và ethanol nên phải bảo quản bằng cách ngâm ngập trong dầu hoả tinh khiết."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Muối NaHCO3 bị phân huỷ khi đun nóng tạo thành Na2CO3, khí CO2 và hơi nước.",
+       "answer": true,
+       "explanation": "2NaHCO3 -t°-> Na2CO3 + CO2 + H2O; đây là phản ứng tạo độ xốp cho bánh nướng khi dùng làm bột nở."
+      }
+     ]
+    },
+    {
+     "id": "bai-25-nguyen-to-nhom-iia",
+     "title": "Bài 25. Nguyên tố nhóm IIA",
+     "summary": "Kim loại kiềm thổ, độ bền nhiệt của muối carbonate/nitrate, nước cứng (tạm thời, vĩnh cửu, toàn phần) và phương pháp làm mềm nước cứng.",
+     "notes": [
+      {
+       "heading": "Kim loại kiềm thổ (Nhóm IIA)",
+       "points": [
+        "Gồm Be, Mg, Ca, Sr, Ba; có 2 electron hoá trị dạng **ns2**, số oxi hoá đặc trưng **+2**.",
+        "Be không tác dụng với nước; Mg tác dụng chậm ở nhiệt độ thường; Ca, Sr, Ba tác dụng mãnh liệt với nước.",
+        "Màu ngọn lửa đặc trưng: **Ca2+ màu đỏ cam, Sr2+ màu đỏ son, Ba2+ màu lục**."
+       ]
+      },
+      {
+       "heading": "Độ bền nhiệt của muối carbonate và nitrate",
+       "points": [
+        "Độ bền nhiệt của các muối carbonate MCO3 và nitrate M(NO3)2 tăng dần từ Mg đến Ba theo chiều tăng bán kính cation."
+       ]
+      },
+      {
+       "heading": "Nước cứng và phương pháp làm mềm",
+       "points": [
+        "Nước cứng là nước chứa nhiều ion **Ca2+ và Mg2+**; nước mềm chứa ít hoặc không chứa các ion này.",
+        "**Nước cứng tạm thời**: chứa anion **HCO3-**; làm mềm bằng cách đun sôi, dùng Ca(OH)2 vừa đủ hoặc Na2CO3/Na3PO4.",
+        "**Nước cứng vĩnh cửu**: chứa anion **Cl-, SO4 2-**; làm mềm bằng hoá chất kết tủa (Na2CO3, Na3PO4) hoặc phương pháp trao đổi ion.",
+        "**Nước cứng toàn phần**: chứa cả tính cứng tạm thời và vĩnh cửu."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Nước cứng tạm thời",
+       "definition": "Nước chứa các muối Ca(HCO3)2, Mg(HCO3)2, có thể làm mềm đơn giản bằng cách đun sôi."
+      },
+      {
+       "term": "Nước cứng vĩnh cửu",
+       "definition": "Nước chứa các muối chloride hoặc sulfate của calcium và magnesium."
+      },
+      {
+       "term": "Nhựa trao đổi ion",
+       "definition": "Chất polymer giữ lại cation Ca2+, Mg2+ và giải phóng Na+ hoặc H+ để làm mềm nước."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Nêu tác hại chính của nước cứng trong đời sống và sản xuất.",
+       "back": "Gây đóng cặn nồi hơi gây nổ, tắc ống dẫn, tốn xà phòng giặt và làm giảm hương vị món ăn."
+      },
+      {
+       "front": "Chất hoá học nào có thể dùng để làm mềm cả nước cứng tạm thời và nước cứng vĩnh cửu?",
+       "back": "Dung dịch Na2CO3 (soda) hoặc Na3PO4."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Đun sôi một mẫu nước thấy xuất hiện kết tủa trắng và nước mềm đi. Nước ban đầu thuộc loại nước cứng nào?",
+       "options": [
+        "Nước cứng tạm thời",
+        "Nước cứng vĩnh cửu",
+        "Nước mềm tuyệt đối",
+        "Nước cứng ion chloride"
+       ],
+       "answer": 0,
+       "explanation": "Khi đun sôi: Ca(HCO3)2 -> CaCO3 kết tủa + CO2 + H2O, loại bỏ được Ca2+ nên là nước cứng tạm thời."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Muối BaSO4 là chất kết tủa màu trắng không tan trong dung dịch acid mạnh như HCl hay HNO3.",
+       "answer": true,
+       "explanation": "BaSO4 là chất kết tủa bền vững đặc trưng dùng để nhận biết ion Ba2+ hoặc ion SO4 2-."
+      }
+     ]
+    },
+    {
+     "id": "bai-26-on-tap-chuong-7",
+     "title": "Bài 26. Ôn tập chương 7",
+     "summary": "So sánh tính chất đơn chất và hợp chất nhóm IA với nhóm IIA, các quy luật biến thiên tính khử và phản ứng nhận biết cation.",
+     "notes": [
+      {
+       "heading": "So sánh nhóm IA và IIA",
+       "points": [
+        "Kim loại kiềm (IA) có tính khử mạnh hơn kim loại kiềm thổ (IIA) trong cùng chu kì.",
+        "Muối carbonate nhóm IA (như Na2CO3) rất bền nhiệt không bị phân huỷ; muối carbonate nhóm IIA (như CaCO3) bị nhiệt phân huỷ thành oxide kim loại và CO2."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Nhiệt phân đá vôi",
+       "definition": "CaCO3 -t°-> CaO + CO2, phản ứng nung vôi thu nhiệt trong công nghiệp."
+      }
+     ],
+     "cards": [
+      {
+       "front": "So sánh độ bền nhiệt giữa muối Na2CO3 và muối CaCO3.",
+       "back": "Na2CO3 rất bền nhiệt không bị nhiệt phân; CaCO3 bị phân huỷ ở khoảng 900-1000 độ C thành CaO và CO2."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Trong các kim loại kiềm thổ sau đây, kim loại nào KHÔNG phản ứng với nước ở điều kiện thường?",
+       "options": [
+        "Beryllium (Be)",
+        "Calcium (Ca)",
+        "Barium (Ba)",
+        "Strontium (Sr)"
+       ],
+       "answer": 0,
+       "explanation": "Beryllium không phản ứng với nước ở bất kì nhiệt độ nào do có lớp oxide bảo vệ bền vững."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "chuong-08-kim-loai-chuyen-tiep-va-phuc-chat",
+   "title": "Chương 8. Sơ lược về kim loại chuyển tiếp và phức chất",
+   "topics": [
+    {
+     "id": "bai-27-dai-cuong-ve-kim-loai-chuyen-tiep-day-thu-nhat",
+     "title": "Bài 27. Đại cương về kim loại chuyển tiếp dãy thứ nhất",
+     "summary": "Cấu hình electron (3d, 4s), nhiều trạng thái oxi hoá, màu sắc phong phú của các ion và phương pháp chuẩn độ Fe2+ bằng KMnO4.",
+     "notes": [
+      {
+       "heading": "Đặc điểm kim loại chuyển tiếp dãy thứ nhất (Sc đến Cu)",
+       "points": [
+        "Gồm 9 nguyên tố từ Sc (Z = 21) đến Cu (Z = 29); cấu hình electron có dạng **[Ar]3d^(1-10) 4s^(1-2)**.",
+        "Có nhiều trạng thái oxi hoá trong hợp chất do các electron trên phân lớp 3d và 4s có mức năng lượng xấp xỉ nhau.",
+        "Các ion kim loại chuyển tiếp thường có **màu sắc đặc trưng** phong phú: Cu2+ màu xanh lam, Fe2+ màu lục nhạt, Fe3+ màu vàng nâu, MnO4- màu tím thẫm."
+       ]
+      },
+      {
+       "heading": "Chuẩn độ dung dịch Fe2+ bằng KMnO4",
+       "points": [
+        "Phản ứng chuẩn độ trong môi trường H2SO4: **10FeSO4 + 2KMnO4 + 8H2SO4 -> 5Fe2(SO4)3 + K2SO4 + 2MnSO4 + 8H2O**.",
+        "Điểm tương đương nhận biết khi một giọt thuốc tím KMnO4 dư làm dung dịch chuyển sang màu hồng nhạt bền vững."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Kim loại chuyển tiếp dãy 3d",
+       "definition": "Các nguyên tố kim loại từ Scandium đến Copper có phân lớp 3d đang được điền electron."
+      },
+      {
+       "term": "Chuẩn độ permanganate",
+       "definition": "Phương pháp chuẩn độ oxi hoá khử xác định nồng độ Fe2+ bằng chất chuẩn KMnO4."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Viết cấu hình electron của nguyên tử Cu (Z = 29).",
+       "back": "[Ar] 3d10 4s1 (cấu hình bão hoà phân lớp d đặc biệt bền)."
+      },
+      {
+       "front": "Dấu hiệu nhận biết điểm kết thúc trong phép chuẩn độ Fe2+ bằng dung dịch KMnO4 là gì?",
+       "back": "Dung dịch xuất hiện màu hồng nhạt bền vững trong khoảng 20 giây."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Cấu hình electron của cation Fe2+ (Z = 26) là:",
+       "options": [
+        "[Ar] 3d6",
+        "[Ar] 3d4 4s2",
+        "[Ar] 3d5 4s1",
+        "[Ar] 3d6 4s2"
+       ],
+       "answer": 0,
+       "explanation": "Fe ([Ar]3d6 4s2) nhường 2 electron ở phân lớp 4s ngoài cùng trước để tạo Fe2+ có cấu hình [Ar]3d6."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Kim loại đồng (Cu) có cấu hình electron nguyên tử là [Ar] 3d9 4s2.",
+       "answer": false,
+       "explanation": "Sai, do hiện tượng nhảy electron tạo trạng thái bão hoà bền vững nên cấu hình đúng của Cu là [Ar] 3d10 4s1."
+      }
+     ]
+    },
+    {
+     "id": "bai-28-so-luoc-ve-phuc-chat",
+     "title": "Bài 28. Sơ lược về phức chất",
+     "summary": "Khái niệm phức chất, nguyên tử trung tâm M, phối tử L, liên kết cho nhận, các dạng hình học (tứ diện, vuông phẳng, bát diện) và phức chất aqua.",
+     "notes": [
+      {
+       "heading": "Khái niệm và cấu tạo phức chất",
+       "points": [
+        "**Phức chất** là hợp chất gồm **nguyên tử trung tâm** (cation kim loại hoặc nguyên tử kim loại có orbital trống) liên kết với các **phối tử** (ion hoặc phân tử có cặp electron tự do).",
+        "Liên kết giữa phối tử và nguyên tử trung tâm là **liên kết cho - nhận** (phối trí).",
+        "Công thức chung: **[MLn]** đặt trong dấu ngoặc vuông; ví dụ [Cu(H2O)6]2+, [Ag(NH3)2]+, [PtCl2(NH3)2]."
+       ]
+      },
+      {
+       "heading": "Các dạng hình học của phức chất",
+       "points": [
+        "**Dạng đường thẳng**: số phối trí 2, ví dụ [Ag(NH3)2]+.",
+        "**Dạng tứ diện và vuông phẳng**: số phối trí 4, ví dụ [PtCl2(NH3)2] vuông phẳng (thuốc chống ung thư cisplatin), [Zn(OH)4]2- tứ diện.",
+        "**Dạng bát diện**: số phối trí 6, ví dụ [Fe(H2O)6]2+, [Cu(H2O)6]2+."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Nguyên tử trung tâm",
+       "definition": "Cation kim loại (hoặc nguyên tử) có orbital trống nhận cặp electron tạo phức chất."
+      },
+      {
+       "term": "Phối tử (Ligand)",
+       "definition": "Phân tử hoặc anion mang cặp electron chưa liên kết đóng vai trò cho electron."
+      },
+      {
+       "term": "Phức chất aqua",
+       "definition": "Phức chất trong đó các phân tử nước đóng vai trò là phối tử bao quanh ion kim loại."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Chỉ ra nguyên tử trung tâm và phối tử trong phức chất [Cu(NH3)4]2+.",
+       "back": "Nguyên tử trung tâm là Cu2+; phối tử là các phân tử NH3 (số phối trí bằng 4)."
+      },
+      {
+       "front": "Bản chất liên kết hoá học giữa nguyên tử trung tâm và phối tử trong phức chất là liên kết gì?",
+       "back": "Liên kết cho - nhận (cặp electron tự do của phối tử điền vào orbital trống của kim loại)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Trong ion phức [Ag(NH3)2]+, số lượng phối tử liên kết với nguyên tử trung tâm Ag+ là:",
+       "options": [
+        "2",
+        "4",
+        "6",
+        "1"
+       ],
+       "answer": 0,
+       "explanation": "Có 2 phân tử NH3 đóng vai trò phối tử bao quanh cation Ag+."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Các phân tử nước đóng vai trò là phối tử trong phức chất aqua nhờ có các cặp electron tự do trên nguyên tử oxygen.",
+       "answer": true,
+       "explanation": "Nguyên tử oxygen trong H2O còn 2 cặp electron chưa liên kết có thể tạo liên kết cho - nhận với ion kim loại."
+      }
+     ]
+    },
+    {
+     "id": "bai-29-tinh-chat-va-ung-dung-cua-phuc-chat",
+     "title": "Bài 29. Một số tính chất và ứng dụng của phức chất",
+     "summary": "Dấu hiệu tạo phức trong dung dịch, phản ứng thế phối tử, ứng dụng của phức chất trong y học (cisplatin), hoá học (thuốc thử Tollens) và sinh học (hemoglobin, diệp lục).",
+     "notes": [
+      {
+       "heading": "Phản ứng thế phối tử",
+       "points": [
+        "Các phối tử trong phức chất có thể bị thay thế bởi các phối tử khác tạo thành phức chất mới bền vững hơn.",
+        "Ví dụ khi thêm dung dịch amoniac dư vào Cu(OH)2 kết tủa, phức chất mới [[Cu(NH3)4(H2O)2]2+ được tạo thành làm tan kết tủa tạo dung dịch màu xanh lam thẫm."
+       ]
+      },
+      {
+       "heading": "Ứng dụng sinh học và y dược",
+       "points": [
+        "**Cisplatin [PtCl2(NH3)2]** có dạng hình học vuông phẳng là thuốc điều trị ức chế tế bào ung thư hiệu quả.",
+        "**Hemoglobin** trong máu người là phức chất của ion Fe2+ đóng vai trò vận chuyển khí O2 và CO2.",
+        "**Chlorophyll (chất diệp lục)** trong lá cây là phức chất của ion Mg2+ giữ vai trò trung tâm của quang hợp."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Cisplatin",
+       "definition": "Phức chất vuông phẳng của Pt(II) dùng làm thuốc hoá trị điều trị khối u ác tính."
+      },
+      {
+       "term": "Hemoglobin",
+       "definition": "Protein vận chuyển oxy trong máu có nhân heme là phức chất chứa ion Fe2+."
+      },
+      {
+       "term": "Chlorophyll",
+       "definition": "Sắc tố quang hợp màu xanh của thực vật có nhân phức chất chứa ion Mg2+."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Ion kim loại trung tâm trong phân tử chất diệp lục (chlorophyll) là ion nào?",
+       "back": "Ion Magnesium (Mg2+)."
+      },
+      {
+       "front": "Ion kim loại trung tâm trong phân tử hemoglobin vận chuyển oxy trong máu là ion nào?",
+       "back": "Ion Sắt (Fe2+)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Phức chất chứa cation kim loại nào sau đây đóng vai trò là nhân tạo sắc tố quang hợp trong lá cây xanh?",
+       "options": [
+        "Mg2+",
+        "Fe2+",
+        "Cu2+",
+        "Zn2+"
+       ],
+       "answer": 0,
+       "explanation": "Chất diệp lục (chlorophyll) là phức chất tự nhiên của ion Mg2+."
+      }
+     ]
+    },
+    {
+     "id": "bai-30-on-tap-chuong-8",
+     "title": "Bài 30. Ôn tập chương 8",
+     "summary": "Hệ thống hoá kiến thức kim loại chuyển tiếp dãy thứ nhất và phức chất: cấu trúc, danh pháp, tính chất tạo phức và ứng dụng.",
+     "notes": [
+      {
+       "heading": "Tổng kết phức chất và kim loại chuyển tiếp",
+       "points": [
+        "Kim loại chuyển tiếp dãy 3d có tính chất vật lí và hoá học đặc trưng nhờ sự tham gia của phân lớp d.",
+        "Phức chất đóng vai trò sống còn trong sinh học và ứng dụng công nghệ xúc tác hiện đại."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Số phối trí",
+       "definition": "Số liên kết cho - nhận tạo bởi các phối tử với nguyên tử trung tâm trong phức chất."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Thuốc thử Tollens dùng trong phản ứng tráng bạc là phức chất của ion kim loại nào?",
+       "back": "Phức chất của ion bạc: [Ag(NH3)2]OH."
+      }
+     ],
+     "questions": [
+      {
+       "type": "truefalse",
+       "prompt": "Tất cả các kim loại chuyển tiếp dãy thứ nhất từ Sc đến Cu đều là kim loại nặng (khối lượng riêng D >= 5 g/cm3).",
+       "answer": false,
+       "explanation": "Scandium (D = 2,98 g/cm3) và Titanium (D = 4,50 g/cm3) có khối lượng riêng nhỏ hơn 5 g/cm3 nên thuộc nhóm kim loại nhẹ."
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
