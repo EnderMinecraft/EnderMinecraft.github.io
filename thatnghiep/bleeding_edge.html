@@ -2192,7 +2192,7 @@ var I18N = {
     tour_exam_h: 'Exam mode',
     tour_exam_p: 'Sit a timed practice exam that mixes questions from all your topics. It unlocks as soon as a pack is loaded.',
     tour_timer_h: 'Focus timer',
-    tour_timer_p: 'Run a study timer while you work. Every finished session adds to your streak.',
+    tour_timer_p: 'Run a study timer or complete exercises while revising. Every finished session adds to your streak.',
     tour_tools_h: 'Language and theme',
     tour_tools_p: 'Switch between English and Tiếng Việt, and pick light, dark or system mode. More looks are waiting under Themes.',
     tour_done_h: 'You are all set',
@@ -2598,7 +2598,7 @@ var I18N = {
     tour_exam_h: 'Thi thử',
     tour_exam_p: 'Làm một bài thi thử có giới hạn thời gian, trộn câu hỏi từ mọi chủ đề. Mục này mở ra ngay khi bạn tải một bộ ôn tập.',
     tour_timer_h: 'Đồng hồ tập trung',
-    tour_timer_p: 'Bật đồng hồ khi học. Mỗi phiên hoàn thành sẽ được cộng vào chuỗi ngày học.',
+    tour_timer_p: 'Làm bài tập hoặc bật đồng hồ tập trung khi học. Mỗi phiên học đều được tự động cộng vào chuỗi ngày học.',
     tour_tools_h: 'Ngôn ngữ và giao diện',
     tour_tools_p: 'Đổi giữa English và Tiếng Việt, chọn chế độ sáng, tối hoặc theo hệ thống. Còn nhiều giao diện khác trong mục Giao diện.',
     tour_done_h: 'Bạn đã sẵn sàng',
@@ -3226,27 +3226,62 @@ function render() {
   function meter(label, pct, text, na) {
     return '<div class="m' + (na ? ' na' : '') + '"><span class="m-l">' + label + '</span><span class="m-b"><i style="width:' + pct + '%"></i></span><span class="m-v">' + text + '</span></div>';
   }
-function getStreakData(daysCount) {
+  function dayKeyOf(d) {
+    return 'sp:timer:' + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+  }
+  function dayKey() {
+    return dayKeyOf(new Date());
+  }
+  function dayStats(d) {
+    var k = d ? dayKeyOf(d) : dayKey();
+    try { return JSON.parse(store.get(k) || '{"n":0,"m":0}'); } catch (e) { return { n: 0, m: 0 }; }
+  }
+  function recordStudyActivity(mins) {
+    var k = dayKey();
+    var st = dayStats();
+    st.n = (st.n || 0) + 1;
+    if (mins) st.m = (st.m || 0) + mins;
+    store.set(k, JSON.stringify(st));
+  }
+  function recordStudyAnswer() {
+    var k = dayKey();
+    var st = dayStats();
+    if (!st.n) {
+      st.n = 1;
+      store.set(k, JSON.stringify(st));
+    }
+  }
+  function getDayActivityCount(d) {
+    var st = dayStats(d);
+    var count = st && st.n ? +st.n : 0;
+    // Kiểm tra thêm lịch sử làm bài trong ngày này từ S.prog.hist
+    if (count === 0 && S.prog && Array.isArray(S.prog.hist)) {
+      var dY = d.getFullYear(), dM = d.getMonth(), dD = d.getDate();
+      var hCount = S.prog.hist.filter(function (h) {
+        if (!h || !h.t) return false;
+        var ht = new Date(h.t);
+        return ht.getFullYear() === dY && ht.getMonth() === dM && ht.getDate() === dD;
+      }).length;
+      if (hCount > 0) count = hCount;
+    }
+    return count;
+  }
+
+  function getStreakData(daysCount) {
     daysCount = daysCount || 7;
     var streak = 0;
     
-    // Tính toán chuỗi streak liên tục thực tế
-    for (var i = 0; ; i++) {
+    // Tính toán chuỗi streak liên tục thực tế (tính cả làm bài tập lẫn chạy timer)
+    for (var i = 0; i < 3650; i++) {
       var d = new Date();
       d.setDate(d.getDate() - i);
-      var k = 'sp:timer:' + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-      var data = null;
-      try { data = JSON.parse(store.get(k) || 'null'); } catch (e) { data = null; }
-      var count = data ? data.n : 0;
+      var count = getDayActivityCount(d);
       if (count > 0) {
         streak++;
       } else if (i === 0) {
         var y = new Date();
         y.setDate(y.getDate() - 1);
-        var yk = 'sp:timer:' + y.getFullYear() + '-' + (y.getMonth() + 1) + '-' + y.getDate();
-        var yData = null;
-        try { yData = JSON.parse(store.get(yk) || 'null'); } catch (e) { yData = null; }
-        if (!yData || yData.n === 0) break;
+        if (getDayActivityCount(y) === 0) break;
       } else {
         break;
       }
@@ -3257,10 +3292,7 @@ function getStreakData(daysCount) {
     for (var j = daysCount - 1; j >= 0; j--) {
       var d = new Date();
       d.setDate(d.getDate() - j);
-      var k = 'sp:timer:' + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-      var data = null;
-      try { data = JSON.parse(store.get(k) || 'null'); } catch (e) { data = null; }
-      var count = data ? data.n : 0;
+      var count = getDayActivityCount(d);
       days.push({ count: count, date: d.toLocaleDateString() });
     }
     return { streak: streak, days: days };
@@ -3857,6 +3889,7 @@ function selectExamAns(qIdx, val, skipRender) {
   if (S.exam.run && S.exam.run.questions[qIdx]) {
     S.exam.run.questions[qIdx].userAnswer = val;
     saveExamRun();
+    recordStudyAnswer();
     if (!skipRender) render(); // Chỉ render lại khi chọn trắc nghiệm/đúng sai, bỏ qua khi gõ input chữ
   }
 }
@@ -4032,6 +4065,7 @@ function submitExam() {
   S.exam.filter = 'all';
   S.exam.step = 'result';
   store.remove('sp:run:' + S.key);
+  recordStudyActivity(Math.max(1, Math.round(used / 60000)));
   render();
   window.scrollTo(0, 0);
 }
@@ -4115,6 +4149,7 @@ function formatTime(ms) {
     else if (t.type === 'truefalse') ok = pos === (t.answer ? 0 : 1);
     it.res = { pos: pos, correct: ok, timedOut: false };
     haptic(ok ? 'ok' : 'bad');
+    recordStudyAnswer();
     q.phase = 'fb'; stopQT(); render();
   }
   function timeUp() {
@@ -4132,7 +4167,9 @@ function formatTime(ms) {
     curItem().revealed = true; q.phase = 'fb'; stopQT(); render();
   }
   function gradeShort(ok) {
-    var it = curItem(); it.res = { pos: -1, correct: ok, timedOut: !!it.timedOut }; nextQ();
+    var it = curItem(); it.res = { pos: -1, correct: ok, timedOut: !!it.timedOut };
+    recordStudyAnswer();
+    nextQ();
   }
   /* ---------- extra question types: tfs / cloze / match ---------- */
   var TFS_SC = [0, 0.1, 0.25, 0.5, 1];
@@ -4165,7 +4202,9 @@ function formatTime(ms) {
     var it = curItem(), ty = it.q.type;
     if (ty !== 'tfs' && ty !== 'cloze' && ty !== 'match') return;
     var cl = $('#cl'); if (cl) it.typed = cl.value;
-    gradeItem(it); haptic(it.res.correct ? 'ok' : 'bad'); q.phase = 'fb'; stopQT(); render();
+    gradeItem(it); haptic(it.res.correct ? 'ok' : 'bad');
+    recordStudyAnswer();
+    q.phase = 'fb'; stopQT(); render();
   }
   function tfsPick(el) {
     var q = S.quiz; if (!q || q.phase !== 'ask') return;
@@ -4376,6 +4415,7 @@ function formatTime(ms) {
     });
     ndRecordQuiz(q);
     saveProg();
+    recordStudyActivity(Math.max(1, Math.round((q.elapsed || 0) / 60)));
   }
 
   function quizHTML() {
@@ -5228,7 +5268,7 @@ function toggleExamFlag() {
       case 'editRecent': editRecentPack(el.dataset.id); break;
       case 'renameRecent': renameRecentPack(el.dataset.id); break;
       case 'deleteRecent': deleteRecentPack(el.dataset.id); break;
-      case 'notesDone': S.prog.notes[el.dataset.id] = !S.prog.notes[el.dataset.id]; if (!S.prog.notes[el.dataset.id]) delete S.prog.notes[el.dataset.id]; saveProg(); render(); break;
+      case 'notesDone': S.prog.notes[el.dataset.id] = !S.prog.notes[el.dataset.id]; if (!S.prog.notes[el.dataset.id]) delete S.prog.notes[el.dataset.id]; saveProg(); if (S.prog.notes[el.dataset.id]) recordStudyAnswer(); render(); break;
       case 'flip': if (Date.now() - SW.lastEnd < 400) break; if (S.cards) { S.cards.flipped = !S.cards.flipped; var c = $('#theCard'); if (c) c.classList.toggle('flipped', S.cards.flipped); } break;
       case 'gotit': case 'again': cardRate(name === 'gotit'); break;
       case 'cardSkip': cardSkip(); break;
@@ -5311,9 +5351,11 @@ function toggleExamFlag() {
     }
     C.flipped = false; 
     saveProg(); 
+    recordStudyAnswer();
     if (!C.queue.length) {
-    launchConfetti(); // <--- Kích hoạt pháo giấy khi lật xong hết bộ Flashcard
-  }
+      launchConfetti(); // <--- Kích hoạt pháo giấy khi lật xong hết bộ Flashcard
+      recordStudyActivity(1);
+    }
     render();
   }
   function cardSkip() {
@@ -5696,8 +5738,6 @@ function initTheme() {
   var RING = 62.83;
   function tDur() { return (T.mode === 'focus' ? T.focus : T.brk) * 60; }
   function tFmt(s) { return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); }
-  function dayKey() { var d = new Date(); return 'sp:timer:' + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
-  function dayStats() { try { return JSON.parse(store.get(dayKey()) || '{"n":0,"m":0}'); } catch (e) { return { n: 0, m: 0 }; } }
   function tRender() {
     var dur = tDur(), frac = dur ? T.left / dur : 0;
     $('#chipText').textContent = tFmt(T.left);
@@ -5742,7 +5782,7 @@ function initTheme() {
 function tDone() {
     clearInterval(T.iv); T.running = false; beep();
     if (T.mode === 'focus') {
-      var st = dayStats(); st.n++; st.m += T.focus; store.set(dayKey(), JSON.stringify(st));
+      recordStudyActivity(T.focus);
       T.msg = 'msg_focus_done'; T.mode = 'break';
     } else { T.msg = 'msg_break_done'; T.mode = 'focus'; }
     T.left = tDur();
@@ -7288,7 +7328,6 @@ var NDQR = (function () {
   }
 
   /* ---- mastery analytics ---- */
-  function dayKeyOf(d) { return 'sp:timer:' + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
   function focusDays(n) {
     var out = [];
     for (var i = n - 1; i >= 0; i--) {
