@@ -125,11 +125,14 @@ details.ed-card > .ed-in { padding: 4px 14px 12px; }
 .th-warn strong { display: block; margin-bottom: 4px; }
 .th-warn ul { margin: 6px 0 10px; padding-left: 20px; }
 .th-warn-note { color: var(--warn); font-weight: 600; margin: 0; }
-/* rainbow RGB buttons (opt-in, html.rb-on). --rb-h is animated; hue/range/speed come from the theme page. */
+/* rainbow RGB buttons (opt-in, html.rb-on). --rb-h is animated on root; all elements inherit a single unified clock. */
 @property --rb-h { syntax: '<angle>'; inherits: true; initial-value: 0deg; }
-@keyframes rbspin { to { --rb-h: var(--rb-range, 360deg); } }
-html.rb-on,
-html.rb-on :is(.btn, .tbtn, .pill, .th-pill, .ed-pill, .cf-b, .bar i, .m-b i, .an-bar i, .chip .prg, .dot):not(:disabled) {
+@property --rb-range { syntax: '<angle>'; inherits: true; initial-value: 360deg; }
+@keyframes rbspin {
+  from { --rb-h: 0deg; }
+  to { --rb-h: var(--rb-range, 360deg); }
+}
+html.rb-on {
   --rb: calc(var(--rb-h) + var(--rb-off, 0deg));
   animation: rbspin var(--rb-dur, 5s) linear infinite;
   animation-direction: var(--rb-dir, normal);
@@ -204,8 +207,7 @@ html.rb-on .chip.on {
 .th-rb-num { width: 56px; flex: none !important; border: 1px solid var(--line); border-radius: 6px; padding: 2px 4px; text-align: right; font: 13px var(--font-mono); font-variant-numeric: tabular-nums; background: var(--bg); color: var(--ink); }
 .th-rbv { min-width: 56px; text-align: right; font-variant-numeric: tabular-nums; color: var(--ink); }
 @media (prefers-reduced-motion: reduce) {
-  html.rb-on,
-  html.rb-on :is(.btn, .tbtn, .pill, .th-pill, .ed-pill, .cf-b, .bar i, .m-b i, .an-bar i, .chip .prg, .dot):not(:disabled) { animation: none; }
+  html.rb-on { animation: none; }
 }
 .th-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .th-table td { padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
@@ -6179,7 +6181,7 @@ document.addEventListener('click', function (e) {
       if (deep) { var c = (t.questions || []).filter(function (qq) { return check(qq).e.length; }).length; if (c) m.push(T('w_tq', { n: c })); }
       return m;
     }
-    function badge(m) { return m.length ? h('span', { class: 'ed-wn', title: m.join('\n'), 'aria-label': m.join(' ') }, '⚠') : null; }
+    function badge(m) { return (m && m.length) ? h('span', { class: 'ed-wn', title: m.join('\n'), 'aria-label': m.join(' ') }, '⚠') : null; }
     function allIssues() {
       var L = [];
       data.topics.forEach(function (t) {
@@ -6295,8 +6297,10 @@ document.addEventListener('click', function (e) {
         C.topics.forEach(function (t, i) {
           if (qf && !(tLabel(t) + ' ' + (t.summary || '')).toLowerCase().includes(qf)) return;
           var li = h('li', { class: 'ed-item' + (t === selT ? ' sel' : '') }), hd = handle(!!qf);
-          li.append(hd, btn(tLabel(t), function () { selT = t; selQ = null; render(); }, 'ed-main', { 'aria-current': String(t === selT), title: tLabel(t) }), badge(topicIssues(t, true)),
-            btn('×', function () { undoable(function () { C.topics.splice(i, 1); if (selT === t) selT = selQ = null; }, T('topic_deleted')); }, 'ed-x', { 'aria-label': T('delete') }));
+          var b = badge(topicIssues(t, true));
+          li.append(hd, btn(tLabel(t), function () { selT = t; selQ = null; render(); }, 'ed-main', { 'aria-current': String(t === selT), title: tLabel(t) }));
+          if (b) li.append(b);
+          li.append(btn('×', function () { undoable(function () { C.topics.splice(i, 1); if (selT === t) selT = selQ = null; }, T('topic_deleted')); }, 'ed-x', { 'aria-label': T('delete') }));
           if (!qf) sortable(hd, li, C.topics, i, render, 't');
           ul.append(li);
         });
@@ -6389,8 +6393,10 @@ document.addEventListener('click', function (e) {
         qs.forEach(function (qq, i) {
           if (f && !qLabel(i, qq).toLowerCase().includes(f) && !String(qq.prompt).toLowerCase().includes(f)) return;
           var li = h('li', { class: 'ed-item' + (qq === selQ ? ' sel' : '') }), hd = handle(!!f);
-          li.append(hd, btn(qLabel(i, qq), function () { selQ = qq; renderBody(); }, 'ed-main'), badge(check(qq).e),
-            btn('×', function () { undoable(function () { qs.splice(i, 1); if (selQ === qq) selQ = null; }, T('q_deleted')); }, 'ed-x', { 'aria-label': T('delete') }));
+          var b = badge(check(qq).e);
+          li.append(hd, btn(qLabel(i, qq), function () { selQ = qq; renderBody(); }, 'ed-main'));
+          if (b) li.append(b);
+          li.append(btn('×', function () { undoable(function () { qs.splice(i, 1); if (selQ === qq) selQ = null; }, T('q_deleted')); }, 'ed-x', { 'aria-label': T('delete') }));
           if (!f) sortable(hd, li, qs, i, renderBody, 'q');
           ul.append(li);
         });
@@ -6928,12 +6934,14 @@ document.addEventListener('click', function (e) {
       var paste = h('textarea', { class: 'th-paste', rows: 4, 'aria-label': T('paste'), placeholder: '{ "format": "sp-theme", "version": 1, ... }' });
       var copyBtn = h('button', { type: 'button', class: 'btn sm' }, T('copy')); copyBtn.addEventListener('click', function () { copyJson(copyBtn); });
 
+      var wb = warnBox();
       host.append(h('h2', { class: 'sec-h', style: 'margin-top:0' }, T('title')), h('p', { class: 'lede' }, T('lede')),
         h('div', { class: 'th-active' },
           h('span', {}, cur ? T('active', { n: cur.name }) : T('none')),
           h('button', { type: 'button', class: 'btn sm again', onclick: function () { clear(); say(T('reset_done')); } }, T('reset'))),
-        refs.msg, warnBox(),
-        h('div', { class: 'th-grid' },
+        refs.msg);
+      if (wb) host.append(wb);
+      host.append(h('div', { class: 'th-grid' },
           h('div', { class: 'th-col' },
             h('div', { class: 'th-box' },
               h('label', { class: 'th-f' }, h('span', {}, T('name')), nameIn),
