@@ -1,0 +1,2095 @@
+{
+ "id": "math-12",
+ "title": "Toán 12",
+ "subject": "Toán học",
+ "level": "Lớp 12",
+ "language": "vi",
+ "topics": [],
+ "packs": [
+  {
+   "id": "chuong-01-ung-dung-dao-ham",
+   "title": "Chương I. Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số",
+   "topics": [
+    {
+     "id": "tinh-don-dieu-va-cuc-tri-cua-ham-so",
+     "title": "Bài 1. Tính đơn điệu và cực trị của hàm số",
+     "summary": "Khái niệm tính đơn điệu, mối quan hệ giữa dấu đạo hàm và chiều biến thiên, cùng các điều kiện xác định cực trị của hàm số.",
+     "notes": [
+      {
+       "heading": "Tính đơn điệu của hàm số",
+       "points": [
+        "Hàm số y = f(x) gọi là **đồng biến** trên khoảng K nếu với mọi x1, x2 thuộc K mà x1 < x2 thì f(x1) < f(x2).",
+        "Hàm số y = f(x) gọi là **nghịch biến** trên khoảng K nếu với mọi x1, x2 thuộc K mà x1 < x2 thì f(x1) > f(x2).",
+        "Hàm số đồng biến hoặc nghịch biến trên khoảng K được gọi chung là **đơn điệu** trên khoảng K.",
+        "Về mặt hình học, trên khoảng đồng biến đồ thị hàm số đi lên từ trái sang phải, còn trên khoảng nghịch biến đồ thị đi xuống từ trái sang phải."
+       ]
+      },
+      {
+       "heading": "Dấu của đạo hàm và tính đơn điệu",
+       "points": [
+        "Nếu đạo hàm f'(x) > 0 với mọi x thuộc khoảng K thì hàm số f(x) **đồng biến** trên khoảng K.",
+        "Nếu đạo hàm f'(x) < 0 với mọi x thuộc khoảng K thì hàm số f(x) **nghịch biến** trên khoảng K.",
+        "Định lý mở rộng khẳng định nếu f'(x) >= 0 (hoặc f'(x) <= 0) với mọi x thuộc K và f'(x) = 0 chỉ tại một số hữu hạn điểm thì hàm số đồng biến (hoặc nghịch biến) trên K.",
+        "Nếu f'(x) = 0 với mọi x thuộc khoảng K thì hàm số là hàm hằng không đổi trên khoảng K đó."
+       ]
+      },
+      {
+       "heading": "Khái niệm cực trị của hàm số",
+       "points": [
+        "Điểm x0 được gọi là **điểm cực đại** của hàm số nếu tồn tại khoảng (x0 - h, x0 + h) chứa x0 sao cho f(x) < f(x0) với mọi x khác x0 trong khoảng đó.",
+        "Điểm x0 được gọi là **điểm cực tiểu** của hàm số nếu tồn tại khoảng (x0 - h, x0 + h) chứa x0 sao cho f(x) > f(x0) với mọi x khác x0 trong khoảng đó.",
+        "Giá trị f(x0) được gọi là **giá trị cực đại** (hoặc cực tiểu), còn điểm M(x0, f(x0)) trên mặt phẳng tọa độ gọi là **điểm cực trị của đồ thị hàm số**."
+       ]
+      },
+      {
+       "heading": "Điều kiện xác định cực trị bằng đạo hàm",
+       "points": [
+        "Nếu đạo hàm f'(x) đổi dấu từ dương sang âm khi x đi qua điểm x0 theo chiều tăng thì x0 là **điểm cực đại** của hàm số.",
+        "Nếu đạo hàm f'(x) đổi dấu từ âm sang dương khi x đi qua điểm x0 theo chiều tăng thì x0 là **điểm cực tiểu** của hàm số.",
+        "Nếu f'(x0) = 0 nhưng đạo hàm không đổi dấu khi đi qua x0 thì x0 không phải là điểm cực trị của hàm số."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Hàm số đồng biến",
+       "definition": "Hàm số có giá trị tăng khi biến số tăng trên một khoảng xác định."
+      },
+      {
+       "term": "Hàm số nghịch biến",
+       "definition": "Hàm số có giá trị giảm khi biến số tăng trên một khoảng xác định."
+      },
+      {
+       "term": "Tính đơn điệu",
+       "definition": "Tên gọi chung cho tính chất đồng biến hoặc nghịch biến của một hàm số."
+      },
+      {
+       "term": "Điểm cực đại",
+       "definition": "Điểm x0 mà tại đó giá trị hàm số lớn hơn giá trị của hàm số tại các điểm lân cận."
+      },
+      {
+       "term": "Điểm cực tiểu",
+       "definition": "Điểm x0 mà tại đó giá trị hàm số nhỏ hơn giá trị của hàm số tại các điểm lân cận."
+      },
+      {
+       "term": "Giá trị cực trị",
+       "definition": "Giá trị của hàm số tại điểm cực đại hoặc điểm cực tiểu."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Điều kiện cần và đủ về dấu đạo hàm để hàm số đồng biến trên khoảng K là gì?",
+       "back": "f'(x) >= 0 với mọi x thuộc K và f'(x) = 0 chỉ xảy ra tại hữu hạn điểm thuộc K."
+      },
+      {
+       "front": "Dấu hiệu đạo hàm đổi dấu từ dương sang âm khi qua x0 cho biết điều gì?",
+       "back": "Hàm số đạt cực đại tại x0."
+      },
+      {
+       "front": "Dấu hiệu đạo hàm đổi dấu từ âm sang dương khi qua x0 cho biết điều gì?",
+       "back": "Hàm số đạt cực tiểu tại x0."
+      },
+      {
+       "front": "Điểm cực trị của đồ thị hàm số khác điểm cực trị của hàm số ở điểm nào?",
+       "back": "Điểm cực trị của hàm số là hoành độ x0, còn điểm cực trị của đồ thị là điểm tọa độ M(x0, f(x0))."
+      },
+      {
+       "front": "Nếu f'(x0) = 0 nhưng f'(x) không đổi dấu khi qua x0 thì x0 có phải cực trị không?",
+       "back": "Không, x0 không phải là điểm cực trị của hàm số."
+      },
+      {
+       "front": "Đồ thị của hàm số đồng biến trên K có hình dạng như thế nào từ trái sang phải?",
+       "back": "Đồ thị đi lên từ trái sang phải."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Cho hàm số f(x) có đạo hàm f'(x) = (x - 1)(x + 2). Khoảng nghịch biến của hàm số là khoảng nào?",
+       "options": [
+        "(-2; 1)",
+        "(-vô cùng; -2)",
+        "(1; +vô cùng)",
+        "(-1; 2)"
+       ],
+       "answer": 0,
+       "explanation": "Tam thức (x - 1)(x + 2) mang dấu âm trong khoảng giữa hai nghiệm, tức là trên khoảng (-2; 1)."
+      },
+      {
+       "type": "mcq",
+       "prompt": "Nếu hàm số f(x) có đạo hàm f'(x) = x^2(x - 3) thì số điểm cực trị của hàm số là bao nhiêu?",
+       "options": [
+        "1",
+        "2",
+        "3",
+        "0"
+       ],
+       "answer": 0,
+       "explanation": "Đạo hàm chỉ đổi dấu khi qua nghiệm đơn x = 3, còn x = 0 là nghiệm bội chẵn nên đạo hàm không đổi dấu, do đó chỉ có 1 điểm cực trị."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Mọi điểm x0 thỏa mãn f'(x0) = 0 đều là điểm cực trị của hàm số y = f(x).",
+       "answer": false,
+       "explanation": "Điều kiện f'(x0) = 0 chỉ là điều kiện cần. Để là điểm cực trị, f'(x) còn phải đổi dấu khi qua x0."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Hàm số y = f(x) đồng biến trên K khi và chỉ khi đồ thị của nó đi lên từ trái sang phải trên K.",
+       "answer": true,
+       "explanation": "Định nghĩa hình học của hàm đồng biến là đồ thị luôn đi lên theo chiều tăng của hoành độ x."
+      },
+      {
+       "type": "short",
+       "prompt": "Cho hàm số y = -x^3 + 3x^2 - 4. Hãy xác định hoành độ điểm cực tiểu của hàm số.",
+       "answer": "x = 0",
+       "explanation": "Ta có y' = -3x^2 + 6x = -3x(x - 2). Đạo hàm đổi dấu từ âm sang dương khi qua x = 0 nên x = 0 là điểm cực tiểu."
+      },
+      {
+       "type": "cloze",
+       "prompt": "Khi đi qua điểm cực đại theo chiều tăng của x, đạo hàm f'(x) đổi dấu từ ____ sang âm.",
+       "answers": [
+        "dương",
+        "+"
+       ],
+       "explanation": "Đạo hàm đổi dấu từ dương sang âm khi đi qua điểm cực đại."
+      },
+      {
+       "type": "match",
+       "prompt": "Nối tính chất dấu của đạo hàm với tính chất biến thiên tương ứng trên khoảng K:",
+       "pairs": [
+        {
+         "left": "f'(x) > 0 với mọi x thuộc K",
+         "right": "Hàm số đồng biến trên K"
+        },
+        {
+         "left": "f'(x) < 0 với mọi x thuộc K",
+         "right": "Hàm số nghịch biến trên K"
+        },
+        {
+         "left": "f'(x) = 0 với mọi x thuộc K",
+         "right": "Hàm số không đổi (hàm hằng) trên K"
+        },
+        {
+         "left": "f'(x) đổi dấu từ âm sang dương qua x0",
+         "right": "Hàm số đạt cực tiểu tại x0"
+        }
+       ],
+       "explanation": "Các liên kết thể hiện mối quan hệ cơ bản giữa dấu của đạo hàm và chiều biến thiên, cực trị."
+      },
+      {
+       "type": "tfs",
+       "prompt": "Dựa vào định nghĩa và tính chất của tính đơn điệu và cực trị hàm số, xét tính đúng/sai của các mệnh đề sau:",
+       "quote": "Đạo hàm bậc nhất f'(x) phản ánh tốc độ biến thiên tức thời và chiều biến thiên của hàm số liên tục. Sự đổi dấu của đạo hàm tại điểm dừng hoặc điểm kỳ dị tạo nên các điểm cực trị địa phương.",
+       "items": [
+        {
+         "text": "Nếu f'(x) >= 0 với mọi x thuộc K và f'(x) = 0 tại vô số điểm liên tục thì hàm số vẫn đồng biến nghiêm ngặt.",
+         "answer": false
+        },
+        {
+         "text": "Hàm số có thể đạt cực trị tại điểm mà tại đó đạo hàm không xác định, miễn là hàm số liên tục tại điểm đó.",
+         "answer": true
+        },
+        {
+         "text": "Nếu hàm số đồng biến trên K thì với x1 < x2 luôn suy ra f(x1) < f(x2).",
+         "answer": true
+        },
+        {
+         "text": "Giá trị cực đại của một hàm số luôn luôn lớn hơn mọi giá trị cực tiểu của hàm số đó.",
+         "answer": false
+        }
+       ],
+       "explanation": "Cực trị có tính chất địa phương nên giá trị cực đại ở khoảng này có thể nhỏ hơn giá trị cực tiểu ở khoảng khác."
+      }
+     ]
+    },
+    {
+     "id": "gia-tri-lon-nhat-va-nho-nhat-cua-ham-so",
+     "title": "Bài 2. Giá trị lớn nhất và giá trị nhỏ nhất của hàm số",
+     "summary": "Định nghĩa giá trị lớn nhất và nhỏ nhất của hàm số trên tập xác định và phương pháp tìm GTLN, GTNN trên đoạn bằng đạo hàm.",
+     "notes": [
+      {
+       "heading": "Định nghĩa giá trị lớn nhất và nhỏ nhất",
+       "points": [
+        "Số M gọi là **giá trị lớn nhất** của hàm số y = f(x) trên tập D nếu f(x) <= M với mọi x thuộc D và tồn tại x0 thuộc D sao cho f(x0) = M.",
+        "Số m gọi là **giá trị nhỏ nhất** của hàm số y = f(x) trên tập D nếu f(x) >= m với mọi x thuộc D và tồn tại x0 thuộc D sao cho f(x0) = m.",
+        "Kí hiệu giá trị lớn nhất là max f(x) trên D và giá trị nhỏ nhất là min f(x) trên D.",
+        "Nếu nói giá trị lớn nhất hay nhỏ nhất mà không chỉ rõ tập D thì ta ngầm hiểu là xét trên toàn bộ tập xác định của hàm số."
+       ]
+      },
+      {
+       "heading": "Quy tắc tìm GTLN và GTNN trên một đoạn",
+       "points": [
+        "Mọi hàm số liên tục trên đoạn [a, b] đều đạt được **giá trị lớn nhất** và **giá trị nhỏ nhất** trên đoạn đó.",
+        "Bước 1: Tìm các điểm x1, x2, ..., xn thuộc khoảng mở (a, b) tại đó đạo hàm f'(x) = 0 hoặc f'(x) không tồn tại.",
+        "Bước 2: Tính giá trị của hàm số tại hai đầu mút f(a), f(b) và tại các điểm vừa tìm được f(x1), f(x2), ..., f(xn).",
+        "Bước 3: Số lớn nhất trong các giá trị tính được là GTLN (M), số nhỏ nhất là GTNN (m) của hàm số trên đoạn [a, b]."
+       ]
+      },
+      {
+       "heading": "Tìm GTLN và GTNN trên khoảng hoặc nửa khoảng",
+       "points": [
+        "Để tìm GTLN và GTNN trên khoảng hoặc nửa khoảng, phương pháp thông dụng nhất là lập **bảng biến thiên** của hàm số trên tập đó.",
+        "Căn cứ vào bảng biến thiên, ta so sánh các giá trị cực trị và giới hạn ở các đầu mút để kết luận có tồn tại GTLN, GTNN hay không."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Giá trị lớn nhất",
+       "definition": "Giá trị M lớn hơn hoặc bằng mọi giá trị của hàm số trên tập xác định và có điểm đạt được dấu bằng."
+      },
+      {
+       "term": "Giá trị nhỏ nhất",
+       "definition": "Giá trị m nhỏ hơn hoặc bằng mọi giá trị của hàm số trên tập xác định và có điểm đạt được dấu bằng."
+      },
+      {
+       "term": "Đoạn [a, b]",
+       "definition": "Tập hợp các số thực x thỏa mãn a <= x <= b, trên đó hàm số liên tục luôn đạt max và min."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Hàm số liên tục trên một đoạn [a, b] có chắc chắn có GTLN và GTNN không?",
+       "back": "Có, theo định lý Weierstrass hàm số liên tục trên một đoạn luôn đạt cả GTLN và GTNN."
+      },
+      {
+       "front": "Trên đoạn [a, b], các điểm nghi vấn đạt GTLN và GTNN gồm những điểm nào?",
+       "back": "Hai điểm mút a, b và các điểm trong (a, b) mà tại đó đạo hàm bằng 0 hoặc không tồn tại."
+      },
+      {
+       "front": "Một hàm số xác định trên khoảng mở (a, b) có bắt buộc phải có GTLN không?",
+       "back": "Không bắt buộc, giá trị có thể tiến tới vô cực hoặc tiệm cận mà không đạt dấu bằng tại điểm nào thuộc khoảng."
+      },
+      {
+       "front": "Nếu một số M thỏa mãn f(x) <= M với mọi x thuộc D nhưng không có x0 nào để f(x0) = M thì M có là GTLN không?",
+       "back": "Không, bắt buộc phải tồn tại x0 thuộc D để f(x0) = M."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Giá trị lớn nhất của hàm số f(x) = x^3 - 3x + 2 trên đoạn [0; 2] bằng bao nhiêu?",
+       "options": [
+        "4",
+        "2",
+        "0",
+        "6"
+       ],
+       "answer": 0,
+       "explanation": "f'(x) = 3x^2 - 3 = 0 cho nghiệm x = 1 thuộc (0; 2). Tính f(0) = 2, f(1) = 0, f(2) = 4. Do đó max là f(2) = 4."
+      },
+      {
+       "type": "mcq",
+       "prompt": "Giá trị nhỏ nhất của hàm số f(x) = x + 4/x trên khoảng (0; +vô cùng) là:",
+       "options": [
+        "4",
+        "2",
+        "5",
+        "0"
+       ],
+       "answer": 0,
+       "explanation": "Áp dụng bất đẳng thức Cauchy hoặc đạo hàm f'(x) = 1 - 4/x^2 = 0 <=> x = 2. Khi đó f(2) = 4 là GTNN."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Hàm số liên tục trên khoảng mở (a; b) luôn đạt giá trị lớn nhất và giá trị nhỏ nhất trên khoảng đó.",
+       "answer": false,
+       "explanation": "Khẳng định chỉ đúng trên đoạn đóng [a; b]. Trên khoảng mở, hàm số có thể không đạt max hoặc min."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Để tìm GTLN và GTNN của hàm số liên tục trên đoạn [a; b], ta không nhất thiết phải lập bảng biến thiên.",
+       "answer": true,
+       "explanation": "Đúng, chỉ cần tính giá trị tại hai đầu mút và các điểm dừng bên trong đoạn rồi chọn số lớn nhất, nhỏ nhất."
+      },
+      {
+       "type": "short",
+       "prompt": "Tìm giá trị nhỏ nhất của hàm số y = x^4 - 2x^2 + 3 trên toàn trục số thực R.",
+       "answer": "2",
+       "explanation": "Đặt t = x^2 >= 0, ta có y = t^2 - 2t + 3 = (t - 1)^2 + 2 >= 2. Dấu bằng xảy ra khi x = 1 hoặc x = -1."
+      },
+      {
+       "type": "cloze",
+       "prompt": "Để một số M là giá trị lớn nhất của f(x) trên D, ngoài điều kiện f(x) <= M, bắt buộc phải tồn tại điểm x0 thuộc D sao cho f(x0) = ____.",
+       "answers": [
+        "M"
+       ],
+       "explanation": "Bắt buộc phải đạt dấu bằng tại ít nhất một điểm thuộc miền xác định."
+      },
+      {
+       "type": "match",
+       "prompt": "Nối bước thực hiện với nội dung tương ứng trong quy tắc tìm GTLN, GTNN trên đoạn [a; b]:",
+       "pairs": [
+        {
+         "left": "Bước 1",
+         "right": "Tìm các điểm xi trong (a; b) có f'(xi) = 0 hoặc không có đạo hàm"
+        },
+        {
+         "left": "Bước 2",
+         "right": "Tính các giá trị f(a), f(b) và f(xi)"
+        },
+        {
+         "left": "Bước 3",
+         "right": "So sánh để kết luận giá trị lớn nhất M và nhỏ nhất m"
+        },
+        {
+         "left": "Kiểm tra điều kiện tiên quyết",
+         "right": "Xác nhận hàm số liên tục trên toàn đoạn [a; b]"
+        }
+       ],
+       "explanation": "Đây là trình tự chuẩn để tìm GTLN và GTNN trên một đoạn."
+      },
+      {
+       "type": "tfs",
+       "prompt": "Cho hàm số f(x) xác định và liên tục trên đoạn [-1; 3]. Xét tính đúng/sai của các nhận định sau:",
+       "quote": "Định lý giá trị cực biên đảm bảo hàm liên tục trên tập compact (như đoạn đóng [a, b]) luôn đạt cận trên đúng và cận dưới đúng tại các điểm cụ thể trong tập.",
+       "items": [
+        {
+         "text": "Giá trị lớn nhất của hàm số trên đoạn [-1; 3] luôn là một trong các giá trị cực đại của hàm số.",
+         "answer": false
+        },
+        {
+         "text": "Hàm số f(x) chắc chắn có cả giá trị lớn nhất và giá trị nhỏ nhất trên đoạn [-1; 3].",
+         "answer": true
+        },
+        {
+         "text": "Nếu f(x) đồng biến trên [-1; 3] thì min f(x) = f(-1) và max f(x) = f(3).",
+         "answer": true
+        },
+        {
+         "text": "Nếu f'(x) = 0 không có nghiệm nào trong khoảng (-1; 3) thì hàm số không có GTLN trên [-1; 3].",
+         "answer": false
+        }
+       ],
+       "explanation": "Khi f'(x) = 0 vô nghiệm thì hàm số đơn điệu, GTLN và GTNN đạt tại hai đầu mút của đoạn."
+      }
+     ]
+    },
+    {
+     "id": "duong-tiem-can-cua-do-thi-ham-so",
+     "title": "Bài 3. Đường tiệm cận của đồ thị hàm số",
+     "summary": "Định nghĩa và phương pháp xác định tiệm cận đứng, tiệm cận ngang và tiệm cận xiên của đồ thị hàm số thông qua giới hạn.",
+     "notes": [
+      {
+       "heading": "Đường tiệm cận ngang",
+       "points": [
+        "Đường thẳng y = y0 được gọi là **tiệm cận ngang** của đồ thị hàm số y = f(x) nếu giới hạn khi x tiến ra dương vô cùng hoặc âm vô cùng của f(x) bằng y0.",
+        "Đồ thị của một hàm số có thể có tối đa hai đường tiệm cận ngang.",
+        "Với hàm phân thức hữu tỉ bậc tử bằng bậc mẫu, tiệm cận ngang là đường thẳng y bằng tỉ số giữa hệ số bậc cao nhất của tử và mẫu."
+       ]
+      },
+      {
+       "heading": "Đường tiệm cận đứng",
+       "points": [
+        "Đường thẳng x = x0 được gọi là **tiệm cận đứng** của đồ thị hàm số y = f(x) nếu ít nhất một trong các giới hạn một bên khi x tiến đến x0 bằng dương vô cùng hoặc âm vô cùng.",
+        "Với hàm phân thức tối giản f(x) = P(x) / Q(x), các nghiệm của mẫu số Q(x) = 0 mà không là nghiệm của tử số chính là các đường tiệm cận đứng."
+       ]
+      },
+      {
+       "heading": "Đường tiệm cận xiên",
+       "points": [
+        "Đường thẳng y = ax + b (với a khác 0) được gọi là **tiệm cận xiên** của đồ thị nếu giới hạn khi x tiến ra vô cực của [f(x) - (ax + b)] bằng 0.",
+        "Hệ số a và b được xác định bằng công thức: a = lim [f(x)/x] và b = lim [f(x) - ax] khi x tiến ra vô cực.",
+        "Với hàm phân thức hữu tỉ có bậc của tử lớn hơn bậc của mẫu đúng 1 bậc, ta chia đa thức để phân tích f(x) = ax + b + R(x)/Q(x), khi đó y = ax + b là tiệm cận xiên."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Tiệm cận ngang",
+       "definition": "Đường thẳng nằm ngang y = y0 mà đồ thị hàm số tiến sát tới khi biến số tiến ra vô cực."
+      },
+      {
+       "term": "Tiệm cận đứng",
+       "definition": "Đường thẳng thẳng đứng x = x0 mà đồ thị hàm số tiến sát tới khi biến số tiến dần đến x0."
+      },
+      {
+       "term": "Tiệm cận xiên",
+       "definition": "Đường thẳng y = ax + b (a khác 0) mà đồ thị hàm số tiến sát tới khi biến số tiến ra vô cực."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Đồ thị hàm số có thể có tối đa bao nhiêu đường tiệm cận ngang?",
+       "back": "Tối đa 2 đường tiệm cận ngang (một khi x tiến ra +vô cùng và một khi x tiến ra -vô cùng)."
+      },
+      {
+       "front": "Nêu định nghĩa đường tiệm cận đứng x = x0.",
+       "back": "Là đường thẳng sao cho ít nhất một trong các giới hạn một bên lim f(x) khi x -> x0+ hoặc x -> x0- bằng +vô cùng hoặc -vô cùng."
+      },
+      {
+       "front": "Hàm phân thức hữu tỉ nào sẽ có đường tiệm cận xiên?",
+       "back": "Hàm phân thức có bậc của đa thức tử lớn hơn bậc của đa thức mẫu đúng 1 bậc."
+      },
+      {
+       "front": "Phương pháp nhanh nhất để tìm tiệm cận xiên của phân thức bậc 2 trên bậc 1 là gì?",
+       "back": "Chia đa thức tử cho đa thức mẫu, phần thương ax + b chính là phương trình đường tiệm cận xiên."
+      },
+      {
+       "front": "Đường thẳng y = 0 có thể là tiệm cận ngang không?",
+       "back": "Có, khi giới hạn của hàm số ra vô cực bằng 0 (chẳng hạn hàm y = 1/x)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Đường tiệm cận đứng của đồ thị hàm số y = (2x - 1) / (x + 2) là đường thẳng nào?",
+       "options": [
+        "x = -2",
+        "x = 2",
+        "y = 2",
+        "y = -1/2"
+       ],
+       "answer": 0,
+       "explanation": "Nghiệm của mẫu số x + 2 = 0 là x = -2. Giới hạn khi x -> -2 là vô cực nên x = -2 là tiệm cận đứng."
+      },
+      {
+       "type": "mcq",
+       "prompt": "Phương trình đường tiệm cận xiên của đồ thị hàm số y = (x^2 - 3x + 1) / (x - 1) là gì?",
+       "options": [
+        "y = x - 2",
+        "y = x - 1",
+        "y = x + 2",
+        "y = x - 3"
+       ],
+       "answer": 0,
+       "explanation": "Thực hiện phép chia tử cho mẫu: (x^2 - 3x + 1) = (x - 1)(x - 2) - 1, thương số là x - 2 nên tiệm cận xiên là y = x - 2."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Đồ thị của mọi hàm phân thức hữu tỉ đều có tiệm cận đứng.",
+       "answer": false,
+       "explanation": "Hàm phân thức có mẫu số vô nghiệm trên R (như y = 1 / (x^2 + 1)) thì không có tiệm cận đứng."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Đồ thị của hàm đa thức bậc ba không có bất kỳ đường tiệm cận nào.",
+       "answer": true,
+       "explanation": "Hàm đa thức bậc ba có tập xác định R và giới hạn ra vô cực bằng vô cực, không thỏa mãn định nghĩa tiệm cận ngang, đứng hay xiên."
+      },
+      {
+       "type": "short",
+       "prompt": "Xác định tiệm cận ngang của đồ thị hàm số y = (3x + 2) / (x - 1).",
+       "answer": "y = 3",
+       "explanation": "Giới hạn khi x tiến ra vô cực của (3x + 2)/(x - 1) bằng 3, nên tiệm cận ngang là đường thẳng y = 3."
+      },
+      {
+       "type": "cloze",
+       "prompt": "Nếu đồ thị hàm số có tiệm cận ngang thì đồ thị không thể có tiệm cận ____ khi x tiến ra cùng hướng vô cực đó.",
+       "answers": [
+        "xiên"
+       ],
+       "explanation": "Tiệm cận ngang là trường hợp đặc biệt khi hệ số góc a = 0; khi a khác 0 thì là tiệm cận xiên, chúng loại trừ nhau ở cùng một hướng vô cực."
+      },
+      {
+       "type": "match",
+       "prompt": "Nối hàm số với phương trình đường tiệm cận tương ứng của đồ thị:",
+       "pairs": [
+        {
+         "left": "y = (2x + 1) / (x - 1)",
+         "right": "Tiệm cận đứng x = 1 và tiệm cận ngang y = 2"
+        },
+        {
+         "left": "y = (x^2 + 1) / x",
+         "right": "Tiệm cận đứng x = 0 và tiệm cận xiên y = x"
+        },
+        {
+         "left": "y = 1 / (x^2 + 1)",
+         "right": "Tiệm cận ngang y = 0, không có tiệm cận đứng"
+        },
+        {
+         "left": "y = (3 - x) / (x + 2)",
+         "right": "Tiệm cận đứng x = -2 và tiệm cận ngang y = -1"
+        }
+       ],
+       "explanation": "Phân tích các giới hạn và phép chia đa thức tương ứng để tìm tiệm cận."
+      },
+      {
+       "type": "tfs",
+       "prompt": "Xét tính đúng/sai của các phát biểu sau về tiệm cận của đồ thị hàm số:",
+       "quote": "Đường tiệm cận là đường thẳng mà khoảng cách từ một điểm di động trên đồ thị đến đường thẳng đó dần tới 0 khi điểm đó di chuyển ra vô tận.",
+       "items": [
+        {
+         "text": "Đồ thị hàm số không bao giờ cắt đường tiệm cận ngang của nó.",
+         "answer": false
+        },
+        {
+         "text": "Đồ thị hàm phân thức bậc 1 trên bậc 1 luôn có đúng một tiệm cận đứng và một tiệm cận ngang.",
+         "answer": true
+        },
+        {
+         "text": "Một đồ thị hàm số có thể có vô số đường tiệm cận đứng.",
+         "answer": true
+        },
+        {
+         "text": "Đường thẳng x = a là tiệm cận đứng khi và chỉ khi hàm số f(x) không xác định tại x = a.",
+         "answer": false
+        }
+       ],
+       "explanation": "Đồ thị có thể cắt tiệm cận ngang tại hữu hạn hoặc vô số điểm. Hàm lượng giác như y = tan(x) có vô số tiệm cận đứng."
+      }
+     ]
+    },
+    {
+     "id": "khao-sat-su-bien-thien-va-ve-do-thi-ham-so",
+     "title": "Bài 4. Khảo sát sự biến thiên và vẽ đồ thị của hàm số",
+     "summary": "Sơ đồ khảo sát hàm số tổng quát và khảo sát chi tiết các hàm bậc ba, hàm phân thức bậc nhất trên bậc nhất và bậc hai trên bậc nhất.",
+     "notes": [
+      {
+       "heading": "Sơ đồ khảo sát hàm số tổng quát",
+       "points": [
+        "Khảo sát hàm số gồm ba bước chính: tìm tập xác định, khảo sát sự biến thiên và vẽ đồ thị hàm số.",
+        "Trong bước biến thiên, cần tính đạo hàm y', tìm các điểm tới hạn, xét dấu đạo hàm, tìm cực trị, tìm các giới hạn và đường tiệm cận, lập **bảng biến thiên**.",
+        "Khi vẽ đồ thị, cần xác định thêm các điểm đặc biệt như giao điểm với trục tung, giao điểm với trục hoành và các điểm đối xứng."
+       ]
+      },
+      {
+       "heading": "Khảo sát hàm đa thức bậc ba",
+       "points": [
+        "Hàm số bậc ba có dạng tổng quát y = ax^3 + bx^2 + cx + d với hệ số a khác 0.",
+        "Đồ thị hàm số bậc ba luôn nhận điểm uốn có hoành độ x = -b / (3a) (nghiệm của phương trình y'' = 0) làm **tâm đối xứng**.",
+        "Đồ thị hàm số bậc ba không có bất kỳ đường tiệm cận nào.",
+        "Tùy thuộc vào số nghiệm của phương trình y' = 0 (2 nghiệm phân biệt hoặc vô nghiệm/nghiệm kép), đồ thị có 2 điểm cực trị hoặc không có cực trị."
+       ]
+      },
+      {
+       "heading": "Khảo sát hàm phân thức bậc nhất trên bậc nhất",
+       "points": [
+        "Hàm số có dạng y = (ax + b) / (cx + d) với c khác 0 và ad - bc khác 0.",
+        "Đạo hàm y' = (ad - bc) / (cx + d)^2 luôn cùng dấu trên từng khoảng xác định nên hàm số **không có cực trị**.",
+        "Đồ thị hàm số có tiệm cận đứng x = -d/c và tiệm cận ngang y = a/c.",
+        "Giao điểm I(-d/c, a/c) của hai đường tiệm cận là **tâm đối xứng** của đồ thị; hai đường phân giác của các góc tạo bởi hai tiệm cận là hai **trục đối xứng**."
+       ]
+      },
+      {
+       "heading": "Khảo sát hàm phân thức bậc hai trên bậc nhất",
+       "points": [
+        "Hàm số có dạng y = (ax^2 + bx + c) / (px + q) với a, p khác 0 và đa thức tử không chia hết cho mẫu.",
+        "Đồ thị hàm số có 1 tiệm cận đứng x = -q/p và 1 tiệm cận xiên y = mx + n.",
+        "Giao điểm của tiệm cận đứng và tiệm cận xiên chính là **tâm đối xứng** của đồ thị hàm số; các đường phân giác tương ứng là các **trục đối xứng**."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Sơ đồ khảo sát hàm số",
+       "definition": "Quy trình tuần tự gồm tìm TXĐ, xét biến thiên và vẽ đồ thị để hiểu trọn vẹn đặc trưng của hàm số."
+      },
+      {
+       "term": "Tâm đối xứng của đồ thị",
+       "definition": "Điểm I mà mọi điểm thuộc đồ thị khi lấy đối xứng qua I đều cho một điểm cũng thuộc đồ thị."
+      },
+      {
+       "term": "Trục đối xứng của đồ thị",
+       "definition": "Đường thẳng d mà phép lấy đối xứng qua d biến đồ thị thành chính nó."
+      },
+      {
+       "term": "Điểm uốn",
+       "definition": "Điểm trên đường cong mà tại đó tiếp tuyến xuyên qua đường cong và đồ thị đổi hướng lồi lõm."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Đồ thị hàm số bậc ba y = ax^3 + bx^2 + cx + d có tâm đối xứng ở đâu?",
+       "back": "Tại điểm uốn I có hoành độ x = -b / (3a)."
+      },
+      {
+       "front": "Hàm phân thức y = (ax + b)/(cx + d) có cực trị không?",
+       "back": "Không, vì đạo hàm y' = (ad - bc)/(cx + d)^2 không bao giờ đổi dấu trên từng khoảng xác định."
+      },
+      {
+       "front": "Tâm đối xứng của đồ thị hàm phân thức hữu tỉ là điểm nào?",
+       "back": "Là giao điểm của các đường tiệm cận của đồ thị đó."
+      },
+      {
+       "front": "Đồ thị hàm số phân thức bậc nhất trên bậc nhất có mấy trục đối xứng?",
+       "back": "Có 2 trục đối xứng, là hai đường phân giác của các góc tạo bởi hai đường tiệm cận."
+      },
+      {
+       "front": "Đồ thị hàm bậc ba có thể có tiệm cận đứng không?",
+       "back": "Không, hàm đa thức xác định trên R nên không có tiệm cận đứng."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Hoành độ tâm đối xứng của đồ thị hàm số y = x^3 - 3x^2 + 4 là bao nhiêu?",
+       "options": [
+        "1",
+        "-1",
+        "2",
+        "0"
+       ],
+       "answer": 0,
+       "explanation": "Hoành độ tâm đối xứng là nghiệm của y'' = 0: y' = 3x^2 - 6x, y'' = 6x - 6 = 0 <=> x = 1."
+      },
+      {
+       "type": "mcq",
+       "prompt": "Tọa độ tâm đối xứng của đồ thị hàm số y = (2x + 1) / (x - 3) là:",
+       "options": [
+        "(3; 2)",
+        "(-3; 2)",
+        "(3; -2)",
+        "(2; 3)"
+       ],
+       "answer": 0,
+       "explanation": "Giao điểm của tiệm cận đứng x = 3 và tiệm cận ngang y = 2 là điểm I(3; 2)."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Đồ thị hàm số y = (ax + b)/(cx + d) luôn có 2 trục đối xứng vuông góc với nhau.",
+       "answer": true,
+       "explanation": "Hai trục đối xứng chính là hai đường phân giác của góc vuông tạo bởi tiệm cận đứng và tiệm cận ngang, luôn vuông góc với nhau."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Đồ thị hàm số bậc ba luôn cắt trục hoành tại đúng ba điểm phân biệt.",
+       "answer": false,
+       "explanation": "Đồ thị có thể cắt trục hoành tại 1, 2 (tiếp xúc) hoặc 3 điểm phân biệt tùy thuộc vào cực trị."
+      },
+      {
+       "type": "short",
+       "prompt": "Cho hàm số y = (x^2 - x + 1)/(x - 1). Hãy chỉ ra hoành độ của tâm đối xứng của đồ thị hàm số.",
+       "answer": "x = 1",
+       "explanation": "Tâm đối xứng là giao điểm của tiệm cận đứng x = 1 và tiệm cận xiên, nên hoành độ tâm đối xứng là x = 1."
+      },
+      {
+       "type": "cloze",
+       "prompt": "Điểm uốn của đồ thị hàm số bậc ba là điểm có hoành độ thỏa mãn đạo hàm cấp hai y'' = ____.",
+       "answers": [
+        "0",
+        "không"
+       ],
+       "explanation": "Hoành độ điểm uốn của hàm đa thức là nghiệm của phương trình đạo hàm cấp hai bằng 0."
+      },
+      {
+       "type": "match",
+       "prompt": "Nối dạng hàm số với đặc điểm tâm đối xứng của đồ thị hàm số đó:",
+       "pairs": [
+        {
+         "left": "Hàm bậc ba y = ax^3 + bx^2 + cx + d",
+         "right": "Điểm uốn có hoành độ x = -b/(3a)"
+        },
+        {
+         "left": "Hàm phân thức y = (ax + b)/(cx + d)",
+         "right": "Giao điểm của tiệm cận đứng và tiệm cận ngang"
+        },
+        {
+         "left": "Hàm phân thức y = (ax^2 + bx + c)/(px + q)",
+         "right": "Giao điểm của tiệm cận đứng và tiệm cận xiên"
+        },
+        {
+         "left": "Hàm bậc hai y = ax^2 + bx + c",
+         "right": "Đỉnh Parabol (trục đối xứng là đường thẳng x = -b/(2a))"
+        }
+       ],
+       "explanation": "Mỗi loại đồ thị hàm số có đặc trưng đối xứng hình học riêng biệt."
+      },
+      {
+       "type": "tfs",
+       "prompt": "Xét tính đúng/sai của các nhận định sau về các bước khảo sát và tính chất hình học của đồ thị hàm số:",
+       "quote": "Khảo sát hàm số kết hợp giải tích và hình học giải tích nhằm mô tả đầy đủ hành vi cục bộ và toàn cục của đường cong trên mặt phẳng tọa độ.",
+       "items": [
+        {
+         "text": "Để vẽ nhánh đồ thị chính xác, cần xác định thêm tọa độ các giao điểm với trục Ox và Oy nếu có.",
+         "answer": true
+        },
+        {
+         "text": "Bảng biến thiên tóm tắt đầy đủ dấu của y', chiều mũi tên của y và các giá trị cực trị, tiệm cận.",
+         "answer": true
+        },
+        {
+         "text": "Hàm số y = (2x - 1)/(x + 1) có đạo hàm y' = 3/(x + 1)^2 > 0 nên hàm số đồng biến trên toàn tập xác định R {-1}.",
+         "answer": true
+        },
+        {
+         "text": "Nếu hàm bậc ba có hai điểm cực trị thì đường thẳng đi qua hai điểm cực trị không bao giờ đi qua điểm uốn.",
+         "answer": false
+        }
+       ],
+       "explanation": "Đường thẳng đi qua hai điểm cực trị của hàm bậc ba luôn luôn đi qua điểm uốn (tâm đối xứng) của nó."
+      }
+     ]
+    },
+    {
+     "id": "ung-dung-dao-ham-giai-quyet-van-de-thuc-tien",
+     "title": "Bài 5. Ứng dụng đạo hàm để giải quyết một số vấn đề liên quan đến thực tiễn",
+     "summary": "Ứng dụng đạo hàm vào bài toán tốc độ thay đổi tức thời, các hàm kinh tế (chi phí biên, doanh thu biên, lợi nhuận biên) và tối ưu hoá thực tế.",
+     "notes": [
+      {
+       "heading": "Tốc độ thay đổi của một đại lượng",
+       "points": [
+        "Đạo hàm f'(x0) biểu thị **tốc độ thay đổi tức thời** của đại lượng y = f(x) đối với biến số x tại điểm x = x0.",
+        "Trong chuyển động cơ học, vận tốc tức thời là đạo hàm bậc nhất của quãng đường theo thời gian: v(t) = s'(t).",
+        "Gia tốc tức thời là đạo hàm bậc nhất của vận tốc hoặc đạo hàm bậc hai của quãng đường: a(t) = v'(t) = s''(t).",
+        "Trong hóa học và sinh học, tốc độ phản ứng tức thời là C'(t) và tốc độ tăng trưởng quần thể là P'(t)."
+       ]
+      },
+      {
+       "heading": "Các hàm kinh tế và bài toán kinh doanh",
+       "points": [
+        "Hàm cầu p = p(x) thể hiện giá bán mỗi đơn vị khi bán được x đơn vị sản phẩm; thường p(x) là hàm giảm theo x.",
+        "Tổng doanh thu khi bán x đơn vị sản phẩm là R(x) = x * p(x), và đạo hàm R'(x) gọi là **doanh thu biên**.",
+        "Tổng lợi nhuận khi sản xuất và bán x đơn vị sản phẩm là P(x) = R(x) - C(x), và đạo hàm P'(x) gọi là **lợi nhuận biên**.",
+        "Chi phí biên C'(x) xấp xỉ chi phí để sản xuất thêm một đơn vị sản phẩm tiếp theo thứ x + 1."
+       ]
+      },
+      {
+       "heading": "Quy trình giải bài toán tối ưu hoá thực tế",
+       "points": [
+        "Bài toán tối ưu hoá yêu cầu tìm giá trị lớn nhất (như lợi nhuận, thể tích, diện tích) hoặc nhỏ nhất (như chi phí, thời gian, nguyên vật liệu).",
+        "Bước 1: Xác định đại lượng Q cần làm cho lớn nhất hoặc nhỏ nhất và biểu diễn các đại lượng khác theo biến thích hợp.",
+        "Bước 2: Chọn một biến x thích hợp, tìm điều kiện ràng buộc thực tế của biến x và thiết lập hàm mục tiêu Q = Q(x).",
+        "Bước 3: Sử dụng công cụ đạo hàm, tìm GTLN hoặc GTNN của hàm số Q(x) trên miền xác định và trả lời câu hỏi bài toán đặt ra."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Tốc độ thay đổi tức thời",
+       "definition": "Giới hạn của tỉ số giữa độ biến thiên hàm số và độ biến thiên biến số khi biến thiên biến số dần về 0."
+      },
+      {
+       "term": "Vận tốc tức thời",
+       "definition": "Đạo hàm theo thời gian của phương trình quãng đường: v(t) = s'(t)."
+      },
+      {
+       "term": "Gia tốc tức thời",
+       "definition": "Đạo hàm theo thời gian của hàm vận tốc hoặc đạo hàm cấp hai của quãng đường."
+      },
+      {
+       "term": "Chi phí biên",
+       "definition": "Đạo hàm của hàm tổng chi phí theo số lượng sản phẩm, phản ánh chi phí sản xuất thêm một sản phẩm."
+      },
+      {
+       "term": "Doanh thu biên",
+       "definition": "Đạo hàm của hàm tổng doanh thu R(x) theo số lượng sản phẩm x bán ra."
+      },
+      {
+       "term": "Lợi nhuận biên",
+       "definition": "Đạo hàm của hàm tổng lợi nhuận P(x) = R(x) - C(x) theo số lượng sản phẩm x."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Mối liên hệ giữa quãng đường s(t), vận tốc v(t) và gia tốc a(t) là gì?",
+       "back": "v(t) = s'(t) và a(t) = v'(t) = s''(t)."
+      },
+      {
+       "front": "Ý nghĩa kinh tế của đạo hàm hàm chi phí C'(x) là gì?",
+       "back": "Là chi phí biên, xấp xỉ chi phí bỏ ra để sản xuất thêm một đơn vị hàng hóa thứ x + 1."
+      },
+      {
+       "front": "Hàm tổng doanh thu R(x) liên hệ như thế nào với giá bán đơn vị p(x)?",
+       "back": "R(x) = x * p(x), trong đó p(x) là giá bán mỗi đơn vị khi bán x sản phẩm."
+      },
+      {
+       "front": "Hàm lợi nhuận P(x) được xác định bởi công thức nào?",
+       "back": "P(x) = R(x) - C(x), bằng tổng doanh thu trừ đi tổng chi phí."
+      },
+      {
+       "front": "Khi một vật được ném thẳng đứng lên cao, nó đạt độ cao cực đại tại thời điểm nào?",
+       "back": "Tại thời điểm vận tốc v(t) = s'(t) = 0."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Một vật chuyển động theo phương trình s(t) = -t^3 + 6t^2 + 2t (mét, giây). Vận tốc của vật đạt giá trị lớn nhất tại thời điểm nào?",
+       "options": [
+        "t = 2 s",
+        "t = 4 s",
+        "t = 1 s",
+        "t = 3 s"
+       ],
+       "answer": 0,
+       "explanation": "Vận tốc v(t) = s'(t) = -3t^2 + 12t + 2. Đây là parabol đỉnh tại t = -12 / (2 * -3) = 2 s."
+      },
+      {
+       "type": "mcq",
+       "prompt": "Cho hàm chi phí sản xuất C(x) = 100 + 2x + 0.05x^2. Chi phí biên khi sản xuất 100 đơn vị sản phẩm là:",
+       "options": [
+        "12",
+        "10",
+        "15",
+        "7"
+       ],
+       "answer": 0,
+       "explanation": "Chi phí biên C'(x) = 2 + 0.1x. Tại x = 100 thì C'(100) = 2 + 0.1 * 100 = 12."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Chi phí biên C'(x) luôn luôn bằng chính xác hiệu số C(x + 1) - C(x) với mọi hàm chi phí phi tuyến.",
+       "answer": false,
+       "explanation": "Chi phí biên C'(x) chỉ là giá trị xấp xỉ đạo hàm của hiệu số C(x + 1) - C(x), không phải lúc nào cũng bằng tuyệt đối trừ khi hàm bậc nhất."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Trong chuyển động thẳng, gia tốc tức thời là đạo hàm bậc hai của hàm vị trí s(t) theo thời gian.",
+       "answer": true,
+       "explanation": "Theo định nghĩa giải tích cổ điển: a(t) = v'(t) = s''(t)."
+      },
+      {
+       "type": "short",
+       "prompt": "Độ cao của một quả bóng ném lên được cho bởi h(t) = 2 + 20t - 5t^2 (mét). Sau bao nhiêu giây quả bóng đạt độ cao lớn nhất?",
+       "answer": "2 giây",
+       "explanation": "Vận tốc v(t) = h'(t) = 20 - 10t = 0 <=> t = 2 giây. Khi đó bóng đạt độ cao cực đại."
+      },
+      {
+       "type": "cloze",
+       "prompt": "Vận tốc tức thời v(t) của một chất điểm chuyển động theo phương trình s(t) chính là ____ bậc nhất của s(t) theo biến thời gian t.",
+       "answers": [
+        "đạo hàm"
+       ],
+       "explanation": "Vận tốc tức thời là đạo hàm bậc nhất của phương trình chuyển động theo thời gian."
+      },
+      {
+       "type": "match",
+       "prompt": "Nối lĩnh vực ứng dụng với biểu thức đạo hàm tương ứng:",
+       "pairs": [
+        {
+         "left": "Vận tốc chuyển động tức thời",
+         "right": "v(t) = s'(t)"
+        },
+        {
+         "left": "Gia tốc chuyển động tức thời",
+         "right": "a(t) = v'(t) = s''(t)"
+        },
+        {
+         "left": "Chi phí biên trong kinh tế",
+         "right": "C'(x) biểu diễn chi phí làm thêm 1 sản phẩm"
+        },
+        {
+         "left": "Tốc độ phản ứng hóa học tức thời",
+         "right": "C'(t) với C(t) là nồng độ chất phản ứng"
+        }
+       ],
+       "explanation": "Các ứng dụng điển hình của đạo hàm trong các ngành khoa học tự nhiên và kinh tế."
+      },
+      {
+       "type": "tfs",
+       "prompt": "Xét tính đúng/sai của các phát biểu về ứng dụng đạo hàm trong thực tiễn và bài toán tối ưu:",
+       "quote": "Mô hình hóa toán học chuyển các vấn đề thực tiễn thành các bài toán cực trị giải tích, trong đó đạo hàm đóng vai trò là công cụ xác định điểm tối ưu then chốt.",
+       "items": [
+        {
+         "text": "Trong bài toán tối ưu hình học, biến số luôn bị giới hạn bởi các điều kiện độ dài dương và bất đẳng thức tam giác.",
+         "answer": true
+        },
+        {
+         "text": "Khi chi phí biên C'(x) > 0 thì tổng chi phí sản xuất sẽ có xu hướng tăng khi tăng quy mô sản lượng.",
+         "answer": true
+        },
+        {
+         "text": "Một vật chuyển động đạt vận tốc lớn nhất khi và chỉ khi gia tốc a(t) = 0 và đổi dấu từ dương sang âm.",
+         "answer": true
+        },
+        {
+         "text": "Để giải bài toán tối ưu, ta chỉ cần giải phương trình đạo hàm bằng 0 mà không cần kiểm tra điều kiện thực tế của biến.",
+         "answer": false
+        }
+       ],
+       "explanation": "Luôn phải kiểm tra điều kiện thực tế (tập xác định) của biến số để đảm bảo nghiệm tìm được có ý nghĩa thực tế."
+      }
+     ]
+    },
+    {
+     "id": "bai-tap-on-tap-chuong-1",
+     "title": "Bài tập ôn tập cuối Chương I",
+     "summary": "Tổng hợp các bài tập tự luyện và trắc nghiệm chuẩn hóa kiểm tra toàn diện kiến thức khảo sát hàm số và ứng dụng đạo hàm.",
+     "notes": [
+      {
+       "heading": "Tổng kết kiến thức trọng tâm Chương I",
+       "points": [
+        "Điều kiện đơn điệu: f'(x) >= 0 trên K (với dấu bằng tại hữu hạn điểm) xác định hàm số đồng biến, f'(x) <= 0 xác định hàm số nghịch biến.",
+        "Cực trị hàm số: điều kiện cần là f'(x0) = 0 hoặc f'(x0) không xác định; điều kiện đủ là f'(x) đổi dấu khi qua điểm x0.",
+        "Giá trị lớn nhất và nhỏ nhất trên đoạn [a, b]: so sánh giá trị tại hai đầu mút và tại các điểm dừng bên trong đoạn.",
+        "Tiệm cận của đồ thị hàm phân thức: tiệm cận đứng xác định từ giới hạn vô cực tại nghiệm của mẫu, tiệm cận ngang và xiên xác định từ giới hạn khi x tiến ra vô cực."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Khảo sát hàm số toàn diện",
+       "definition": "Quy trình tổng hợp từ tìm TXĐ, đạo hàm, cực trị, tiệm cận đến đồ thị để nhận định trọn vẹn đặc trưng hàm số."
+      },
+      {
+       "term": "Dạng đồ thị chuẩn",
+       "definition": "Hình dạng đặc trưng của đường cong bậc ba, phân thức bậc nhất trên bậc nhất và bậc hai trên bậc nhất."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Đồ thị hàm số y = (x^2 + 2x - 2) / (x + 2) có tiệm cận xiên là gì?",
+       "back": "Chia tử cho mẫu ta được thương là y = x, vậy tiệm cận xiên là y = x."
+      },
+      {
+       "front": "Hàm số y = (2x - 1)/(x + 1) có điểm cực trị nào không?",
+       "back": "Không, hàm phân thức bậc 1 trên bậc 1 không có điểm cực trị."
+      },
+      {
+       "front": "Nếu hàm số f(x) có f'(x) > 0 với mọi x thuộc (a; b) thì hàm số có tính chất gì?",
+       "back": "Hàm số đồng biến trên khoảng (a; b)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Hàm số nào sau đây nghịch biến trên toàn bộ trục số thực R?",
+       "options": [
+        "y = -x^3 + 3x^2 - 9x",
+        "y = -x^3 + x + 1",
+        "y = (x - 1)/(x - 2)",
+        "y = 2x^2 + 3x + 2"
+       ],
+       "answer": 0,
+       "explanation": "y' = -3x^2 + 6x - 9 = -3(x^2 - 2x + 3) = -3[(x - 1)^2 + 2] < 0 với mọi x thuộc R, nên hàm số luôn nghịch biến trên R."
+      },
+      {
+       "type": "mcq",
+       "prompt": "Hàm số nào dưới đây không có bất kỳ điểm cực trị nào?",
+       "options": [
+        "y = (2x - 1)/(x + 1)",
+        "y = |x|",
+        "y = x^4",
+        "y = -x^3 + x"
+       ],
+       "answer": 0,
+       "explanation": "Hàm phân thức bậc nhất trên bậc nhất có đạo hàm y' = 3/(x + 1)^2 > 0 không đổi dấu nên không có điểm cực trị."
+      },
+      {
+       "type": "mcq",
+       "prompt": "Cho hàm số f(x) thỏa mãn lim f(x) = 1 khi x -> +vô cùng và lim f(x) = 2 khi x -> 2+. Khẳng định nào sau đây là đúng?",
+       "options": [
+        "Đường thẳng y = 1 là tiệm cận ngang của đồ thị hàm số",
+        "Đường thẳng x = 1 là tiệm cận đứng của đồ thị hàm số",
+        "Đường thẳng y = 2 là tiệm cận ngang của đồ thị hàm số",
+        "Đường thẳng x = 2 là tiệm cận ngang của đồ thị hàm số"
+       ],
+       "answer": 0,
+       "explanation": "Vì lim f(x) = 1 khi x -> +vô cùng nên theo định nghĩa đường thẳng y = 1 là tiệm cận ngang của đồ thị hàm số."
+      },
+      {
+       "type": "mcq",
+       "prompt": "Tiệm cận xiên của đồ thị hàm số y = (x^2 + 2x - 2) / (x + 2) là đường thẳng có phương trình:",
+       "options": [
+        "y = x",
+        "y = x + 2",
+        "y = 1",
+        "y = -2"
+       ],
+       "answer": 0,
+       "explanation": "Thực hiện phép chia đa thức: (x^2 + 2x - 2) = x(x + 2) - 2. Suy ra y = x - 2/(x + 2). Tiệm cận xiên là y = x."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Nếu hàm số f(x) có đạo hàm f'(x) >= 0 với mọi x thuộc (a; b) thì hàm số f(x) luôn đồng biến trên (a; b).",
+       "answer": false,
+       "explanation": "Sai, vì nếu f'(x) = 0 trên toàn bộ một đoạn con của (a; b) thì hàm số là hàm hằng không đổi trên đoạn đó, không đồng biến."
+      },
+      {
+       "type": "short",
+       "prompt": "Xác định giá trị lớn nhất của hàm số y = (x - 2)^2 * e^x trên đoạn [1; 3].",
+       "answer": "e^3",
+       "explanation": "Tính đạo hàm y' = (x - 2)(x) * e^x. Điểm dừng trong (1; 3) là x = 2 với y(2) = 0. Hai đầu mút là y(1) = e và y(3) = e^3. Giá trị lớn nhất là e^3."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "chuong-02-vecto-va-he-truc-toa-do-trong-khong-gian",
+   "title": "Chương II. Vectơ và hệ trục toạ độ trong không gian",
+   "topics": [
+    {
+     "id": "vecto-trong-khong-gian",
+     "title": "Bài 6. Vectơ trong không gian",
+     "summary": "Khái niệm vectơ trong không gian, các phép toán cộng, trừ, nhân vectơ với một số, quy tắc hình hộp và tích vô hướng của hai vectơ.",
+     "notes": [
+      {
+       "heading": "Khái niệm vectơ trong không gian",
+       "points": [
+        "Vectơ trong không gian là một **đoạn thẳng có hướng**, có điểm đầu và điểm cuối xác định.",
+        "Độ dài của vectơ là khoảng cách giữa điểm đầu và điểm cuối của vectơ đó; độ dài vectơ AB kí hiệu là |AB|.",
+        "Đường thẳng đi qua điểm đầu và điểm cuối của vectơ gọi là **giá của vectơ**.",
+        "Hai vectơ gọi là **cùng phương** nếu giá của chúng song song hoặc trùng nhau; hai vectơ cùng phương thì có thể cùng hướng hoặc ngược hướng.",
+        "Hai vectơ bằng nhau nếu chúng có cùng độ dài và cùng hướng.",
+        "Vectơ có điểm đầu và điểm cuối trùng nhau gọi là **vectơ-không**, kí hiệu là vectơ 0; vectơ-không có độ dài bằng 0 và cùng phương, cùng hướng với mọi vectơ."
+       ]
+      },
+      {
+       "heading": "Tổng và hiệu của hai vectơ trong không gian",
+       "points": [
+        "Quy tắc ba điểm trong không gian: với ba điểm A, B, C bất kì, ta luôn có **AB + BC = AC**.",
+        "Quy tắc hình bình hành: nếu ABCD là hình bình hành thì **AB + AD = AC**.",
+        "Quy tắc hình hộp: cho hình hộp ABCD.A'B'C'D', tổng ba vectơ xuất phát từ cùng một đỉnh bằng vectơ đường chéo xuất phát từ đỉnh đó: **AB + AD + AA' = AC'**.",
+        "Hai vectơ đối nhau nếu chúng có cùng độ dài và ngược hướng; tổng của hai vectơ đối nhau bằng vectơ-không.",
+        "Quy tắc trừ: với ba điểm O, A, B bất kì, ta luôn có hiệu **OB - OA = AB**."
+       ]
+      },
+      {
+       "heading": "Tích của một số với một vectơ",
+       "points": [
+        "Tích của số k khác 0 với vectơ a khác 0 là một vectơ kí hiệu là k * a, cùng hướng với a nếu k > 0, ngược hướng với a nếu k < 0, và có độ dài bằng |k| * |a|.",
+        "Điều kiện cần và đủ để hai vectơ a và b (với b khác 0) cùng phương là tồn tại số thực k sao cho a = k * b.",
+        "Tính chất trọng tâm tam giác: điểm G là trọng tâm tam giác BCD khi và chỉ khi **GB + GC + GD = 0**, hoặc với điểm A bất kì thì **AB + AC + AD = 3AG**.",
+        "Tính chất trọng tâm tứ diện: điểm I là trọng tâm tứ diện ABCD khi và chỉ khi **IA + IB + IC + ID = 0**; điểm I nằm trên đoạn nối đỉnh với trọng tâm đáy và chia đoạn đó theo tỉ lệ 3:1."
+       ]
+      },
+      {
+       "heading": "Tích vô hướng của hai vectơ trong không gian",
+       "points": [
+        "Góc giữa hai vectơ khác không a và b trong không gian là góc AOB với OA = a và OB = b (lấy từ một điểm O bất kì), có số đo từ **0 độ đến 180 độ**.",
+        "Tích vô hướng của hai vectơ a và b là một số thực, xác định bởi công thức: **a . b = |a| * |b| * cos(a, b)**.",
+        "Hai vectơ a và b vuông góc với nhau khi và chỉ khi tích vô hướng của chúng bằng 0: **a . b = 0**.",
+        "Trong vật lý, công cơ học sinh ra bởi lực F làm dịch chuyển vật theo vectơ MN được tính bằng tích vô hướng: **A = F . MN**."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Vectơ trong không gian",
+       "definition": "Một đoạn thẳng có hướng xác định bởi điểm đầu và điểm cuối trong không gian ba chiều."
+      },
+      {
+       "term": "Giá của vectơ",
+       "definition": "Đường thẳng đi qua điểm gốc và điểm ngọn của vectơ đó."
+      },
+      {
+       "term": "Hai vectơ cùng phương",
+       "definition": "Hai vectơ có giá song song hoặc trùng nhau."
+      },
+      {
+       "term": "Quy tắc hình hộp",
+       "definition": "Tổng ba vectơ cạnh xuất phát từ một đỉnh của hình hộp bằng vectơ đường chéo xuất phát từ đỉnh đó."
+      },
+      {
+       "term": "Trọng tâm tứ diện",
+       "definition": "Điểm duy nhất thỏa mãn tổng bốn vectơ nối từ điểm đó đến bốn đỉnh của tứ diện bằng vectơ-không."
+      },
+      {
+       "term": "Tích vô hướng",
+       "definition": "Tích giữa độ dài hai vectơ với cosin của góc xen giữa hai vectơ đó."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Quy tắc hình hộp phát biểu như thế nào với hình hộp ABCD.A'B'C'D'?",
+       "back": "Vectơ AB + AD + AA' = AC' (tổng 3 vectơ cạnh chung gốc bằng vectơ đường chéo chung gốc)."
+      },
+      {
+       "front": "Điều kiện cần và đủ để hai vectơ a và b (b khác 0) cùng phương là gì?",
+       "back": "Tồn tại một số thực k sao cho vectơ a = k * vectơ b."
+      },
+      {
+       "front": "Điểm I là trọng tâm của tứ diện ABCD khi thỏa mãn hệ thức vectơ nào?",
+       "back": "Vectơ IA + IB + IC + ID = vectơ 0."
+      },
+      {
+       "front": "Góc giữa hai vectơ trong không gian có thể nhận giá trị trong khoảng nào?",
+       "back": "Từ 0 độ đến 180 độ."
+      },
+      {
+       "front": "Công thức tính tích vô hướng của hai vectơ a và b trong không gian là gì?",
+       "back": "a . b = |a| * |b| * cos(a, b)."
+      },
+      {
+       "front": "Điều kiện cần và đủ để hai vectơ khác 0 vuông góc với nhau là gì?",
+       "back": "Tích vô hướng của chúng bằng 0: a . b = 0."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Cho hình hộp ABCD.A'B'C'D'. Tổng của ba vectơ AB + AD + AA' bằng vectơ nào?",
+       "options": [
+        "AC'",
+        "CA'",
+        "BD'",
+        "A'C"
+       ],
+       "answer": 0,
+       "explanation": "Theo quy tắc hình hộp, tổng ba vectơ cạnh cùng xuất phát từ đỉnh A là AB + AD + AA' = AC'."
+      },
+      {
+       "type": "mcq",
+       "prompt": "Cho hai vectơ a và b đều khác 0 có độ dài lần lượt là 2 và 3, góc giữa chúng bằng 60 độ. Tích vô hướng a . b bằng:",
+       "options": [
+        "3",
+        "6",
+        "3 căn 3",
+        "3/2"
+       ],
+       "answer": 0,
+       "explanation": "Ta có a . b = |a| * |b| * cos(60 độ) = 2 * 3 * 0.5 = 3."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Trong không gian, hai vectơ cùng phương thì giá của chúng nhất thiết phải song song với nhau.",
+       "answer": false,
+       "explanation": "Sai, vì giá của hai vectơ cùng phương có thể song song hoặc trùng nhau."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Góc giữa hai vectơ ngược hướng trong không gian luôn bằng 180 độ.",
+       "answer": true,
+       "explanation": "Hai vectơ ngược hướng tạo thành góc bẹt, có số đo bằng 180 độ."
+      },
+      {
+       "type": "short",
+       "prompt": "Cho tứ diện ABCD có G là trọng tâm tam giác BCD. Biểu diễn vectơ AB + AC + AD theo vectơ AG.",
+       "answer": "3AG",
+       "explanation": "Vì G là trọng tâm tam giác BCD nên GB + GC + GD = 0. Do đó AB + AC + AD = 3AG + (GB + GC + GD) = 3AG."
+      },
+      {
+       "type": "cloze",
+       "prompt": "Hai vectơ khác không vuông góc với nhau khi và chỉ khi tích vô hướng của chúng bằng ____.",
+       "answers": [
+        "0",
+        "không"
+       ],
+       "explanation": "a vuông góc với b <=> a . b = 0."
+      },
+      {
+       "type": "match",
+       "prompt": "Nối quy tắc phép toán vectơ với công thức biểu diễn tương ứng trong không gian:",
+       "pairs": [
+        {
+         "left": "Quy tắc 3 điểm",
+         "right": "AB + BC = AC"
+        },
+        {
+         "left": "Quy tắc hình bình hành",
+         "right": "AB + AD = AC"
+        },
+        {
+         "left": "Quy tắc hình hộp",
+         "right": "AB + AD + AA' = AC'"
+        },
+        {
+         "left": "Quy tắc hiệu vectơ",
+         "right": "OB - OA = AB"
+        }
+       ],
+       "explanation": "Các quy tắc cộng và trừ vectơ cơ bản trong hình học giải tích không gian."
+      },
+      {
+       "type": "tfs",
+       "prompt": "Cho tứ diện đều ABCD có cạnh bằng a. Xét tính đúng/sai của các nhận định sau:",
+       "quote": "Tứ diện đều là tứ diện có tất cả sáu cạnh đều bằng nhau, mọi mặt đều là các tam giác đều bằng nhau.",
+       "items": [
+        {
+         "text": "Góc giữa hai vectơ AB và AC bằng 60 độ.",
+         "answer": true
+        },
+        {
+         "text": "Tích vô hướng của AB và CD bằng 0, nghĩa là cặp cạnh đối diện vuông góc nhau.",
+         "answer": true
+        },
+        {
+         "text": "Độ dài của tổng vectơ AB + CD luôn bằng 2a.",
+         "answer": false
+        },
+        {
+         "text": "Trọng tâm của tứ diện ABCD cách đều cả 4 đỉnh của tứ diện.",
+         "answer": true
+        }
+       ],
+       "explanation": "Trong tứ diện đều, các cặp cạnh đối diện luôn vuông góc với nhau và trọng tâm cách đều bốn đỉnh."
+      }
+     ]
+    },
+    {
+     "id": "he-truc-toa-do-trong-khong-gian",
+     "title": "Bài 7. Hệ trục toạ độ trong không gian",
+     "summary": "Hệ trục toạ độ Oxyz, toạ độ của điểm, toạ độ của vectơ, quy tắc tìm toạ độ hình chiếu và vectơ nối hai điểm trong không gian.",
+     "notes": [
+      {
+       "heading": "Hệ trục toạ độ Descartes vuông góc Oxyz",
+       "points": [
+        "Hệ trục toạ độ Oxyz gồm ba trục Ox, Oy, Oz vuông góc với nhau từng đôi một tại gốc tọa độ O.",
+        "Các vectơ đơn vị tương ứng trên các trục Ox, Oy, Oz lần lượt là **i, j, k**; chúng đôi một vuông góc và đều có độ dài bằng 1.",
+        "Các mặt phẳng tạo bởi từng cặp trục toạ độ gọi là **mặt phẳng toạ độ**, gồm (Oxy), (Oyz), (Ozx); các mặt phẳng này đôi một vuông góc với nhau."
+       ]
+      },
+      {
+       "heading": "Toạ độ của điểm trong không gian",
+       "points": [
+        "Với mỗi điểm M trong không gian, tồn tại duy nhất bộ ba số (x; y; z) sao cho **OM = x * i + y * j + z * k**.",
+        "Bộ ba số (x; y; z) gọi là **toạ độ của điểm M**, kí hiệu M(x; y; z), trong đó x là hoành độ, y là tung độ và z là cao độ.",
+        "Gốc toạ độ O có toạ độ là O(0; 0; 0)."
+       ]
+      },
+      {
+       "heading": "Toạ độ hình chiếu của một điểm",
+       "points": [
+        "Hình chiếu vuông góc của điểm M(x; y; z) lên các trục toạ độ: trên Ox là (x; 0; 0), trên Oy là (0; y; 0), trên Oz là (0; 0; z).",
+        "Hình chiếu vuông góc của điểm M(x; y; z) lên các mặt phẳng toạ độ: trên (Oxy) là (x; y; 0), trên (Oyz) là (0; y; z), trên (Ozx) là (x; 0; z)."
+       ]
+      },
+      {
+       "heading": "Toạ độ của vectơ trong không gian",
+       "points": [
+        "Với mỗi vectơ a, tồn tại duy nhất bộ ba số (x; y; z) sao cho **a = x * i + y * j + z * k**, kí hiệu là a = (x; y; z).",
+        "Toạ độ của các vectơ đơn vị: i = (1; 0; 0), j = (0; 1; 0), k = (0; 0; 1).",
+        "Hai vectơ a = (x; y; z) và b = (x'; y'; z') bằng nhau khi và chỉ khi các toạ độ tương ứng bằng nhau: **x = x', y = y' và z = z'**.",
+        "Toạ độ của vectơ nối hai điểm M(xM; yM; zM) và N(xN; yN; zN) được tính theo công thức: **MN = (xN - xM; yN - yM; zN - zM)**."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Hệ toạ độ Oxyz",
+       "definition": "Hệ gồm ba trục toạ độ Ox, Oy, Oz vuông góc từng đôi một tại gốc O với các vectơ đơn vị i, j, k."
+      },
+      {
+       "term": "Hoành độ, tung độ, cao độ",
+       "definition": "Ba thành phần toạ độ x, y, z tương ứng biểu diễn vị trí của một điểm hoặc vectơ theo ba trục Ox, Oy, Oz."
+      },
+      {
+       "term": "Mặt phẳng toạ độ",
+       "definition": "Các mặt phẳng (Oxy), (Oyz), (Ozx) đi qua gốc tọa độ O và chứa từng cặp trục toạ độ."
+      },
+      {
+       "term": "Vectơ đơn vị",
+       "definition": "Các vectơ i, j, k nằm trên ba trục toạ độ có độ dài bằng 1 đơn vị."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Gốc toạ độ O trong không gian Oxyz có toạ độ là bao nhiêu?",
+       "back": "O(0; 0; 0)."
+      },
+      {
+       "front": "Nêu toạ độ của ba vectơ đơn vị i, j, k.",
+       "back": "i = (1; 0; 0), j = (0; 1; 0), k = (0; 0; 1)."
+      },
+      {
+       "front": "Hình chiếu vuông góc của điểm M(x; y; z) lên mặt phẳng (Oxy) có toạ độ là gì?",
+       "back": "(x; y; 0) (cao độ z triệt tiêu bằng 0)."
+      },
+      {
+       "front": "Hình chiếu vuông góc của điểm M(x; y; z) lên trục Oz có toạ độ là gì?",
+       "back": "(0; 0; z) (hoành độ và tung độ đều bằng 0)."
+      },
+      {
+       "front": "Công thức tính toạ độ vectơ MN khi biết toạ độ M và N là gì?",
+       "back": "MN = (xN - xM; yN - yM; zN - zM) (lấy toạ độ ngọn trừ toạ độ gốc)."
+      },
+      {
+       "front": "Hai vectơ trong không gian bằng nhau khi nào?",
+       "back": "Khi và chỉ khi ba cặp toạ độ tương ứng hoành độ, tung độ và cao độ của chúng bằng nhau từng đôi một."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Trong không gian Oxyz, cho vectơ u = 2i - 3j + 5k. Toạ độ của vectơ u là:",
+       "options": [
+        "(2; -3; 5)",
+        "(2; 3; 5)",
+        "(-2; 3; -5)",
+        "(5; -3; 2)"
+       ],
+       "answer": 0,
+       "explanation": "Theo định nghĩa toạ độ vectơ: u = x*i + y*j + z*k nên toạ độ là (2; -3; 5)."
+      },
+      {
+       "type": "mcq",
+       "prompt": "Cho hai điểm A(1; 0; -2) và B(3; -2; 1). Toạ độ của vectơ AB là:",
+       "options": [
+        "(2; -2; 3)",
+        "(-2; 2; -3)",
+        "(4; -2; -1)",
+        "(2; -2; -1)"
+       ],
+       "answer": 0,
+       "explanation": "Vectơ AB = (xB - xA; yB - yA; zB - zA) = (3 - 1; -2 - 0; 1 - (-2)) = (2; -2; 3)."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Điểm nằm trên trục hoành Ox luôn có tung độ và cao độ bằng 0.",
+       "answer": true,
+       "explanation": "Mọi điểm thuộc trục Ox đều có dạng toạ độ (x; 0; 0), nghĩa là y = 0 và z = 0."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Hình chiếu vuông góc của điểm M(2; -3; 4) lên mặt phẳng (Oyz) là điểm có toạ độ (2; 0; 0).",
+       "answer": false,
+       "explanation": "Chiếu lên (Oyz) thì hoành độ x = 0, toạ độ đúng là (0; -3; 4)."
+      },
+      {
+       "type": "short",
+       "prompt": "Cho điểm A(4; -1; 5). Hãy tìm toạ độ hình chiếu vuông góc của điểm A lên mặt phẳng toạ độ (Oxy).",
+       "answer": "(4; -1; 0)",
+       "explanation": "Hình chiếu vuông góc của A(x; y; z) lên (Oxy) có toạ độ là (x; y; 0), tức là (4; -1; 0)."
+      },
+      {
+       "type": "cloze",
+       "prompt": "Trong không gian Oxyz, vectơ đơn vị k trên trục cao Oz có toạ độ là (0; 0; ____).",
+       "answers": [
+        "1"
+       ],
+       "explanation": "Vectơ đơn vị k có độ dài 1 nằm trên trục Oz nên toạ độ là (0; 0; 1)."
+      },
+      {
+       "type": "match",
+       "prompt": "Nối điểm hoặc vectơ với toạ độ tương ứng trong không gian Oxyz:",
+       "pairs": [
+        {
+         "left": "Gốc toạ độ O",
+         "right": "(0; 0; 0)"
+        },
+        {
+         "left": "Vectơ đơn vị i trên Ox",
+         "right": "(1; 0; 0)"
+        },
+        {
+         "left": "Vectơ đơn vị j trên Oy",
+         "right": "(0; 1; 0)"
+        },
+        {
+         "left": "Hình chiếu của M(1; 2; 3) lên trục Oz",
+         "right": "(0; 0; 3)"
+        }
+       ],
+       "explanation": "Định nghĩa toạ độ các đối tượng cơ bản trong không gian Oxyz."
+      },
+      {
+       "type": "tfs",
+       "prompt": "Trong không gian Oxyz, cho hình hộp chữ nhật OABC.D'A'B'C' có ba cạnh OA, OC, OD' lần lượt nằm trên Ox, Oy, Oz với độ dài tương ứng là 3, 4, 5. Xét tính đúng/sai:",
+       "quote": "Hệ toạ độ Oxyz gắn vào một góc của khối hộp chữ nhật cho phép đại số hoá toàn bộ toạ độ các đỉnh của khối hộp.",
+       "items": [
+        {
+         "text": "Đỉnh A có toạ độ là (3; 0; 0).",
+         "answer": true
+        },
+        {
+         "text": "Đỉnh C có toạ độ là (0; 4; 0).",
+         "answer": true
+        },
+        {
+         "text": "Đỉnh B đối diện với O trên mặt đáy (Oxy) có toạ độ là (3; 4; 0).",
+         "answer": true
+        },
+        {
+         "text": "Đỉnh B' đối diện với gốc O qua đường chéo của khối hộp có toạ độ là (3; 4; 0).",
+         "answer": false
+        }
+       ],
+       "explanation": "Đỉnh B' là đỉnh đối diện của khối hộp nên có toạ độ là (3; 4; 5)."
+      }
+     ]
+    },
+    {
+     "id": "bieu-thuc-toa-do-cac-phep-toan-vecto",
+     "title": "Bài 8. Biểu thức toạ độ của các phép toán vectơ",
+     "summary": "Biểu thức toạ độ của tổng, hiệu, tích vectơ với số, toạ độ trung điểm, trọng tâm, tích vô hướng và khoảng cách giữa hai điểm trong không gian Oxyz.",
+     "notes": [
+      {
+       "heading": "Biểu thức toạ độ của các phép toán tuyến tính",
+       "points": [
+        "Cho a = (x; y; z) và b = (x'; y'; z'). Tổng hai vectơ là **a + b = (x + x'; y + y'; z + z')**.",
+        "Hiệu hai vectơ là **a - b = (x - x'; y - y'; z - z')**.",
+        "Tích của vectơ với số thực k là **k * a = (kx; ky; kz)**.",
+        "Hai vectơ a và b (với b khác 0) cùng phương khi và chỉ khi tồn tại số thực k sao cho x = kx', y = ky', z = kz'."
+       ]
+      },
+      {
+       "heading": "Toạ độ trung điểm và trọng tâm",
+       "points": [
+        "Toạ độ trung điểm M của đoạn thẳng AB là: **xM = (xA + xB) / 2, yM = (yA + yB) / 2, zM = (zA + zB) / 2**.",
+        "Toạ độ trọng tâm G của tam giác ABC là: **xG = (xA + xB + xC) / 3, yG = (yA + yB + yC) / 3, zG = (zA + zB + zC) / 3**."
+       ]
+      },
+      {
+       "heading": "Biểu thức toạ độ của tích vô hướng",
+       "points": [
+        "Tích vô hướng của a = (x; y; z) và b = (x'; y'; z') là: **a . b = x*x' + y*y' + z*z'**.",
+        "Điều kiện để hai vectơ vuông góc là: **x*x' + y*y' + z*z' = 0**.",
+        "Độ dài của vectơ a là: **|a| = căn(x^2 + y^2 + z^2)**.",
+        "Khoảng cách giữa hai điểm A(xA; yA; zA) và B(xB; yB; zB) là: **AB = căn((xB - xA)^2 + (yB - yA)^2 + (zB - zA)^2)**.",
+        "Cosin góc giữa hai vectơ a và b khác 0 là: **cos(a, b) = (x*x' + y*y' + z*z') / [căn(x^2+y^2+z^2) * căn(x'^2+y'^2+z'^2)]**."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Biểu thức toạ độ tích vô hướng",
+       "definition": "Công thức tính tích vô hướng bằng tổng các tích của các cặp toạ độ tương ứng: xx' + yy' + zz'."
+      },
+      {
+       "term": "Công thức khoảng cách",
+       "definition": "Độ dài đoạn thẳng AB bằng căn bậc hai của tổng bình phương hiệu các toạ độ tương ứng."
+      },
+      {
+       "term": "Điều kiện hai vectơ vuông góc",
+       "definition": "Hai vectơ vuông góc khi và chỉ khi tích vô hướng theo toạ độ bằng 0: xx' + yy' + zz' = 0."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Công thức tính tích vô hướng của a = (x; y; z) và b = (x'; y'; z') là gì?",
+       "back": "a . b = x*x' + y*y' + z*z'."
+      },
+      {
+       "front": "Công thức tính độ dài của vectơ a = (x; y; z) là gì?",
+       "back": "|a| = căn(x^2 + y^2 + z^2)."
+      },
+      {
+       "front": "Công thức tính khoảng cách giữa hai điểm A và B trong không gian là gì?",
+       "back": "AB = căn[(xB - xA)^2 + (yB - yA)^2 + (zB - zA)^2]."
+      },
+      {
+       "front": "Toạ độ trọng tâm G của tam giác ABC được tính như thế nào?",
+       "back": "Trung bình cộng toạ độ của 3 đỉnh: xG = (xA + xB + xC)/3, yG = (yA + yB + yC)/3, zG = (zA + zB + zC)/3."
+      },
+      {
+       "front": "Hai vectơ a và b vuông góc khi nào theo biểu thức toạ độ?",
+       "back": "x*x' + y*y' + z*z' = 0."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Trong không gian Oxyz, cho a = (1; 4; 2) và b = (-4; 1; 0). Tích vô hướng a . b bằng:",
+       "options": [
+        "0",
+        "8",
+        "-4",
+        "6"
+       ],
+       "answer": 0,
+       "explanation": "a . b = 1*(-4) + 4*1 + 2*0 = -4 + 4 + 0 = 0. Hai vectơ vuông góc nhau."
+      },
+      {
+       "type": "mcq",
+       "prompt": "Trong không gian Oxyz, độ dài của vectơ a = (2; 1; -2) là:",
+       "options": [
+        "3",
+        "9",
+        "căn 5",
+        "5"
+       ],
+       "answer": 0,
+       "explanation": "|a| = căn(2^2 + 1^2 + (-2)^2) = căn(4 + 1 + 4) = căn(9) = 3."
+      },
+      {
+       "type": "mcq",
+       "prompt": "Cho hai điểm A(1; 2; 3) và B(3; 0; 1). Toạ độ trung điểm M của đoạn thẳng AB là:",
+       "options": [
+        "(2; 1; 2)",
+        "(4; 2; 4)",
+        "(1; -1; -1)",
+        "(2; 2; 2)"
+       ],
+       "answer": 0,
+       "explanation": "xM = (1+3)/2 = 2; yM = (2+0)/2 = 1; zM = (3+1)/2 = 2. Vậy M(2; 1; 2)."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Hai vectơ a = (1; 2; 3) và b = (-2; -4; -6) là hai vectơ cùng phương trong không gian Oxyz.",
+       "answer": true,
+       "explanation": "Ta thấy b = -2 * a nên hai vectơ cùng phương (ngược hướng)."
+      },
+      {
+       "type": "short",
+       "prompt": "Tính khoảng cách giữa hai điểm A(2; 4; -1) và B(5; 0; -1) trong không gian Oxyz.",
+       "answer": "5",
+       "explanation": "AB = căn[(5 - 2)^2 + (0 - 4)^2 + (-1 - (-1))^2] = căn(3^2 + (-4)^2 + 0^2) = căn(25) = 5."
+      },
+      {
+       "type": "cloze",
+       "prompt": "Hai vectơ khác không a = (x; y; z) và b = (x'; y'; z') vuông góc với nhau khi và chỉ khi xx' + yy' + zz' = ____.",
+       "answers": [
+        "0",
+        "không"
+       ],
+       "explanation": "Điều kiện vuông góc là tích vô hướng bằng 0."
+      },
+      {
+       "type": "match",
+       "prompt": "Nối phép toán với biểu thức toạ độ tương ứng trong không gian Oxyz:",
+       "pairs": [
+        {
+         "left": "Tổng a + b",
+         "right": "(x + x'; y + y'; z + z')"
+        },
+        {
+         "left": "Hiệu a - b",
+         "right": "(x - x'; y - y'; z - z')"
+        },
+        {
+         "left": "Tích vô hướng a . b",
+         "right": "xx' + yy' + zz'"
+        },
+        {
+         "left": "Độ dài vectơ a",
+         "right": "căn(x^2 + y^2 + z^2)"
+        }
+       ],
+       "explanation": "Các công thức toạ độ cơ bản của giải tích vectơ không gian."
+      },
+      {
+       "type": "tfs",
+       "prompt": "Cho ba điểm A(1; 0; 1), B(0; 2; 3), C(2; 1; 0) trong không gian Oxyz. Xét tính đúng/sai:",
+       "quote": "Đại số hoá hình học không gian cho phép kiểm tra tính thẳng hàng, góc và diện tích tam giác hoàn toàn bằng các phép toán toạ độ.",
+       "items": [
+        {
+         "text": "Vectơ AB có toạ độ là (-1; 2; 2).",
+         "answer": true
+        },
+        {
+         "text": "Độ dài đoạn thẳng AB bằng 3.",
+         "answer": true
+        },
+        {
+         "text": "Tam giác ABC nhận gốc O làm trọng tâm.",
+         "answer": false
+        },
+        {
+         "text": "Tích vô hướng của AB và AC bằng 0 nên tam giác ABC vuông tại A.",
+         "answer": false
+        }
+       ],
+       "explanation": "AB = (-1; 2; 2) có độ dài căn(1+4+4)=3. Trọng tâm G là (1; 1; 4/3) khác O. AC = (1; 1; -1), tích vô hướng AB.AC = -1 + 2 - 2 = -1 khác 0."
+      }
+     ]
+    },
+    {
+     "id": "bai-tap-on-tap-chuong-2",
+     "title": "Bài tập ôn tập cuối Chương II",
+     "summary": "Tuyển chọn các bài toán trắc nghiệm và tự luận tổng hợp về vectơ trong không gian, hệ toạ độ Oxyz và các ứng dụng thực tế.",
+     "notes": [
+      {
+       "heading": "Hệ thống hóa kiến thức Chương II",
+       "points": [
+        "Hình học vectơ không gian: quy tắc hình hộp AB + AD + AA' = AC', tính chất trọng tâm tứ diện IA + IB + IC + ID = 0.",
+        "Tích vô hướng hai vectơ: a . b = |a| * |b| * cos(a, b) = xx' + yy' + zz'.",
+        "Toạ độ điểm và vectơ: điểm M(x; y; z) tương ứng OM = x*i + y*j + z*k; vectơ AB = (xB - xA; yB - yA; zB - zA).",
+        "Khoảng cách giữa hai điểm bằng độ dài của vectơ nối hai điểm đó."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Hình hộp chữ nhật trong Oxyz",
+       "definition": "Mô hình không gian gắn với hệ toạ độ ba trục giúp xác định nhanh toạ độ các đỉnh."
+      },
+      {
+       "term": "Khoảng cách Euclid",
+       "definition": "Khoảng cách thẳng giữa hai điểm trong không gian ba chiều tính theo định lý Pythagoras mở rộng."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Trong hình lập phương ABCD.A'B'C'D', vectơ nào bằng tổng AB + AD + AA'?",
+       "back": "Vectơ đường chéo AC'."
+      },
+      {
+       "front": "Nếu tứ giác ABCD là hình bình hành trong Oxyz thì hệ thức toạ độ nào đúng?",
+       "back": "xB - xA = xC - xD và tương tự cho y, z (vì vectơ AB = vectơ DC)."
+      },
+      {
+       "front": "Cosin của góc giữa hai vectơ cùng phương ngược hướng bằng bao nhiêu?",
+       "back": "-1 (vì góc bằng 180 độ)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Cho hình hộp ABCD.A'B'C'D'. Gọi M là trung điểm của cạnh CC'. Biểu diễn vectơ AM theo ba vectơ AB, AD, AA' là:",
+       "options": [
+        "AM = AB + AD + 0.5 * AA'",
+        "AM = AB + AD + AA'",
+        "AM = 0.5*AB + AD + AA'",
+        "AM = AB + 0.5*AD + 0.5*AA'"
+       ],
+       "answer": 0,
+       "explanation": "AM = AC + CM = (AB + AD) + 0.5 * CC' = AB + AD + 0.5 * AA' (vì CC' = AA')."
+      },
+      {
+       "type": "mcq",
+       "prompt": "Trong không gian Oxyz, cho a = (2; 1; -3) và b = (-2; -1; 2). Tích vô hướng a . b có giá trị bằng:",
+       "options": [
+        "-11",
+        "-2",
+        "11",
+        "2"
+       ],
+       "answer": 0,
+       "explanation": "a . b = 2*(-2) + 1*(-1) + (-3)*2 = -4 - 1 - 6 = -11."
+      },
+      {
+       "type": "mcq",
+       "prompt": "Cho hình bình hành ABCD có A(-1; 0; 3), B(2; 1; -1) và C(3; 2; 2). Toạ độ của đỉnh D là:",
+       "options": [
+        "(0; 1; 6)",
+        "(2; -1; 0)",
+        "(0; -1; -6)",
+        "(-2; 1; 0)"
+       ],
+       "answer": 0,
+       "explanation": "Vì ABCD là hình bình hành nên AB = DC <=> (3; 1; -4) = (3 - xD; 2 - yD; 2 - zD) => xD = 0, yD = 1, zD = 6."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Cho tứ diện ABCD có G là trọng tâm tam giác BCD. Hệ thức GA + GB + GC + GD = 0 luôn luôn đúng.",
+       "answer": false,
+       "explanation": "Sai, hệ thức đó chỉ đúng khi G là trọng tâm tứ diện ABCD. Ở đây G chỉ là trọng tâm đáy BCD nên GB + GC + GD = 0, do đó tổng bằng GA khác 0."
+      },
+      {
+       "type": "short",
+       "prompt": "Trong không gian Oxyz, cho hai vectơ a = (2; 1; -2) và b = (0; -1; 1). Tính góc giữa hai vectơ a và b.",
+       "answer": "135 độ",
+       "explanation": "a . b = 2*0 + 1*(-1) + (-2)*1 = -3. |a| = căn(4+1+4) = 3; |b| = căn(0+1+1) = căn(2). cos = -3 / (3 * căn(2)) = -căn(2)/2 => góc = 135 độ."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "chuong-03-cac-so-dac-trung-do-muc-do-phan-tan",
+   "title": "Chương III. Các số đặc trưng đo mức độ phân tán của mẫu số liệu ghép nhóm",
+   "topics": [
+    {
+     "id": "khoang-bien-thien-va-khoang-tu-phan-vi",
+     "title": "Bài 9. Khoảng biến thiên và khoảng tứ phân vị",
+     "summary": "Khái niệm mẫu số liệu ghép nhóm, công thức xác định khoảng biến thiên và công thức tính khoảng tứ phân vị của mẫu số liệu ghép nhóm.",
+     "notes": [
+      {
+       "heading": "Khoảng biến thiên của mẫu số liệu ghép nhóm",
+       "points": [
+        "Mẫu số liệu ghép nhóm là mẫu số liệu được phân chia thành các nhóm liên tiếp [ai; ai+1) cùng với tần số tương ứng mi.",
+        "Khoảng biến thiên của mẫu số liệu ghép nhóm, kí hiệu R, là hiệu số giữa đầu mút phải của nhóm cuối cùng và đầu mút trái của nhóm đầu tiên: **R = ak+1 - a1**.",
+        "Ý nghĩa: Khoảng biến thiên xấp xỉ cho độ biến thiên của mẫu số liệu gốc; R càng lớn thì mẫu số liệu càng phân tán."
+       ]
+      },
+      {
+       "heading": "Tứ phân vị của mẫu số liệu ghép nhóm",
+       "points": [
+        "Để tìm tứ phân vị thứ r (với r = 1, 2, 3), ta xác định nhóm [ap; ap+1) chứa tứ phân vị đó dựa trên tần số tích lũy vượt qua (r * n) / 4.",
+        "Công thức tính tứ phân vị thứ r là: **Qr = ap + [((r * n) / 4 - (m1 + ... + mp-1)) / mp] * (ap+1 - ap)**.",
+        "Trong đó n là cỡ mẫu, ap và ap+1 là hai đầu mút của nhóm chứa Qr, mp là tần số của nhóm đó, và tổng trong ngoặc là tổng tần số của các nhóm đứng trước nó."
+       ]
+      },
+      {
+       "heading": "Khoảng tứ phân vị của mẫu số liệu ghép nhóm",
+       "points": [
+        "Khoảng tứ phân vị, kí hiệu là delta Q, là hiệu số giữa tứ phân vị thứ ba và tứ phân vị thứ nhất: **delta Q = Q3 - Q1**.",
+        "Ý nghĩa: Khoảng tứ phân vị đo mức độ phân tán của 50% số liệu nằm ở chính giữa của mẫu số liệu.",
+        "Khoảng tứ phân vị không bị ảnh hưởng bởi các giá trị bất thường (giá trị ngoại lai quá lớn hoặc quá bé) ở hai đầu mút."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Mẫu số liệu ghép nhóm",
+       "definition": "Bảng phân bố tần số trong đó các giá trị được gộp vào từng khoảng [a; b) liên tiếp."
+      },
+      {
+       "term": "Khoảng biến thiên R",
+       "definition": "Hiệu số giữa đầu mút trên cùng của nhóm cuối và đầu mút dưới cùng của nhóm đầu tiên: R = ak+1 - a1."
+      },
+      {
+       "term": "Tứ phân vị ghép nhóm",
+       "definition": "Ba giá trị Q1, Q2, Q3 chia mẫu số liệu ghép nhóm đã xếp thứ tự thành bốn phần xấp xỉ bằng nhau."
+      },
+      {
+       "term": "Khoảng tứ phân vị delta Q",
+       "definition": "Hiệu số giữa tứ phân vị thứ ba và tứ phân vị thứ nhất: delta Q = Q3 - Q1."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Công thức tính khoảng biến thiên R của mẫu ghép nhóm [a1, a2), ..., [ak, ak+1) là gì?",
+       "back": "R = ak+1 - a1 (lấy đầu mút phải nhóm cuối trừ đầu mút trái nhóm đầu)."
+      },
+      {
+       "front": "Khoảng tứ phân vị delta Q được định nghĩa như thế nào?",
+       "back": "delta Q = Q3 - Q1."
+      },
+      {
+       "front": "Ưu điểm lớn nhất của khoảng tứ phân vị so với khoảng biến thiên là gì?",
+       "back": "Không bị ảnh hưởng bởi các giá trị bất thường (ngoại lai) ở hai đầu dữ liệu."
+      },
+      {
+       "front": "Ý nghĩa của khoảng tứ phân vị delta Q là gì?",
+       "back": "Đo mức độ phân tán của 50% số liệu tập trung ở phần giữa của mẫu số liệu."
+      },
+      {
+       "front": "Tứ phân vị thứ hai Q2 của mẫu số liệu chính là đại lượng nào?",
+       "back": "Chính là số trung vị (Median) của mẫu số liệu."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Một mẫu số liệu ghép nhóm có các nhóm là [10; 20), [20; 30), [30; 40), [40; 50), [50; 60). Khoảng biến thiên R của mẫu số liệu này là:",
+       "options": [
+        "50",
+        "60",
+        "10",
+        "40"
+       ],
+       "answer": 0,
+       "explanation": "R = ak+1 - a1 = 60 - 10 = 50."
+      },
+      {
+       "type": "mcq",
+       "prompt": "Đại lượng nào sau đây không sử dụng thông tin của nhóm số liệu đầu tiên và nhóm số liệu cuối cùng?",
+       "options": [
+        "Khoảng tứ phân vị",
+        "Khoảng biến thiên",
+        "Số trung bình",
+        "Phương sai"
+       ],
+       "answer": 0,
+       "explanation": "Khoảng tứ phân vị delta Q = Q3 - Q1 chỉ phụ thuộc vào các nhóm chứa Q1 và Q3, không phụ thuộc nhóm đầu và nhóm cuối."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Khoảng biến thiên của mẫu số liệu ghép nhóm luôn luôn bằng chính xác khoảng biến thiên của mẫu số liệu gốc ban đầu.",
+       "answer": false,
+       "explanation": "Khoảng biến thiên của mẫu ghép nhóm ak+1 - a1 chỉ là giá trị xấp xỉ (và thường lớn hơn hoặc bằng) khoảng biến thiên mẫu gốc."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Khoảng tứ phân vị đo độ phân tán của 50% số liệu nằm ở chính giữa mẫu dữ liệu.",
+       "answer": true,
+       "explanation": "Theo định nghĩa, Q1 và Q3 chứa 50% số liệu ở trung tâm giữa chúng."
+      },
+      {
+       "type": "short",
+       "prompt": "Cho mẫu số liệu ghép nhóm có Q1 = 7,71 và Q3 = 14,5. Hãy tính khoảng tứ phân vị delta Q của mẫu số liệu đó.",
+       "answer": "6,79",
+       "explanation": "delta Q = Q3 - Q1 = 14,5 - 7,71 = 6,79."
+      },
+      {
+       "type": "cloze",
+       "prompt": "Khoảng tứ phân vị delta Q của mẫu số liệu ghép nhóm là hiệu số giữa tứ phân vị thứ ba Q3 và tứ phân vị thứ ____ Q1.",
+       "answers": [
+        "nhất",
+        "1"
+       ],
+       "explanation": "delta Q = Q3 - Q1."
+      },
+      {
+       "type": "match",
+       "prompt": "Nối số đặc trưng với ý nghĩa thống kê tương ứng của nó:",
+       "pairs": [
+        {
+         "left": "Khoảng biến thiên R",
+         "right": "Hiệu số giữa giá trị cực đại và cực tiểu của các nhóm"
+        },
+        {
+         "left": "Khoảng tứ phân vị delta Q",
+         "right": "Độ phân tán của 50% dữ liệu ở phần giữa"
+        },
+        {
+         "left": "Tứ phân vị thứ hai Q2",
+         "right": "Trung vị chia đôi mẫu số liệu thành 2 nửa"
+        },
+        {
+         "left": "Giá trị đại diện xi",
+         "right": "Trung điểm của từng khoảng nửa đoạn [ai; ai+1)"
+        }
+       ],
+       "explanation": "Các đại lượng cơ bản đặc trưng cho vị trí và độ phân tán của mẫu ghép nhóm."
+      },
+      {
+       "type": "tfs",
+       "prompt": "Xét tính đúng/sai của các nhận định sau về các số đặc trưng đo độ phân tán:",
+       "quote": "Đo lường mức độ biến động dữ liệu là bước cốt lõi để so sánh tính ổn định giữa hai hoặc nhiều quần thể quan sát.",
+       "items": [
+        {
+         "text": "Khoảng biến thiên càng lớn chứng tỏ dữ liệu của mẫu càng phân tán rộng.",
+         "answer": true
+        },
+        {
+         "text": "Khoảng tứ phân vị rất nhạy cảm và dễ bị sai lệch khi mẫu xuất hiện giá trị ngoại lai cực lớn.",
+         "answer": false
+        },
+        {
+         "text": "Công thức tứ phân vị ghép nhóm áp dụng phép nội suy tuyến tính bên trong nhóm chứa tứ phân vị.",
+         "answer": true
+        },
+        {
+         "text": "Nếu hai mẫu số liệu có cùng khoảng biến thiên thì mức độ phân tán của chúng hoàn toàn giống nhau.",
+         "answer": false
+        }
+       ],
+       "explanation": "Khoảng tứ phân vị kháng ngoại lai rất tốt. Hai mẫu cùng khoảng biến thiên vẫn có thể có độ tập trung quanh số trung bình rất khác nhau."
+      }
+     ]
+    },
+    {
+     "id": "phuong-sai-va-do-lech-chuan",
+     "title": "Bài 10. Phương sai và độ lệch chuẩn",
+     "summary": "Định nghĩa, công thức tính phương sai và độ lệch chuẩn của mẫu số liệu ghép nhóm; ý nghĩa trong đo độ rủi ro tài chính và hệ số biến thiên.",
+     "notes": [
+      {
+       "heading": "Giá trị đại diện và số trung bình của mẫu ghép nhóm",
+       "points": [
+        "Giá trị đại diện của nhóm [ai; ai+1) là trung điểm của nhóm: **xi = (ai + ai+1) / 2**.",
+        "Số trung bình của mẫu số liệu ghép nhóm có cỡ mẫu n là: **x_bar = (1 / n) * (m1*x1 + m2*x2 + ... + mk*xk)**."
+       ]
+      },
+      {
+       "heading": "Phương sai và độ lệch chuẩn",
+       "points": [
+        "Phương sai của mẫu số liệu ghép nhóm, kí hiệu s^2, là: **s^2 = (1 / n) * [m1*(x1 - x_bar)^2 + ... + mk*(xk - x_bar)^2]**.",
+        "Công thức tính nhanh phương sai: **s^2 = (1 / n) * (m1*x1^2 + ... + mk*xk^2) - (x_bar)^2**.",
+        "Độ lệch chuẩn là căn bậc hai số học của phương sai: **s = căn(s^2)**.",
+        "Độ lệch chuẩn có cùng đơn vị đo với đơn vị đo của mẫu số liệu ban đầu (khác với phương sai có đơn vị bình phương).",
+        "Ý nghĩa: Phương sai và độ lệch chuẩn đo mức độ phân tán của các số liệu xung quanh giá trị trung bình; giá trị càng lớn thì dữ liệu càng phân tán."
+       ]
+      },
+      {
+       "heading": "Ứng dụng đo độ rủi ro và hệ số biến thiên",
+       "points": [
+        "Trong kinh tế và tài chính, độ lệch chuẩn của lợi nhuận được sử dụng để **đo mức độ rủi ro** của một phương án đầu tư.",
+        "Độ lệch chuẩn của lợi nhuận càng lớn thì phương án đầu tư đó càng có độ rủi ro cao.",
+        "Không nên dùng phương sai hoặc độ lệch chuẩn để so sánh hai mẫu khi hai mẫu có đơn vị đo khác nhau hoặc số trung bình chênh lệch quá nhiều.",
+        "Khi đó, người ta sử dụng **hệ số biến thiên** CV, xác định bởi công thức: **CV = s / x_bar**."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Giá trị đại diện",
+       "definition": "Số xi bằng trung bình cộng hai đầu mút của nhóm [ai; ai+1), đại diện cho toàn bộ số liệu trong nhóm."
+      },
+      {
+       "term": "Phương sai s^2",
+       "definition": "Số đo trung bình của bình phương độ lệch giữa các giá trị đại diện và số trung bình."
+      },
+      {
+       "term": "Độ lệch chuẩn s",
+       "definition": "Căn bậc hai số học của phương sai, có cùng đơn vị đo với mẫu số liệu."
+      },
+      {
+       "term": "Độ rủi ro tài chính",
+       "definition": "Mức độ không chắc chắn của lợi nhuận thu được, được lượng hóa bằng độ lệch chuẩn."
+      },
+      {
+       "term": "Hệ số biến thiên CV",
+       "definition": "Tỉ số giữa độ lệch chuẩn và số trung bình: CV = s / x_bar, dùng để so sánh độ phân tán tương đối."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Công thức tính nhanh phương sai s^2 của mẫu số liệu ghép nhóm là gì?",
+       "back": "s^2 = (1/n) * tổng(mi * xi^2) - (x_bar)^2."
+      },
+      {
+       "front": "Mối liên hệ giữa độ lệch chuẩn s và phương sai s^2 là gì?",
+       "back": "s = căn(s^2) (độ lệch chuẩn là căn bậc hai của phương sai)."
+      },
+      {
+       "front": "Độ lệch chuẩn có ưu điểm gì về mặt đơn vị đo so với phương sai?",
+       "back": "Độ lệch chuẩn có cùng đơn vị đo với số liệu gốc, còn phương sai mang đơn vị bình phương."
+      },
+      {
+       "front": "Trong đầu tư tài chính, độ lệch chuẩn của lợi nhuận thể hiện điều gì?",
+       "back": "Thể hiện độ rủi ro của phương án đầu tư (độ lệch chuẩn càng lớn thì rủi ro càng cao)."
+      },
+      {
+       "front": "Khi nào cần sử dụng hệ số biến thiên CV = s / x_bar thay cho độ lệch chuẩn?",
+       "back": "Khi hai mẫu số liệu có đơn vị đo khác nhau hoặc có giá trị trung bình rất khác nhau."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Cho một mẫu số liệu ghép nhóm có phương sai s^2 = 2,25. Độ lệch chuẩn s của mẫu số liệu đó bằng:",
+       "options": [
+        "1,5",
+        "2,25",
+        "5,0625",
+        "0,5"
+       ],
+       "answer": 0,
+       "explanation": "Độ lệch chuẩn s = căn(s^2) = căn(2,25) = 1,5."
+      },
+      {
+       "type": "mcq",
+       "prompt": "Đại lượng nào sau đây đo độ phân tán của mẫu số liệu và có cùng đơn vị đo với mẫu số liệu gốc?",
+       "options": [
+        "Độ lệch chuẩn",
+        "Phương sai",
+        "Hệ số biến thiên",
+        "Tỉ số phương sai"
+       ],
+       "answer": 0,
+       "explanation": "Độ lệch chuẩn là căn bậc hai của phương sai nên cùng đơn vị đo với biến số gốc, trong khi phương sai mang đơn vị bình phương."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Trong phân tích đầu tư, phương án có độ lệch chuẩn lợi nhuận càng nhỏ thì độ an toàn càng cao (ít rủi ro hơn).",
+       "answer": true,
+       "explanation": "Độ lệch chuẩn đo độ rủi ro, độ lệch chuẩn càng nhỏ nghĩa là mức biến động lợi nhuận quanh trung bình càng ổn định, ít rủi ro."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Phương sai của mẫu số liệu có thể nhận giá trị âm nếu các số liệu ban đầu là số âm.",
+       "answer": false,
+       "explanation": "Phương sai là trung bình của các bình phương nên luôn luôn lớn hơn hoặc bằng 0."
+      },
+      {
+       "type": "short",
+       "prompt": "Một cổ phiếu có độ lệch chuẩn s = 2 triệu đồng và lợi nhuận trung bình là 20 triệu đồng. Hãy tính hệ số biến thiên CV của cổ phiếu này.",
+       "answer": "0,1",
+       "explanation": "CV = s / x_bar = 2 / 20 = 0,1 (hay 10%)."
+      },
+      {
+       "type": "cloze",
+       "prompt": "Giá trị đại diện xi của nhóm số liệu [20; 30) được tính là (20 + 30) / 2 = ____.",
+       "answers": [
+        "25"
+       ],
+       "explanation": "Giá trị đại diện là trung điểm của hai đầu mút: 50/2 = 25."
+      },
+      {
+       "type": "match",
+       "prompt": "Nối khái niệm thống kê với công thức tính tương ứng:",
+       "pairs": [
+        {
+         "left": "Giá trị đại diện nhóm [a; b)",
+         "right": "(a + b) / 2"
+        },
+        {
+         "left": "Độ lệch chuẩn s",
+         "right": "căn(s^2)"
+        },
+        {
+         "left": "Hệ số biến thiên CV",
+         "right": "s / x_bar"
+        },
+        {
+         "left": "Phương sai nhanh s^2",
+         "right": "(1/n) * tổng(mi * xi^2) - (x_bar)^2"
+        }
+       ],
+       "explanation": "Các công thức cơ bản tính các đặc trưng mẫu ghép nhóm."
+      },
+      {
+       "type": "tfs",
+       "prompt": "Xét tính đúng/sai của các mệnh đề sau về phương sai và độ lệch chuẩn của mẫu số liệu ghép nhóm:",
+       "quote": "Phương sai và độ lệch chuẩn là hai thước đo phổ biến nhất trong thống kê mô tả để định lượng mức độ biến thiên dữ liệu.",
+       "items": [
+        {
+         "text": "Nếu tất cả các giá trị trong mẫu số liệu đều bằng nhau thì phương sai bằng 0.",
+         "answer": true
+        },
+        {
+         "text": "Khi cộng thêm một hằng số c vào tất cả các giá trị thì độ lệch chuẩn của mẫu sẽ tăng thêm c.",
+         "answer": false
+        },
+        {
+         "text": "Độ lệch chuẩn càng lớn chứng tỏ các số liệu càng phân tán xa số trung bình.",
+         "answer": true
+        },
+        {
+         "text": "Công thức hiệu chỉnh mẫu dùng mẫu số n - 1 để ước lượng không chệch cho phương sai của tổng thể.",
+         "answer": true
+        }
+       ],
+       "explanation": "Cộng thêm hằng số không làm thay đổi độ phân tán của dữ liệu nên độ lệch chuẩn không đổi."
+      }
+     ]
+    },
+    {
+     "id": "bai-tap-on-tap-chuong-3",
+     "title": "Bài tập ôn tập cuối Chương III",
+     "summary": "Hệ thống câu hỏi trắc nghiệm và bài tập tự luận tổng hợp kiểm tra năng lực tính toán và ứng dụng các số đặc trưng đo độ phân tán.",
+     "notes": [
+      {
+       "heading": "Tổng kết các số đặc trưng đo độ phân tán",
+       "points": [
+        "Khoảng biến thiên R = ak+1 - a1: đo độ trải rộng bao quát nhất nhưng nhạy cảm với ngoại lai.",
+        "Khoảng tứ phân vị delta Q = Q3 - Q1: đo độ phân tán của 50% số liệu trung tâm, kháng ngoại lai tốt.",
+        "Phương sai s^2 và độ lệch chuẩn s = căn(s^2): đo độ biến thiên toàn diện của từng quan sát quanh số trung bình.",
+        "Hệ số biến thiên CV = s / x_bar: dùng so sánh độ phân tán tương đối giữa các tập dữ liệu có quy mô hoặc đơn vị khác nhau."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Độ phân tán dữ liệu",
+       "definition": "Mức độ tản mát hoặc chụm lại của các giá trị trong phân bố tần số."
+      },
+      {
+       "term": "Độ nhạy ngoại lai",
+       "definition": "Mức độ bị ảnh hưởng của một số đặc trưng thống kê trước sự xuất hiện của các giá trị cực đoan."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Nếu thay đổi tất cả các tần số trong mẫu số liệu ghép nhóm bằng cùng một số k > 0 thì số đặc trưng nào không đổi?",
+       "back": "Khoảng biến thiên R không đổi (vì chỉ phụ thuộc đầu mút nhóm đầu và nhóm cuối)."
+      },
+      {
+       "front": "Nhóm chứa tứ phân vị thứ nhất Q1 là nhóm có tần số tích luỹ đầu tiên vượt qua giá trị nào?",
+       "back": "Vượt qua n / 4 (với n là cỡ mẫu)."
+      },
+      {
+       "front": "Nhóm chứa tứ phân vị thứ ba Q3 là nhóm có tần số tích luỹ đầu tiên vượt qua giá trị nào?",
+       "back": "Vượt qua 3n / 4."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Một đàn hươu 20 con có tuổi thọ được ghép nhóm: [14; 15): 1; [15; 16): 3; [16; 17): 8; [17; 18): 6; [18; 19): 2. Nhóm chứa tứ phân vị thứ nhất Q1 là:",
+       "options": [
+        "[16; 17)",
+        "[15; 16)",
+        "[14; 15)",
+        "[17; 18)"
+       ],
+       "answer": 0,
+       "explanation": "Cỡ mẫu n = 20. Ta có n/4 = 5. Tần số tích lũy: nhóm 1 có 1; nhóm 2 có 1 + 3 = 4; nhóm 3 có 4 + 8 = 12 >= 5. Vậy nhóm chứa Q1 là [16; 17)."
+      },
+      {
+       "type": "mcq",
+       "prompt": "Với mẫu số liệu tuổi thọ 20 con hươu ở trên, khoảng biến thiên R của mẫu là:",
+       "options": [
+        "5",
+        "4",
+        "6",
+        "3"
+       ],
+       "answer": 0,
+       "explanation": "R = 19 - 14 = 5."
+      },
+      {
+       "type": "mcq",
+       "prompt": "Nhóm chứa tứ phân vị thứ ba Q3 của mẫu 20 con hươu ở trên là:",
+       "options": [
+        "[17; 18)",
+        "[16; 17)",
+        "[18; 19)",
+        "[15; 16)"
+       ],
+       "answer": 0,
+       "explanation": "Ta có 3n/4 = 15. Tần số tích lũy: đến nhóm 3 là 12; nhóm 4 có 12 + 6 = 18 >= 15. Do đó nhóm chứa Q3 là [17; 18)."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Nếu tăng gấp đôi tất cả các tần số của từng nhóm trong mẫu ghép nhóm thì số trung bình và phương sai của mẫu không đổi.",
+       "answer": true,
+       "explanation": "Khi nhân tần số với cùng một thừa số thì tỉ lệ tần suất giữ nguyên nên số trung bình, phương sai và độ lệch chuẩn đều không thay đổi."
+      },
+      {
+       "type": "short",
+       "prompt": "Cho mẫu số liệu ghép nhóm có phương sai s^2 = 1,44. Độ lệch chuẩn s của mẫu số liệu là bao nhiêu?",
+       "answer": "1,2",
+       "explanation": "s = căn(1,44) = 1,2."
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

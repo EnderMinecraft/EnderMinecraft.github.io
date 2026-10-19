@@ -2,70 +2,28 @@
   "schema": 1,
   "subjects": [
     {
-      "id": "bio-cells-energy",
-      "title": "Cells and Energy",
-      "category": "Biology",
-      "level": "High school",
-      "lang": "en",
-      "description": "Cell structure, photosynthesis and cellular respiration. A small sample subject.",
-      "tags": [
-        "biology",
-        "cells",
-        "energy"
-      ],
-      "rev": 1,
-      "bytes": 8702,
-      "sha256": "6e926f192891bd2c5d737a94fbd71b5a6a89f64a894b82bd1fc39106c5716791",
-      "counts": {
-        "topics": 3,
-        "cards": 14,
-        "questions": 16
-      },
-      "file": "subjects/bio-cells-energy.json",
-      "added": "2026-10-20"
-    },
-    {
-      "id": "hist-vn-modern",
-      "title": "Lịch sử Việt Nam cận đại",
-      "category": "History",
+      "id": "math-12",
+      "title": "Toán 12 - Tập 1",
+      "category": "Mathematics",
       "level": "High school",
       "lang": "vi",
-      "description": "Các mốc chính từ 1858 đến 1945, chia thành hai giai đoạn (mẫu có gói con lồng nhau).",
+      "description": "Toán 12 Kết nối tri thức - Khảo sát hàm số, Vectơ & Hệ toạ độ Oxyz, Thống kê mẫu ghép nhóm.",
       "tags": [
-        "history",
-        "vietnam"
+        "toan",
+        "lop-12",
+        "khao-sat-ham-so",
+        "oxyz",
+        "thong-ke"
       ],
       "rev": 1,
-      "bytes": 8109,
-      "sha256": "25b5b0aa2dbec23116d9ebf283199b5d573960a0adc7816287c0f36e039cd291",
+      "bytes": 104095,
+      "sha256": "82302a270deddcb13febd90445ccad36108c246294f796252900a6854276fc9d",
       "counts": {
-        "topics": 5,
-        "cards": 10,
-        "questions": 11
+        "topics": 13,
+        "cards": 61,
+        "questions": 96
       },
-      "file": "subjects/hist-vn-modern.json",
-      "added": "2026-10-20"
-    },
-    {
-      "id": "math-algebra-basics",
-      "title": "Algebra Basics",
-      "category": "Mathematics",
-      "level": "Middle school",
-      "lang": "en",
-      "description": "Linear equations, quadratics and straight-line graphs. A small sample subject.",
-      "tags": [
-        "math",
-        "algebra"
-      ],
-      "rev": 1,
-      "bytes": 3877,
-      "sha256": "3a9e73ce443b9ac9ba719d3be1520fd8296cc33e3e78621d932f96d363a264dd",
-      "counts": {
-        "topics": 3,
-        "cards": 6,
-        "questions": 8
-      },
-      "file": "subjects/math-algebra-basics.json",
+      "file": "subjects/math-12.json",
       "added": "2026-10-20"
     }
   ]
