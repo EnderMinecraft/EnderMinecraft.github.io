@@ -1,0 +1,2541 @@
+{
+ "id": "bio-12",
+ "title": "Sinh học 12",
+ "subject": "Sinh học",
+ "level": "Lớp 12",
+ "language": "vi",
+ "topics": [],
+ "packs": [
+  {
+   "id": "chuong-01-di-truyen-phan-tu",
+   "title": "Chương I. Di truyền phân tử",
+   "topics": [
+    {
+     "id": "bai-01-dna-va-co-che-tai-ban-dna",
+     "title": "Bài 1. DNA và cơ chế tái bản DNA",
+     "summary": "Cấu trúc hoá học, chức năng của phân tử DNA và các giai đoạn trong cơ chế tái bản bán bảo toàn của DNA.",
+     "notes": [
+      {
+       "heading": "Cấu trúc hoá học và chức năng của DNA",
+       "points": [
+        "DNA là đại phân tử sinh học cấu tạo theo nguyên tắc đa phân, đơn phân là 4 loại **nucleotide**: A (adenine), T (thymine), G (guanine) và C (cytosine).",
+        "Mỗi nucleotide gồm 3 thành phần: gốc phosphate, đường deoxyribose (C5H10O4) và một **base nitơ**.",
+        "Hai chuỗi polynucleotide liên kết với nhau bằng liên kết hydro theo **nguyên tắc bổ sung** (NTBS): A liên kết với T bằng 2 liên kết hydro, G liên kết với C bằng 3 liên kết hydro.",
+        "DNA có chức năng **mang, bảo quản và truyền đạt** thông tin di truyền qua các thế hệ tế bào và cơ thể."
+       ]
+      },
+      {
+       "heading": "Cơ chế tái bản (nhân đôi) DNA",
+       "points": [
+        "Quá trình tái bản DNA bắt đầu từ các điểm khởi đầu sao chép (**Ori**), enzyme tháo xoắn tách hai mạch tạo chạc sao chép hình chữ Y.",
+        "Enzyme **RNA polymerase** (primase) tổng hợp đoạn mồi RNA ngắn cung cấp đầu 3'-OH tự do cho DNA polymerase.",
+        "Enzyme **DNA polymerase** chỉ kéo dài mạch mới theo chiều 5' -> 3': mạch khuôn 3' -> 5' tổng hợp liên tục, mạch khuôn 5' -> 3' tổng hợp gián đoạn thành các đoạn **Okazaki**.",
+        "Enzyme **DNA ligase** thực hiện nối các đoạn Okazaki lại với nhau sau khi đoạn mồi RNA bị loại bỏ và thay thế bằng DNA.",
+        "Tái bản DNA tuân theo hai nguyên tắc cốt lõi: **nguyên tắc bổ sung** và **nguyên tắc bán bảo toàn** (mỗi phân tử DNA con chứa một mạch cũ từ DNA mẹ và một mạch mới tổng hợp)."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Nguyên tắc bán bảo toàn",
+       "definition": "Nguyên tắc nhân đôi mà trong mỗi phân tử DNA con có một mạch của DNA mẹ và một mạch mới tổng hợp."
+      },
+      {
+       "term": "Đoạn Okazaki",
+       "definition": "Các đoạn DNA ngắn được tổng hợp gián đoạn trên mạch khuôn có chiều 5' đến 3' ở chạc sao chép."
+      },
+      {
+       "term": "Điểm khởi đầu sao chép (Ori)",
+       "definition": "Trình tự nucleotide đặc hiệu trên phân tử DNA nơi các protein và enzyme bám vào để khởi đầu nhân đôi."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Nêu vai trò của enzyme DNA ligase trong quá trình tái bản DNA.",
+       "back": "Nối các đoạn Okazaki trên mạch gián đoạn lại với nhau bằng liên kết phosphodiester."
+      },
+      {
+       "front": "Chiều kéo dài chuỗi polynucleotide mới của enzyme DNA polymerase là gì?",
+       "back": "Luôn luôn theo chiều 5' đến 3' (gắn nucleotide vào đầu 3'-OH tự do)."
+      },
+      {
+       "front": "Tại sao phân tử DNA mạch kép có cấu trúc rất bền vững nhưng vẫn dễ tách rời khi nhân đôi?",
+       "back": "Do số lượng liên kết hydro cực lớn tạo tính bền vững, nhưng từng liên kết hydro là liên kết yếu nên dễ bị enzyme cắt đứt."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Trong quá trình tái bản DNA ở sinh vật nhân thực, enzyme nào chịu trách nhiệm chính trong việc lắp ráp các nucleotide tự do theo nguyên tắc bổ sung?",
+       "options": [
+        "DNA polymerase",
+        "RNA polymerase",
+        "DNA ligase",
+        "Enzyme tháo xoắn helicase"
+       ],
+       "answer": 0,
+       "explanation": "DNA polymerase là enzyme chính xúc tác kéo dài mạch mới bằng cách lắp ráp nucleotide theo nguyên tắc bổ sung A-T, G-C."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Tất cả các đoạn Okazaki trên mạch gián đoạn được tổng hợp theo chiều 3' đến 5'.",
+       "answer": false,
+       "explanation": "Tất cả các mạch mới (bao gồm cả đoạn Okazaki) đều được tổng hợp theo chiều duy nhất là 5' đến 3'."
+      },
+      {
+       "type": "cloze",
+       "prompt": "Quá trình nhân đôi DNA tạo ra hai phân tử con giống hệt phân tử mẹ nhờ nguyên tắc bổ sung và nguyên tắc ____.",
+       "answers": [
+        "bán bảo toàn",
+        "bán bảo tồn"
+       ],
+       "explanation": "Nguyên tắc bán bảo toàn (semiconservative) đảm bảo mỗi DNA con giữ lại một mạch khuôn của mẹ."
+      },
+      {
+       "type": "short",
+       "prompt": "Một phân tử DNA mạch kép nhân đôi liên tiếp 3 lần sẽ tạo ra bao nhiêu phân tử DNA con?",
+       "answer": "8",
+       "explanation": "Số phân tử DNA con tạo thành sau k lần nhân đôi là 2^k = 2^3 = 8 phân tử."
+      }
+     ]
+    },
+    {
+     "id": "bai-02-gene-va-qua-trinh-truyen-dat-thong-tin-di-truyen-he-gene",
+     "title": "Bài 2. Gene, quá trình truyền đạt thông tin di truyền và hệ gene",
+     "summary": "Cấu trúc của gene, hệ gene người, cơ chế phiên mã, mã di truyền và quá trình dịch mã tổng hợp protein.",
+     "notes": [
+      {
+       "heading": "Khái niệm và cấu trúc chung của gene",
+       "points": [
+        "**Gene** là một đoạn của phân tử DNA mang thông tin mã hoá cho một chuỗi polypeptide hoặc một phân tử RNA.",
+        "Cấu trúc một gene mã hoá protein điển hình gồm 3 vùng: **vùng điều hoà** (ở đầu 3' mạch khuôn, chứa promoter), **vùng mã hoá** và **vùng kết thúc** (ở đầu 5' mạch khuôn).",
+        "Sinh vật nhân sơ có gene **không phân mảnh** (vùng mã hoá liên tục); sinh vật nhân thực có gene **phân mảnh** gồm các đoạn **exon** (mã hoá amino acid) xen kẽ các đoạn **intron** (không mã hoá)."
+       ]
+      },
+      {
+       "heading": "Hệ gene và thành tựu giải trình tự hệ gene người",
+       "points": [
+        "**Hệ gene** (genome) là toàn bộ lượng vật chất di truyền (DNA) chứa trong tế bào của một sinh vật.",
+        "Hệ gene đơn bội ở người gồm hơn **3,2 tỉ cặp nucleotide** phân bố trên 23 cặp NST, chứa khoảng **21 300 gene** mã hoá protein.",
+        "Các exon mã hoá protein chỉ chiếm khoảng 1,5% hệ gene người; phần còn lại gồm intron, trình tự điều hoà, trình tự lặp lại và DNA không mã hoá."
+       ]
+      },
+      {
+       "heading": "Phiên mã và dịch mã",
+       "points": [
+        "**Phiên mã** là quá trình tổng hợp RNA dựa trên mạch khuôn 3' -> 5' của gene nhờ enzyme **RNA polymerase** theo nguyên tắc bổ sung (A-U, T-A, G-C, C-G).",
+        "Ở sinh vật nhân thực, tiền mRNA sau phiên mã được gắn mũ 5'-methylguanosine, gắn đuôi polyA và cắt bỏ intron, nối exon tạo **mRNA trưởng thành**.",
+        "**Mã di truyền** là mã bộ ba (codon): có 64 bộ ba, trong đó 61 bộ ba mã hoá cho 20 loại amino acid, 1 codon mở đầu (5'-AUG-3' mã hoá methionine ở nhân thực hoặc fMet ở nhân sơ) và 3 codon kết thúc (UAA, UAG, UGA).",
+        "Đặc điểm mã di truyền: tính liên tục (đọc từ một điểm xác định không gối nhau), **tính thoái hoá** (nhiều bộ ba cùng mã hoá một amino acid), **tính đặc hiệu** (mỗi bộ ba chỉ mã hoá một loại amino acid) và **tính phổ biến** (dùng chung cho toàn bộ sinh giới).",
+        "**Dịch mã** diễn ra tại ribosome trong tế bào chất gồm 3 giai đoạn: mở đầu, kéo dài chuỗi polypeptide và kết thúc."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Exon",
+       "definition": "Đoạn trình tự nucleotide trong vùng mã hoá của gene mang thông tin mã hoá amino acid."
+      },
+      {
+       "term": "Intron",
+       "definition": "Đoạn trình tự nucleotide không mã hoá amino acid xen kẽ giữa các exon trong gene sinh vật nhân thực."
+      },
+      {
+       "term": "Tính thoái hoá của mã di truyền",
+       "definition": "Hiện tượng nhiều bộ ba codon khác nhau cùng quy định tổng hợp một loại amino acid."
+      },
+      {
+       "term": "Phiên mã ngược",
+       "definition": "Quá trình tổng hợp phân tử DNA từ mạch khuôn RNA nhờ enzyme reverse transcriptase."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Codon 5'-AUG-3' trên phân tử mRNA có những chức năng gì?",
+       "back": "Làm tín hiệu mở đầu dịch mã và mã hoá cho amino acid methionine (ở nhân thực) hoặc formylmethionine (ở nhân sơ)."
+      },
+      {
+       "front": "Ba codon kết thúc không mã hoá amino acid trên mRNA là gì?",
+       "back": "5'-UAA-3', 5'-UAG-3' và 5'-UGA-3'."
+      },
+      {
+       "front": "Thành phần nào mang bộ ba đối mã (anticodon) bổ sung với codon trên mRNA?",
+       "back": "Phân tử tRNA (RNA vận chuyển)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Một phân tử mRNA trưởng thành ở sinh vật nhân thực trực tiếp tham gia dịch mã được hình thành từ quá trình nào sau đây?",
+       "options": [
+        "Cắt bỏ các đoạn intron và nối các đoạn exon của tiền mRNA",
+        "Cắt bỏ các đoạn exon và nối các đoạn intron của tiền mRNA",
+        "Nhân đôi trực tiếp từ mạch mang mã gốc của gene",
+        "Gắn thêm các base nitơ tự do vào hai đầu của tiền tRNA"
+       ],
+       "answer": 0,
+       "explanation": "Ở sinh vật nhân thực, tiền mRNA phải trải qua quá trình chế bản: cắt bỏ intron và nối các exon lại với nhau để tạo mRNA trưởng thành."
+      },
+      {
+       "type": "match",
+       "prompt": "Ghép nối các loại phân tử RNA với chức năng sinh học tương ứng trong tế bào:",
+       "pairs": [
+        {
+         "left": "mRNA",
+         "right": "Làm khuôn trực tiếp cho quá trình dịch mã tổng hợp protein"
+        },
+        {
+         "left": "tRNA",
+         "right": "Vận chuyển amino acid đặc hiệu đến ribosome"
+        },
+        {
+         "left": "rRNA",
+         "right": "Cùng với protein cấu tạo nên các tiểu phần của ribosome"
+        }
+       ],
+       "explanation": "mRNA truyền đạt thông tin, tRNA vận chuyển amino acid và rRNA cấu tạo ribosome."
+      },
+      {
+       "type": "tfs",
+       "prompt": "Đọc đoạn dữ liệu về mã di truyền và xét tính đúng/sai của từng mệnh đề dưới đây:",
+       "quote": "Bảng mã di truyền chuẩn gồm 64 bộ ba nucleotide trên mRNA. Trong đó có 61 bộ ba mã hoá cho 20 loại amino acid tiêu chuẩn và 3 bộ ba làm nhiệm vụ báo hiệu kết thúc dịch mã mà không mã hoá amino acid.",
+       "items": [
+        {
+         "text": "Mỗi bộ ba mã di truyền gồm 3 nucleotide liền kề đọc theo chiều 5' đến 3'.",
+         "answer": true
+        },
+        {
+         "text": "Có 3 bộ ba kết thúc dịch mã là UAA, UAG và UGA.",
+         "answer": true
+        },
+        {
+         "text": "Hiện tượng một bộ ba mã hoá cho nhiều loại amino acid khác nhau gọi là tính thoái hoá.",
+         "answer": false
+        },
+        {
+         "text": "Mọi loài sinh vật đều sử dụng chung một bảng mã di truyền hoàn toàn không có ngoại lệ.",
+         "answer": false
+        }
+       ],
+       "explanation": "Tính thoái hoá là nhiều bộ ba mã hoá 1 amino acid; mã di truyền có một số ngoại lệ nhỏ ở ti thể và một số sinh vật nguyên sinh."
+      }
+     ]
+    },
+    {
+     "id": "bai-03-dieu-hoa-bieu-hien-gene",
+     "title": "Bài 3. Điều hoà biểu hiện gene",
+     "summary": "Cơ chế điều hoà biểu hiện gene ở sinh vật qua mô hình operon Lac ở vi khuẩn E. coli và ý nghĩa sinh học.",
+     "notes": [
+      {
+       "heading": "Khái niệm và cấu trúc của operon Lac",
+       "points": [
+        "**Điều hoà biểu hiện gene** là quá trình kiểm soát lượng sản phẩm của gene (RNA hoặc protein) được tạo ra trong tế bào theo nhu cầu từng thời điểm.",
+        "Mô hình operon Lac ở *E. coli* được Monod và Jacob phát hiện gồm cụm gene cấu trúc có chung cơ chế điều hoà.",
+        "Cấu trúc của **operon Lac** gồm: vùng khởi động **P** (promoter, nơi RNA polymerase bám vào), vùng vận hành **O** (operator, nơi protein ức chế liên kết) và các gene cấu trúc **lacZ, lacY, lacA**.",
+        "Gene điều hoà **lacI** nằm trước operon Lac, không thuộc thành phần operon nhưng mã hoá cho **protein ức chế** (repressor)."
+       ]
+      },
+      {
+       "heading": "Cơ chế hoạt động của operon Lac",
+       "points": [
+        "Khi môi trường **không có lactose**: protein ức chế do gene lacI tổng hợp gắn chặt vào vùng vận hành O, ngăn cản RNA polymerase phiên mã nhóm gene cấu trúc lacZ, lacY, lacA.",
+        "Khi môi trường **có lactose**: một lượng nhỏ lactose chuyển thành đồng phân **allolactose** (chất cảm ứng); allolactose gắn vào protein ức chế làm biến đổi cấu hình không gian khiến nó tách khỏi vùng vận hành O.",
+        "RNA polymerase bám vào promoter P và tiến hành phiên mã các gene cấu trúc, tạo ra các enzyme phân giải lactose (*beta-galactosidase*, *permease*, *transacetylase*)."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Operon",
+       "definition": "Cụm các gene cấu trúc có liên quan về chức năng, nằm kề nhau trên DNA và có chung một cơ chế điều hoà phiên mã."
+      },
+      {
+       "term": "Vùng vận hành (Operator)",
+       "definition": "Trình tự nucleotide đặc hiệu nằm giữa promoter và các gene cấu trúc, là vị trí liên kết của protein ức chế."
+      },
+      {
+       "term": "Chất cảm ứng",
+       "definition": "Phân tử liên kết với protein ức chế làm thay đổi cấu hình của nó, giải phóng vùng vận hành để kích hoạt phiên mã."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Gene điều hoà lacI có thuộc thành phần cấu trúc của operon Lac không?",
+       "back": "Không, gene lacI nằm tách biệt phía trước operon Lac nhưng có vai trò tổng hợp protein ức chế."
+      },
+      {
+       "front": "Chất nào đóng vai trò chất cảm ứng làm vô hiệu hoá protein ức chế trong operon Lac?",
+       "back": "Allolactose (đồng phân chuyển hoá từ lactose trong tế bào vi khuẩn)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Trong mô hình điều hoà hoạt động của operon Lac ở vi khuẩn E. coli, sự kiện nào sau đây diễn ra khi môi trường nuôi cấy có đường lactose?",
+       "options": [
+        "Chất cảm ứng liên kết làm biến đổi cấu hình không gian của protein ức chế",
+        "Protein ức chế bám chặt vào vùng vận hành O ngăn cản phiên mã",
+        "Gene điều hoà lacI ngừng hoàn toàn quá trình phiên mã và dịch mã",
+        "Enzyme RNA polymerase bị phân huỷ không thể liên kết với vùng promoter"
+       ],
+       "answer": 0,
+       "explanation": "Khi có lactose, allolactose đóng vai trò chất cảm ứng gắn vào protein ức chế làm thay đổi cấu hình, giải phóng vùng vận hành."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Các gene cấu trúc lacZ, lacY, lacA trong operon Lac được phiên mã tạo ra 3 phân tử mRNA độc lập nhau.",
+       "answer": false,
+       "explanation": "Ở vi khuẩn nhân sơ, các gene trong cùng operon được phiên mã chung thành một phân tử polycistronic mRNA duy nhất."
+      }
+     ]
+    },
+    {
+     "id": "bai-04-dot-bien-gene",
+     "title": "Bài 4. Đột biến gene",
+     "summary": "Khái niệm, các dạng đột biến điểm, nguyên nhân phát sinh và vai trò của đột biến gene trong tiến hoá và chọn giống.",
+     "notes": [
+      {
+       "heading": "Khái niệm và các dạng đột biến điểm",
+       "points": [
+        "**Đột biến gene** là những biến đổi trong cấu trúc của gene, liên quan đến một hoặc một số cặp nucleotide.",
+        "**Đột biến điểm** là đột biến gene chỉ liên quan đến một cặp nucleotide duy nhất, gồm 3 dạng chính: **thay thế**, **thêm** hoặc **mất** một cặp nucleotide.",
+        "Đột biến thay thế 1 cặp nucleotide có thể làm thay đổi tối đa 1 amino acid (đột biến sai nghĩa), không đổi amino acid (đột biến đồng nghĩa) hoặc tạo mã kết thúc sớm (đột biến vô nghĩa).",
+        "Đột biến thêm hoặc mất 1 cặp nucleotide gây hiện tượng **dịch khung đọc mã** (frameshift), làm thay đổi toàn bộ trình tự amino acid từ vị trí đột biến về sau.",
+        "Cá thể mang gene đột biến đã biểu hiện ra kiểu hình được gọi là **thể đột biến**."
+       ]
+      },
+      {
+       "heading": "Nguyên nhân và cơ chế phát sinh",
+       "points": [
+        "Nguyên nhân bên trong: do sai sót ngẫu nhiên không được sửa chữa trong quá trình nhân đôi DNA của tế bào.",
+        "Tác nhân vật lí: tia tử ngoại (**UV**) làm hai base thymine trên cùng một mạch liên kết với nhau tạo thymine dimer làm biến dạng DNA; tia X, tia gamma làm đứt gãy DNA.",
+        "Tác nhân hoá học: chất đồng đẳng của thymine là **5-bromouracil** (5-BU) bắt cặp với adenine rồi guanine, gây đột biến thay thế cặp A-T thành G-C sau các lần nhân đôi.",
+        "Đột biến gene cung cấp nguồn **nguyên liệu sơ cấp** vô cùng phong phú cho quá trình tiến hoá và chọn tạo giống mới."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Đột biến điểm",
+       "definition": "Dạng đột biến gene chỉ liên quan đến sự biến đổi của một cặp nucleotide duy nhất."
+      },
+      {
+       "term": "Thể đột biến",
+       "definition": "Những cá thể mang gene đột biến đã biểu hiện thành kiểu hình khác biệt so với dạng gốc bình thường."
+      },
+      {
+       "term": "Đột biến dịch khung",
+       "definition": "Đột biến thêm hoặc mất cặp nucleotide làm xê dịch khung đọc các bộ ba codon từ điểm đột biến đến cuối gene."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Hợp chất 5-bromouracil (5-BU) gây ra dạng đột biến điểm nào?",
+       "back": "Đột biến thay thế cặp A - T bằng cặp G - C sau 3 chu kì nhân đôi DNA."
+      },
+      {
+       "front": "Phân biệt đột biến gene và thể đột biến.",
+       "back": "Đột biến gene là biến đổi cấu trúc DNA; thể đột biến là cá thể mang gene đột biến đã biểu hiện ra kiểu hình."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Dạng đột biến điểm nào sau đây thường dẫn đến sự thay đổi nghiêm trọng nhất về cấu trúc và chức năng của chuỗi polypeptide?",
+       "options": [
+        "Mất một cặp nucleotide ở ngay sau bộ ba mở đầu",
+        "Thay thế một cặp nucleotide ở bộ ba thứ 100",
+        "Thay thế cặp nucleotide thứ 3 của một codon thoái hoá",
+        "Mất một cặp nucleotide ở codon kế sát codon kết thúc"
+       ],
+       "answer": 0,
+       "explanation": "Mất 1 cặp nucleotide ngay đầu vùng mã hoá sẽ làm dịch khung đọc của toàn bộ các bộ ba codon phía sau, thay đổi toàn bộ chuỗi amino acid."
+      },
+      {
+       "type": "cloze",
+       "prompt": "Tia tử ngoại (UV) từ ánh sáng mặt trời có thể kích hoạt hai base thymine cạnh nhau trên một mạch liên kết tạo thành dimer, gây đột biến ____ một cặp nucleotide.",
+       "answers": [
+        "thêm hoặc mất",
+        "thêm hoặc mất cặp"
+       ],
+       "explanation": "Cấu trúc thymine dimer làm sai lệch quá trình tái bản dẫn tới thêm hoặc mất nucleotide."
+      }
+     ]
+    },
+    {
+     "id": "bai-05-cong-nghe-gene",
+     "title": "Bài 5. Công nghệ gene",
+     "summary": "Quy trình tạo DNA tái tổ hợp, chuyển gene vào tế bào nhận và các thành tựu ứng dụng trong y dược, nông nghiệp.",
+     "notes": [
+      {
+       "heading": "Khái niệm và kĩ thuật tạo DNA tái tổ hợp",
+       "points": [
+        "**Công nghệ gene** là quy trình kĩ thuật sử dụng công nghệ DNA tái tổ hợp để tạo ra những sinh vật mang kiểu gene mong muốn hoặc sản phẩm protein ứng dụng.",
+        "**Phân tử DNA tái tổ hợp** gồm gene cần chuyển ghép nối vào thể truyền (**vector** chuyển gene, thường là plasmid hoặc thể thực khuẩn bacteriophage).",
+        "Enzyme cắt giới hạn (**restriction enzyme** hay endonuclease) nhận diện và cắt phân tử DNA tại các vị trí trình tự đặc hiệu tạo đầu so le (đầu dính) hoặc đầu bằng.",
+        "Enzyme **DNA ligase** gắn gene cần chuyển vào vector nhờ các liên kết cộng hoá trị phosphodiester."
+       ]
+      },
+      {
+       "heading": "Các thành tựu tiêu biểu của công nghệ gene",
+       "points": [
+        "Sản xuất dược phẩm: chủng vi khuẩn *E. coli* mang gene tổng hợp **insulin người** thương mại hoá năm 1979 bởi Eli Lilly, sản xuất kháng thể và interferon.",
+        "Thực vật chuyển gene: giống **lúa vàng** (Golden Rice) chứa gene tổng hợp tiền chất beta-carotene (tiền vitamin A), giống bông mang gene độc tố Bt kháng sâu hại.",
+        "Động vật chuyển gene: cừu chuyển gene sản xuất protein đông máu **antithrombin** trong sữa, cá hồi mang gene hormone sinh trưởng phát triển nhanh.",
+        "Đạo đức sinh học đòi hỏi kiểm soát chặt chẽ việc sử dụng sinh vật biến đổi gene (GMO) và cấm chỉnh sửa gene di truyền ở phối thai người."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "DNA tái tổ hợp",
+       "definition": "Phân tử DNA nhân tạo được ghép nối từ hai đoạn DNA có nguồn gốc từ hai nguồn khác nhau."
+      },
+      {
+       "term": "Vector chuyển gene",
+       "definition": "Phân tử DNA có khả năng nhân đôi độc lập dùng để đưa gene mong muốn vào trong tế bào nhận."
+      },
+      {
+       "term": "Enzyme cắt giới hạn (Restriction enzyme)",
+       "definition": "Enzyme nhận biết trình tự nucleotide đặc hiệu trên DNA và cắt đứt liên kết phosphodiester tại điểm đó."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Tại sao plasmid vi khuẩn thường được lựa chọn làm vector chuyển gene?",
+       "back": "Vì plasmid là DNA mạch vòng nhỏ, dễ tách chiết, nhân đôi độc lập với hệ gene tế bào và mang gene chỉ thị."
+      },
+      {
+       "front": "Tên giống lúa chuyển gene nổi tiếng giúp bổ sung vi chất tiền vitamin A cho người tiêu dùng là gì?",
+       "back": "Lúa vàng (Golden Rice)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Để cắt mở vòng plasmid và cắt đoạn gene cần chuyển tạo ra các đầu dính khớp bổ sung với nhau, người ta phải sử dụng loại enzyme nào?",
+       "options": [
+        "Cùng một loại enzyme cắt giới hạn restriction endonuclease",
+        "Hai loại enzyme restriction endonuclease hoàn toàn khác nhau",
+        "Enzyme DNA polymerase III của vi khuẩn",
+        "Enzyme phân giải RNA ribonuclease"
+       ],
+       "answer": 0,
+       "explanation": "Phải dùng cùng một loại restriction enzyme để cả vector và gene cần chuyển đều tạo ra các đầu dính có trình tự nucleotide bổ sung khớp nhau."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Hormone insulin người được sản xuất công nghiệp nhờ vi khuẩn mang gene người tái tổ hợp.",
+       "answer": true,
+       "explanation": "Đúng, gene mã hoá insulin người được gắn vào plasmid và chuyển vào E. coli để sản xuất insulin sinh học quy mô lớn."
+      }
+     ]
+    },
+    {
+     "id": "bai-06-thuc-hanh-tach-chiet-dna",
+     "title": "Bài 6. Thực hành: Tách chiết DNA",
+     "summary": "Nguyên lí và quy trình tách chiết phân tử DNA từ mô tế bào gan gà hoặc mô thực vật bằng cồn ethanol lạnh.",
+     "notes": [
+      {
+       "heading": "Nguyên lí tách chiết DNA",
+       "points": [
+        "DNA nằm trong nhân tế bào, liên kết chặt chẽ với các phân tử protein histone và được bao bọc bởi màng sinh chất và màng nhân.",
+        "Nghiền cơ học kết hợp với dung dịch **nước rửa chén** chứa chất tẩy rửa giúp hoà tan lớp lipid kép của màng tế bào, giải phóng nhân và dịch tế bào.",
+        "Enzyme protease có trong **nước ép dứa tươi** (chứa bromelain) phân cắt các phân tử protein liên kết với DNA thành các đoạn peptide nhỏ.",
+        "DNA tan tốt trong nước nhưng **không tan trong cồn ethanol lạnh** (70 - 95%); khi rót cồn lạnh dọc theo thành ống nghiệm, DNA kết tủa nổi lên thành màng sợi màu trắng đục."
+       ]
+      },
+      {
+       "heading": "Các bước tiến hành thí nghiệm",
+       "points": [
+        "Bước 1: Nghiền khoảng 5 g mẫu vật gan gà trong cối sứ, bổ sung nước lạnh và nước ép dứa tươi.",
+        "Bước 2: Lọc hỗn dịch qua phễu có giấy lọc hoặc vải gạc để thu phần dịch lọc chứa các phân tử hoà tan.",
+        "Bước 3: Thêm dung dịch nước rửa chén pha loãng, khuấy nhẹ và để yên khoảng 10 phút.",
+        "Bước 4: Rót cẩn thận cồn ethanol lạnh chảy chậm theo thành ống nghiệm nghiêng để tạo thành lớp cồn nổi phía trên.",
+        "Bước 5: Quan sát các sợi DNA kết tủa trắng đục xuất hiện tại ranh giới giữa hai lớp chất lỏng và dùng tăm tre thu sợi DNA."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Kết tủa DNA bằng ethanol",
+       "definition": "Hiện tượng các phân tử DNA bị khử lớp vỏ hydrate trong môi trường cồn ethanol nồng độ cao và nhiệt độ thấp, tụ lại thành sợi không tan."
+      },
+      {
+       "term": "Bromelain",
+       "definition": "Hỗn hợp enzyme protease tự nhiên có trong quả dứa có tác dụng thuỷ phân liên kết peptide của protein."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Trong thí nghiệm tách chiết DNA, nước dứa tươi đóng vai trò gì?",
+       "back": "Cung cấp enzyme protease để phân giải các protein histone giải phóng phân tử DNA tự do."
+      },
+      {
+       "front": "Tại sao phải sử dụng cồn ethanol lạnh thay vì cồn ở nhiệt độ phòng?",
+       "back": "Nhiệt độ lạnh làm giảm tối đa độ tan của DNA và ức chế các enzyme nuclease phân huỷ DNA."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Tại sao trong quy trình tách chiết DNA từ tế bào gan gà lại cần bổ sung dung dịch nước rửa chén?",
+       "options": [
+        "Để hoà tan lớp màng kép phospholipid của màng tế bào và màng nhân",
+        "Để tạo màu xanh phản ứng giúp nhận biết phân tử DNA",
+        "Để tổng hợp thêm các nucleotide bổ sung cho chuỗi DNA",
+        "Để kích thích enzyme protease hoạt động mạnh hơn"
+       ],
+       "answer": 0,
+       "explanation": "Chất tẩy rửa trong nước rửa chén hoà tan các phân tử lipid của màng sinh chất và màng nhân, giải phóng DNA ra dịch chiết."
+      },
+      {
+       "type": "short",
+       "prompt": "Hợp chất hoá học nào được dùng để làm đông tụ và kết tủa các phân tử DNA nổi lên trong ống nghiệm?",
+       "answer": "Ethanol lạnh",
+       "explanation": "Cồn ethanol lạnh (70-95%) làm DNA kết tủa thành màng sợi màu trắng đục."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "chuong-02-di-truyen-nhiem-sac-the",
+   "title": "Chương II. Di truyền nhiễm sắc thể",
+   "topics": [
+    {
+     "id": "bai-07-cau-truc-va-chuc-nang-cua-nhiem-sac-the",
+     "title": "Bài 7. Cấu trúc và chức năng của nhiễm sắc thể",
+     "summary": "Cấu trúc siêu hiển vi của nhiễm sắc thể ở sinh vật nhân thực và chức năng lưu giữ, truyền đạt thông tin di truyền.",
+     "notes": [
+      {
+       "heading": "Cấu trúc siêu hiển vi của nhiễm sắc thể",
+       "points": [
+        "Ở sinh vật nhân thực, **nhiễm sắc thể** (NST) được cấu tạo từ phân tử DNA liên kết với các phân tử protein loại **histone**.",
+        "Đơn vị cấu trúc cơ bản là **nucleosome** gồm khối cầu 8 phân tử histone được quấn quanh bởi 147 cặp nucleotide DNA (khoảng 1,65 vòng); các nucleosome nối với nhau bằng đoạn DNA nối.",
+        "Chuỗi nucleosome tạo sợi cơ bản đường kính khoảng **10 nm**, sau đó nhờ các protein condensin cuộn xoắn thành sợi chất nhiễm sắc và co xoắn cực đại tạo chromatid đường kính **700 nm** ở kì giữa.",
+        "Vùng **nguyên nhiễm sắc** dãn xoắn chứa các gene đang hoạt động; vùng **dị nhiễm sắc** co xoắn đặc chứa các gene bất hoạt hoặc không chứa gene."
+       ]
+      },
+      {
+       "heading": "Chức năng của nhiễm sắc thể",
+       "points": [
+        "NST chứa các gene phân bố dọc theo chiều dài, mỗi vị trí xác định của gene trên NST gọi là **locus**.",
+        "NST có chức năng lưu giữ, bảo quản và truyền đạt thông tin di truyền thông qua cơ chế nhân đôi, phân li và tổ hợp trong **nguyên phân, giảm phân và thụ tinh**."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Nucleosome",
+       "definition": "Đơn vị cấu trúc cơ bản của nhiễm sắc thể gồm lõi 8 phân tử protein histone quấn quanh bởi phân tử DNA."
+      },
+      {
+       "term": "Locus",
+       "definition": "Vị trí xác định của một gene trên phân tử DNA của nhiễm sắc thể."
+      },
+      {
+       "term": "Dị nhiễm sắc",
+       "definition": "Vùng cấu trúc co xoắn đậm đặc trên nhiễm sắc thể chứa các gene bất hoạt hoặc không mã hoá."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Cấu trúc nucleosome gồm bao nhiêu phân tử protein histone ở phần lõi?",
+       "back": "Gồm 8 phân tử histone (2 phân tử mỗi loại H2A, H2B, H3, H4)."
+      },
+      {
+       "front": "Đường kính của sợi cơ bản chứa chuỗi nucleosome là bao nhiêu?",
+       "back": "Khoảng 10 nm."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Mỗi nucleosome trong cấu trúc siêu hiển vi của nhiễm sắc thể sinh vật nhân thực được quấn quanh bởi khoảng bao nhiêu cặp nucleotide của phân tử DNA?",
+       "options": [
+        "147 cặp nucleotide",
+        "200 cặp nucleotide",
+        "1000 cặp nucleotide",
+        "50 cặp nucleotide"
+       ],
+       "answer": 0,
+       "explanation": "Đoạn DNA quấn quanh lõi 8 phân tử histone của nucleosome có chiều dài khoảng 147 cặp nucleotide (khoảng 1,65 vòng)."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Vùng nguyên nhiễm sắc trên nhiễm sắc thể thường chứa các gene bị bất hoạt hoàn toàn.",
+       "answer": false,
+       "explanation": "Vùng nguyên nhiễm sắc dãn xoắn là nơi chứa các gene đang hoạt động phiên mã; vùng dị nhiễm sắc mới là nơi chứa gene bất hoạt."
+      }
+     ]
+    },
+    {
+     "id": "bai-08-hoc-thuyet-di-truyen-cua-mendel",
+     "title": "Bài 8. Học thuyết di truyền của Mendel",
+     "summary": "Phương pháp nghiên cứu di truyền của Gregor Mendel, quy luật phân li và quy luật phân li độc lập.",
+     "notes": [
+      {
+       "heading": "Phương pháp lai và quy luật phân li của Mendel",
+       "points": [
+        "Gregor Mendel sử dụng cây đậu hà lan (*Pisum sativum*) có khả năng tự thụ phấn nghiêm ngặt, tạo các dòng thuần chủng tương phản.",
+        "Phương pháp nghiên cứu độc đáo của Mendel: phân tích các thế hệ con lai theo từng cặp tính trạng bằng **thống kê toán học** định lượng.",
+        "**Quy luật phân li**: Mỗi tính trạng do một cặp nhân tố di truyền (allele) quy định. Trong quá trình giảm phân tạo giao tử, các thành viên trong cặp phân li đồng đều về các giao tử nên mỗi giao tử chỉ chứa một nhân tố.",
+        "Phép **lai phân tích** (lai cá thể mang kiểu hình trội với cá thể đồng hợp lặn) dùng để kiểm tra kiểu gene của cá thể trội là đồng hợp hay dị hợp."
+       ]
+      },
+      {
+       "heading": "Quy luật phân li độc lập",
+       "points": [
+        "Lai hai cặp tính trạng thuần chủng tương phản (hạt vàng, trơn x hạt xanh, nhăn) cho F1 toàn hạt vàng, trơn; F2 phân li theo tỉ lệ **9 vàng, trơn : 3 vàng, nhăn : 3 xanh, trơn : 1 xanh, nhăn**.",
+        "**Quy luật phân li độc lập**: Các cặp nhân tố di truyền quy định các tính trạng khác nhau phân li độc lập với nhau trong quá trình hình thành giao tử.",
+        "Cơ sở tế bào học: các cặp allele nằm trên các cặp **nhiễm sắc thể tương đồng khác nhau** phân li độc lập và tổ hợp tự do trong giảm phân."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Allele",
+       "definition": "Các trạng thái biểu hiện khác nhau của cùng một gene chiếm cùng một locus trên cặp nhiễm sắc thể tương đồng."
+      },
+      {
+       "term": "Lai phân tích",
+       "definition": "Phép lai giữa cơ thể mang kiểu hình trội chưa biết kiểu gene với cơ thể mang kiểu hình lặn nhằm xác định kiểu gene của cơ thể trội."
+      },
+      {
+       "term": "Phân li độc lập",
+       "definition": "Sự phân li của cặp allele này hoàn toàn độc lập với sự phân li của cặp allele khác trong giảm phân tạo giao tử."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Tỉ lệ kiểu hình kinh điển ở thế hệ F2 trong thí nghiệm lai hai tính trạng của Mendel là gì?",
+       "back": "9 : 3 : 3 : 1."
+      },
+      {
+       "front": "Cơ sở tế bào học của quy luật phân li độc lập là gì?",
+       "back": "Sự phân li độc lập và tổ hợp ngẫu nhiên của các cặp nhiễm sắc thể tương đồng khác nhau trong giảm phân."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Khi cho cây đậu hà lan dị hợp hai cặp gene (AaBb) tự thụ phấn, tỉ lệ cá thể có kiểu gene đồng hợp lặn aabb ở đời con theo lí thuyết là bao nhiêu?",
+       "options": [
+        "1/16",
+        "3/16",
+        "9/16",
+        "1/4"
+       ],
+       "answer": 0,
+       "explanation": "Cá thể AaBb tự thụ phấn cho tỉ lệ aabb = 1/4 (aa) x 1/4 (bb) = 1/16."
+      },
+      {
+       "type": "cloze",
+       "prompt": "Phép lai giữa cá thể mang kiểu hình trội cần kiểm tra với cá thể mang kiểu hình lặn được gọi là phép ____.",
+       "answers": [
+        "lai phân tích"
+       ],
+       "explanation": "Phép lai phân tích (testcross) dùng để phát hiện cá thể trội là đồng hợp tử hay dị hợp tử."
+      }
+     ]
+    },
+    {
+     "id": "bai-09-mo-rong-hoc-thuyet-mendel",
+     "title": "Bài 9. Mở rộng học thuyết Mendel",
+     "summary": "Các hiện tượng tương tác giữa các allele thuộc cùng gene (trội không hoàn toàn, đồng trội) và tương tác giữa các gene không allele.",
+     "notes": [
+      {
+       "heading": "Tương tác giữa các allele thuộc cùng một gene",
+       "points": [
+        "**Trội không hoàn toàn**: allele trội không lấn át hoàn toàn allele lặn, kiểu gene dị hợp biểu hiện kiểu hình trung gian (hoa mõm chó: đỏ AA x trắng aa -> F1 hồng Aa; F2 tỉ lệ 1 đỏ : 2 hồng : 1 trắng).",
+        "**Đồng trội**: cả hai allele khác nhau đều biểu hiện kiểu hình riêng ở trạng thái dị hợp. Ví dụ: hệ nhóm máu ABO ở người do 3 allele IA, IB, IO quy định; kiểu gene IAIB có cả kháng nguyên A và B tạo nhóm máu AB."
+       ]
+      },
+      {
+       "heading": "Tương tác giữa các gene không allele",
+       "points": [
+        "**Tương tác bổ sung**: hai hoặc nhiều gene không allele cùng tác động qua lại để hình thành một tính trạng mới (ví dụ tỉ lệ kiểu hình 9:7, 9:6:1).",
+        "**Tương tác át chế**: một gene này kìm hãm sự biểu hiện của một gene khác không cùng locus (tỉ lệ 12:3:1, 13:3 hoặc 9:3:4).",
+        "**Tương tác cộng gộp** (di truyền đa gene): nhiều gene cùng đóng góp vào sự phát triển của một tính trạng số lượng (như màu da, chiều cao, sản lượng), tạo ra sự phân bố liên tục theo đường cong hình chuông chuẩn."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Đồng trội",
+       "definition": "Hiện tượng cả hai allele khác nhau của cùng một gene đều biểu hiện độc lập tính trạng đặc trưng của mình ở trạng thái dị hợp."
+      },
+      {
+       "term": "Tương tác cộng gộp",
+       "definition": "Kiểu tương tác mà mỗi allele trội thuộc các locus khác nhau đều đóng góp một phần như nhau vào sự biểu hiện của tính trạng."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Ví dụ điển hình về hiện tượng đồng trội ở cơ thể người là gì?",
+       "back": "Nhóm máu AB ở người mang kiểu gene IAIB, trên hồng cầu có cả kháng nguyên A và B."
+      },
+      {
+       "front": "Các tính trạng số lượng như màu da và chiều cao ở người thường di truyền theo quy luật nào?",
+       "back": "Di truyền đa gene (tương tác cộng gộp giữa nhiều gene không allele)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Hiện tượng hai allele khác nhau cùng một locus cùng biểu hiện sản phẩm của mình ở trạng thái dị hợp tử được gọi là gì?",
+       "options": [
+        "Đồng trội",
+        "Trội không hoàn toàn",
+        "Tác động cộng gộp",
+        "Át chế lặn"
+       ],
+       "answer": 0,
+       "explanation": "Đồng trội là hiện tượng cả 2 allele đều biểu hiện kiểu hình của riêng mình, tiêu biểu là nhóm máu AB (IAIB)."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Trong tương tác cộng gộp, vai trò của các allele trội thuộc các gene khác nhau là không đồng đều trong việc hình thành tính trạng.",
+       "answer": false,
+       "explanation": "Trong tương tác cộng gộp tiêu chuẩn, mỗi allele trội đều đóng góp một mức độ gia tăng như nhau vào kiểu hình."
+      }
+     ]
+    },
+    {
+     "id": "bai-10-di-truyen-gioi-tinh-va-di-truyen-lien-ket-voi-gioi-tinh",
+     "title": "Bài 10. Di truyền giới tính và di truyền liên kết với giới tính",
+     "summary": "Cơ chế xác định giới tính bằng nhiễm sắc thể và quy luật di truyền của các tính trạng liên kết với nhiễm sắc thể giới tính X và Y.",
+     "notes": [
+      {
+       "heading": "Cơ chế xác định giới tính",
+       "points": [
+        "Nhiễm sắc thể giới tính là cặp NST chứa các gene quy định giới tính và các gene quy định tính trạng thường liên kết.",
+        "Các kiểu NST giới tính phổ biến: kiểu **XX - XY** (ở người, thú, ruồi giấm; cái XX, đực XY); kiểu **ZZ - ZW** (ở chim, bò sát, bướm; đực ZZ, cái ZW); kiểu **XX - XO** (ở châu chấu).",
+        "Ở người, gene **SRY** nằm trên vùng không tương đồng của NST Y giữ vai trò quyết định biệt hoá tinh hoàn hình thành giới tính nam."
+       ]
+      },
+      {
+       "heading": "Di truyền liên kết với giới tính",
+       "points": [
+        "Thomas Hunt Morgan phát hiện hiện tượng di truyền liên kết giới tính qua phép lai màu mắt ở ruồi giấm (*Drosophila melanogaster*).",
+        "Gene trên vùng không tương đồng của **NST X** di truyền theo quy luật **di truyền chéo** (bố truyền cho con gái, mẹ truyền cho con trai); bệnh do allele lặn trên X (mù màu đỏ-lục, máu khó đông hemophilia) biểu hiện phổ biến ở nam giới hơn nữ giới.",
+        "Gene trên vùng không tương đồng của **NST Y** di truyền theo quy luật **di truyền thẳng** (bố truyền trực tiếp 100% cho tất cả con trai; ví dụ tật dính ngón tay 2-3, túm lông vành tai).",
+        "Hiện tượng **bất hoạt nhiễm sắc thể X** (thể Barr) ở giống cái động vật có vú giúp cân bằng liều lượng sản phẩm gene trên NST X giữa hai giới."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Di truyền chéo",
+       "definition": "Quy luật di truyền tính trạng do gene lặn trên nhiễm sắc thể X từ bố truyền cho con gái rồi biểu hiện ở cháu trai."
+      },
+      {
+       "term": "Gene SRY",
+       "definition": "Gene nằm trên nhiễm sắc thể Y chịu trách nhiệm kích hoạt quá trình phát triển mầm sinh dục thành tinh hoàn ở giống đực."
+      },
+      {
+       "term": "Thể Barr",
+       "definition": "Nhiễm sắc thể X bị co xoắn đậm đặc và bất hoạt sinh học trong nhân tế bào soma của giống cái động vật có vú."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Tại sao các bệnh do gene lặn trên nhiễm sắc thể X ở người thường gặp ở nam giới nhiều hơn nữ giới?",
+       "back": "Vì nam giới chỉ có một NST X (XY) nên chỉ cần 1 allele lặn là đã biểu hiện bệnh ra kiểu hình."
+      },
+      {
+       "front": "Ở lớp chim, con trống mang cặp nhiễm sắc thể giới tính nào?",
+       "back": "Cặp đồng giao tử ZZ (con mái mang cặp ZW)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Bệnh mù màu đỏ - xanh lục ở người do một allele lặn nằm trên vùng không tương đồng của nhiễm sắc thể X quy định. Một cặp vợ chồng đều có thị giác bình thường nhưng sinh con trai đầu lòng bị mù màu. Xác suất người mẹ mang kiểu gene dị hợp là bao nhiêu?",
+       "options": [
+        "100%",
+        "50%",
+        "25%",
+        "75%"
+       ],
+       "answer": 0,
+       "explanation": "Con trai nhận NST Y từ bố và NST X mang allele bệnh từ mẹ. Mẹ nhìn bình thường sinh con trai bị bệnh nên mẹ chắc chắn 100% mang kiểu gene dị hợp."
+      },
+      {
+       "type": "short",
+       "prompt": "Tên gọi của cấu trúc nhiễm sắc thể X bị ngưng kết đậm đặc và bất hoạt trong tế bào sinh dưỡng của nữ giới là gì?",
+       "answer": "Thể Barr",
+       "explanation": "Cấu trúc NST X bất hoạt ở động vật có vú giống cái được gọi là thể Barr."
+      }
+     ]
+    },
+    {
+     "id": "bai-11-lien-ket-gene-va-hoan-vi-gene",
+     "title": "Bài 11. Liên kết gene và hoán vị gene",
+     "summary": "Hiện tượng di truyền liên kết hoàn toàn, hoán vị gene do trao đổi chéo trong giảm phân và cách lập bản đồ di truyền.",
+     "notes": [
+      {
+       "heading": "Liên kết gene hoàn toàn",
+       "points": [
+        "Các gene cùng nằm trên một nhiễm sắc thể có xu hướng phân li và di truyền cùng nhau, tạo thành một **nhóm gene liên kết**.",
+        "Số nhóm gene liên kết của một loài thường tương ứng với số nhiễm sắc thể trong bộ đơn bội (**n**) của loài đó.",
+        "Morgan lai phân tích ruồi đực F1 thân xám, cánh dài dị hợp tử (BV/bv x bv/bv) thu được tỉ lệ con lai **1 thân xám, cánh dài : 1 thân đen, cánh cụt**, chứng minh hai gene này liên kết hoàn toàn trên cùng một NST."
+       ]
+      },
+      {
+       "heading": "Hoán vị gene và bản đồ di truyền",
+       "points": [
+        "**Hoán vị gene** xảy ra do hiện tượng **trao đổi chéo** giữa hai chromatid khác nguồn gốc của cặp NST tương đồng ở kì đầu của giảm phân I.",
+        "Tần số hoán vị gene (**f**) được tính bằng tỉ lệ phần trăm các giao tử mang tổ hợp allele tái tổ hợp; giá trị f luôn **nhỏ hơn hoặc bằng 50%**.",
+        "Tần số hoán vị gene tỉ lệ thuận với khoảng cách vật lí tương đối giữa hai locus gene trên nhiễm sắc thể.",
+        "**Bản đồ di truyền** (bản đồ liên kết) thể hiện trật tự sắp xếp và khoảng cách tương đối giữa các gene trên NST; đơn vị đo là **cM** (centiMorgan) hoặc % hoán vị."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Nhóm gene liên kết",
+       "definition": "Toàn bộ các gene cùng nằm trên một phân tử DNA của một nhiễm sắc thể có xu hướng di truyền cùng nhau."
+      },
+      {
+       "term": "Hoán vị gene",
+       "definition": "Hiện tượng đổi chỗ các allele tương ứng giữa hai chromatid không chị em trong cặp nhiễm sắc thể kép tương đồng ở giảm phân I."
+      },
+      {
+       "term": "Tần số hoán vị gene",
+       "definition": "Tỉ lệ phần trăm các cá thể hoặc giao tử mang kiểu gene tái tổ hợp được tạo ra từ phép lai phân tích."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Tại sao tần số hoán vị gene tối đa giữa hai locus trên nhiễm sắc thể không vượt quá 50%?",
+       "back": "Vì trao đổi chéo chỉ xảy ra giữa 2 trong 4 chromatid của cặp tương đồng, tạo tối đa 50% giao tử tái tổ hợp."
+      },
+      {
+       "front": "Một loài có bộ nhiễm sắc thể lưỡng bội 2n = 24 thì có bao nhiêu nhóm gene liên kết tiêu chuẩn?",
+       "back": "12 nhóm gene liên kết (bằng số NST đơn bội n)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Trong phép lai phân tích ruồi giấm cái thân xám, cánh dài dị hợp tử, Morgan thu được 41,5% thân xám, cánh dài; 41,5% thân đen, cánh cụt; 8,5% thân xám, cánh cụt; 8,5% thân đen, cánh dài. Tần số hoán vị gene giữa hai locus này là bao nhiêu?",
+       "options": [
+        "17%",
+        "8,5%",
+        "41,5%",
+        "50%"
+       ],
+       "answer": 0,
+       "explanation": "Tần số hoán vị gene bằng tổng tỉ lệ các kiểu hình tái tổ hợp: f = 8,5% + 8,5% = 17%."
+      },
+      {
+       "type": "cloze",
+       "prompt": "Khoảng cách giữa hai gene trên bản đồ di truyền tương ứng với 1% tần số trao đổi chéo được quy ước là 1 ____.",
+       "answers": [
+        "centiMorgan",
+        "cM"
+       ],
+       "explanation": "1% hoán vị gene tương đương với 1 centiMorgan (cM)."
+      }
+     ]
+    },
+    {
+     "id": "bai-12-dot-bien-nhiem-sac-the",
+     "title": "Bài 12. Đột biến nhiễm sắc thể",
+     "summary": "Các dạng đột biến cấu trúc nhiễm sắc thể và đột biến số lượng nhiễm sắc thể (lệch bội, đa bội) cùng cơ chế phát sinh.",
+     "notes": [
+      {
+       "heading": "Đột biến cấu trúc nhiễm sắc thể",
+       "points": [
+        "Đột biến cấu trúc NST là những biến đổi về hình thái, trình tự sắp xếp các đoạn trên NST do đứt gãy hoặc trao đổi chéo không cân.",
+        "Bốn dạng chính: **mất đoạn** (làm giảm số lượng gene, thường gây chết hoặc giảm sức sống; ví dụ mất đoạn nhánh ngắn NST 5 gây hội chứng tiếng mèo kêu), **lặp đoạn** (tăng số bản sao gene, tạo điều kiện tiến hoá họ gene mới), **đảo đoạn** (làm thay đổi trật tự phân bố gene) và **chuyển đoạn** (giữa các NST tương đồng hoặc không tương đồng).",
+        "Chuyển đoạn tương hỗ giữa NST số 9 và 22 tạo NST Philadelphia chứa oncogene gây bệnh ung thư máu ác tính (CML)."
+       ]
+      },
+      {
+       "heading": "Đột biến số lượng nhiễm sắc thể",
+       "points": [
+        "**Đột biến lệch bội**: thay đổi số lượng NST ở một hoặc một số cặp tương đồng (thể một 2n-1, thể ba 2n+1). Ví dụ: hội chứng **Down** (thể ba cặp NST 21), hội chứng **Turner** (thể một XO), hội chứng **Klinefelter** (thể ba XXY).",
+        "Cơ chế lệch bội do sự không phân li của một cặp NST trong giảm phân I hoặc giảm phân II.",
+        "**Đột biến đa bội**: tăng toàn bộ bộ NST đơn bội thành bội số nguyên của n lớn hơn 2n. Gồm tự đa bội (3n, 4n) và dị đa bội (song nhị bội hình thành do lai xa kèm đa bội hoá).",
+        "Cây trồng tam bội (3n) như chuối nhà, dưa hấu không hạt bất thụ do giảm phân rối loạn không tạo được giao tử bình thường."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Lệch bội (Aneuploidy)",
+       "definition": "Hiện tượng số lượng nhiễm sắc thể trong tế bào bị tăng hoặc giảm ở một hay một số cặp tương đồng."
+      },
+      {
+       "term": "Đa bội (Polyploidy)",
+       "definition": "Hiện tượng tế bào chứa số lượng nhiễm sắc thể là bội số của bộ đơn bội n và lớn hơn 2n (như 3n, 4n, 6n)."
+      },
+      {
+       "term": "Hội chứng Down",
+       "definition": "Tình trạng lệch bội ở người do mang 3 nhiễm sắc thể số 21 (thể ba 21) dẫn đến thiểu năng trí tuệ và dị tật bẩm sinh."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Hội chứng Klinefelter ở người có kiểu nhân (karyotype) nhiễm sắc thể giới tính như thế nào?",
+       "back": "Mang 47 NST với cặp NST giới tính là XXY (nam giới, vô sinh, tay chân dài)."
+      },
+      {
+       "front": "Hoá chất nào thường được dùng để gây đột biến đa bội hoá ở thực vật?",
+       "back": "Colchicine (ngăn cản sự hình thành thoi phân bào làm NST nhân đôi nhưng không phân li)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Người mắc hội chứng Turner có bộ nhiễm sắc thể thuộc dạng đột biến nào sau đây?",
+       "options": [
+        "Thể một (2n - 1) với một nhiễm sắc thể X duy nhất (XO)",
+        "Thể ba (2n + 1) với bộ ba nhiễm sắc thể giới tính XXY",
+        "Thể ba (2n + 1) thừa một nhiễm sắc thể số 21",
+        "Thể không (2n - 2) mất hoàn toàn cặp nhiễm sắc thể giới tính"
+       ],
+       "answer": 0,
+       "explanation": "Hội chứng Turner là dạng lệch bội thể một (2n - 1 = 45), người nữ chỉ mang một NST X duy nhất (kí hiệu XO)."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Đột biến đa bội lẻ (3n, 5n) ở thực vật thường tạo ra các giống cây ăn quả không có hạt do khó khăn trong giảm phân.",
+       "answer": true,
+       "explanation": "Đúng, cơ thể tam bội (3n) có các bộ NST không tạo được cặp tương đồng đều đặn dẫn đến rối loạn giảm phân, hạt tiêu biến."
+      }
+     ]
+    },
+    {
+     "id": "bai-13-di-truyen-hoc-nguoi-va-di-truyen-y-hoc",
+     "title": "Bài 13. Di truyền học người và di truyền y học",
+     "summary": "Phương pháp nghiên cứu di truyền ở người, chẩn đoán trước sinh, tư vấn di truyền y học và liệu pháp gene trị bệnh.",
+     "notes": [
+      {
+       "heading": "Phương pháp nghiên cứu di truyền người",
+       "points": [
+        "Việc nghiên cứu di truyền ở người gặp khó khăn do sinh sản muộn, số con ít và lí do đạo đức không thể áp dụng phương pháp lai cưỡng bức.",
+        "Phương pháp nghiên cứu **phả hệ**: theo dõi sự di truyền của tính trạng qua nhiều thế hệ gia đình để xác định tính trạng trội hay lặn, do gene trên NST thường hay NST giới tính quy định.",
+        "Phương pháp **di truyền tế bào**: nuôi cấy tế bào bạch cầu, lập bộ NST đồ (**karyotype**) để phát hiện các đột biến số lượng và cấu trúc NST.",
+        "Phương pháp **di truyền phân tử**: tách chiết DNA, giải trình tự nucleotide và sử dụng các kĩ thuật PCR để phát hiện sớm các allele gây bệnh."
+       ]
+      },
+      {
+       "heading": "Y học tư vấn và liệu pháp gene",
+       "points": [
+        "**Tư vấn di truyền**: tính toán xác suất sinh con mang bệnh di truyền dựa trên quy luật di truyền và di truyền quần thể, tư vấn hôn nhân và sinh sản.",
+        "Chẩn đoán trước sinh: kĩ thuật **chọc ối** (lấy dịch ối tuần thai thứ 16) và **sinh thiết gai nhau** (CVS, tuần thai 11 - 13) để phân tích NST và sinh hoá thai nhi.",
+        "**Liệu pháp gene**: chữa trị bệnh di truyền bằng cách thay thế gene bệnh bằng gene lành hoặc chỉnh sửa gene đột biến trực tiếp trong tế bào người bệnh nhờ vector virus hoặc công nghệ CRISPR-Cas9."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Bộ nhiễm sắc thể đồ (Karyotype)",
+       "definition": "Hình ảnh sắp xếp toàn bộ các cặp nhiễm sắc thể của một tế bào theo thứ tự kích thước và hình thái giảm dần."
+      },
+      {
+       "term": "Chọc ối",
+       "definition": "Thủ thuật y khoa hút dịch ối chứa tế bào thai nhi để xét nghiệm di truyền và chẩn đoán dị tật bẩm sinh trước sinh."
+      },
+      {
+       "term": "Liệu pháp gene (Gene therapy)",
+       "definition": "Kĩ thuật chuyển gene chức năng bình thường vào tế bào người bệnh để thay thế hoặc sửa chữa gene đột biến gây bệnh."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Kĩ thuật chẩn đoán trước sinh chọc hút dịch ối thường được thực hiện an toàn vào khoảng tuần thai thứ mấy?",
+       "back": "Khoảng tuần thai thứ 16."
+      },
+      {
+       "front": "Mục tiêu cơ bản của liệu pháp gene trong y học hiện đại là gì?",
+       "back": "Chữa dứt điểm bệnh di truyền bằng cách phục hồi hoặc thay thế gene lỗi bằng gene bình thường."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Phương pháp nghiên cứu nào dưới đây sử dụng sơ đồ theo dõi sự xuất hiện của một tính trạng qua nhiều thế hệ của một dòng họ để xác định quy luật di truyền ở người?",
+       "options": [
+        "Phương pháp nghiên cứu phả hệ",
+        "Phương pháp lai tế bào soma",
+        "Phương pháp gây đột biến nhân tạo",
+        "Phương pháp phân tích hoá sinh dịch mô"
+       ],
+       "answer": 0,
+       "explanation": "Phương pháp nghiên cứu phả hệ là công cụ truyền thống hữu hiệu nhất để phân tích tính trạng di truyền qua các đời người."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Xét nghiệm chọc ối cho phép chẩn đoán chính xác một số dị tật di truyền liên quan đến số lượng nhiễm sắc thể như hội chứng Down ngay từ giai đoạn bào thai.",
+       "answer": true,
+       "explanation": "Đúng, các tế bào thai nhi trong dịch ối được nuôi cấy để lập karyotype nhằm phát hiện thể ba NST 21."
+      }
+     ]
+    },
+    {
+     "id": "bai-14-thuc-hanh-quan-sat-mot-so-dang-dot-bien-nhiem-sac-the",
+     "title": "Bài 14. Thực hành: Quan sát một số dạng đột biến nhiễm sắc thể",
+     "summary": "Kĩ thuật quan sát tiêu bản hiển vi để nhận diện các dạng đột biến cấu trúc và đột biến số lượng nhiễm sắc thể.",
+     "notes": [
+      {
+       "heading": "Nguyên lí và quy trình quan sát hiển vi",
+       "points": [
+        "Các nhiễm sắc thể quan sát rõ nhất về hình thái và kích thước dưới kính hiển vi quang học ở **kì giữa** của quá trình phân bào khi chúng co xoắn cực đại.",
+        "Sử dụng vật kính **10x** để dò tìm vùng tế bào phân chia đẹp, chuyển sang vật kính **40x** và **100x** (kèm dầu soi kính) để quan sát chi tiết từng chiếc NST.",
+        "So sánh bộ NST trên tiêu bản với bộ NST chuẩn của loài để phát hiện các dấu hiệu: thừa/thiếu NST (lệch bội), tăng số lượng bộ đơn bội (đa bội) hoặc NST bị đứt gãy, dính đoạn (đột biến cấu trúc)."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Tiêu bản cố định",
+       "definition": "Mẫu vi phẫu tế bào đã được xử lí bằng hoá chất hãm phân bào và nhuộm màu đặc hiệu để lưu giữ cấu trúc lâu dài."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Ở kì nào của nguyên phân nhiễm sắc thể co xoắn cực đại và dễ quan sát hình thái nhất?",
+       "back": "Kì giữa (metaphase)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Khi quan sát tiêu bản tế bào dưới kính hiển vi quang học ở vật kính có độ phóng đại 100x, thao tác bắt buộc nào cần thực hiện?",
+       "options": [
+        "Nhỏ một giọt dầu soi chuyên dụng lên trên lam kính tiêu bản",
+        "Điều chỉnh gương hứng sáng xuống mức tối nhất",
+        "Mở rộng tối đa khẩu độ tụ quang và tháo bỏ thị kính",
+        "Rửa tiêu bản bằng nước cất ngay trước khi quan sát"
+       ],
+       "answer": 0,
+       "explanation": "Vật kính 100x là vật kính dầu, bắt buộc phải dùng dầu soi kính để tăng chiết suất ánh sáng đi vào thấu kính."
+      },
+      {
+       "type": "short",
+       "prompt": "Tên kì phân bào mà nhiễm sắc thể co ngắn tối đa và tập trung thành một hàng trên mặt phẳng xích đạo là gì?",
+       "answer": "Kì giữa",
+       "explanation": "Ở kì giữa của nguyên phân, NST co xoắn cực đại thuận lợi nhất cho việc quan sát và chụp ảnh karyotype."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "chuong-03-mo-rong-hoc-thuyet-di-truyen-nhiem-sac-the",
+   "title": "Chương III. Mở rộng học thuyết di truyền nhiễm sắc thể",
+   "topics": [
+    {
+     "id": "bai-15-di-truyen-gene-ngoai-nhan",
+     "title": "Bài 15. Di truyền gene ngoài nhân",
+     "summary": "Đặc điểm của di truyền tế bào chất (di truyền qua ti thể, lục lạp), thí nghiệm của Correns và các ứng dụng thực tiễn.",
+     "notes": [
+      {
+       "heading": "Thí nghiệm của Correns và đặc điểm di truyền ngoài nhân",
+       "points": [
+        "Năm 1909, Carl Correns phát hiện hiện tượng di truyền màu lá (xanh, trắng, đốm khảm) ở cây hoa phấn (*Mirabilis jalapa*).",
+        "Khi thực hiện phép lai thuận nghịch: cây mẹ lá xanh cho đời con 100% lá xanh; cây mẹ lá trắng cho con 100% lá trắng; cây mẹ lá khảm cho con gồm cả 3 dạng lá (xanh, trắng, khảm) bất kể cây bố mang kiểu hình gì.",
+        "Kết quả phép lai thuận nghịch khác nhau và **đời con luôn mang kiểu hình của cây mẹ**, gọi là hiện tượng **di truyền theo dòng mẹ** (di truyền tế bào chất).",
+        "Cơ sở di truyền: gene nằm trên phân tử DNA mạch vòng của **ti thể** và **lục lạp** trong tế bào chất; tế bào trứng cung cấp phần lớn tế bào chất cho hợp tử trong khi tinh tử hầu như chỉ truyền nhân.",
+        "Sự phân chia các bào quan ti thể và lục lạp diễn ra ngẫu nhiên trong quá trình phân chia tế bào chất, không tuân theo các quy luật phân li chặt chẽ của Mendel."
+       ]
+      },
+      {
+       "heading": "Ứng dụng của di truyền gene ngoài nhân",
+       "points": [
+        "Trong y học: xác định các bệnh chuyển hoá do đột biến gene ti thể (như bệnh teo cơ thần kinh, hội chứng Leigh); kĩ thuật chuyển nhân tế bào trứng (em bé 3 bố mẹ) giúp phòng ngừa bệnh ti thể.",
+        "Trong nông nghiệp: khai thác hiện tượng **bất thụ đực tế bào chất** (CMS) do gene ti thể quy định để sản xuất hạt lai F1 ở lúa và ngô thương phẩm mà không tốn công khử nhị nhân tạo.",
+        "Trong tiến hoá và pháp y: phân tích trình tự **mtDNA** (DNA ti thể) có tỉ lệ đột biến cao và không bị tái tổ hợp để lần theo nguồn gốc tiến hoá của loài người theo dòng mẹ từ châu Phi."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Di truyền tế bào chất",
+       "definition": "Sự truyền đạt các tính trạng do gene nằm trong các bào quan ngoài nhân tế bào (ti thể, lục lạp) quy định."
+      },
+      {
+       "term": "Bất thụ đực tế bào chất (CMS)",
+       "definition": "Hiện tượng cây trồng không có khả năng tạo hạt phấn hữu thụ do ảnh hưởng của các gene nằm trong ti thể."
+      },
+      {
+       "term": "mtDNA",
+       "definition": "Hệ gene DNA mạch kép dạng vòng nằm bên trong chất nền của ti thể có nguồn gốc di truyền hoàn toàn từ mẹ."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Dấu hiệu nhận biết đặc trưng của tính trạng di truyền ngoài nhân trong các phép lai là gì?",
+       "back": "Kết quả lai thuận nghịch khác nhau và đời con luôn có kiểu hình hoàn toàn giống với cơ thể mẹ."
+      },
+      {
+       "front": "Tại sao giao tử đực ở hầu hết các loài sinh vật ít truyền gene tế bào chất cho đời con?",
+       "back": "Vì tinh tử có kích thước rất nhỏ, chỉ truyền nhân vào trứng mà hầu như không đóng góp tế bào chất."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Khi tiến hành phép lai thuận và lai nghịch ở một loài thực vật, nhà khoa học thu được kết quả đời con luôn có kiểu hình giống với cây mẹ. Quy luật di truyền chi phối tính trạng này là gì?",
+       "options": [
+        "Di truyền tế bào chất (gene ngoài nhân)",
+        "Quy luật phân li độc lập của Mendel",
+        "Di truyền liên kết giới tính trên nhiễm sắc thể Y",
+        "Hiện tượng tác động cộng gộp giữa các gene"
+       ],
+       "answer": 0,
+       "explanation": "Đặc trưng lớn nhất của di truyền tế bào chất là lai thuận nghịch khác nhau và con lai luôn biểu hiện kiểu hình của cơ thể mẹ."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Các gene nằm trong DNA của ti thể tồn tại thành từng cặp allele tương đồng giống như các gene trong nhân tế bào.",
+       "answer": false,
+       "explanation": "Gene trong ti thể nằm trên phân tử DNA vòng đơn bội nhỏ, không có cặp tương đồng như trên nhiễm sắc thể nhân."
+      }
+     ]
+    },
+    {
+     "id": "bai-16-tuong-tac-giua-kieu-gene-voi-moi-truong-va-thanh-tuu-chon-giong",
+     "title": "Bài 16. Tương tác giữa kiểu gene với môi trường và thành tựu chọn giống",
+     "summary": "Mối quan hệ giữa kiểu gene, môi trường và kiểu hình; mức phản ứng, thường biến và các thành tựu chọn giống vật nuôi, cây trồng.",
+     "notes": [
+      {
+       "heading": "Mối quan hệ giữa kiểu gene, môi trường và kiểu hình",
+       "points": [
+        "Kiểu hình của một cơ thể là kết quả của sự tương tác qua lại giữa **kiểu gene** và **điều kiện môi trường sống**.",
+        "Cùng một kiểu gene có thể cho các kiểu hình khác nhau trong các điều kiện môi trường khác nhau; sự biến đổi kiểu hình này gọi là **thường biến** (biến dị không di truyền).",
+        "Ví dụ thường biến: hoa phù dung đổi màu từ trắng vào buổi sáng sang hồng vào buổi chiều; giống thỏ Himalaya mọc lông đen ở các đầu mút lạnh (tai, mũi, bàn chân) và lông trắng ở phần thân ấm.",
+        "**Mức phản ứng** là tập hợp các kiểu hình của cùng một kiểu gene tương ứng với các điều kiện môi trường khác nhau. Mức phản ứng do kiểu gene quy định và di truyền được cho đời sau."
+       ]
+      },
+      {
+       "heading": "Thành tựu chọn giống bằng phương pháp lai hữu tính",
+       "points": [
+        "Tạo giống vật nuôi: lai tạo giống bò sữa cao sản, giống bò BBB (Blanc-Bleu-Belge) siêu thịt, giống lợn Landrace siêu nạc.",
+        "Tạo giống cây trồng: giống lúa **ST25** đạt giải nhất gạo ngon nhất thế giới năm 2019, các giống lúa thuần chịu mặn, chịu hạn (Đài thơm 8).",
+        "Sử dụng hiện tượng **ưu thế lai**: con lai F1 giữa hai dòng thuần có sức sống, năng suất và khả năng chống chịu vượt trội so với các dạng bố mẹ (dùng trong sản xuất nhưng không để giống cho vụ sau do thoái hoá giống)."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Thường biến",
+       "definition": "Những biến đổi ở kiểu hình của cùng một kiểu gene phát sinh dưới tác động trực tiếp của điều kiện môi trường và không di truyền."
+      },
+      {
+       "term": "Mức phản ứng",
+       "definition": "Tập hợp các kiểu hình có thể có của cùng một kiểu gene trong các điều kiện môi trường sống khác nhau."
+      },
+      {
+       "term": "Ưu thế lai",
+       "definition": "Hiện tượng con lai có năng suất, sức sống, khả năng chống chịu cao hơn hẳn các dạng bố mẹ thuần chủng ban đầu."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Yếu tố nào quy định giới hạn năng suất (mức phản ứng) của một giống vật nuôi hay cây trồng?",
+       "back": "Kiểu gene của giống (môi trường và kĩ thuật canh tác chỉ quyết định mức độ phát huy của kiểu gene đó)."
+      },
+      {
+       "front": "Tại sao người ta không dùng con lai mang ưu thế lai F1 để làm giống cho thế hệ sau?",
+       "back": "Vì ở các thế hệ sau, hiện tượng phân li kiểu gene xảy ra làm giảm dị hợp tử, dẫn đến giảm ưu thế lai."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Nhận định nào sau đây là chính xác nhất về bản chất của mức phản ứng ở sinh vật?",
+       "options": [
+        "Mức phản ứng do kiểu gene quy định nên có khả năng di truyền được cho đời con",
+        "Mức phản ứng chỉ phụ thuộc hoàn toàn vào điều kiện ngoại cảnh mà không do kiểu gene chi phối",
+        "Mức phản ứng là những biến đổi đột ngột vô hướng trong cấu trúc phân tử DNA",
+        "Mọi tính trạng số lượng và chất lượng đều có mức phản ứng hẹp như nhau"
+       ],
+       "answer": 0,
+       "explanation": "Mức phản ứng là tập hợp kiểu hình do kiểu gene quy định, do đó mức phản ứng có tính di truyền."
+      },
+      {
+       "type": "cloze",
+       "prompt": "Hiện tượng con lai F1 có sức sống, sinh trưởng nhanh và năng suất vượt trội bố mẹ được gọi là ____.",
+       "answers": [
+        "ưu thế lai"
+       ],
+       "explanation": "Ưu thế lai (heterosis) là hiện tượng con lai vượt trội bố mẹ về nhiều chỉ tiêu sinh học và kinh tế."
+      }
+     ]
+    },
+    {
+     "id": "bai-17-thuc-hanh-thi-nghiem-ve-thuong-bien-o-cay-trong",
+     "title": "Bài 17. Thực hành: Thí nghiệm về thường biến ở cây trồng",
+     "summary": "Thiết kế và thực hiện thí nghiệm chứng minh hiện tượng thường biến trên các nhánh rau muống có cùng kiểu gene.",
+     "notes": [
+      {
+       "heading": "Nguyên lí và quy trình thực hiện thí nghiệm",
+       "points": [
+        "Để chứng minh thường biến, cần sử dụng các mẫu vật thực vật có **cùng một kiểu gene** (nhân giống vô tính bằng cách chiết, giâm cành từ cùng một cá thể gốc, ví dụ rau muống, khoai lang).",
+        "Trồng các cành chiết vào hai môi trường thí nghiệm khác biệt về một yếu tố duy nhất cần nghiên cứu (ví dụ: chế độ tưới nước hoặc cường độ chiếu sáng).",
+        "Lô đối chứng: được cung cấp đầy đủ nước và dưỡng chất tiêu chuẩn hàng ngày.",
+        "Lô thực nghiệm: bị giới hạn về chế độ tưới nước (tưới 1 tuần/lần) hoặc thay đổi lượng phân bón.",
+        "Sau một thời gian xác định (2 - 4 tuần), đo đạc các chỉ tiêu sinh trưởng: chiều cao thân cây, đường kính thân, chiều dài và màu sắc phiến lá.",
+        "Kết quả cho thấy sự khác biệt rõ rệt về hình thái giữa hai lô cây dù mang cùng kiểu gene, chứng minh ảnh hưởng trực tiếp của môi trường lên kiểu hình."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Lô đối chứng",
+       "definition": "Nhóm mẫu vật được duy trì trong các điều kiện sinh thái chuẩn nhằm tạo cơ sở đối chiếu và đánh giá sai biệt."
+      },
+      {
+       "term": "Nhân giống vô tính",
+       "definition": "Phương pháp sinh sản sinh dưỡng tạo ra các cá thể con có kiểu gene hoàn toàn giống hệt cơ thể mẹ ban đầu."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Tại sao trong thí nghiệm nghiên cứu thường biến ở cây trồng bắt buộc phải chọn các cây con từ giâm cành?",
+       "back": "Để đảm bảo tất cả các cây thí nghiệm có cùng một kiểu gene đồng nhất, loại trừ sai khác do di truyền."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Để chứng minh một biến đổi hình thái ở thực vật là thường biến chứ không phải đột biến gene, người ta cần tiến hành biện pháp nào?",
+       "options": [
+        "Đưa cây mang kiểu hình biến đổi về lại môi trường sống tiêu chuẩn ban đầu để theo dõi",
+        "Đem lai phân tích cây đó với một dòng mang tính trạng lặn thuần chủng",
+        "Xử lí cây đó bằng dung dịch hoá chất gây đột biến colchicine nồng độ cao",
+        "Tiến hành giải toàn bộ trình tự hệ gene của lục lạp và ti thể"
+       ],
+       "answer": 0,
+       "explanation": "Thường biến có khả năng hồi phục lại kiểu hình ban đầu khi môi trường trở về điều kiện cũ vì kiểu gene không hề bị biến đổi."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Những biến đổi thường biến quan sát được ở lô cây thực nghiệm thiếu nước sẽ được truyền lại nguyên vẹn cho thế hệ con gieo từ hạt của cây đó.",
+       "answer": false,
+       "explanation": "Thường biến là biến dị kiểu hình không làm biến đổi vật chất di truyền nên hoàn toàn không di truyền qua sinh sản hữu tính."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "chuong-04-di-truyen-quan-the",
+   "title": "Chương IV. Di truyền quần thể",
+   "topics": [
+    {
+     "id": "bai-18-di-truyen-hoc-quan-the",
+     "title": "Bài 18. Di truyền học quần thể",
+     "summary": "Các đặc trưng di truyền của quần thể, định luật Hardy – Weinberg trong quần thể ngẫu phối và sự biến đổi cấu trúc di truyền ở quần thể tự phối, giao phối cận huyết.",
+     "notes": [
+      {
+       "heading": "Khái niệm và đặc trưng di truyền của quần thể",
+       "points": [
+        "**Quần thể sinh vật** là tập hợp các cá thể cùng loài, cùng sinh sống trong một khoảng không gian xác định, vào một thời điểm xác định và có khả năng giao phối sinh ra con cái hữu thụ.",
+        "**Vốn gene** là tập hợp toàn bộ các allele của tất cả các gene có trong quần thể tại một thời điểm nhất định.",
+        "Đặc trưng di truyền của quần thể được thể hiện qua **tần số allele** (tỉ số giữa số lượng một loại allele trên tổng số các loại allele của gene đó) và **tần số kiểu gene** (tỉ số giữa số cá thể mang kiểu gene đó trên tổng số cá thể)."
+       ]
+      },
+      {
+       "heading": "Quần thể ngẫu phối và định luật Hardy – Weinberg",
+       "points": [
+        "Trong quần thể ngẫu phối, các cá thể giao phối hoàn toàn tự do và ngẫu nhiên với nhau, duy trì sự đa dạng di truyền cao.",
+        "**Định luật Hardy – Weinberg**: Trong một quần thể ngẫu phối có kích thước lớn, nếu không có các yếu tố làm thay đổi tần số allele (đột biến, chọn lọc tự nhiên, di - nhập gene) thì tần số các allele và tần số các kiểu gene sẽ duy trì không đổi từ thế hệ này sang thế hệ khác.",
+        "Phương trình cân bằng di truyền cho một gene gồm 2 allele (A có tần số p, a có tần số q với p + q = 1): **p^2 AA + 2pq Aa + q^2 aa = 1**.",
+        "Quần thể đạt trạng thái cân bằng di truyền khi thoả mãn điều kiện: p^2 x q^2 = (2pq / 2)^2."
+       ]
+      },
+      {
+       "heading": "Cấu trúc di truyền của quần thể tự phối và giao phối gần",
+       "points": [
+        "Ở quần thể tự thụ phấn nghiêm ngặt hoặc giao phối cận huyết qua nhiều thế hệ: tần số kiểu gene dị hợp (**Aa**) giảm dần theo công thức **(1/2)^n**, trong khi tần số kiểu gene đồng hợp tử (**AA và aa**) tăng dần.",
+        "Tự phối không làm thay đổi tần số các allele của quần thể nếu không có chọn lọc đào thải.",
+        "Hậu quả của giao phối cận huyết: gây ra hiện tượng **thoái hoá giống** do các đột biến gene lặn có hại bị đưa về trạng thái đồng hợp lặn và biểu hiện thành kiểu hình xấu.",
+        "Luật Hôn nhân và Gia đình cấm kết hôn giữa những người có họ hàng gần trong phạm vi 3 đời nhằm giảm thiểu nguy cơ xuất hiện các bệnh dị tật di truyền do allele lặn."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Vốn gene (Gene pool)",
+       "definition": "Toàn bộ các allele của tất cả các gene có trong các cá thể của một quần thể ở một thời điểm xác định."
+      },
+      {
+       "term": "Cân bằng di truyền Hardy – Weinberg",
+       "definition": "Trạng thái mà trong đó tần số allele và thành phần kiểu gene của quần thể ngẫu phối duy trì ổn định không đổi qua các thế hệ."
+      },
+      {
+       "term": "Thoái hoá giống",
+       "definition": "Hiện tượng sức sống suy giảm, năng suất giảm và tỉ lệ dị tật tăng cao ở đời con do giao phối cận huyết hoặc tự thụ phấn kéo dài."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Công thức tính tần số kiểu gene dị hợp Aa ở thế hệ Fn của quần thể tự thụ phấn xuất phát từ 100% Aa là gì?",
+       "back": "Tần số Aa = (1/2)^n."
+      },
+      {
+       "front": "Nêu 5 điều kiện nghiệm đúng cơ bản của định luật cân bằng Hardy – Weinberg.",
+       "back": "Quần thể lớn, ngẫu phối hoàn toàn, không có đột biến, không chọn lọc tự nhiên, không di - nhập gene."
+      },
+      {
+       "front": "Quần thể tự thụ phấn kéo dài nhiều thế hệ làm thay đổi cấu trúc di truyền theo xu hướng nào?",
+       "back": "Tăng dần tỉ lệ đồng hợp tử và giảm dần tỉ lệ dị hợp tử, tần số allele không đổi."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Một quần thể ngẫu phối ở trạng thái cân bằng di truyền có tần số allele lặn a = 0,4. Tần số kiểu gene dị hợp tử Aa trong quần thể này là bao nhiêu?",
+       "options": [
+        "0,48",
+        "0,36",
+        "0,16",
+        "0,24"
+       ],
+       "answer": 0,
+       "explanation": "Ta có q(a) = 0,4 suy ra p(A) = 1 - 0,4 = 0,6. Tần số kiểu gene dị hợp Aa = 2pq = 2 x 0,6 x 0,4 = 0,48."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Quá trình tự thụ phấn ở thực vật làm thay đổi cả tần số allele và thành phần kiểu gene của quần thể qua các thế hệ.",
+       "answer": false,
+       "explanation": "Tự thụ phấn chỉ làm thay đổi thành phần kiểu gene (tăng đồng hợp, giảm dị hợp) mà không làm thay đổi tần số allele của quần thể nếu không có chọn lọc."
+      },
+      {
+       "type": "short",
+       "prompt": "Một quần thể ban đầu có cấu trúc di truyền là 100% Aa. Sau 3 thế hệ tự thụ phấn liên tiếp, tỉ lệ kiểu gene dị hợp Aa còn lại là bao nhiêu?",
+       "options": [],
+       "answer": "12,5%",
+       "explanation": "Tỉ lệ dị hợp Aa ở thế hệ F3 = (1/2)^3 = 1/8 = 12,5%."
+      },
+      {
+       "type": "cloze",
+       "prompt": "Trong một quần thể ngẫu phối đạt trạng thái cân bằng di truyền với hai allele A và a, biểu thức tổng quát của định luật Hardy – Weinberg là p^2 AA + ____ + q^2 aa = 1.",
+       "answers": [
+        "2pq Aa"
+       ],
+       "explanation": "Thành phần dị hợp tử trong phương trình cân bằng di truyền của quần thể ngẫu phối là 2pq Aa."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "chuong-05-bang-chung-va-cac-hoc-thuyet-tien-hoa",
+   "title": "Chương V. Bằng chứng và các học thuyết tiến hoá",
+   "topics": [
+    {
+     "id": "bai-19-cac-bang-chung-tien-hoa",
+     "title": "Bài 19. Các bằng chứng tiến hoá",
+     "summary": "Các nhóm bằng chứng tiến hoá gồm bằng chứng trực tiếp (hoá thạch) và bằng chứng gián tiếp (giải phẫu so sánh, tế bào học, sinh học phân tử).",
+     "notes": [
+      {
+       "heading": "Bằng chứng hoá thạch (Bằng chứng trực tiếp)",
+       "points": [
+        "**Hoá thạch** là di tích sinh vật thời xưa để lại trong các lớp vỏ Trái Đất (xương, dấu vết, sinh vật trong hổ phách hay băng tuyết), là **bằng chứng trực tiếp** duy nhất chứng minh sinh vật từng tồn tại và tiến hoá.",
+        "Xác định tuổi của hoá thạch nhờ các đồng vị phóng xạ (C-14 cho hoá thạch dưới 50 000 năm; K-40, U-238 cho hoá thạch hàng triệu đến hàng tỉ năm).",
+        "Hoá thạch chim đầu tiên (*Archaeopteryx*) là dạng trung gian chuyển tiếp quan trọng mang đặc điểm của cả bò sát (có răng, đuôi dài có đốt) và chim (có lông vũ, cánh)."
+       ]
+      },
+      {
+       "heading": "Bằng chứng giải phẫu so sánh",
+       "points": [
+        "**Cơ quan tương đồng**: các cơ quan có cùng nguồn gốc từ một cơ quan ở loài tổ tiên, mặc dù hiện tại có thể thực hiện các chức năng khác nhau (tiêu biểu: chi trước của người, mèo, cá voi, dơi, ngựa). Cơ quan tương đồng phản ánh sự **tiến hoá phân li**.",
+        "**Cơ quan tương tự**: các cơ quan có chức năng giống nhau nhưng có nguồn gốc phôi thai khác nhau, phát triển do thích nghi với môi trường sống tương tự (ví dụ: cánh chim và cánh côn trùng). Cơ quan tương tự phản ánh sự **tiến hoá đồng quy** (hội tụ).",
+        "**Cơ quan thoái hoá**: cơ quan tiêu giảm chức năng so với tổ tiên nhưng vẫn còn để lại dấu tích cấu trúc (ví dụ: ruột thừa, xương cụt, răng khôn ở người; xương đai hông ở cá voi)."
+       ]
+      },
+      {
+       "heading": "Bằng chứng tế bào học và sinh học phân tử",
+       "points": [
+        "Bằng chứng tế bào học: mọi sinh vật trên Trái Đất đều cấu tạo từ tế bào, có các bào quan và phương thức phân bào tương đồng.",
+        "Bằng chứng sinh học phân tử: mọi sinh vật đều có vật chất di truyền là acid nucleic (DNA hoặc RNA), dùng chung bảng mã di truyền, protein đều cấu tạo từ 20 loại amino acid.",
+        "Mức độ tương đồng về trình tự nucleotide hoặc trình tự amino acid (như cytochrome C) phản ánh mức độ quan hệ họ hàng tiến hoá gần gũi giữa các loài (người và tinh tinh có trình tự cytochrome C giống nhau 100%)."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Cơ quan tương đồng",
+       "definition": "Những cơ quan có cùng nguồn gốc phát sinh từ một cơ quan tổ tiên mặc dù có thể đảm nhiệm các chức năng khác nhau."
+      },
+      {
+       "term": "Cơ quan tương tự",
+       "definition": "Những cơ quan có nguồn gốc phát sinh khác nhau nhưng có hình thái và đảm nhiệm chức năng tương tự nhau do sống trong môi trường tương đồng."
+      },
+      {
+       "term": "Bằng chứng sinh học phân tử",
+       "definition": "Sự tương đồng về trình tự nucleotide trên DNA hoặc amino acid trên protein chứng minh mối quan hệ họ hàng giữa các loài."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Cánh của loài chim và chi trước của loài mèo thuộc loại cơ quan nào?",
+       "back": "Cơ quan tương đồng (cùng nguồn gốc biến đổi từ chi trước của động vật có xương sống)."
+      },
+      {
+       "front": "Cánh dơi và cánh của côn trùng là ví dụ về loại cơ quan nào?",
+       "back": "Cơ quan tương tự (khác nguồn gốc phát sinh nhưng cùng chức năng bay)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Cặp cấu trúc giải phẫu nào sau đây là ví dụ minh chứng chính xác nhất cho cơ quan tương đồng?",
+       "options": [
+        "Vây bơi của cá voi và cánh của loài dơi",
+        "Cánh của chim bồ câu và cánh của loài bướm",
+        "Gai của cây xương rồng và gai của cây hoa hồng",
+        "Mang của loài cá chép và phổi của thú có túi"
+       ],
+       "answer": 0,
+       "explanation": "Vây cá voi và cánh dơi đều là chi trước biến đổi từ cùng một cấu trúc xương chi của thú tổ tiên (cơ quan tương đồng)."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Tất cả các cơ quan thoái hoá ở người như ruột thừa và xương cụt là bằng chứng trực tiếp của quá trình tiến hoá.",
+       "answer": false,
+       "explanation": "Cơ quan thoái hoá là bằng chứng giải phẫu so sánh (bằng chứng gián tiếp); chỉ có hoá thạch mới là bằng chứng trực tiếp."
+      }
+     ]
+    },
+    {
+     "id": "bai-20-quan-niem-cua-darwin-ve-chon-loc-tu-nhien-va-hinh-thanh-loai",
+     "title": "Bài 20. Quan niệm của Darwin về chọn lọc tự nhiên và hình thành loài",
+     "summary": "Học thuyết tiến hoá của Charles Darwin, vai trò của biến dị cá thể, đấu tranh sinh tồn và cơ chế chọn lọc tự nhiên.",
+     "notes": [
+      {
+       "heading": "Hành trình thám hiểm và quan sát của Darwin",
+       "points": [
+        "Charles Darwin tham gia chuyến hải trình vòng quanh thế giới trên tàu *Beagle* (1831 - 1836), đặc biệt khảo sát quần đảo **Galapagos**.",
+        "Ông nhận thấy các loài chim sẻ trên các đảo khác nhau có cấu trúc kích thước và hình dạng mỏ đa dạng, thích nghi với từng loại thức ăn đặc trưng (hạt to cứng, sâu bọ, mật hoa).",
+        "Nghiên cứu quá trình **chọn lọc nhân tạo**: con người chủ động chọn lọc giữ lại những biến dị cá thể có lợi cho con người từ loài hoang dại để tạo ra các giống vật nuôi, cây trồng phong phú (ví dụ loài cải hoang dại *Brassica oleracea* tạo ra bắp cải, su hào, súp lơ)."
+       ]
+      },
+      {
+       "heading": "Học thuyết chọn lọc tự nhiên của Darwin",
+       "points": [
+        "Sinh vật có tiềm năng sinh sản rất lớn nhưng nguồn sống (thức ăn, nơi ở) trong tự nhiên luôn có hạn, dẫn đến **đấu tranh sinh tồn**.",
+        "Trong quần thể tự nhiên luôn xuất hiện các **biến dị cá thể** xuất hiện ngẫu nhiên giữa các cá thể cùng loài.",
+        "**Chọn lọc tự nhiên** là quá trình phân hoá về khả năng sống sót và sinh sản của các cá thể trong loài: những cá thể mang biến dị thích nghi có cơ hội sống sót, sinh sản nhiều hơn và truyền lại biến dị cho đời sau.",
+        "Qua nhiều thế hệ, sự tích luỹ các biến dị có lợi dưới tác động của chọn lọc tự nhiên dẫn đến sự hình thành loài mới từ một tổ tiên chung (**Hậu duệ có biến đổi**)."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Biến dị cá thể",
+       "definition": "Những đặc điểm sai khác phát sinh giữa các cá thể cùng lứa hoặc cùng loài trong quá trình sinh sản."
+      },
+      {
+       "term": "Chọn lọc tự nhiên (theo Darwin)",
+       "definition": "Sự bảo tồn những biến dị có lợi và đào thải những biến dị có hại cho sinh vật trong cuộc đấu tranh sinh tồn."
+      },
+      {
+       "term": "Chọn lọc nhân tạo",
+       "definition": "Quá trình con người chủ động giữ lại và nhân giống những cá thể mang biến dị đáp ứng nhu cầu kinh tế, thị hiếu của con người."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Theo Darwin, động lực chủ yếu thúc đẩy quá trình chọn lọc tự nhiên diễn ra trong sinh giới là gì?",
+       "back": "Cuộc đấu tranh sinh tồn giữa các cá thể sinh vật do áp lực sinh sản vượt quá nguồn sống môi trường."
+      },
+      {
+       "front": "Đối tượng tác động trực tiếp của chọn lọc tự nhiên theo quan niệm của Darwin là gì?",
+       "back": "Từng cá thể sinh vật riêng lẻ mang các biến dị cá thể."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Theo quan niệm kinh điển của Charles Darwin, nguyên liệu chủ yếu cung cấp cho quá trình chọn giống nhân tạo và tiến hoá tự nhiên là gì?",
+       "options": [
+        "Các biến dị cá thể xuất hiện ngẫu nhiên giữa các cá thể cùng loài",
+        "Những biến đổi thường biến đồng loạt do khí hậu môi trường sống quy định",
+        "Các đột biến cấu trúc nhiễm sắc thể được gây nhân tạo trong phòng thí nghiệm",
+        "Tập tính thích nghi hình thành do sự rèn luyện ý muốn của cơ thể sinh vật"
+       ],
+       "answer": 0,
+       "explanation": "Darwin khẳng định biến dị cá thể phát sinh ngẫu nhiên là nguồn nguyên liệu chính cho cả chọn lọc tự nhiên và chọn lọc nhân tạo."
+      },
+      {
+       "type": "cloze",
+       "prompt": "Theo Darwin, kết quả tác động lâu dài của chọn lọc tự nhiên là sự hình thành các loài mới từ một tổ tiên chung theo con đường ____.",
+       "answers": [
+        "phân li tính trạng",
+        "tiến hoá phân li"
+       ],
+       "explanation": "Từ một tổ tiên chung, dưới tác động của CLTN ở các môi trường khác nhau sẽ phân li thành nhiều loài mới."
+      }
+     ]
+    },
+    {
+     "id": "bai-21-hoc-thuyet-tien-hoa-tong-hop-hien-dai",
+     "title": "Bài 21. Học thuyết tiến hoá tổng hợp hiện đại",
+     "summary": "Tiến hoá nhỏ và tiến hoá lớn, vai trò của 5 nhân tố tiến hoá và các cơ chế hình thành loài mới.",
+     "notes": [
+      {
+       "heading": "Tiến hoá nhỏ và tiến hoá lớn",
+       "points": [
+        "**Tiến hoá nhỏ** là quá trình làm biến đổi tần số allele và thành phần kiểu gene của quần thể, đưa đến sự hình thành loài mới; diễn ra trên quy mô quần thể trong thời gian lịch sử tương đối ngắn.",
+        "**Tiến hoá lớn** là quá trình hình thành các nhóm phân loại trên loài (chi, họ, bộ, lớp, ngành); diễn ra trên quy mô rộng lớn qua hàng triệu đến hàng tỉ năm.",
+        "**Quần thể** là đơn vị cơ sở nhỏ nhất của quá trình tiến hoá."
+       ]
+      },
+      {
+       "heading": "5 nhân tố tiến hoá",
+       "points": [
+        "**Đột biến**: tạo ra các allele mới, cung cấp nguồn nguyên liệu sơ cấp; làm thay đổi tần số allele rất chậm chạp và vô hướng.",
+        "**Phiêu bạt di truyền** (biến động di truyền): sự biến đổi ngẫu nhiên tần số allele ở quần thể kích thước nhỏ do thiên tai (hiệu ứng thắt cổ chai, hiệu ứng kẻ sáng lập); có thể đào thải hoàn toàn một allele có lợi hoặc cố định một allele có hại.",
+        "**Dòng gene** (di - nhập gene): sự trao đổi gene giữa các quần thể làm phong phú vốn gene hoặc san bằng sự sai khác di truyền giữa các quần thể.",
+        "**Chọn lọc tự nhiên**: tác động trực tiếp lên kiểu hình qua đó gián tiếp chọn lọc kiểu gene; là nhân tố tiến hoá **có hướng duy nhất**, làm tăng tần số allele thích nghi.",
+        "**Giao phối không ngẫu nhiên**: chỉ làm thay đổi thành phần kiểu gene (tăng đồng hợp, giảm dị hợp) mà không làm thay đổi tần số allele của quần thể."
+       ]
+      },
+      {
+       "heading": "Cơ chế hình thành loài mới",
+       "points": [
+        "**Cách li sinh sản** là tiêu chuẩn khách quan chính xác nhất để phân biệt hai loài sinh học thân thuộc.",
+        "Hình thành loài khác khu vực địa lí: **cách li địa lí** ngăn cản dòng gene, các nhân tố tiến hoá phân hoá vốn gene tích luỹ sai khác dẫn đến hình thành cách li sinh sản.",
+        "Hình thành loài cùng khu vực địa lí: diễn ra nhanh chóng qua con đường **lai xa kèm đa bội hoá** (song nhị bội ở thực vật), cách li tập tính hoặc cách li sinh thái."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Tiến hoá nhỏ",
+       "definition": "Quá trình biến đổi tần số allele và thành phần kiểu gene của quần thể dẫn đến sự hình thành loài mới."
+      },
+      {
+       "term": "Phiêu bạt di truyền (Genetic drift)",
+       "definition": "Hiện tượng tần số allele trong quần thể bị biến động mạnh một cách ngẫu nhiên không do chọn lọc tự nhiên."
+      },
+      {
+       "term": "Cách li sinh sản",
+       "definition": "Các rào cản sinh học ngăn cản các cá thể giao phối với nhau hoặc ngăn tạo ra đời con hữu thụ trong tự nhiên."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Nhân tố tiến hoá nào là nhân tố duy nhất quy định chiều hướng và nhịp điệu của quá trình tiến hoá thích nghi?",
+       "back": "Chọn lọc tự nhiên."
+      },
+      {
+       "front": "Tại sao đột biến gene được xem là nguồn nguyên liệu sơ cấp chủ yếu cho quá trình tiến hoá?",
+       "back": "Vì đột biến gene tạo ra các allele mới, qua giao phối tổ hợp lại tạo nên vô số biến dị tổ hợp phong phú."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Nhân tố tiến hoá nào sau đây có thể làm thay đổi đột ngột tần số allele của một quần thể kích thước nhỏ theo hướng hoàn toàn ngẫu nhiên và vô hướng?",
+       "options": [
+        "Phiêu bạt di truyền (biến động di truyền)",
+        "Chọn lọc tự nhiên",
+        "Giao phối ngẫu nhiên tự do",
+        "Cách li sinh thái"
+       ],
+       "answer": 0,
+       "explanation": "Phiêu bạt di truyền có tác động mạnh mẽ nhất ở quần thể nhỏ, làm biến đổi tần số allele một cách ngẫu nhiên."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Giao phối không ngẫu nhiên là nhân tố làm biến đổi nhanh chóng tần số của các allele trong vốn gene của quần thể.",
+       "answer": false,
+       "explanation": "Giao phối không ngẫu nhiên chỉ làm thay đổi tần số kiểu gene (tăng đồng hợp, giảm dị hợp) chứ không làm thay đổi tần số allele."
+      }
+     ]
+    },
+    {
+     "id": "bai-22-tien-hoa-lon-va-qua-trinh-phat-sinh-chung-loai",
+     "title": "Bài 22. Tiến hoá lớn và quá trình phát sinh chủng loại",
+     "summary": "Các giai đoạn phát sinh sự sống (tiến hoá hoá học, tiền sinh học, sinh học), các đại địa chất và quá trình phát sinh loài người.",
+     "notes": [
+      {
+       "heading": "Các giai đoạn phát sinh sự sống trên Trái Đất",
+       "points": [
+        "**Tiến hoá hoá học**: hình thành các hợp chất hữu cơ đơn giản từ chất vô cơ trong khí quyển nguyên thuỷ (CH4, NH3, H2, hơi nước) nhờ nguồn năng lượng sấm sét, núi lửa (được chứng minh bởi thí nghiệm Miller - Urey năm 1953), sau đó trùng hợp tạo các đại phân tử sinh học.",
+        "**Tiến hoá tiền sinh học**: hình thành các giọt **tế bào sơ khai** (protobiont) có màng bao bọc lipid kép, có khả năng trao đổi chất thô sơ và tự nhân đôi.",
+        "**Tiến hoá sinh học**: từ tế bào sơ khai xuất hiện cách đây khoảng 3,8 - 4,2 tỉ năm tiến hoá thành các sinh vật nhân sơ đầu tiên, rồi tiến hoá thành sinh vật nhân thực và đa bào phức tạp."
+       ]
+      },
+      {
+       "heading": "Lịch sử sinh giới qua các đại địa chất và phát sinh loài người",
+       "points": [
+        "Lịch sử Trái Đất gồm 5 đại chính: **Thái cổ** (xuất hiện vi khuẩn sơ khai), **Nguyên sinh** (sinh vật nhân thực, đa bào cổ), **Cổ sinh** (thực vật lên cạn, phát sinh cá, lưỡng cư, bò sát), **Trung sinh** (thời đại bò sát, khủng long ngự trị và tuyệt diệt cuối kỉ Creta), **Tân sinh** (phát sinh thú, chim và xuất hiện loài người ở kỉ Đệ tứ).",
+        "Cây phát sinh loài người: từ tổ tiên vượn người *Ardipithecus* (~4,4 triệu năm trước) -> *Australopithecus afarensis* (\"Lucy\", ~3,2 triệu năm) -> chi *Homo* (*Homo habilis* -> *Homo erectus* -> *Homo sapiens* xuất hiện khoảng 300 000 - 200 000 năm trước)."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Tiến hoá hoá học",
+       "definition": "Giai đoạn tiến hoá hình thành các hợp chất hữu cơ từ các chất vô cơ trong điều kiện khí quyển Trái Đất nguyên thuỷ."
+      },
+      {
+       "term": "Protobiont",
+       "definition": "Tập hợp các đại phân tử hữu cơ được bao bọc bởi màng sinh học có khả năng biểu hiện các đặc tính sống sơ khai."
+      },
+      {
+       "term": "Australopithecus",
+       "definition": "Chi vượn người cổ hoá thạch có dáng đi đứng thẳng bằng hai chân sống ở châu Phi cách đây khoảng 4 đến 2 triệu năm."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Thí nghiệm nổi tiếng năm 1953 của Stanley Miller và Harold Urey đã chứng minh điều gì?",
+       "back": "Các hợp chất hữu cơ đơn giản (amino acid) hoàn toàn có thể được tổng hợp nhân tạo từ các chất vô cơ trong điều kiện nguyên thuỷ."
+      },
+      {
+       "front": "Loài người hiện đại (Homo sapiens) xuất hiện vào đại địa chất nào?",
+       "back": "Đại Tân sinh (Cenozoic), thuộc kỉ Đệ tứ (Quaternary)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Giai đoạn tiến hoá nào trong lịch sử phát sinh sự sống đánh dấu sự hình thành của những tế bào sơ khai đầu tiên (protobiont) có màng bao bọc?",
+       "options": [
+        "Tiến hoá tiền sinh học",
+        "Tiến hoá hoá học",
+        "Tiến hoá sinh học",
+        "Tiến hoá phân tử"
+       ],
+       "answer": 0,
+       "explanation": "Tiến hoá tiền sinh học là bước chuyển từ các đại phân tử hữu cơ thành các giọt tế bào sơ khai có màng ngăn cách."
+      },
+      {
+       "type": "short",
+       "prompt": "Hoá thạch vượn người phương nam cổ đại nổi tiếng thế giới được tìm thấy tại châu Phi có tên gọi là gì?",
+       "answer": "Lucy",
+       "explanation": "Hoá thạch Australopithecus afarensis nổi tiếng được tìm thấy năm 1974 có tên thân mật là Lucy."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "chuong-06-moi-truong-va-sinh-thai-hoc-quan-the",
+   "title": "Chương VI. Môi trường và sinh thái học quần thể",
+   "topics": [
+    {
+     "id": "bai-23-moi-truong-va-cac-nhan-to-sinh-thai",
+     "title": "Bài 23. Môi trường và các nhân tố sinh thái",
+     "summary": "Khái niệm môi trường sống, các nhân tố sinh thái vô sinh và hữu sinh, các quy luật sinh thái cơ bản và nhịp sinh học.",
+     "notes": [
+      {
+       "heading": "Môi trường sống và các nhân tố sinh thái",
+       "points": [
+        "**Môi trường sống** bao gồm tất cả các nhân tố ở xung quanh sinh vật, có tác động trực tiếp hoặc gián tiếp đến sự tồn tại, sinh trưởng, phát triển của sinh vật.",
+        "Bốn loại môi trường sống chủ yếu: môi trường trên cạn, môi trường nước, môi trường trong đất và môi trường sinh vật.",
+        "**Nhân tố sinh thái** chia thành 2 nhóm: nhóm nhân tố **vô sinh** (nhiệt độ, ánh sáng, nước, không khí, thổ nhưỡng) và nhóm nhân tố **hữu sinh** (các sinh vật khác và con người).",
+        "Quy tắc nhiệt độ: quy tắc **Bergmann** (động vật hằng nhiệt sống ở xứ lạnh có kích thước cơ thể lớn hơn đồng loại ở xứ nóng để giảm tỉ lệ S/V hạn chế mất nhiệt) và quy tắc **Allen** (các phần thò ra ngoài như tai, đuôi, mỏ ở động vật xứ lạnh nhỏ hơn ở xứ nóng)."
+       ]
+      },
+      {
+       "heading": "Các quy luật sinh thái và nhịp sinh học",
+       "points": [
+        "**Quy luật giới hạn sinh thái**: Mỗi loài sinh vật có một giới hạn chịu đựng đối với một nhân tố sinh thái nhất định. Giới hạn sinh thái gồm **khoảng thuận lợi** (sinh vật phát triển tốt nhất), **khoảng ức chế** và **điểm gây chết** (giới hạn trên và giới hạn dưới).",
+        "Loài có giới hạn sinh thái rộng với nhiều nhân tố thì có vùng phân bố địa lí rộng (sinh vật rộng nhiệt, rộng muối).",
+        "**Quy luật tác động tổng hợp**: Các nhân tố sinh thái không tác động độc lập mà tác động phối hợp đồng thời lên sinh vật.",
+        "**Nhịp sinh học**: phản ứng nhịp nhàng chu kì của sinh vật trước các biến đổi có tính chu kì của môi trường (nhịp ngày - đêm, nhịp mùa, chu kì thuỷ triều)."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Giới hạn sinh thái",
+       "definition": "Khoảng giá trị xác định của một nhân tố sinh thái mà trong đó sinh vật có thể tồn tại và phát triển ổn định theo thời gian."
+      },
+      {
+       "term": "Khoảng thuận lợi",
+       "definition": "Khoảng giá trị của một nhân tố sinh thái mà tại đó sinh vật thực hiện các chức năng sinh lí thuận lợi nhất."
+      },
+      {
+       "term": "Quy tắc Bergmann",
+       "definition": "Quy tắc sinh học nêu rõ động vật đẳng nhiệt ở vùng khí hậu lạnh thường có kích thước cơ thể lớn hơn đồng loại ở vùng ấm."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Cá rô phi nuôi ở Việt Nam có giới hạn sinh thái về nhiệt độ từ 5,6 độ C đến 42 độ C. Khoảng thuận lợi là bao nhiêu?",
+       "back": "Từ 20 độ C đến 35 độ C."
+      },
+      {
+       "front": "Tại sao cáo Bắc Cực lại có tai và mõm ngắn hơn nhiều so với cáo sa mạc?",
+       "back": "Theo quy tắc Allen, tai và mõm ngắn giúp giảm diện tích toả nhiệt để giữ ấm trong môi trường băng tuyết."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Khi nghiên cứu về giới hạn sinh thái nhiệt độ của một loài cá, người ta thấy tại 5 độ C cá ngừng bơi lội và chết dần. Điểm nhiệt độ 5 độ C này được gọi là gì?",
+       "options": [
+        "Điểm gây chết dưới (giới hạn dưới)",
+        "Khoảng thuận lợi sinh thái",
+        "Điểm cực thuận sinh lí",
+        "Khoảng ức chế phát triển"
+       ],
+       "answer": 0,
+       "explanation": "Nhiệt độ thấp nhất mà sinh vật còn có thể sống sót gọi là điểm giới hạn dưới (điểm gây chết dưới)."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Các loài sinh vật hẹp nhiệt thường có vùng phân bố địa lí rộng lớn hơn nhiều so với các loài rộng nhiệt.",
+       "answer": false,
+       "explanation": "Loài rộng nhiệt mới có khả năng thích nghi cao và vùng phân bố địa lí rộng; loài hẹp nhiệt có vùng phân bố hẹp."
+      }
+     ]
+    },
+    {
+     "id": "bai-24-sinh-thai-hoc-quan-the",
+     "title": "Bài 24. Sinh thái học quần thể",
+     "summary": "Các mối quan hệ cùng loài, các đặc trưng cơ bản của quần thể, các dạng đường cong tăng trưởng và sự biến động số lượng cá thể.",
+     "notes": [
+      {
+       "heading": "Quan hệ giữa các cá thể trong quần thể",
+       "points": [
+        "**Quan hệ hỗ trợ cùng loài** (hiệu quả nhóm): các cá thể giúp nhau tìm kiếm thức ăn, chống chịu điều kiện bất lợi và kẻ thù, nâng cao tỉ lệ sống sót và sinh sản.",
+        "**Quan hệ cạnh tranh cùng loài**: xuất hiện khi mật độ quần thể quá cao, nguồn thức ăn và nơi ở khan hiếm; cạnh tranh giúp duy trì số lượng cá thể ở mức cân bằng phù hợp với sức tải môi trường."
+       ]
+      },
+      {
+       "heading": "Các đặc trưng cơ bản của quần thể",
+       "points": [
+        "**Tỉ lệ giới tính**: tỉ lệ giữa số lượng cá thể đực và cái trong quần thể (thường xấp xỉ 1:1 ở giai đoạn mới sinh).",
+        "**Cấu trúc nhóm tuổi**: nhóm tuổi trước sinh sản, nhóm tuổi sinh sản và nhóm tuổi sau sinh sản; thể hiện qua 3 dạng tháp tuổi (tháp phát triển, tháp ổn định, tháp suy thoái).",
+        "**Mật độ cá thể**: số lượng cá thể trên một đơn vị diện tích hoặc thể tích nơi ở; là đặc trưng quan trọng nhất chi phối các đặc trưng khác.",
+        "**Kiểu phân bố cá thể**: phân bố **theo nhóm** (phổ biến nhất, gặp khi điều kiện sống không đồng đều), phân bố **đồng đều** (khi điều kiện sống đồng nhất và có cạnh tranh gay gắt), phân bố **ngẫu nhiên** (điều kiện sống đồng nhất, không có cạnh tranh mạnh).",
+        "**Kích thước quần thể**: số lượng cá thể (hoặc sinh khối) trong quần thể; dao động giữa kích thước tối thiểu và kích thước tối đa."
+       ]
+      },
+      {
+       "heading": "Tăng trưởng và biến động số lượng quần thể",
+       "points": [
+        "Tăng trưởng theo tiềm năng sinh học (đường cong hình **chữ J**): diễn ra trong điều kiện môi trường hoàn toàn lí tưởng, không bị giới hạn.",
+        "Tăng trưởng trong điều kiện môi trường bị giới hạn (đường cong hình **chữ S** hay tăng trưởng logistic): tốc độ tăng trưởng chậm dần và đạt ngưỡng ổn định tại **sức chứa K** của môi trường.",
+        "Biến động số lượng: biến động **theo chu kì** (chu kì ngày đêm, chu kì mùa, chu kì nhiều năm như chu kì 9 - 10 năm của thỏ rừng tuyết và mèo rừng Canada) và biến động **không theo chu kì** (do bão lụt, cháy rừng, dịch bệnh đột ngột)."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Mật độ cá thể",
+       "definition": "Số lượng cá thể sinh vật hay khối lượng sinh khối của quần thể trên một đơn vị diện tích hoặc thể tích sinh cảnh."
+      },
+      {
+       "term": "Sức chứa của môi trường (K)",
+       "definition": "Số lượng cá thể tối đa mà một môi trường sống nhất định có thể nuôi dưỡng ổn định lâu dài."
+      },
+      {
+       "term": "Phân bố theo nhóm",
+       "definition": "Kiểu phân bố phổ biến nhất trong tự nhiên khi các cá thể tụ tập lại thành bầy đàn tại những vị trí có điều kiện sống tốt nhất."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Kiểu phân bố cá thể nào là phổ biến nhất trong các quần thể sinh vật tự nhiên?",
+       "back": "Phân bố theo nhóm (do môi trường sống không đồng nhất và sinh vật có tập tính bầy đàn)."
+      },
+      {
+       "front": "Đặc trưng nào được xem là quan trọng nhất ảnh hưởng trực tiếp đến mức độ sử dụng nguồn sống và khả năng sinh sản của quần thể?",
+       "back": "Mật độ cá thể trong quần thể."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Khi điều kiện môi trường sống đồng đều và các cá thể trong quần thể có sự cạnh tranh gay gắt về lãnh thổ hoặc thức ăn, kiểu phân bố nào sau đây sẽ xuất hiện?",
+       "options": [
+        "Phân bố đồng đều",
+        "Phân bố theo nhóm",
+        "Phân bố ngẫu nhiên",
+        "Phân bố hỗn hợp"
+       ],
+       "answer": 0,
+       "explanation": "Phân bố đồng đều xuất hiện khi điều kiện sống phân bố đồng nhất và giữa các cá thể có sự cạnh tranh lãnh thổ gay gắt."
+      },
+      {
+       "type": "cloze",
+       "prompt": "Đường cong tăng trưởng thực tế của quần thể sinh vật trong điều kiện môi trường tự nhiên có nguồn sống bị giới hạn thường có dạng hình chữ ____.",
+       "answers": [
+        "S"
+       ],
+       "explanation": "Tăng trưởng trong môi trường có giới hạn mô tả bằng đường cong chữ S (logistic growth)."
+      }
+     ]
+    },
+    {
+     "id": "bai-25-thuc-hanh-xac-dinh-mot-so-dac-trung-cua-quan-the",
+     "title": "Bài 25. Thực hành: Xác định một số đặc trưng của quần thể",
+     "summary": "Phương pháp ô vuông (quadrat) để lấy mẫu ngẫu nhiên và ước tính mật độ, kích thước của quần thể thực vật hoặc động vật ít di chuyển.",
+     "notes": [
+      {
+       "heading": "Phương pháp ô vuông (Quadrat)",
+       "points": [
+        "Phương pháp ô vuông được áp dụng để ước tính mật độ cá thể của quần thể thực vật, nấm hoặc động vật đáy, động vật ít di chuyển (như giun đất, ốc, sò).",
+        "Quy trình thực hiện: xác định ranh giới khu vực phân bố, sử dụng khung ô tiêu chuẩn (1 m x 1 m cho cây cỏ thân thảo hoặc 10 m x 10 m cho cây thân gỗ).",
+        "Đặt ngẫu nhiên các ô vuông mẫu trên khu vực khảo sát, đếm số lượng cá thể trong từng ô và tính số lượng cá thể trung bình trong mỗi ô (**n**).",
+        "Công thức ước tính kích thước quần thể: **N = (A / a) x n**, trong đó N là kích thước quần thể, A là tổng diện tích khu vực nghiên cứu, a là diện tích một ô tiêu chuẩn."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Phương pháp ô vuông (Quadrat method)",
+       "definition": "Kĩ thuật sinh thái học sử dụng các khung diện tích mẫu ngẫu nhiên để điều tra định lượng mật độ và thành phần cá thể."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Công thức ước tính kích thước quần thể N theo phương pháp ô vuông là gì?",
+       "back": "N = (A / a) x n (A: tổng diện tích, a: diện tích 1 ô mẫu, n: số cá thể trung bình mỗi ô)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Để khảo sát mật độ của một loài cây thân thảo trong một bãi cỏ diện tích 500 m2, học sinh đặt ngẫu nhiên 10 ô vuông mẫu kích thước 1 m2 và đếm được trung bình 6 cây/ô. Kích thước ước tính của quần thể cây này là bao nhiêu?",
+       "options": [
+        "3000 cá thể",
+        "500 cá thể",
+        "600 cá thể",
+        "5000 cá thể"
+       ],
+       "answer": 0,
+       "explanation": "N = (A / a) x n = (500 / 1) x 6 = 3000 cá thể."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Phương pháp ô vuông quadrat đặc biệt phù hợp và hiệu quả nhất khi dùng để điều tra kích thước của các quần thể chim di cư bay nhanh.",
+       "answer": false,
+       "explanation": "Phương pháp ô vuông chỉ phù hợp cho sinh vật ít di chuyển hoặc đứng yên; chim bay di cư phải dùng phương pháp bắt - đánh dấu - thả lại."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "chuong-07-sinh-thai-hoc-quan-xa",
+   "title": "Chương VII. Sinh thái học quần xã",
+   "topics": [
+    {
+     "id": "bai-26-quan-xa-sinh-vat",
+     "title": "Bài 26. Quần xã sinh vật",
+     "summary": "Khái niệm quần xã sinh vật, các đặc trưng cơ bản về thành phần loài, cấu trúc không gian, cấu trúc dinh dưỡng và các mối quan hệ sinh thái.",
+     "notes": [
+      {
+       "heading": "Khái niệm và đặc trưng thành phần loài",
+       "points": [
+        "**Quần xã sinh vật** là tập hợp các quần thể sinh vật thuộc nhiều loài khác nhau, cùng sinh sống trong một không gian và thời gian nhất định, gắn bó với nhau như một thể thống nhất.",
+        "**Loài ưu thế**: loài đóng vai trò quan trọng trong quần xã do có số lượng cá thể lớn, sinh khối cao hoặc hoạt động mạnh (ví dụ cây gỗ lim, sến trong rừng nhiệt đới).",
+        "**Loài đặc trưng**: loài chỉ có ở một quần xã nhất định hoặc có số lượng nhiều hơn hẳn các loài khác (ví dụ cá chép hồi ở suối lạnh, cây tràm ở rừng U Minh).",
+        "**Loài chủ chốt** (keystone species): loài kiểm soát cấu trúc và sự đa dạng của quần xã; nếu loài này biến mất thì toàn bộ cấu trúc quần xã bị xáo trộn nghiêm trọng (ví dụ sao biển săn mồi, sư tử)."
+       ]
+      },
+      {
+       "heading": "Cấu trúc không gian và ổ sinh thái",
+       "points": [
+        "Cấu trúc không gian gồm **phân tầng thẳng đứng** (các tầng tán rừng, tầng nước mặt đến đáy) và **phân bố theo chiều ngang** (từ bờ vào khơi, từ chân núi lên đỉnh núi); giúp giảm cạnh tranh và tận dụng tối đa nguồn sống.",
+        "**Ổ sinh thái** là không gian sinh thái bao gồm tất cả các giới hạn sinh thái của các nhân tố môi trường mà loài có thể tồn tại và phát triển ổn định.",
+        "Sự phân li ổ sinh thái giúp các loài có nhu cầu sinh thái tương tự có thể cùng chung sống hoà bình trong một quần xã mà không tiêu diệt lẫn nhau."
+       ]
+      },
+      {
+       "heading": "Các mối quan hệ giữa các loài trong quần xã",
+       "points": [
+        "Quan hệ hỗ trợ: **cộng sinh** (hai loài gắn bó chặt chẽ bắt buộc cùng có lợi, ví dụ địa y, vi khuẩn nốt sần); **hợp tác** (hai loài cùng có lợi nhưng không bắt buộc, ví dụ chim sáo và trâu bò); **hội sinh** (một bên có lợi, một bên không lợi không hại, ví dụ phong lan bám cây gỗ, cá ép bám cá lớn).",
+        "Quan hệ đối kháng: **cạnh tranh khác loài**; **kí sinh** (vật kí sinh lấy chất dinh dưỡng từ vật chủ); **sinh vật ăn sinh vật** (động vật ăn thịt, thực vật bắt mồi); **ức chế - cảm nhiễm** (một loài vô tình tiết chất độc kìm hãm loài khác, ví dụ tảo giáp nở hoa giải phóng độc tố thuỷ sản)."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Quần xã sinh vật",
+       "definition": "Tập hợp các quần thể sinh vật khác loài cùng sinh sống trong một sinh cảnh xác định, tương tác với nhau tạo thành một thể thống nhất."
+      },
+      {
+       "term": "Loài chủ chốt",
+       "definition": "Loài có vai trò chi phối quyết định cấu trúc và duy trì sự cân bằng của toàn bộ quần xã sinh vật."
+      },
+      {
+       "term": "Cộng sinh",
+       "definition": "Mối quan hệ sống chung bắt buộc và mật thiết giữa hai hay nhiều loài sinh vật mà trong đó tất cả các bên đều có lợi."
+      },
+      {
+       "term": "Ổ sinh thái",
+       "definition": "Tổ hợp các điều kiện sinh thái bao gồm không gian và nguồn sống đảm bảo cho một loài tồn tại và phát triển ổn định."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Mối quan hệ giữa nấm và tảo đơn bào cùng tạo nên cơ thể địa y thuộc loại quan hệ sinh thái nào?",
+       "back": "Quan hệ cộng sinh bắt buộc (nấm cung cấp nước và khoáng, tảo quang hợp cung cấp chất hữu cơ)."
+      },
+      {
+       "front": "Cá ép bám vào da cá mập để di chuyển và ăn vụn thức ăn thừa là ví dụ của mối quan hệ gì?",
+       "back": "Quan hệ hội sinh (cá ép có lợi, cá mập không có lợi cũng không bị hại)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Mối quan hệ sinh thái nào dưới đây thể hiện sự tương tác mà trong đó một loài tiết chất hoá học vào môi trường gây hại cho các loài sinh vật khác xung quanh một cách vô tình?",
+       "options": [
+        "Ức chế – cảm nhiễm",
+        "Kí sinh – vật chủ",
+        "Cạnh tranh khác loài",
+        "Hội sinh dinh dưỡng"
+       ],
+       "answer": 0,
+       "explanation": "Quan hệ ức chế - cảm nhiễm là hiện tượng một loài trong quá trình sống tiết chất độc gây hại cho loài khác mà bản thân không hưởng lợi."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Hiện tượng phân tầng của các loài thực vật trong rừng mưa nhiệt đới làm tăng áp lực cạnh tranh về ánh sáng giữa các tầng cây.",
+       "answer": false,
+       "explanation": "Sự phân tầng thẳng đứng giúp các loài phân chia nguồn sáng tối ưu, qua đó giảm nhẹ áp lực cạnh tranh giữa các loài."
+      }
+     ]
+    },
+    {
+     "id": "bai-27-thuc-hanh-tim-hieu-dac-trung-co-ban-cua-quan-xa",
+     "title": "Bài 27. Thực hành: Tìm hiểu một số đặc trưng cơ bản của quần xã trong tự nhiên",
+     "summary": "Phương pháp điều tra thực địa để xác định thành phần loài, độ phong phú và cấu trúc dinh dưỡng của quần xã sinh vật địa phương.",
+     "notes": [
+      {
+       "heading": "Quy trình điều tra quần xã tự nhiên",
+       "points": [
+        "Xác định địa điểm nghiên cứu đại diện cho quần xã tự nhiên (rừng, vườn cây ăn quả, đầm nước hoặc bãi cỏ).",
+        "Lập bảng thống kê danh mục các nhóm loài thực vật (cây gỗ, cây bụi, dây leo, cỏ thân thảo) và động vật (côn trùng, bò sát, lưỡng cư, chim, thú nhỏ).",
+        "Đánh giá độ phong phú tương đối của từng nhóm loài và xác định loài ưu thế đặc trưng trong quần xã.",
+        "Phân loại các sinh vật thu thập được thành 3 nhóm chức năng dinh dưỡng: **sinh vật sản xuất**, **sinh vật tiêu thụ** và **sinh vật phân giải**; phác thảo sơ đồ lưới thức ăn cơ bản."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Thành phần loài",
+       "definition": "Danh mục số lượng các loài sinh vật khác nhau cùng hiện diện trong một quần xã khảo sát."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Ba nhóm chức năng dinh dưỡng cơ bản cấu thành nên cấu trúc sinh học của một quần xã là gì?",
+       "back": "Sinh vật sản xuất (tự dưỡng), sinh vật tiêu thụ (dị dưỡng) và sinh vật phân giải (hoại sinh)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Trong một chuyến điều tra sinh thái học tại một khu vườn cây, nhóm học sinh bắt gặp các sinh vật gồm: cây cam, sâu ăn lá cam, bọ ngựa bắt sâu và nấm hoại sinh mục trên đất. Sinh vật đóng vai trò sinh vật tiêu thụ bậc 2 trong chuỗi thức ăn này là gì?",
+       "options": [
+        "Bọ ngựa",
+        "Sâu ăn lá cam",
+        "Cây cam",
+        "Nấm hoại sinh"
+       ],
+       "answer": 0,
+       "explanation": "Chuỗi: Cây cam (SV sản xuất) -> Sâu (SV tiêu thụ bậc 1) -> Bọ ngựa (SV tiêu thụ bậc 2)."
+      },
+      {
+       "type": "short",
+       "prompt": "Nhóm sinh vật nào trong quần xã có khả năng chuyển hoá các chất hữu cơ xác chết thành các chất vô cơ đơn giản?",
+       "answer": "Sinh vật phân giải",
+       "explanation": "Sinh vật phân giải (vi khuẩn, nấm hoại sinh, giun đất) phân huỷ mùn bã hữu cơ thành chất khoáng vô cơ."
+      }
+     ]
+    },
+    {
+     "id": "bai-28-he-sinh-thai",
+     "title": "Bài 28. Hệ sinh thái",
+     "summary": "Khái niệm hệ sinh thái, các thành phần cấu trúc sinh cảnh và quần xã, so sánh hệ sinh thái tự nhiên và hệ sinh thái nhân tạo.",
+     "notes": [
+      {
+       "heading": "Khái niệm và cấu trúc của hệ sinh thái",
+       "points": [
+        "**Hệ sinh thái** bao gồm quần xã sinh vật và sinh cảnh (môi trường vô sinh) của quần xã, trong đó các sinh vật tác động qua lại với nhau và với môi trường tạo thành một hệ thống mở và tự điều chỉnh hoàn chỉnh.",
+        "Cấu trúc hệ sinh thái gồm hai thành phần chính: **sinh cảnh** (yếu tố vô sinh: khí hậu, chất vô cơ, chất hữu cơ) và **quần xã sinh vật** (sinh vật sản xuất, sinh vật tiêu thụ, sinh vật phân giải).",
+        "Sinh vật sản xuất là các loài tự dưỡng quang hợp (thực vật, tảo, vi khuẩn lam) hoặc hoá tổng hợp.",
+        "Sinh vật tiêu thụ gồm động vật ăn thực vật, động vật ăn thịt các cấp.",
+        "Sinh vật phân giải gồm vi khuẩn, nấm hoại sinh và một số động vật ăn mùn bã phân huỷ xác hữu cơ thành chất vô cơ tuần hoàn lại cho sinh vật sản xuất."
+       ]
+      },
+      {
+       "heading": "Các kiểu hệ sinh thái trên Trái Đất",
+       "points": [
+        "**Hệ sinh thái tự nhiên**: hình thành và tồn tại theo quy luật tự nhiên gồm hệ sinh thái trên cạn (rừng mưa nhiệt đới, xa van, hoang mạc, rừng lá kim, đồng rêu) và hệ sinh thái dưới nước (nước ngọt, nước mặn ven biển, rạn san hô). Có độ đa dạng loài cao và tính ổn định bền vững.",
+        "**Hệ sinh thái nhân tạo**: do con người tạo ra và kiểm soát (đồng ruộng, thành phố, hồ nuôi cá, rừng trồng). Có thành phần loài nghèo nàn, chuỗi thức ăn ngắn, tính ổn định thấp, đòi hỏi con người liên tục bổ sung vật chất và năng lượng để duy trì."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Hệ sinh thái",
+       "definition": "Hệ thống bao gồm quần xã sinh vật và môi trường vô sinh (sinh cảnh), cùng tương tác trao đổi vật chất và năng lượng."
+      },
+      {
+       "term": "Sinh cảnh (Biotope)",
+       "definition": "Môi trường vật lí vô sinh bao gồm ánh sáng, nhiệt độ, không khí, nước và đất nuôi dưỡng quần xã sinh vật."
+      },
+      {
+       "term": "Hệ sinh thái nhân tạo",
+       "definition": "Hệ sinh thái do con người thiết lập và quản lí nhằm phục vụ các mục đích kinh tế hoặc sinh hoạt."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Tại sao hệ sinh thái tự nhiên như rừng mưa nhiệt đới có tính bền vững cao hơn nhiều so với hệ sinh thái ruộng lúa nước?",
+       "back": "Vì có độ đa dạng loài rất phong phú, lưới thức ăn phức tạp nhiều mắt xích và khả năng tự điều chỉnh cao."
+      },
+      {
+       "front": "Hai thành phần cấu trúc không thể thiếu của mọi hệ sinh thái là gì?",
+       "back": "Sinh cảnh (môi trường vô sinh) và quần xã sinh vật (thành phần hữu sinh)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Đặc điểm nào sau đây là đặc trưng điển hình của các hệ sinh thái nông nghiệp nhân tạo so với các hệ sinh thái rừng tự nhiên?",
+       "options": [
+        "Tính ổn định sinh học thấp và cần con người thường xuyên bổ sung vật chất, năng lượng",
+        "Độ đa dạng sinh học rất cao với cấu trúc lưới thức ăn chằng chịt nhiều tầng",
+        "Chu trình tuần hoàn vật chất diễn ra khép kín hoàn toàn không thất thoát",
+        "Không bao giờ xảy ra hiện tượng bùng phát sâu bệnh gây hại mùa màng"
+       ],
+       "answer": 0,
+       "explanation": "Hệ sinh thái nhân tạo ít loài, chuỗi thức ăn đơn giản nên kém bền vững, cần con người bón phân, tưới nước và chăm sóc liên tục."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Trong hệ sinh thái, sinh vật phân giải giữ vai trò trả lại các chất dinh dưỡng vô cơ vào môi trường cho sinh vật sản xuất tái sử dụng.",
+       "answer": true,
+       "explanation": "Đúng, nếu không có sinh vật phân giải thì chu trình tuần hoàn vật chất trong hệ sinh thái sẽ bị ngưng trệ."
+      }
+     ]
+    },
+    {
+     "id": "bai-29-trao-doi-vat-chat-va-chuyen-hoa-nang-luong-trong-he-sinh-thai",
+     "title": "Bài 29. Trao đổi vật chất và chuyển hoá năng lượng trong hệ sinh thái",
+     "summary": "Cấu trúc chuỗi và lưới thức ăn, các bậc dinh dưỡng, quy luật dòng năng lượng và các dạng tháp sinh thái.",
+     "notes": [
+      {
+       "heading": "Chuỗi và lưới thức ăn trong hệ sinh thái",
+       "points": [
+        "**Chuỗi thức ăn** là một dãy các loài sinh vật có quan hệ dinh dưỡng với nhau, mỗi loài là một mắt xích, loài phía trước là thức ăn của loài phía sau.",
+        "Hai loại chuỗi thức ăn: chuỗi bắt đầu bằng **sinh vật sản xuất** (cỏ -> thỏ -> cáo -> hổ) và chuỗi bắt đầu bằng **sinh vật ăn mùn bã hữu cơ** (mùn bã hữu cơ -> giun đất -> gà -> người).",
+        "**Lưới thức ăn** gồm nhiều chuỗi thức ăn có các mắt xích chung đan xen nhau; quần xã càng đa dạng thì lưới thức ăn càng phức tạp.",
+        "**Bậc dinh dưỡng**: các nhóm sinh vật có cùng mức dinh dưỡng trong chuỗi thức ăn (bậc 1: SV sản xuất; bậc 2: SV tiêu thụ bậc 1; bậc 3: SV tiêu thụ bậc 2...)."
+       ]
+      },
+      {
+       "heading": "Dòng năng lượng và tháp sinh thái",
+       "points": [
+        "Năng lượng ánh sáng mặt trời đi vào hệ sinh thái qua quá trình quang hợp của sinh vật sản xuất, truyền theo một chiều duy nhất qua các bậc dinh dưỡng và cuối cùng tiêu hao hoàn toàn dưới dạng **nhiệt năng** (không tuần hoàn).",
+        "Năng lượng bị thất thoát khoảng **90%** qua mỗi bậc dinh dưỡng (do hô hấp toả nhiệt, bài tiết, các bộ phận rơi rụng), chỉ có khoảng **10%** năng lượng tích luỹ chuyển lên bậc kế tiếp (**hiệu suất sinh thái** khoảng 5 - 20%).",
+        "Ba loại **tháp sinh thái**: tháp số lượng, tháp sinh khối và **tháp năng lượng**.",
+        "Tháp năng lượng **luôn có đáy rộng và thu hẹp dần lên đỉnh** (không bao giờ bị đảo ngược) do quy luật bảo toàn và hao hụt năng lượng qua các bậc dinh dưỡng."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Hiệu suất sinh thái",
+       "definition": "Tỉ lệ phần trăm chuyển hoá năng lượng giữa hai bậc dinh dưỡng liên tiếp nhau trong một hệ sinh thái."
+      },
+      {
+       "term": "Tháp năng lượng",
+       "definition": "Mô hình đồ hoạ thể hiện lượng năng lượng được tích luỹ trên một đơn vị diện tích trong một đơn vị thời gian ở từng bậc dinh dưỡng."
+      },
+      {
+       "term": "Bậc dinh dưỡng",
+       "definition": "Vị trí của một nhóm loài sinh vật có cùng phương thức dinh dưỡng trong chuỗi thức ăn của hệ sinh thái."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Tại sao tháp năng lượng trong hệ sinh thái không bao giờ có dạng lộn ngược?",
+       "back": "Vì theo nguyên lí nhiệt động lực học, năng lượng luôn bị thất thoát lớn dưới dạng nhiệt qua mỗi bậc dinh dưỡng."
+      },
+      {
+       "front": "Hiệu suất sinh thái trung bình giữa hai bậc dinh dưỡng kế tiếp trong tự nhiên xấp xỉ khoảng bao nhiêu?",
+       "back": "Khoảng 10% (dao động từ 5% đến 20%)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Trong một chuỗi thức ăn gồm: Cây ngô -> Sâu ăn lá ngô -> Nhái -> Rắn hổ mang -> Diều hâu, loài nào đóng vai trò là sinh vật tiêu thụ bậc 3?",
+       "options": [
+        "Rắn hổ mang",
+        "Nhái",
+        "Sâu ăn lá ngô",
+        "Diều hâu"
+       ],
+       "answer": 0,
+       "explanation": "Cây ngô (SV sản xuất) -> Sâu (SV tiêu thụ bậc 1) -> Nhái (SV tiêu thụ bậc 2) -> Rắn hổ mang (SV tiêu thụ bậc 3) -> Diều hâu (SV tiêu thụ bậc 4)."
+      },
+      {
+       "type": "cloze",
+       "prompt": "Trong hệ sinh thái, vật chất tuần hoàn theo chu trình sinh - địa - hoá, còn dòng năng lượng truyền theo một chiều từ sinh vật sản xuất lên các bậc cao hơn và cuối cùng thất thoát ra ngoài dưới dạng ____.",
+       "answers": [
+        "nhiệt",
+        "nhiệt năng"
+       ],
+       "explanation": "Năng lượng trong hệ sinh thái không tuần hoàn mà tiêu hao dần dưới dạng nhiệt qua hô hấp toả nhiệt."
+      }
+     ]
+    },
+    {
+     "id": "bai-30-dien-the-sinh-thai",
+     "title": "Bài 30. Diễn thế sinh thái",
+     "summary": "Khái niệm, các giai đoạn và nguyên nhân của diễn thế sinh thái nguyên sinh và thứ sinh, ý nghĩa trong thực tiễn.",
+     "notes": [
+      {
+       "heading": "Khái niệm và các loại diễn thế sinh thái",
+       "points": [
+        "**Diễn thế sinh thái** là quá trình biến đổi tuần tự của quần xã sinh vật theo thời gian, tương ứng với sự biến đổi của điều kiện môi trường.",
+        "**Diễn thế nguyên sinh**: khởi đầu từ môi trường trống trơn chưa từng có sinh vật sinh sống (đảo tro núi lửa mới phun như đảo Krakatau, cồn cát mới nổi, đầm lầy mới bồi); trải qua giai đoạn quần xã tiên phong (địa y, rêu) -> quần xã trung gian -> **quần xã đỉnh cực** (ổn định lâu dài).",
+        "**Diễn thế thứ sinh**: khởi đầu từ môi trường đã từng có một quần xã sinh vật tồn tại nhưng bị huỷ diệt hoàn toàn hoặc một phần do thiên tai (cháy rừng, bão) hoặc do con người (chặt phá rừng); có thể phục hồi thành quần xã đỉnh cực hoặc dẫn đến quần xã suy thoái."
+       ]
+      },
+      {
+       "heading": "Nguyên nhân và ý nghĩa của diễn thế sinh thái",
+       "points": [
+        "Nguyên nhân bên ngoài: do các tác động bất lợi của nhân tố vô sinh (thay đổi khí hậu, lũ lụt, hạn hán, hoạt động khai thác quá mức của con người).",
+        "Nguyên nhân bên trong: do sự cạnh tranh gay gắt giữa các loài trong quần xã; hoạt động của loài ưu thế làm biến đổi môi trường sống đến mức bất lợi cho chính nó và tạo điều kiện cho loài khác xâm nhập thay thế.",
+        "Ý nghĩa: giúp con người chủ động quy hoạch khai thác tài nguyên hợp lí, phục hồi rừng đầu nguồn và dự đoán xu thế biến đổi của hệ sinh thái."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Diễn thế nguyên sinh",
+       "definition": "Quá trình diễn thế sinh thái khởi đầu từ một môi trường trống trơn chưa từng có sinh vật sinh sống."
+      },
+      {
+       "term": "Diễn thế thứ sinh",
+       "definition": "Quá trình diễn thế sinh thái khởi đầu từ một môi trường đã từng có một quần xã sinh vật nhưng bị phá vỡ hoặc suy thoái."
+      },
+      {
+       "term": "Quần xã đỉnh cực (Climax)",
+       "definition": "Trạng thái quần xã sinh vật phát triển hoàn chỉnh, ổn định và cân bằng động bền vững nhất với môi trường."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Sinh vật nào thường đóng vai trò là quần xã tiên phong trong quá trình diễn thế sinh thái nguyên sinh trên nền đá trơ trọi?",
+       "back": "Địa y và các loài rêu nhỏ có khả năng chịu khô hạn và tạo lớp đất mùn mỏng."
+      },
+      {
+       "front": "Điểm khác biệt cơ bản nhất giữa diễn thế nguyên sinh và diễn thế thứ sinh là gì?",
+       "back": "Diễn thế nguyên sinh bắt đầu từ môi trường trống trơn, còn diễn thế thứ sinh bắt đầu từ môi trường đã có sẵn đất mùn và mầm mống sinh vật."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Hiện tượng một khu rừng sau khi bị cháy hoàn toàn dần mọc lại các cây cỏ thân thảo, sau đó xuất hiện cây bụi và cuối cùng hình thành nên một khu rừng thứ sinh rậm rạp là ví dụ điển hình của quá trình nào?",
+       "options": [
+        "Diễn thế thứ sinh",
+        "Diễn thế nguyên sinh",
+        "Biến động không chu kì",
+        "Đột biến sinh thái"
+       ],
+       "answer": 0,
+       "explanation": "Khu rừng bị cháy vẫn còn đất ẩm và hạt giống trong lòng đất nên quá trình phục hồi là diễn thế thứ sinh."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Quần xã đỉnh cực là trạng thái tĩnh hoàn toàn không còn bất kì sự thay đổi nào về số lượng cá thể trong hệ sinh thái.",
+       "answer": false,
+       "explanation": "Quần xã đỉnh cực đạt trạng thái cân bằng động, các cá thể và loài vẫn không ngừng trao đổi chất và tự điều chỉnh mật độ."
+      }
+     ]
+    },
+    {
+     "id": "bai-31-sinh-quyen-khu-sinh-hoc-va-chu-trinh-sinh-dia-hoa",
+     "title": "Bài 31. Sinh quyển, khu sinh học và chu trình sinh – địa – hoá",
+     "summary": "Khái niệm sinh quyển, các khu sinh học trên cạn và dưới nước, chu trình tuần hoàn carbon, nitrogen, nước và các giải pháp bảo vệ sinh quyển.",
+     "notes": [
+      {
+       "heading": "Sinh quyển và các khu sinh học chủ yếu",
+       "points": [
+        "**Sinh quyển** là cấp tổ chức sống lớn nhất bao gồm toàn bộ các hệ sinh thái trên Trái Đất, có cấu trúc hoàn chỉnh và khả năng tự điều chỉnh thông qua các chu trình sinh - địa - hoá toàn cầu.",
+        "**Khu sinh học trên cạn**: đồng rêu hàn đới (tundra), rừng lá kim phương bắc (taiga), **rừng rụng lá ôn đới** (mùa đông ~0°C, mùa hè lên đến 35°C, thực vật sồi, phong, bạch dương rụng lá mùa đông, động vật ngủ đông hoặc di cư), thảo nguyên, xa van đồng cỏ nhiệt đới, hoang mạc và **rừng mưa nhiệt đới**.",
+        "**Khu sinh học nước ngọt**: độ mặn dưới 1%, gồm vùng nước chảy (sông, suối) và vùng nước đứng (ao, hồ, đầm nước); sinh vật sản xuất gồm tảo, vi khuẩn lam, bèo hoa dâu, bèo lục bình, sen, súng.",
+        "**Khu sinh học nước mặn**: gồm vùng ven bờ (rừng ngập mặn sú, vẹt, đước; rạn san hô; thảm cỏ biển) và vùng khơi đại dương (chiếm 70% bề mặt Trái Đất nhưng nghèo dinh dưỡng ở tầng mặt)."
+       ]
+      },
+      {
+       "heading": "Chu trình sinh – địa – hoá các chất",
+       "points": [
+        "**Chu trình carbon**: CO2 khí quyển đi vào quần xã qua quang hợp, trả lại môi trường qua hô hấp và phân giải; một phần carbon lắng đọng thành than đá, dầu mỏ. Việc đốt nhiên liệu hoá thạch làm lượng CO2 tăng vọt gây **hiệu ứng nhà kính**.",
+        "**Chu trình nitrogen**: N2 phân tử trong không khí được cố định thành ion **NH4+** nhờ vi khuẩn cố định đạm (sống tự do như *Azotobacter* hoặc cộng sinh như *Rhizobium* trong nốt sần họ Đậu) và sấm sét tạo NO3-; vi khuẩn nitrit hoá và nitrat hoá tạo NO3- cho cây hấp thụ; vi khuẩn phản nitrat hoá khử NO3- thành khí N2 trong điều kiện kị khí.",
+        "**Hiện tượng phú dưỡng**: dư thừa phân đạm và phosphate bị rửa trôi vào sông hồ gây tảo nở hoa, suy giảm nghiêm trọng nồng độ oxygen hoà tan.",
+        "**Chu trình nước**: nước bốc hơi từ biển và bề mặt đất, thực vật thoát hơi nước tạo mây, ngưng tụ thành mưa rơi xuống lục địa, một phần thấm thành nước ngầm và phần lớn chảy ra đại dương."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Sinh quyển (Biosphere)",
+       "definition": "Toàn bộ sinh giới cùng với các nhân tố vô sinh trên Trái Đất tạo thành hệ sinh thái khổng lồ lớn nhất hành tinh."
+      },
+      {
+       "term": "Khu sinh học (Biome)",
+       "definition": "Khu vực địa lí rộng lớn trên Trái Đất có đặc trưng khí hậu và một thảm thực vật cùng hệ động vật thích nghi xác định."
+      },
+      {
+       "term": "Chu trình sinh – địa – hoá",
+       "definition": "Sự tuần hoàn vật chất qua các dạng khác nhau giữa quần xã sinh vật và môi trường địa chất vô sinh."
+      },
+      {
+       "term": "Hiện tượng phú dưỡng",
+       "definition": "Tình trạng nguồn nước bị quá tải chất dinh dưỡng dẫn đến sự bùng phát của tảo, suy giảm oxygen hoà tan và huỷ hoại hệ sinh thái nước."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Khu sinh học nào trên cạn có độ phong phú và đa dạng sinh học các loài sinh vật cao nhất thế giới?",
+       "back": "Khu sinh học rừng mưa nhiệt đới."
+      },
+      {
+       "front": "Vi sinh vật nào có khả năng biến đổi N2 tự do trong không khí thành dạng đạm hữu dụng NH4+ cho thực vật?",
+       "back": "Vi khuẩn cố định đạm (như Rhizobium trong nốt sần rễ cây họ Đậu, Azotobacter, vi khuẩn lam)."
+      },
+      {
+       "front": "Cây rừng rụng lá ôn đới có tập tính thích nghi nào đặc trưng khi mùa đông giá lạnh tràn về?",
+       "back": "Rụng toàn bộ lá để giảm thoát hơi nước và chịu lạnh qua mùa đông."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Nhóm vi sinh vật nào sau đây đóng vai trò chủ chốt trong việc hoàn trả khí nitrogen (N2) từ đất trở lại bầu khí quyển trong chu trình sinh – địa – hoá?",
+       "options": [
+        "Vi khuẩn phản nitrat hoá",
+        "Vi khuẩn cố định nitrogen tự do",
+        "Vi khuẩn nitrat hoá",
+        "Nấm cộng sinh rễ cây"
+       ],
+       "answer": 0,
+       "explanation": "Vi khuẩn phản nitrat hoá trong điều kiện kị khí khử ion NO3- thành khí N2 bay vào khí quyển."
+      },
+      {
+       "type": "cloze",
+       "prompt": "Hiện tượng nguồn nước ao hồ nhận quá mức các hợp chất chứa nitrogen và phosphorus dẫn đến hiện tượng tảo nở hoa dày đặc được gọi là hiện tượng ____.",
+       "answers": [
+        "phú dưỡng"
+       ],
+       "explanation": "Hiện tượng tích luỹ dư thừa dinh dưỡng trong thuỷ vực gây ô nhiễm gọi là phú dưỡng (eutrophication)."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Vùng khơi đại dương sâu chiếm tới 70% bề mặt Trái Đất và là nơi có tầng nước mặt rất giàu dinh dưỡng cho sinh vật sản xuất.",
+       "answer": false,
+       "explanation": "Vùng biển khơi đại dương có tầng nước mặt rất nghèo dinh dưỡng do cách xa nguồn cung cấp phù sa từ đất liền."
+      }
+     ]
+    },
+    {
+     "id": "bai-32-thuc-hanh-thiet-ke-he-sinh-thai-nhan-tao",
+     "title": "Bài 32. Thực hành: Thiết kế một hệ sinh thái nhân tạo",
+     "summary": "Thiết kế, xây dựng và theo dõi mô hình hệ sinh thái bể nuôi cá cảnh nhân tạo dựa trên các nguyên lí cân bằng sinh thái.",
+     "notes": [
+      {
+       "heading": "Nguyên lí và các bước thiết kế bể cá cảnh",
+       "points": [
+        "Một hệ sinh thái nhân tạo thu nhỏ (như bể thuỷ sinh nuôi cá cảnh) phải đảm bảo đầy đủ hai thành phần: **sinh cảnh** và **quần xã sinh vật**.",
+        "Sinh cảnh: nền đáy cát sỏi sạch đã rửa, nước sạch đã khử clo, cung cấp ánh sáng và máy sục khí oxygen hoà tan.",
+        "Thành phần sinh vật: **sinh vật sản xuất** (rong đuôi chó, bèo hoa dâu quang hợp nhả O2, hấp thu CO2 và muối khoáng), **sinh vật tiêu thụ** (cá bảy màu, cá vàng, cua, tôm ăn thức ăn vụn), **sinh vật dọn đáy** (ốc, tôm ăn cặn bã hữu cơ và rêu hại), **vi sinh vật phân giải** trong giá thể nền lọc.",
+        "Duy trì cân bằng: kiểm soát mật độ cá thích hợp, không cho ăn quá nhiều tránh thối rữa nước và định kì thay một phần nước để duy trì môi trường sống trong sạch."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Hệ sinh thái nhân tạo thu nhỏ",
+       "definition": "Mô hình sinh thái khép kín hoặc bán khép kín do con người thiết kế nhằm mô phỏng các mối tương tác tuần hoàn tự nhiên."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Trong mô hình bể cá cảnh nhân tạo, việc trồng thêm các cây rong đuôi chó mang lại lợi ích gì?",
+       "back": "Quang hợp giải phóng oxygen hoà tan cho cá hô hấp, hấp thu CO2 và muối khoáng dư thừa trong nước."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Khi thiết kế một bể cá thuỷ sinh kín để nuôi cá cảnh, việc cho ăn thức ăn công nghiệp quá nhiều mà không có sinh vật dọn đáy sẽ trực tiếp dẫn đến hậu quả gì?",
+       "options": [
+        "Thức ăn thừa phân huỷ làm cạn kiệt nguồn oxygen hoà tan và gây độc cho cá",
+        "Cây thuỷ sinh quang hợp quá mức làm nước bị bão hoà khí carbon dioxide",
+        "Nước bể cá tự động chuyển hoá thành nước cứng làm tăng áp suất thẩm thấu",
+        "Toàn bộ cá trong bể biến dị kiểu hình chuyển thành màu đen sẫm"
+       ],
+       "answer": 0,
+       "explanation": "Thức ăn thừa bị vi sinh vật phân huỷ yếm khí làm hao hụt lượng O2 hoà tan và sinh ra các khí độc như H2S, NH3 làm cá chết."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Một bể nuôi cá cảnh nhân tạo có thể tồn tại ổn định vĩnh viễn mà hoàn toàn không cần con người bổ sung năng lượng thức ăn từ bên ngoài.",
+       "answer": false,
+       "explanation": "Hệ sinh thái bể cá nhân tạo rất nhỏ và kém ổn định, bắt buộc con người phải cấp thức ăn và thay nước thường xuyên."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "chuong-08-sinh-thai-hoc-phuc-hoi-bao-ton-va-phat-trien-ben-vung",
+   "title": "Chương VIII. Sinh thái học phục hồi, bảo tồn và phát triển bền vững",
+   "topics": [
+    {
+     "id": "bai-33-sinh-thai-hoc-phuc-hoi-va-bao-ton-da-dang",
+     "title": "Bài 33. Sinh thái học phục hồi và bảo tồn đa dạng",
+     "summary": "Nguyên lí sinh thái học phục hồi, các phương pháp phục hồi hệ sinh thái (cải tạo sinh học, gia tăng sinh học) và các biện pháp bảo tồn nguyên vị, chuyển vị.",
+     "notes": [
+      {
+       "heading": "Khái niệm và lí do cần phục hồi hệ sinh thái",
+       "points": [
+        "**Sinh thái học phục hồi** là khoa học ứng dụng nguyên lí sinh thái học để đưa các hệ sinh thái đã bị suy thoái về trạng thái gần nhất với trạng thái tự nhiên của nó (việc hồi phục 100% nguyên trạng ban đầu là bất khả thi).",
+        "Hệ sinh thái cung cấp cho con người **giá trị trực tiếp** (lương thực, thực phẩm, dược liệu, gỗ, nguồn gene quý) và **giá trị gián tiếp** hay dịch vụ sinh thái (cải tạo đất, điều hoà và lọc nước, phân giải chất thải, hấp thụ khí nhà kính, giảm nhẹ thiên tai).",
+        "Hiện nay có tới 14/18 dịch vụ sinh thái toàn cầu đang suy giảm và tốc độ tuyệt chủng loài cao hơn 1 000 đến 10 000 lần so với tốc độ tự nhiên do hoạt động của con người."
+       ]
+      },
+      {
+       "heading": "Các phương pháp phục hồi hệ sinh thái",
+       "points": [
+        "**Cải tạo sinh học** (bioremediation): sử dụng sinh vật để loại bỏ các yếu tố gây hại hoặc giải độc môi trường (ví dụ vi sinh vật *Shewanella oneidensis* hấp thụ uranium trong đất; thả bèo hoa dâu hấp thụ kim loại nặng trong nước ao; phá bỏ cây mai dương xâm hại để bảo vệ thảm thực vật bản địa).",
+        "**Gia tăng sinh học** (biological augmentation): bổ sung các thành phần sinh vật hoặc vật liệu cần thiết vào hệ sinh thái để đẩy nhanh tốc độ phục hồi (ví dụ bổ sung vi sinh vật cố định đạm, trồng cây họ Đậu làm giàu mùn; trồng cây tiên phong như cây mắm *Avicennia sp.* trên bãi bồi cửa sông để phục hồi rừng ngập mặn; tạo giá thể nuôi cấy phục hồi rạn san hô ở Vịnh Hạ Long)."
+       ]
+      },
+      {
+       "heading": "Biện pháp bảo tồn đa dạng sinh vật",
+       "points": [
+        "**Bảo tồn nguyên vị** (in-situ, bảo tồn tại chỗ): bảo tồn loài ngay tại sinh cảnh sống tự nhiên của chúng thông qua thành lập các vườn quốc gia, khu bảo tồn thiên nhiên và hành lang đa dạng sinh học (ví dụ bảo tồn loài voọc Chà vá chân nâu *Pygathrix nemaeus* tại bán đảo Sơn Trà, Đà Nẵng và rừng nguyên sinh từ Nghệ An đến Kon Tum).",
+        "**Bảo tồn chuyển vị** (ex-situ, bảo tồn chuyển chỗ): bảo tồn bên ngoài nơi cư trú tự nhiên của loài gồm xây dựng vườn bách thảo, vườn thú, ngân hàng hạt giống, ngân hàng gene và các trung tâm cứu hộ động vật hoang dã (ví dụ Trung tâm Cứu hộ Gấu Việt Nam tại VQG Tam Đảo và VQG Bạch Mã chăm sóc gấu cứu hộ từ các trại nuôi lấy mật)."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Bảo tồn nguyên vị (In-situ)",
+       "definition": "Biện pháp bảo vệ và duy trì các loài sinh vật nguy cấp ngay tại nơi cư trú tự nhiên của chúng."
+      },
+      {
+       "term": "Bảo tồn chuyển vị (Ex-situ)",
+       "definition": "Biện pháp bảo tồn các loài sinh vật bên ngoài môi trường sống tự nhiên như vườn thực vật, vườn thú hoặc ngân hàng gene."
+      },
+      {
+       "term": "Cải tạo sinh học (Bioremediation)",
+       "definition": "Phương pháp sử dụng sinh vật sống để loại bỏ, phân giải hoặc giải độc các chất ô nhiễm trong môi trường."
+      },
+      {
+       "term": "Gia tăng sinh học (Biological augmentation)",
+       "definition": "Phương pháp bổ sung các sinh vật hữu ích vào hệ sinh thái suy thoái nhằm thúc đẩy tốc độ hồi phục dưỡng chất."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Vườn thú và ngân hàng hạt giống quốc gia là ví dụ của hình thức bảo tồn nào?",
+       "back": "Bảo tồn chuyển vị (ex-situ conservation)."
+      },
+      {
+       "front": "Phân biệt cải tạo sinh học (bioremediation) và gia tăng sinh học (biological augmentation).",
+       "back": "Cải tạo sinh học dùng sinh vật giải độc chất ô nhiễm; gia tăng sinh học bổ sung sinh vật có ích làm giàu dưỡng chất."
+      },
+      {
+       "front": "Loài linh trưởng đặc hữu quý hiếm nào của Việt Nam đang được bảo tồn nguyên vị trọng điểm tại bán đảo Sơn Trà, Đà Nẵng?",
+       "back": "Voọc Chà vá chân nâu (Pygathrix nemaeus)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Hoạt động bảo vệ loài rùa biển bằng cách thành lập khu bảo tồn biển Cù Lao Chàm để bảo vệ bãi đẻ tự nhiên của chúng thuộc hình thức bảo tồn nào?",
+       "options": [
+        "Bảo tồn nguyên vị (tại chỗ)",
+        "Bảo tồn chuyển vị (ngoại vi)",
+        "Tăng cường sinh học nhân tạo",
+        "Xử lí sinh học môi trường"
+       ],
+       "answer": 0,
+       "explanation": "Bảo vệ sinh vật ngay tại môi trường sống tự nhiên của chúng là bảo tồn nguyên vị (in-situ)."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Phương pháp xử lí sinh học (bioremediation) ứng dụng các loài thực vật và vi khuẩn có khả năng hấp thụ kim loại nặng để làm sạch đất và nguồn nước ô nhiễm.",
+       "answer": true,
+       "explanation": "Đúng, thực vật và vi sinh vật được ứng dụng rộng rãi để hấp thu hoặc chuyển hoá chất độc hại trong đất ô nhiễm."
+      },
+      {
+       "type": "short",
+       "prompt": "Tên chi thực vật tiên phong ngập mặn thường được trồng trên các bãi bồi cửa sông để phục hồi rừng ngập mặn là gì?",
+       "answer": "Cây mắm",
+       "explanation": "Cây mắm (Avicennia sp.) là loài cây tiên phong có hệ rễ thở phát triển mạnh trên bãi bồi ven biển."
+      }
+     ]
+    },
+    {
+     "id": "bai-34-phat-trien-ben-vung",
+     "title": "Bài 34. Phát triển bền vững",
+     "summary": "Khái niệm phát triển bền vững, mối tương tác giữa kinh tế – xã hội – môi trường, nông nghiệp bền vững, các nhóm giải pháp và vai trò chính sách dân số.",
+     "notes": [
+      {
+       "heading": "Khái niệm và các trụ cột của phát triển bền vững",
+       "points": [
+        "Theo Liên hợp quốc (1987), **phát triển bền vững** là sự phát triển nhằm đáp ứng các nhu cầu của thế hệ hiện tại mà không làm tổn hại đến khả năng đáp ứng nhu cầu của các thế hệ tương lai.",
+        "Ba trụ cột gắn kết chặt chẽ của phát triển bền vững gồm: **kinh tế bền vững**, **xã hội bền vững** và **môi trường bền vững**; nếu ưu tiên một lĩnh vực phát triển nhanh hơn thì hệ thống sẽ mất cân bằng.",
+        "17 mục tiêu phát triển bền vững toàn cầu (**SDGs**) do Liên hợp quốc phát động cho giai đoạn 2015 - 2030."
+       ]
+      },
+      {
+       "heading": "Nông nghiệp bền vững và bảo vệ tài nguyên",
+       "points": [
+        "**Nông nghiệp bền vững**: phương thức canh tác đáp ứng nhu cầu lương thực mà tôn trọng môi trường, duy trì độ phì nhiêu đất, bảo vệ nguồn nước, hướng tới công bằng xã hội (áp dụng VietGAP, GlobalGAP, nông nghiệp tuần hoàn).",
+        "Các nhóm giải pháp hạn chế ô nhiễm môi trường: nhóm **giáo dục và khuyến khích** (nhãn sinh thái, VietGAP, Green Star); nhóm **ngăn ngừa** (Luật Bảo vệ môi trường, đánh giá tác động môi trường ĐTM trước khi xây dựng); nhóm **khắc phục** (xử lí vùng tồn lưu thuốc trừ sâu, trồng rừng phòng hộ thượng nguồn).",
+        "Phân loại tài nguyên thiên nhiên: tài nguyên **có khả năng tái tạo** (sinh vật, nước, đất; ví dụ gây trồng và bảo tồn sâm Ngọc Linh *Panax vietnamensis* tại Kon Tum, Quảng Nam); tài nguyên **không tái tạo** (khoáng sản, dầu mỏ); **dòng tài nguyên** năng lượng vô tận (năng lượng gió tại nhà máy điện gió Tuy Phong - Bình Thuận, năng lượng mặt trời)."
+       ]
+      },
+      {
+       "heading": "Chính sách dân số và giáo dục môi trường",
+       "points": [
+        "Quy mô dân số gia tăng quá nhanh tạo áp lực kiệt quệ tài nguyên và ô nhiễm môi trường; mục tiêu dân số bền vững là duy trì **tỉ lệ sinh thay thế** (trung bình khoảng 2,1 con/phụ nữ).",
+        "**Giáo dục môi trường** hướng tới 3 mục tiêu: nâng cao hiểu biết về môi trường, xây dựng thái độ và trách nhiệm đúng đắn, rèn luyện năng lực hành động bảo vệ môi trường.",
+        "Hoạt động thiết thực của học sinh THPT: tiết kiệm điện nước, hạn chế rác thải nhựa dùng một lần, phân loại rác tại nguồn, đi xe đạp hoặc phương tiện công cộng, tham gia trồng và chăm sóc cây xanh."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Phát triển bền vững",
+       "definition": "Mô hình phát triển kết hợp hài hoà giữa tăng trưởng kinh tế, công bằng xã hội và bảo vệ tài nguyên môi trường lâu dài."
+      },
+      {
+       "term": "Dấu chân sinh thái (Ecological Footprint)",
+       "definition": "Chỉ số đo lường diện tích sinh thái cần thiết để cung ứng tài nguyên tiêu thụ và xử lí chất thải của một cá nhân hay cộng đồng."
+      },
+      {
+       "term": "Nông nghiệp tuần hoàn",
+       "definition": "Mô hình sản xuất nông nghiệp khép kín trong đó chất thải của quá trình này trở thành nguyên liệu đầu vào của quá trình khác."
+      },
+      {
+       "term": "Tỉ lệ sinh thay thế",
+       "definition": "Mức sinh mà trung bình một phụ nữ sinh đủ số con để thay thế mình thực hiện chức năng sinh sản (khoảng 2,1 con/phụ nữ)."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Ba trụ cột chính của mô hình phát triển bền vững toàn cầu là gì?",
+       "back": "Kinh tế bền vững, xã hội công bằng và môi trường sinh thái được bảo vệ."
+      },
+      {
+       "front": "Chỉ số dấu chân sinh thái phản ánh điều gì về mức độ tác động của con người lên sinh quyển?",
+       "back": "Đo lường mức độ tiêu dùng tài nguyên thiên nhiên và lượng chất thải của con người so với sức tải sinh học của Trái Đất."
+      },
+      {
+       "front": "Mức tỉ lệ sinh thay thế lý tưởng ở hầu hết các quốc gia để duy trì quy mô dân số ổn định là bao nhiêu?",
+       "back": "Khoảng 2,1 con trên một phụ nữ trong độ tuổi sinh đẻ."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Hành động nào sau đây của con người góp phần trực tiếp và hiệu quả nhất vào mục tiêu giảm dấu chân sinh thái của cá nhân?",
+       "options": [
+        "Giảm tiêu thụ năng lượng hoá thạch, hạn chế đồ nhựa dùng một lần và phân loại rác thải",
+        "Gia tăng sử dụng túi nilon và đồ nhựa tiện dụng trong sinh hoạt hàng ngày",
+        "Tận dụng tối đa phương tiện cơ giới cá nhân chạy bằng xăng dầu để đi lại",
+        "Tăng cường lạm dụng phân bón hoá học để thúc đẩy cây trồng sinh trưởng cấp tốc"
+       ],
+       "answer": 0,
+       "explanation": "Tiết kiệm năng lượng và hạn chế rác thải nhựa giúp giảm thiểu diện tích sinh thái cần để xử lí chất thải, thu nhỏ dấu chân sinh thái."
+      },
+      {
+       "type": "cloze",
+       "prompt": "Mô hình sản xuất nông nghiệp trong đó toàn bộ phụ phẩm rơm rạ, phân gia súc được tái chế thành phân bón hữu cơ khép kín được gọi là nông nghiệp ____.",
+       "answers": [
+        "tuần hoàn"
+       ],
+       "explanation": "Nông nghiệp tuần hoàn là chu trình khép kín tái sử dụng phụ phẩm làm đầu vào."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Nguồn năng lượng gió và năng lượng ánh sáng mặt trời thuộc nhóm tài nguyên thiên nhiên có thể bị cạn kiệt nếu khai thác quá mức.",
+       "answer": false,
+       "explanation": "Gió và ánh sáng mặt trời thuộc nhóm dòng tài nguyên vô tận (tài nguyên vĩnh cửu), không bị cạn kiệt khi khai thác."
+      }
+     ]
+    },
+    {
+     "id": "bai-35-du-an-tim-hieu-thuc-trang-bao-ton-sinh-thai",
+     "title": "Bài 35. Dự án: Tìm hiểu thực trạng bảo tồn sinh thái tại địa phương và đề xuất giải pháp bảo tồn",
+     "summary": "Quy trình thực hiện dự án điều tra thực trạng một hệ sinh thái tại địa phương, phân tích nguyên nhân suy thoái và đề xuất giải pháp bảo vệ.",
+     "notes": [
+      {
+       "heading": "Quy trình thực hiện dự án bảo tồn sinh thái địa phương",
+       "points": [
+        "Bước 1: Lập kế hoạch dự án: lựa chọn đối tượng khảo sát (rừng phòng hộ, sông hồ, khu đất ngập nước, rạn san hô ven biển tại địa phương), xác định mục tiêu và phân công nhiệm vụ nhóm (Bảng 35.1).",
+        "Ví dụ điểm sáng bảo tồn: Vườn quốc gia Xuân Thuỷ (Nam Định) - khu Ramsar đầu tiên của Việt Nam (năm 1989), phục hồi rừng ngập mặn bảo tồn hơn 200 loài chim di trú quý hiếm.",
+        "Bước 2: Thu thập thông tin thực địa: quan sát hiện trạng sinh cảnh, chụp ảnh tư liệu, phỏng vấn người dân và chính quyền địa phương về mức độ suy thoái môi trường.",
+        "Bước 3: Xử lí thông tin và phân tích nguyên nhân: phân tích nguyên nhân trực tiếp (xả nước thải, săn bắt trộm, phá rừng) và gián tiếp (áp lực gia tăng dân số, ý thức kém).",
+        "Bước 4: Báo cáo đánh giá và đề xuất giải pháp: xây dựng báo cáo (trình chiếu, poster hoặc video), đề xuất giải pháp khả thi và đánh giá kết quả theo tiêu chí (Bảng 35.2)."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Dự án bảo tồn sinh thái",
+       "definition": "Kế hoạch nghiên cứu thực nghiệm nhằm khảo sát, đánh giá hiện trạng và đề xuất hành động bảo vệ một hệ sinh thái cụ thể."
+      },
+      {
+       "term": "Khu Ramsar",
+       "definition": "Vùng đất ngập nước có tầm quan trọng quốc tế theo Công ước Ramsar về bảo tồn và sử dụng bền vững đất ngập nước."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Khu Ramsar đầu tiên của Việt Nam được quốc tế công nhận là khu bảo tồn đất ngập nước nào?",
+       "back": "Vườn quốc gia Xuân Thuỷ (tỉnh Nam Định), được công nhận là vùng Ramsar năm 1989."
+      },
+      {
+       "front": "Ba tiêu chí cơ bản để đánh giá sản phẩm của một dự án tìm hiểu bảo tồn sinh thái là gì?",
+       "back": "Độ đa dạng thông tin, tính khả thi của giải pháp đề xuất và hình thức, nội dung báo cáo."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Khi tiến hành dự án điều tra thực trạng suy thoái môi trường nước của một con sông ở địa phương, bước đầu tiên quan trọng nhất nhóm học sinh cần thực hiện là gì?",
+       "options": [
+        "Xây dựng kế hoạch nghiên cứu, xác định mục tiêu và phân công nhiệm vụ cụ thể cho các thành viên",
+        "Tiến hành vận động người dân đóng tiền để mua sắm máy lọc nước quy mô lớn",
+        "Viết ngay báo cáo tổng kết kết luận nguyên nhân ô nhiễm trước khi đi thực địa",
+        "Thả hàng loạt các loài cá ngoại lai vào lòng sông để lọc sạch tạp chất hữu cơ"
+       ],
+       "answer": 0,
+       "explanation": "Lập kế hoạch chi tiết, xác định mục tiêu và phân công nhiệm vụ là bước đầu tiên tiên quyết trong mọi dự án khoa học."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Việc đề xuất các giải pháp bảo tồn hệ sinh thái địa phương cần dựa trên các bằng chứng khoa học thực địa và tính khả thi trong điều kiện kinh tế - xã hội tại chỗ.",
+       "answer": true,
+       "explanation": "Đúng, các giải pháp đề xuất phải có cơ sở thực tiễn và tính khả thi mới có thể áp dụng hiệu quả vào cuộc sống."
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -80,6 +80,31 @@
       },
       "file": "subjects/chem-12.json",
       "added": "2026-10-20"
+    },
+    {
+      "id": "bio-12",
+      "title": "Sinh học 12",
+      "category": "Biology",
+      "level": "High school",
+      "lang": "vi",
+      "description": "Sinh học 12 Kết nối tri thức - Di truyền phân tử, Di truyền NST, Mở rộng học thuyết di truyền, Di truyền quần thể, Tiến hoá, Sinh thái học quần thể, Quần xã và Hệ sinh thái.",
+      "tags": [
+        "sinh-hoc",
+        "lop-12",
+        "di-truyen",
+        "tien-hoa",
+        "sinh-thai"
+      ],
+      "rev": 2,
+      "bytes": 168463,
+      "sha256": "5f2fe45f52926f4f64a0066f433e5134139e99d9c1aadae0ccbba4ede0d25857",
+      "counts": {
+        "topics": 35,
+        "cards": 71,
+        "questions": 78
+      },
+      "file": "subjects/bio-12.json",
+      "added": "2026-10-20"
     }
   ]
 }
