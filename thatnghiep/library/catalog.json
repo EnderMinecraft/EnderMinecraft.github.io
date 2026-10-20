@@ -105,6 +105,61 @@
       },
       "file": "subjects/bio-12.json",
       "added": "2026-10-20"
+    },
+    {
+      "id": "math-12-tap2",
+      "title": "Toán 12 - Tập 2",
+      "category": "Mathematics",
+      "level": "High school",
+      "lang": "vi",
+      "description": "Toán 12 Tập 2 Kết nối tri thức - Nguyên hàm và tích phân, Phương pháp toạ độ trong không gian, Xác suất có điều kiện và công thức Bayes.",
+      "tags": [
+        "toan",
+        "lop-12",
+        "tap-2",
+        "nguyen-ham",
+        "tich-phan",
+        "toa-do-khong-gian",
+        "xac-suat"
+      ],
+      "rev": 1,
+      "bytes": 47177,
+      "sha256": "c856e794ef64777f7271566fcba08992ed2a3f3d15d3340eb4e6862ed56f8ca7",
+      "counts": {
+        "topics": 13,
+        "cards": 24,
+        "questions": 29
+      },
+      "file": "subjects/math-12-tap2.json",
+      "added": "2026-10-20"
+    },
+    {
+      "id": "hist-12",
+      "title": "Lịch sử 12",
+      "category": "History",
+      "level": "High school",
+      "lang": "vi",
+      "description": "Lịch sử 12 Kết nối tri thức - Thế giới trong và sau Chiến tranh lạnh, ASEAN, Lịch sử Việt Nam (1945 đến nay), Đổi mới, Đối ngoại và Hồ Chí Minh.",
+      "tags": [
+        "lich-su",
+        "lop-12",
+        "chien-tranh-lanh",
+        "asean",
+        "lich-su-viet-nam",
+        "doi-moi",
+        "doi-ngoai",
+        "ho-chi-minh"
+      ],
+      "rev": 1,
+      "bytes": 99218,
+      "sha256": "60c5964928f9b3fee46416125951954109c688fc2680f1786355b27aa7a4c66c",
+      "counts": {
+        "topics": 17,
+        "cards": 35,
+        "questions": 35
+      },
+      "file": "subjects/hist-12.json",
+      "added": "2026-10-20"
     }
   ]
 }

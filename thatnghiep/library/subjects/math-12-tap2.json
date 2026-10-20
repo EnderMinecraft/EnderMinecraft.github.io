@@ -1,0 +1,878 @@
+{
+ "id": "math-12-tap2",
+ "title": "Toán 12 - Tập 2",
+ "subject": "Toán học",
+ "level": "Lớp 12",
+ "language": "vi",
+ "topics": [],
+ "packs": [
+  {
+   "id": "chuong-04-nguyen-ham-va-tich-phan",
+   "title": "Chương IV. Nguyên hàm và tích phân",
+   "topics": [
+    {
+     "id": "bai-11-nguyen-ham",
+     "title": "Bài 11. Nguyên hàm",
+     "summary": "Khái niệm nguyên hàm, họ nguyên hàm, các tính chất cơ bản và bảng nguyên hàm của các hàm số sơ cấp thường gặp.",
+     "notes": [
+      {
+       "heading": "Khái niệm nguyên hàm và họ nguyên hàm",
+       "points": [
+        "Cho hàm số $f(x)$ xác định trên một khoảng $K$. Hàm số $F(x)$ được gọi là **nguyên hàm** của $f(x)$ trên $K$ nếu $F'(x) = f(x)$ với mọi $x \\in K$.",
+        "Nếu $F(x)$ là một nguyên hàm của $f(x)$ trên $K$ thì với mỗi hằng số $C$, hàm số $F(x) + C$ cũng là một nguyên hàm của $f(x)$ trên $K$.",
+        "Mọi nguyên hàm của $f(x)$ trên $K$ đều có dạng $F(x) + C$ ($C \\in \\mathbb{R}$), gọi là **họ nguyên hàm** của $f(x)$, kí hiệu $\\int f(x) dx = F(x) + C$.",
+        "Biểu thức $f(x)dx$ được gọi là **vi phân** của nguyên hàm $F(x)$, kí hiệu $dF(x) = F'(x)dx = f(x)dx$."
+       ]
+      },
+      {
+       "heading": "Tính chất cơ bản của nguyên hàm",
+       "points": [
+        "$\\int k f(x) dx = k \\int f(x) dx$ với $k$ là hằng số khác $0$.",
+        "$\\int [f(x) + g(x)] dx = \\int f(x) dx + \\int g(x) dx$.",
+        "$\\int [f(x) - g(x)] dx = \\int f(x) dx - \\int g(x) dx$."
+       ]
+      },
+      {
+       "heading": "Bảng nguyên hàm của một số hàm số sơ cấp",
+       "points": [
+        "Nguyên hàm hàm luỹ thừa: $\\int 0 dx = C$; $\\int 1 dx = x + C$; $\\int x^\\alpha dx = \\frac{x^{\\alpha+1}}{\\alpha+1} + C$ (với $\\alpha \\ne -1$); $\\int \\frac{1}{x} dx = \\ln|x| + C$ ($x \\ne 0$).",
+        "Nguyên hàm hàm số mũ: $\\int e^x dx = e^x + C$; $\\int a^x dx = \\frac{a^x}{\\ln a} + C$ ($0 < a \\ne 1$).",
+        "Nguyên hàm hàm lượng giác: $\\int \\cos x dx = \\sin x + C$; $\\int \\sin x dx = -\\cos x + C$; $\\int \\frac{1}{\\cos^2 x} dx = \\tan x + C$; $\\int \\frac{1}{\\sin^2 x} dx = -\\cot x + C$."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Nguyên hàm",
+       "definition": "Hàm số $F(x)$ có đạo hàm bằng $f(x)$ trên một khoảng xác định $K$."
+      },
+      {
+       "term": "Họ nguyên hàm",
+       "definition": "Tập hợp tất cả các nguyên hàm có dạng $F(x) + C$ của hàm số $f(x)$ trên khoảng xác định."
+      },
+      {
+       "term": "Vi phân",
+       "definition": "Biểu thức $dF(x) = f(x)dx$ thể hiện biến thiên tuyến tính của nguyên hàm $F(x)$."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Công thức nguyên hàm của hàm số $f(x) = \\frac{1}{x}$ trên tập xác định là gì?",
+       "back": "$\\int \\frac{1}{x} dx = \\ln|x| + C$."
+      },
+      {
+       "front": "Họ nguyên hàm của hàm số $f(x) = \\cos x$ là gì?",
+       "back": "$\\int \\cos x dx = \\sin x + C$."
+      },
+      {
+       "front": "Nguyên hàm của hàm số mũ $f(x) = a^x$ ($0 < a \\ne 1$) được tính như thế nào?",
+       "back": "$\\int a^x dx = \\frac{a^x}{\\ln a} + C$."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Họ tất cả các nguyên hàm của hàm số $f(x) = 3x^2 - 2x + 1$ trên $\\mathbb{R}$ là biểu thức nào sau đây?",
+       "options": [
+        "$x^3 - x^2 + x + C$",
+        "$3x^3 - 2x^2 + x + C$",
+        "$6x - 2 + C$",
+        "$x^3 - x^2 + C$"
+       ],
+       "answer": 0,
+       "explanation": "Ta có $\\int (3x^2 - 2x + 1) dx = 3 \\cdot \\frac{x^3}{3} - 2 \\cdot \\frac{x^2}{2} + x + C = x^3 - x^2 + x + C$."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Biểu thức $\\int \\sin x dx = \\cos x + C$ là một khẳng định đúng trong giải tích toán học.",
+       "answer": false,
+       "explanation": "Khẳng định sai vì đạo hàm của $\\cos x$ là $-\\sin x$, do đó $\\int \\sin x dx = -\\cos x + C$."
+      },
+      {
+       "type": "short",
+       "prompt": "Tìm một nguyên hàm $F(x)$ của hàm số $f(x) = 2x + 4$ thoả mãn điều kiện $F(1) = 10$. Biểu thức của $F(x)$ là gì?",
+       "answer": "x^2 + 4x + 5",
+       "explanation": "$F(x) = x^2 + 4x + C$. Vì $F(1) = 1 + 4 + C = 10 \\Rightarrow C = 5$. Vậy $F(x) = x^2 + 4x + 5$."
+      },
+      {
+       "type": "cloze",
+       "prompt": "Nếu hàm số $F(x)$ là một nguyên hàm của $f(x)$ trên $K$ thì với mọi số thực $C$, hàm số $F(x) + C$ được gọi là ____ của hàm số $f(x)$.",
+       "answers": [
+        "họ các nguyên hàm",
+        "họ nguyên hàm"
+       ],
+       "explanation": "Tập hợp $F(x) + C$ biểu diễn toàn bộ họ các nguyên hàm của $f(x)$."
+      }
+     ]
+    },
+    {
+     "id": "bai-12-tich-phan",
+     "title": "Bài 12. Tích phân",
+     "summary": "Định nghĩa tích phân, ý nghĩa hình học và cơ học, các tính chất cơ bản và công thức tính tích phân của các hàm số liên tục.",
+     "notes": [
+      {
+       "heading": "Định nghĩa và ý nghĩa hình học của tích phân",
+       "points": [
+        "Cho $f(x)$ là hàm số liên tục trên đoạn $[a; b]$. Nếu $F(x)$ là một nguyên hàm của $f(x)$ trên $[a; b]$ thì hiệu số $F(b) - F(a)$ được gọi là **tích phân** từ $a$ đến $b$ của $f(x)$, kí hiệu $\\int_a^b f(x) dx = F(x) \\big|_a^b = F(b) - F(a)$.",
+        "Tích phân chỉ phụ thuộc vào hàm số $f$ và các cận $a, b$ mà **không phụ thuộc vào biến số**: $\\int_a^b f(x)dx = \\int_a^b f(t)dt = \\int_a^b f(u)du$.",
+        "Ý nghĩa hình học: nếu $f(x) \\ge 0$ liên tục trên $[a; b]$ thì tích phân $\\int_a^b f(x) dx$ chính là diện tích $S$ của **hình thang cong** giới hạn bởi đồ thị $y = f(x)$, trục hoành $Ox$ và hai đường thẳng $x = a, x = b$."
+       ]
+      },
+      {
+       "heading": "Các tính chất của tích phân",
+       "points": [
+        "Quy ước: $\\int_a^a f(x) dx = 0$; $\\int_a^b f(x) dx = -\\int_b^a f(x) dx$.",
+        "Đưa hằng số ra ngoài: $\\int_a^b k f(x) dx = k \\int_a^b f(x) dx$ ($k$ là hằng số).",
+        "Tích phân của tổng và hiệu: $\\int_a^b [f(x) \\pm g(x)] dx = \\int_a^b f(x) dx \\pm \\int_a^b g(x) dx$.",
+        "Tách đoạn tích phân: $\\int_a^b f(x) dx = \\int_a^c f(x) dx + \\int_c^b f(x) dx$ với $a < c < b$.",
+        "**Giá trị trung bình** của hàm số liên tục $f(x)$ trên $[a; b]$ là $\\bar{y} = \\frac{1}{b - a} \\int_a^b f(x) dx$."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Tích phân",
+       "definition": "Hiệu số $F(b) - F(a)$ giữa hai giá trị của nguyên hàm tại hai đầu mút của đoạn $[a; b]$."
+      },
+      {
+       "term": "Hình thang cong",
+       "definition": "Hình phẳng giới hạn bởi đồ thị hàm số liên tục không âm $y = f(x)$, trục hoành và hai đường thẳng $x = a, x = b$."
+      },
+      {
+       "term": "Giá trị trung bình của hàm số",
+       "definition": "Đại lượng bằng $\\frac{1}{b-a} \\int_a^b f(x)dx$ đại diện cho giá trị trung bình của $f(x)$ trên đoạn $[a; b]$."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Công thức Newton - Leibniz tính tích phân là gì?",
+       "back": "$\\int_a^b f(x) dx = F(b) - F(a)$ với $F(x)$ là một nguyên hàm bất kì của $f(x)$."
+      },
+      {
+       "front": "Nếu biết $\\int_0^2 f(x) dx = 3$ và $\\int_2^5 f(x) dx = 7$ thì $\\int_0^5 f(x) dx$ bằng bao nhiêu?",
+       "back": "Bằng $3 + 7 = 10$ (tính chất chèn cận tích phân)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Giá trị của tích phân $I = \\int_0^1 (3x^2 + 2x) dx$ bằng bao nhiêu?",
+       "options": [
+        "2",
+        "5",
+        "1",
+        "3"
+       ],
+       "answer": 0,
+       "explanation": "Ta có $\\int_0^1 (3x^2 + 2x) dx = (x^3 + x^2) \\big|_0^1 = (1 + 1) - 0 = 2$."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Giá trị của tích phân phụ thuộc vào kí hiệu biến số lấy tích phân, chẳng hạn $\\int_1^2 x^2 dx$ khác với $\\int_1^2 t^2 dt$.",
+       "answer": false,
+       "explanation": "Tích phân xác định chỉ phụ thuộc vào quy tắc hàm $f$ và các cận $a, b$, hoàn toàn không phụ thuộc vào tên biến."
+      },
+      {
+       "type": "short",
+       "prompt": "Tính giá trị tích phân $J = \\int_0^{\\frac{\\pi}{2}} \\cos x dx$. Kết quả là bao nhiêu?",
+       "answer": "1",
+       "explanation": "$J = \\sin x \\big|_0^{\\frac{\\pi}{2}} = \\sin(\\frac{\\pi}{2}) - \\sin(0) = 1 - 0 = 1$."
+      }
+     ]
+    },
+    {
+     "id": "bai-13-ung-dung-hinh-hoc-cua-tich-phan",
+     "title": "Bài 13. Ứng dụng hình học của tích phân",
+     "summary": "Ứng dụng tích phân tính diện tích hình phẳng, thể tích vật thể và thể tích khối tròn xoay quanh trục toạ độ.",
+     "notes": [
+      {
+       "heading": "Tính diện tích hình phẳng",
+       "points": [
+        "Hình phẳng giới hạn bởi đồ thị $y = f(x)$, trục hoành $Ox$ và hai đường thẳng $x = a, x = b$ có diện tích: **$S = \\int_a^b |f(x)| dx$**.",
+        "Hình phẳng giới hạn bởi hai đồ thị hàm số $y = f(x)$, $y = g(x)$ và hai đường thẳng $x = a, x = b$ có diện tích: **$S = \\int_a^b |f(x) - g(x)| dx$**.",
+        "Nếu hiệu $f(x) - g(x)$ không đổi dấu trên từng khoảng con giữa các nghiệm thì có thể bỏ dấu giá trị tuyệt đối ra ngoài tích phân từng khoảng."
+       ]
+      },
+      {
+       "heading": "Tính thể tích vật thể và thể tích khối tròn xoay",
+       "points": [
+        "Thể tích vật thể giới hạn bởi hai mặt phẳng $x = a, x = b$: thiết diện vuông góc với trục $Ox$ tại điểm có hoành độ $x$ ($a \\le x \\le b$) có diện tích $S(x)$ thì thể tích vật thể là **$V = \\int_a^b S(x) dx$**.",
+        "Thể tích **khối tròn xoay** tạo thành khi quay hình phẳng giới hạn bởi đồ thị $y = f(x)$ liên tục, trục $Ox$ và hai đường thẳng $x = a, x = b$ quanh trục $Ox$ là: **$V = \\pi \\int_a^b f^2(x) dx$**."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Khối tròn xoay",
+       "definition": "Hình thể tích trong không gian sinh ra khi quay một hình phẳng quanh một trục cố định trong mặt phẳng đó."
+      },
+      {
+       "term": "Diện tích thiết diện S(x)",
+       "definition": "Diện tích mặt cắt của vật thể khi bị cắt bởi mặt phẳng vuông góc với trục toạ độ tại điểm có toạ độ x."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Công thức tính thể tích khối tròn xoay sinh ra khi quay hình phẳng giới hạn bởi $y = f(x)$, trục $Ox$, $x = a, x = b$ quanh trục $Ox$ là gì?",
+       "back": "$V = \\pi \\int_a^b f^2(x) dx$."
+      },
+      {
+       "front": "Công thức tính diện tích hình phẳng giới hạn bởi hai đường $y = f(x)$, $y = g(x)$ từ $x = a$ đến $x = b$ là gì?",
+       "back": "$S = \\int_a^b |f(x) - g(x)| dx$."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Diện tích hình phẳng giới hạn bởi parabol $y = x^2$, trục hoành $Ox$ và hai đường thẳng $x = 0, x = 3$ bằng bao nhiêu?",
+       "options": [
+        "9",
+        "27",
+        "3",
+        "18"
+       ],
+       "answer": 0,
+       "explanation": "$S = \\int_0^3 x^2 dx = \\frac{x^3}{3} \\big|_0^3 = \\frac{27}{3} = 9$."
+      },
+      {
+       "type": "short",
+       "prompt": "Thể tích khối tròn xoay sinh ra khi quay hình phẳng giới hạn bởi đường thẳng $y = \\sqrt{x}$, trục $Ox$ và đường thẳng $x = 4$ quanh trục $Ox$ có dạng $k\\pi$. Giá trị của số nguyên $k$ là bao nhiêu?",
+       "answer": "8",
+       "explanation": "$V = \\pi \\int_0^4 (\\sqrt{x})^2 dx = \\pi \\int_0^4 x dx = \\pi \\cdot \\frac{x^2}{2} \\big|_0^4 = 8\\pi \\Rightarrow k = 8$."
+      }
+     ]
+    },
+    {
+     "id": "bai-tap-cuoi-chuong-4",
+     "title": "Bài tập cuối chương IV",
+     "summary": "Tổng hợp các bài toán trắc nghiệm và vận dụng thực tiễn về nguyên hàm, tích phân, tính quãng đường chuyển động và diện tích, thể tích.",
+     "notes": [
+      {
+       "heading": "Tổng kết phương pháp giải toán nguyên hàm và tích phân",
+       "points": [
+        "Biến đổi biểu thức dưới dấu tích phân đưa về dạng tổng, hiệu các hàm luỹ thừa, hàm lượng giác và hàm số mũ cơ bản.",
+        "Ứng dụng vật lí: vận tốc $v(t) = \\int a(t) dt$, quãng đường $s(t) = \\int v(t) dt$; độ biến thiên vận tốc $\\Delta v = \\int_{t_1}^{t_2} a(t) dt$.",
+        "Ứng dụng kinh tế: hàm tổng doanh thu $R(x) = \\int M_R(x) dx$, hàm chi phí $C(x) = \\int M_C(x) dx$ từ doanh thu biên và chi phí biên."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Doanh thu biên (Marginal Revenue)",
+       "definition": "Đạo hàm của hàm tổng doanh thu $R'(x)$, thể hiện sự biến thiên doanh thu khi bán thêm một đơn vị sản phẩm."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Một vật chuyển động với gia tốc $a(t) = 3t^2 + t$ (m/s2), vận tốc ban đầu $v(0) = 2$ m/s. Vận tốc của vật tại thời điểm $t = 2$ giây là bao nhiêu?",
+       "back": "$v(2) = 2^3 + \\frac{2^2}{2} + 2 = 12$ m/s."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Một vật chuyển động có vận tốc biến thiên theo thời gian với quy luật $v(t) = 3t^2 + 2t$ (m/s). Quãng đường vật đi được trong khoảng thời gian từ $t = 1$ s đến $t = 3$ s là bao nhiêu mét?",
+       "options": [
+        "34 m",
+        "26 m",
+        "30 m",
+        "40 m"
+       ],
+       "answer": 0,
+       "explanation": "$s = \\int_1^3 (3t^2 + 2t) dt = (t^3 + t^2) \\big|_1^3 = (27 + 9) - (1 + 1) = 36 - 2 = 34$ m."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Hàm số $F(x) = e^x - 3e^{-x}$ là một nguyên hàm của hàm số $f(x) = e^x + 3e^{-x}$ trên $\\mathbb{R}$.",
+       "answer": true,
+       "explanation": "Đạo hàm $F'(x) = (e^x - 3e^{-x})' = e^x - 3(-e^{-x}) = e^x + 3e^{-x} = f(x)$, do đó đúng."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "chuong-05-phuong-phap-toa-do-trong-khong-gian",
+   "title": "Chương V. Phương pháp toạ độ trong không gian",
+   "topics": [
+    {
+     "id": "bai-14-phuong-trinh-mat-phang",
+     "title": "Bài 14. Phương trình mặt phẳng",
+     "summary": "Vectơ pháp tuyến, tích có hướng của hai vectơ, phương trình tổng quát của mặt phẳng, phương trình đoạn chắn và công thức tính khoảng cách từ điểm đến mặt phẳng.",
+     "notes": [
+      {
+       "heading": "Vectơ pháp tuyến và cặp vectơ chỉ phương",
+       "points": [
+        "Vectơ $\\vec{n} \\ne \\vec{0}$ được gọi là **vectơ pháp tuyến** (VTPT) của mặt phẳng $(\\alpha)$ nếu giá của nó vuông góc với $(\\alpha)$.",
+        "Hai vectơ $\\vec{u}, \\vec{v}$ không cùng phương có giá song song hoặc nằm trong $(\\alpha)$ gọi là **cặp vectơ chỉ phương**.",
+        "Mặt phẳng nhận vectơ **tích có hướng** $\\vec{n} = [\\vec{u}, \\vec{v}] = (b c' - b' c; c a' - c' a; a b' - a' b)$ làm một vectơ pháp tuyến."
+       ]
+      },
+      {
+       "heading": "Phương trình tổng quát của mặt phẳng",
+       "points": [
+        "Phương trình dạng **$Ax + By + Cz + D = 0$** ($A^2 + B^2 + C^2 > 0$) được gọi là **phương trình tổng quát** của mặt phẳng, nhận $\\vec{n} = (A; B; C)$ làm VTPT.",
+        "Phương trình mặt phẳng đi qua điểm $M_0(x_0; y_0; z_0)$ nhận $\\vec{n} = (A; B; C)$ làm VTPT là: **$A(x - x_0) + B(y - y_0) + C(z - z_0) = 0$**.",
+        "Phương trình mặt phẳng theo đoạn chắn cắt các trục toạ độ tại $A(a; 0; 0), B(0; b; 0), C(0; 0; c)$ ($a, b, c \\ne 0$) là: **$\\frac{x}{a} + \\frac{y}{b} + \\frac{z}{c} = 1$**."
+       ]
+      },
+      {
+       "heading": "Điều kiện song song, vuông góc và khoảng cách",
+       "points": [
+        "Hai mặt phẳng $(\\alpha): Ax+By+Cz+D=0$ và $(\\beta): A'x+B'y+C'z+D'=0$ **vuông góc** khi và chỉ khi $\\vec{n}_{\\alpha} \\cdot \\vec{n}_{\\beta} = 0 \\Leftrightarrow AA' + BB' + CC' = 0$.",
+        "Hai mặt phẳng **song song** khi và chỉ khi $\\vec{n}_{\\alpha} = k \\vec{n}_{\\beta}$ và $D \\ne k D'$.",
+        "**Khoảng cách từ điểm $M(x_0; y_0; z_0)$ đến mặt phẳng $(P)$** là: **$d(M, (P)) = \\frac{|Ax_0 + By_0 + Cz_0 + D|}{\\sqrt{A^2 + B^2 + C^2}}$**."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Vectơ pháp tuyến",
+       "definition": "Vectơ khác vectơ - không có giá vuông góc với mặt phẳng."
+      },
+      {
+       "term": "Tích có hướng",
+       "definition": "Vectơ $[\\vec{u}, \\vec{v}]$ vuông góc với cả hai vectơ $\\vec{u}$ và $\\vec{v}$ trong không gian Oxyz."
+      },
+      {
+       "term": "Phương trình đoạn chắn",
+       "definition": "Phương trình mặt phẳng cắt ba trục toạ độ tại các điểm có toạ độ khác không: $\\frac{x}{a} + \\frac{y}{b} + \\frac{z}{c} = 1$."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Công thức tính khoảng cách từ điểm $M(x_0; y_0; z_0)$ đến mặt phẳng $(P): Ax + By + Cz + D = 0$ là gì?",
+       "back": "$d(M, (P)) = \\frac{|Ax_0 + By_0 + Cz_0 + D|}{\\sqrt{A^2 + B^2 + C^2}}$."
+      },
+      {
+       "front": "Viết phương trình mặt phẳng đi qua $A(2; 0; 0), B(0; -3; 0), C(0; 0; 4)$ theo phương trình đoạn chắn.",
+       "back": "$\\frac{x}{2} + \\frac{y}{-3} + \\frac{z}{4} = 1$."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Trong không gian $Oxyz$, mặt phẳng $(P): 2x - 3y + z - 5 = 0$ có một vectơ pháp tuyến là vectơ nào sau đây?",
+       "options": [
+        "$\\vec{n} = (2; -3; 1)$",
+        "$\\vec{n} = (2; 3; 1)$",
+        "$\\vec{n} = (2; -3; -5)$",
+        "$\\vec{n} = (-3; 1; -5)$"
+       ],
+       "answer": 0,
+       "explanation": "Toạ độ các hệ số của $x, y, z$ trong phương trình tổng quát cho toạ độ một VTPT: $\\vec{n} = (2; -3; 1)$."
+      },
+      {
+       "type": "short",
+       "prompt": "Tính khoảng cách từ gốc toạ độ $O(0; 0; 0)$ đến mặt phẳng $(P): 2x - 2y + z + 6 = 0$. Kết quả bằng bao nhiêu?",
+       "answer": "2",
+       "explanation": "$d(O, (P)) = \\frac{|2(0) - 2(0) + 0 + 6|}{\\sqrt{2^2 + (-2)^2 + 1^2}} = \\frac{6}{\\sqrt{9}} = 2$."
+      }
+     ]
+    },
+    {
+     "id": "bai-15-phuong-trinh-duong-thang-trong-khong-gian",
+     "title": "Bài 15. Phương trình đường thẳng trong không gian",
+     "summary": "Vectơ chỉ phương, phương trình tham số, phương trình chính tắc của đường thẳng và các vị trí tương đối giữa hai đường thẳng trong không gian.",
+     "notes": [
+      {
+       "heading": "Phương trình tham số và chính tắc của đường thẳng",
+       "points": [
+        "Vectơ $\\vec{u} \\ne \\vec{0}$ được gọi là **vectơ chỉ phương** (VTCP) của đường thẳng $\\Delta$ nếu giá của nó song song hoặc trùng với $\\Delta$.",
+        "Phương trình **tham số** của đường thẳng $\\Delta$ đi qua điểm $A(x_0; y_0; z_0)$ có VTCP $\\vec{u} = (a; b; c)$: $\\begin{cases} x = x_0 + at \\\\ y = y_0 + bt \\\\ z = z_0 + ct \\end{cases}$ ($t \\in \\mathbb{R}$).",
+        "Phương trình **chính tắc** (khi $a, b, c \\ne 0$): **$\\frac{x - x_0}{a} = \\frac{y - y_0}{b} = \\frac{z - z_0}{c}$**.",
+        "Đường thẳng đi qua hai điểm phân biệt $A, B$ nhận vectơ $\\vec{AB}$ làm một vectơ chỉ phương."
+       ]
+      },
+      {
+       "heading": "Vị trí tương đối giữa hai đường thẳng",
+       "points": [
+        "Hai đường thẳng $\\Delta_1, \\Delta_2$ có VTCP $\\vec{u}_1, \\vec{u}_2$ **vuông góc** khi $\\vec{u}_1 \\cdot \\vec{u}_2 = 0 \\Leftrightarrow a_1 a_2 + b_1 b_2 + c_1 c_2 = 0$.",
+        "Xét hệ phương trình toạ độ giao điểm ẩn $t, s$: nếu $\\vec{u}_1, \\vec{u}_2$ cùng phương thì hai đường thẳng song song (vô nghiệm) hoặc trùng nhau (vô số nghiệm).",
+        "Nếu $\\vec{u}_1, \\vec{u}_2$ không cùng phương thì hai đường thẳng cắt nhau (hệ có nghiệm duy nhất) hoặc chéo nhau (hệ vô nghiệm)."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Vectơ chỉ phương",
+       "definition": "Vectơ khác vectơ - không có giá song song hoặc trùng với đường thẳng."
+      },
+      {
+       "term": "Phương trình tham số",
+       "definition": "Hệ phương trình biểu thị toạ độ các điểm trên đường thẳng thông qua một tham số thực t."
+      },
+      {
+       "term": "Hai đường thẳng chéo nhau",
+       "definition": "Hai đường thẳng không cùng nằm trong bất kì một mặt phẳng nào và không có điểm chung."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Đường thẳng có phương trình chính tắc $\\frac{x - 1}{2} = \\frac{y + 3}{-1} = \\frac{z}{4}$ đi qua điểm nào và có VTCP gì?",
+       "back": "Đi qua điểm $M(1; -3; 0)$ và có vectơ chỉ phương $\\vec{u} = (2; -1; 4)$."
+      },
+      {
+       "front": "Điều kiện để hai đường thẳng vuông góc trong không gian Oxyz là gì?",
+       "back": "Tích vô hướng của hai vectơ chỉ phương bằng không: $\\vec{u}_1 \\cdot \\vec{u}_2 = 0$."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Trong không gian $Oxyz$, đường thẳng $\\Delta$ đi qua điểm $M(1; 2; -3)$ và nhận $\\vec{u} = (3; -1; 2)$ làm vectơ chỉ phương có phương trình tham số là hệ nào sau đây?",
+       "options": [
+        "x = 1 + 3t, y = 2 - t, z = -3 + 2t",
+        "x = 3 + t, y = -1 + 2t, z = 2 - 3t",
+        "x = 1 - 3t, y = 2 - t, z = -3 - 2t",
+        "x = 2 + 3t, y = 1 - t, z = -3 + 2t"
+       ],
+       "answer": 0,
+       "explanation": "Phương trình tham số đi qua $(x_0; y_0; z_0)$ với VTCP $(a; b; c)$ là $x = x_0 + at, y = y_0 + bt, z = z_0 + ct$."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Trong không gian, nếu hai đường thẳng không có điểm chung thì chúng chắc chắn song song với nhau.",
+       "answer": false,
+       "explanation": "Khẳng định sai vì hai đường thẳng không có điểm chung trong không gian có thể song song hoặc chéo nhau."
+      }
+     ]
+    },
+    {
+     "id": "bai-16-cong-thuc-tinh-goc-trong-khong-gian",
+     "title": "Bài 16. Công thức tính góc trong không gian",
+     "summary": "Công thức xác định góc giữa hai đường thẳng, góc giữa đường thẳng và mặt phẳng, góc giữa hai mặt phẳng trong không gian Oxyz.",
+     "notes": [
+      {
+       "heading": "Góc giữa hai đường thẳng",
+       "points": [
+        "Góc giữa hai đường thẳng $\\Delta_1, \\Delta_2$ có VTCP $\\vec{u} = (a; b; c)$ và $\\vec{u}' = (a'; b'; c')$ ($0^\\circ \\le \\varphi \\le 90^\\circ$) thoả mãn: **$\\cos \\varphi = |\\cos(\\vec{u}, \\vec{u}')| = \\frac{|a a' + b b' + c c'|}{\\sqrt{a^2 + b^2 + c^2} \\sqrt{a'^2 + b'^2 + c'^2}}$**."
+       ]
+      },
+      {
+       "heading": "Góc giữa đường thẳng và mặt phẳng",
+       "points": [
+        "Góc giữa đường thẳng $\\Delta$ có VTCP $\\vec{u} = (a; b; c)$ và mặt phẳng $(P)$ có VTPT $\\vec{n} = (A; B; C)$ ($0^\\circ \\le \\theta \\le 90^\\circ$) thoả mãn: **$\\sin \\theta = |\\cos(\\vec{u}, \\vec{n})| = \\frac{|a A + b B + c C|}{\\sqrt{a^2 + b^2 + c^2} \\sqrt{A^2 + B^2 + C^2}}$**."
+       ]
+      },
+      {
+       "heading": "Góc giữa hai mặt phẳng",
+       "points": [
+        "Góc giữa hai mặt phẳng $(P), (Q)$ có VTPT $\\vec{n} = (A; B; C)$ và $\\vec{n}' = (A'; B'; C')$ thoả mãn: **$\\cos \\alpha = |\\cos(\\vec{n}, \\vec{n}')| = \\frac{|A A' + B B' + C C'|}{\\sqrt{A^2 + B^2 + C^2} \\sqrt{A'^2 + B'^2 + C'^2}}$**."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Góc giữa đường thẳng và mặt phẳng",
+       "definition": "Góc giữa đường thẳng đó và hình chiếu vuông góc của nó lên mặt phẳng (bằng $90^\\circ$ nếu đường thẳng vuông góc với mặt phẳng)."
+      },
+      {
+       "term": "Góc giữa hai mặt phẳng",
+       "definition": "Góc giữa hai đường thẳng lần lượt vuông góc với giao tuyến tại cùng một điểm trên giao tuyến đó."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Tại sao công thức góc giữa đường thẳng và mặt phẳng lại dùng hàm sin $(\\sin \\theta = |\\cos(\\vec{u}, \\vec{n})|)$?",
+       "back": "Vì VTPT vuông góc với mặt phẳng nên góc giữa đường thẳng và mặt phẳng phụ nhau với góc giữa VTCP và VTPT."
+      },
+      {
+       "front": "Khoảng giá trị của góc giữa hai mặt phẳng trong không gian toạ độ là gì?",
+       "back": "Từ $0^\\circ$ đến $90^\\circ$ ($0 \\le \\alpha \\le \\frac{\\pi}{2}$)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Trong không gian $Oxyz$, cho hai mặt phẳng $(P): x + y - 2z + 1 = 0$ và $(Q): 2x - y + z - 3 = 0$. Côsin của góc giữa hai mặt phẳng $(P)$ và $(Q)$ là bao nhiêu?",
+       "options": [
+        "1/6",
+        "1/3",
+        "1/2",
+        "0"
+       ],
+       "answer": 0,
+       "explanation": "$\\vec{n}_P = (1; 1; -2)$, $\\vec{n}_Q = (2; -1; 1)$. Ta có $\\cos \\varphi = \\frac{|1(2) + 1(-1) + (-2)(1)|}{\\sqrt{1+1+4} \\sqrt{4+1+1}} = \\frac{|-1|}{\\sqrt{6}\\sqrt{6}} = \\frac{1}{6}$."
+      },
+      {
+       "type": "cloze",
+       "prompt": "Góc $\\theta$ giữa đường thẳng có vectơ chỉ phương $\\vec{u}$ và mặt phẳng có vectơ pháp tuyến $\\vec{n}$ được xác định bởi công thức $\\sin \\theta = |\\cos(\\vec{u}, ____)|$.",
+       "answers": [
+        "\\vec{n}",
+        "n"
+       ],
+       "explanation": "Góc giữa đường thẳng và mặt phẳng bằng giá trị tuyệt đối côsin của góc giữa VTCP và VTPT."
+      }
+     ]
+    },
+    {
+     "id": "bai-17-phuong-trinh-mat-cau",
+     "title": "Bài 17. Phương trình mặt cầu",
+     "summary": "Định nghĩa mặt cầu, phương trình chính tắc và phương trình tổng quát của mặt cầu trong không gian Oxyz cùng các ứng dụng thực tế.",
+     "notes": [
+      {
+       "heading": "Định nghĩa và phương trình mặt cầu",
+       "points": [
+        "**Mặt cầu** tâm $I(a; b; c)$ bán kính $R$ ($R > 0$) là tập hợp các điểm $M(x; y; z)$ trong không gian thoả mãn $IM = R$.",
+        "Phương trình chính tắc của mặt cầu tâm $I(a; b; c)$, bán kính $R$: **$(x - a)^2 + (y - b)^2 + (z - c)^2 = R^2$**.",
+        "Phương trình tổng quát: **$x^2 + y^2 + z^2 - 2ax - 2by - 2cz + d = 0$** với điều kiện $a^2 + b^2 + c^2 - d > 0$; khi đó tâm mặt cầu là $I(a; b; c)$ và bán kính là **$R = \\sqrt{a^2 + b^2 + c^2 - d}$**."
+       ]
+      },
+      {
+       "heading": "Vị trí tương đối và ứng dụng thực tiễn",
+       "points": [
+        "Điểm $M$ nằm trong mặt cầu khi $IM < R$; điểm $M$ thuộc mặt cầu khi $IM = R$; điểm $M$ nằm ngoài mặt cầu khi $IM > R$.",
+        "Mô hình hoá hệ thống định vị toàn cầu **GPS**: vị trí của máy thu trên Trái Đất được xác định chính xác nhờ giao điểm của các mặt cầu tín hiệu phát ra từ ít nhất 3 đến 4 vệ tinh quỹ đạo."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Mặt cầu",
+       "definition": "Tập hợp các điểm trong không gian cách đều một điểm cố định (tâm) một khoảng cách không đổi (bán kính R)."
+      },
+      {
+       "term": "Bán kính mặt cầu",
+       "definition": "Đoạn thẳng nối tâm với một điểm bất kì thuộc mặt cầu, có độ dài không đổi R > 0."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Điều kiện để phương trình $x^2 + y^2 + z^2 - 2ax - 2by - 2cz + d = 0$ là phương trình của một mặt cầu là gì?",
+       "back": "$a^2 + b^2 + c^2 - d > 0$."
+      },
+      {
+       "front": "Tâm và bán kính của mặt cầu $(x + 1)^2 + (y - 2)^2 + z^2 = 9$ là bao nhiêu?",
+       "back": "Tâm $I(-1; 2; 0)$ và bán kính $R = 3$."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Trong không gian $Oxyz$, mặt cầu $(S): x^2 + y^2 + z^2 - 2x + 4y - 6z - 2 = 0$ có toạ độ tâm $I$ và bán kính $R$ là cặp giá trị nào sau đây?",
+       "options": [
+        "I(1; -2; 3) và R = 4",
+        "I(-1; 2; -3) và R = 16",
+        "I(1; -2; 3) và R = \\sqrt{12}",
+        "I(2; -4; 6) và R = 4"
+       ],
+       "answer": 0,
+       "explanation": "$a = 1, b = -2, c = 3, d = -2$. Tâm $I(1; -2; 3)$ và $R = \\sqrt{1^2 + (-2)^2 + 3^2 - (-2)} = \\sqrt{16} = 4$."
+      },
+      {
+       "type": "short",
+       "prompt": "Viết phương trình mặt cầu có tâm $I(2; -1; 0)$ và đi qua điểm $A(2; 1; \\sqrt{5})$. Bán kính bình phương $R^2$ của mặt cầu này bằng bao nhiêu?",
+       "answer": "9",
+       "explanation": "$R^2 = IA^2 = (2 - 2)^2 + (1 - (-1))^2 + (\\sqrt{5} - 0)^2 = 0 + 4 + 5 = 9$."
+      }
+     ]
+    },
+    {
+     "id": "bai-tap-cuoi-chuong-5",
+     "title": "Bài tập cuối chương V",
+     "summary": "Tổng kết và luyện tập giải các bài toán tổng hợp về toạ độ điểm, mặt phẳng, đường thẳng và mặt cầu trong không gian.",
+     "notes": [
+      {
+       "heading": "Kĩ năng tổng hợp hình học toạ độ không gian",
+       "points": [
+        "Kĩ năng chuyển đổi giữa phương trình tham số và chính tắc của đường thẳng; xác định VTPT từ cặp VTCP nhờ tích có hướng.",
+        "Lập phương trình mặt phẳng qua 1 điểm vuông góc với đường thẳng, hoặc qua 3 điểm không thẳng hàng.",
+        "Vận dụng toạ độ không gian vào giải các bài toán kiến trúc, xây dựng mái nhà nghiêng và định vị camera giám sát."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Góc nhị diện",
+       "definition": "Hình tạo bởi hai nửa mặt phẳng có chung bờ trong không gian, đo bằng góc phẳng tương ứng."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Vectơ chỉ phương của đường thẳng $d$ vuông góc với mặt phẳng $(P)$ có quan hệ gì với vectơ pháp tuyến của $(P)$?",
+       "back": "Vectơ chỉ phương của $d$ cùng phương với vectơ pháp tuyến của mặt phẳng $(P)$."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Phương trình mặt phẳng đi qua điểm $A(1; 0; -1)$ và vuông góc với đường thẳng $d: \\frac{x - 2}{1} = \\frac{y + 1}{-2} = \\frac{z}{3}$ là phương trình nào?",
+       "options": [
+        "x - 2y + 3z + 2 = 0",
+        "x - 2y + 3z - 2 = 0",
+        "2x - y + 3z - 1 = 0",
+        "x + 2y + 3z + 2 = 0"
+       ],
+       "answer": 0,
+       "explanation": "Mặt phẳng nhận VTCP $\\vec{u}_d = (1; -2; 3)$ làm VTPT: $1(x - 1) - 2(y - 0) + 3(z + 1) = 0 \\Leftrightarrow x - 2y + 3z + 2 = 0$."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Hai đường thẳng lần lượt có vectơ chỉ phương $\\vec{u}_1 = (1; 2; 3)$ và $\\vec{u}_2 = (-2; 1; 0)$ là hai đường thẳng vuông góc với nhau.",
+       "answer": true,
+       "explanation": "Tích vô hướng $\\vec{u}_1 \\cdot \\vec{u}_2 = 1(-2) + 2(1) + 3(0) = -2 + 2 + 0 = 0$, do đó hai đường thẳng vuông góc."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "chuong-06-xac-suat-co-dieu-kien",
+   "title": "Chương VI. Xác suất có điều kiện",
+   "topics": [
+    {
+     "id": "bai-18-xac-suat-co-dieu-kien",
+     "title": "Bài 18. Xác suất có điều kiện",
+     "summary": "Khái niệm xác suất có điều kiện, công thức nhân xác suất, bảng dữ liệu thống kê 2x2 và mô hình hoá bằng sơ đồ hình cây.",
+     "notes": [
+      {
+       "heading": "Khái niệm xác suất có điều kiện",
+       "points": [
+        "Cho hai biến cố $A$ và $B$. Xác suất của biến cố $A$ được tính khi biết biến cố $B$ đã xảy ra được gọi là **xác suất có điều kiện** của $A$ với điều kiện $B$, kí hiệu là **$P(A|B)$**.",
+        "Công thức tính xác suất có điều kiện (với $P(B) > 0$): **$P(A|B) = \\frac{P(AB)}{P(B)} = \\frac{n(AB)}{n(B)}$**.",
+        "Nếu $A$ và $B$ là hai biến cố độc lập ($P(B) > 0$) thì: **$P(A|B) = P(A)$** và **$P(B|A) = P(B)$**."
+       ]
+      },
+      {
+       "heading": "Công thức nhân xác suất và sơ đồ hình cây",
+       "points": [
+        "Từ định nghĩa xác suất có điều kiện, ta có **công thức nhân xác suất**: **$P(AB) = P(B) \\cdot P(A|B) = P(A) \\cdot P(B|A)$**.",
+        "**Bảng dữ liệu thống kê 2x2** giúp phân loại và biểu diễn trực quan tần số xuất hiện đồng thời của hai cặp biến cố đối lập.",
+        "**Sơ đồ hình cây** là công cụ trực quan hữu hiệu để phân nhánh các khả năng nối tiếp nhau và tính xác suất biến cố giao bằng cách nhân các xác suất trên từng nhánh."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Xác suất có điều kiện",
+       "definition": "Xác suất xuất hiện của một biến cố khi đã biết trước một biến cố khác liên quan đã xảy ra."
+      },
+      {
+       "term": "Bảng thống kê 2x2",
+       "definition": "Bảng số liệu gồm 2 dòng và 2 cột phân loại các đối tượng theo hai tiêu chí biến cố khác nhau."
+      },
+      {
+       "term": "Sơ đồ hình cây",
+       "definition": "Mô hình đồ thị phân nhánh thể hiện tuần tự các kết quả và xác suất tương ứng của các phép thử ngẫu nhiên."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Công thức định nghĩa xác suất có điều kiện $P(A|B)$ khi biết $P(B) > 0$ là gì?",
+       "back": "$P(A|B) = \\frac{P(AB)}{P(B)}$."
+      },
+      {
+       "front": "Nếu hai biến cố $A$ và $B$ độc lập nhau thì $P(A|B)$ bằng bao nhiêu?",
+       "back": "Bằng chính xác suất không điều kiện $P(A)$."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Gieo một con xúc xắc cân đối và đồng chất. Biết rằng số chấm xuất hiện là số lẻ, xác suất để mặt xuất hiện có số chấm là số nguyên tố bằng bao nhiêu?",
+       "options": [
+        "2/3",
+        "1/2",
+        "1/3",
+        "1/6"
+       ],
+       "answer": 0,
+       "explanation": "Số chấm lẻ $B = {1, 3, 5}$ ($n(B) = 3$). Trong đó các số nguyên tố lẻ là $AB = {3, 5}$ ($n(AB) = 2$). Vậy $P(A|B) = 2/3$."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Công thức nhân xác suất $P(AB) = P(A) \\cdot P(B|A)$ chỉ đúng khi hai biến cố $A$ và $B$ là hai biến cố hoàn toàn độc lập với nhau.",
+       "answer": false,
+       "explanation": "Công thức nhân xác suất có điều kiện $P(AB) = P(A) \\cdot P(B|A)$ đúng với mọi cặp biến cố bất kì miễn là $P(A) > 0$."
+      }
+     ]
+    },
+    {
+     "id": "bai-19-cong-thuc-xac-suat-toan-phan-va-cong-thuc-bayes",
+     "title": "Bài 19. Công thức xác suất toàn phần và công thức Bayes",
+     "summary": "Công thức xác suất toàn phần, công thức Bayes, ý nghĩa cập nhật xác suất tiên nghiệm - hậu nghiệm và ứng dụng y tế, công nghệ.",
+     "notes": [
+      {
+       "heading": "Công thức xác suất toàn phần",
+       "points": [
+        "Cho hai biến cố $A$ và $B$. Nếu $0 < P(A) < 1$ thì: **$P(B) = P(A) \\cdot P(B|A) + P(\\overline{A}) \\cdot P(B|\\overline{A})$**.",
+        "Dạng tổng quát: Nếu hệ biến cố {A1, A2, ..., An} là một hệ biến cố đầy đủ (xung khắc từng đôi và có hợp bằng không gian mẫu) với $P(Ai) > 0$ thì: **$P(B) = \\sum_{i=1}^n P(Ai) \\cdot P(B|Ai)$**."
+       ]
+      },
+      {
+       "heading": "Công thức Bayes và cập nhật xác suất",
+       "points": [
+        "Với $P(A) > 0, P(B) > 0$, **công thức Bayes** (Thomas Bayes, 1701 - 1761) có dạng: **$P(A|B) = \\frac{P(A) \\cdot P(B|A)}{P(B)} = \\frac{P(A) \\cdot P(B|A)}{P(A) \\cdot P(B|A) + P(\\overline{A}) \\cdot P(B|\\overline{A})}$**.",
+        "Ý nghĩa: $P(A)$ là **xác suất tiên nghiệm** (đánh giá ban đầu về biến cố $A$); khi có thêm thông tin bằng chứng thực nghiệm $B$ đã xảy ra, ta tính được $P(A|B)$ gọi là **xác suất hậu nghiệm**.",
+        "Ứng dụng thực tiễn: chẩn đoán y khoa (đánh giá nguy cơ thực sự mắc bệnh khi có kết quả xét nghiệm dương tính), công nghệ lọc thư rác (spam filter) và thuật toán tìm kiếm cứu nạn trên biển."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Công thức xác suất toàn phần",
+       "definition": "Quy tắc tính xác suất của một biến cố thông qua việc phân rã nó theo một hệ biến cố đầy đủ."
+      },
+      {
+       "term": "Công thức Bayes",
+       "definition": "Công thức toán học dùng để tính xác suất hậu nghiệm của một nguyên nhân khi đã quan sát thấy kết quả."
+      },
+      {
+       "term": "Xác suất tiên nghiệm (Prior probability)",
+       "definition": "Xác suất của một giả thuyết hoặc biến cố được ước lượng trước khi thu thập thêm thông tin mới."
+      },
+      {
+       "term": "Xác suất hậu nghiệm (Posterior probability)",
+       "definition": "Xác suất có điều kiện của biến cố sau khi đã cập nhật thêm bằng chứng thực tế từ một phép thử."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Công thức Bayes liên hệ giữa $P(A|B)$ và $P(B|A)$ viết dưới dạng ngắn gọn như thế nào?",
+       "back": "$P(A|B) = \\frac{P(A) \\cdot P(B|A)}{P(B)}$."
+      },
+      {
+       "front": "Công thức xác suất toàn phần cho biến cố $B$ theo cặp biến cố đối lập $A$ và $\\overline{A}$ là gì?",
+       "back": "$P(B) = P(A) \\cdot P(B|A) + P(\\overline{A}) \\cdot P(B|\\overline{A})$."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Tỉ lệ người mắc bệnh hiểm nghèo X trong cộng đồng là 1%. Một xét nghiệm y tế có độ chính xác: người có bệnh thì xét nghiệm dương tính với xác suất 95%, người không bệnh thì xét nghiệm dương tính nhầm với xác suất 2%. Xác suất một người ngẫu nhiên có kết quả xét nghiệm dương tính là bao nhiêu?",
+       "options": [
+        "0,0293",
+        "0,0095",
+        "0,0198",
+        "0,0500"
+       ],
+       "answer": 0,
+       "explanation": "$P(B) = P(A)P(B|A) + P(\\overline{A})P(B|\\overline{A}) = 0,01 \\times 0,95 + 0,99 \\times 0,02 = 0,0095 + 0,0198 = 0,0293$."
+      },
+      {
+       "type": "cloze",
+       "prompt": "Quá trình cập nhật liên tục xác suất của một biến cố khi nhận thêm các thông tin thực nghiệm mới nhờ công thức Bayes được gọi là công nghệ cập nhật ____.",
+       "answers": [
+        "Bayesian",
+        "Bayes"
+       ],
+       "explanation": "Quá trình này được gọi là Bayesian updating (cập nhật Bayesian)."
+      }
+     ]
+    },
+    {
+     "id": "bai-tap-cuoi-chuong-6",
+     "title": "Bài tập cuối chương VI",
+     "summary": "Luyện tập các bài toán trắc nghiệm và tình huống thực tiễn áp dụng xác suất có điều kiện, xác suất toàn phần và công thức Bayes.",
+     "notes": [
+      {
+       "heading": "Phương pháp giải bài toán xác suất nâng cao",
+       "points": [
+        "Bước 1: Gọi tên các biến cố rõ ràng (biến cố nguyên nhân $A$ và biến cố kết quả $B$).",
+        "Bước 2: Xác định các xác suất đã cho từ giả thiết: $P(A)$, $P(\\overline{A})$, $P(B|A)$ và $P(B|\\overline{A})$.",
+        "Bước 3: Sử dụng sơ đồ hình cây hoặc lập bảng $2 \\times 2$ để tránh nhầm lẫn giữa $P(A|B)$ và $P(B|A)$.",
+        "Bước 4: Áp dụng công thức xác suất toàn phần để tính mẫu số $P(B)$, sau đó dùng công thức Bayes để tính xác suất cần tìm."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Hệ biến cố đầy đủ",
+       "definition": "Tập hợp các biến cố rời nhau từng đôi một mà biến cố hợp của chúng bao quát toàn bộ không gian mẫu."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Trong bài toán kiểm định y khoa, đại lượng dương tính giả (false positive) nghĩa là gì?",
+       "back": "Người thực tế hoàn toàn không có bệnh nhưng kết quả xét nghiệm lại cho ra dương tính."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Cho hai biến cố $A$ và $B$ có $P(A) = 0,4$; $P(B|A) = 0,5$ và $P(B|\\overline{A}) = 0,2$. Giá trị của xác suất toàn phần $P(B)$ bằng bao nhiêu?",
+       "options": [
+        "0,32",
+        "0,20",
+        "0,12",
+        "0,50"
+       ],
+       "answer": 0,
+       "explanation": "$P(B) = P(A)P(B|A) + P(\\overline{A})P(B|\\overline{A}) = 0,4 \\times 0,5 + (1 - 0,4) \\times 0,2 = 0,20 + 0,12 = 0,32$."
+      },
+      {
+       "type": "truefalse",
+       "prompt": "Nếu $P(A|B) = 0,8$ thì chắc chắn xác suất $P(B|A)$ cũng phải bằng $0,8$.",
+       "answer": false,
+       "explanation": "Sai, $P(A|B)$ và $P(B|A)$ nói chung hoàn toàn khác nhau vì phụ thuộc vào $P(A)$ và $P(B)$."
+      }
+     ]
+    },
+    {
+     "id": "hoat-dong-thuc-hanh-trai-nghiem",
+     "title": "Hoạt động thực hành trải nghiệm và bài tập ôn tập cuối năm",
+     "summary": "Ứng dụng GeoGebra tính nguyên hàm tích phân, phương pháp hình thang tính gần đúng tích phân và mô hình hoá hình học không gian 3D.",
+     "notes": [
+      {
+       "heading": "Tính gần đúng tích phân bằng phương pháp hình thang",
+       "points": [
+        "Trong thực tế nhiều hàm số không có nguyên hàm dạng sơ cấp (như $\\int e^{-x^2} dx$), cần dùng phương pháp tính gần đúng số.",
+        "Chia đoạn $[a; b]$ thành $n$ đoạn con bằng nhau với độ dài $\\Delta x = \\frac{b - a}{n}$.",
+        "**Công thức hình thang**: **$\\int_a^b f(x) dx \\approx \\frac{b - a}{2n} [f(x_0) + 2f(x_1) + 2f(x_2) + ... + 2f(x_{n-1}) + f(x_n)]$**.",
+        "Đánh giá sai số: $|E| \\le \\frac{(b - a)^3 M}{12n^2}$ với $M = \\max_{[a; b]} |f''(x)|$."
+       ]
+      },
+      {
+       "heading": "Thực hành GeoGebra và vẽ đồ hoạ 3D",
+       "points": [
+        "Trong phần mềm GeoGebra CAS: sử dụng lệnh **IntegralSymbolic(hàm số)** để tìm nguyên hàm giải tích và lệnh **NIntegral(hàm số, a, b)** để tính tích phân số.",
+        "Mô hình hoá đồ hoạ 3D: khảo sát các mô hình hình học phi định hướng nổi tiếng như **tam giác Penrose** (mô hình bất khả thi) và **mặt Mobius** (mặt dải chỉ có một phía duy nhất trong không gian)."
+       ]
+      }
+     ],
+     "terms": [
+      {
+       "term": "Phương pháp hình thang",
+       "definition": "Thuật toán tính gần đúng giá trị tích phân xác định bằng cách xấp xỉ diện tích hình thang cong bởi tổng diện tích các hình thang nhỏ."
+      },
+      {
+       "term": "Mặt Mobius",
+       "definition": "Bề mặt topo đặc biệt chỉ có một mặt biên và một bề mặt duy nhất liên tục trong không gian 3 chiều."
+      }
+     ],
+     "cards": [
+      {
+       "front": "Công thức đánh giá sai số $|E|$ của phương pháp hình thang khi chia đoạn $[a; b]$ thành $n$ phần là gì?",
+       "back": "$|E| \\le \\frac{(b-a)^3 M}{12n^2}$ với $M$ là giá trị lớn nhất của $|f''(x)|$ trên $[a; b]$."
+      },
+      {
+       "front": "Cú pháp tiếng Anh của lệnh tính tích phân số xấp xỉ trong phần mềm GeoGebra là gì?",
+       "back": "NIntegral(<hàm số>, <giá trị đầu>, <giá trị cuối>)."
+      }
+     ],
+     "questions": [
+      {
+       "type": "mcq",
+       "prompt": "Khi áp dụng phương pháp hình thang để tính gần đúng tích phân $\\int_0^1 f(x) dx$ với số đoạn chia $n = 5$, độ dài mỗi đoạn con $\\Delta x$ bằng bao nhiêu?",
+       "options": [
+        "0,2",
+        "0,5",
+        "0,1",
+        "0,25"
+       ],
+       "answer": 0,
+       "explanation": "Độ dài mỗi đoạn con là $\\Delta x = \\frac{b - a}{n} = \\frac{1 - 0}{5} = 0,2$."
+      },
+      {
+       "type": "short",
+       "prompt": "Tên gọi của dải băng giấy nổi tiếng được tạo thành bằng cách vặn nửa vòng trước khi dán hai đầu lại, tạo nên mặt cong chỉ có một mặt duy nhất là gì?",
+       "answer": "Mặt Mobius",
+       "explanation": "Dải băng kì diệu này mang tên nhà toán học Đức August Ferdinand Mobius (dải Mobius / mặt Mobius)."
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
