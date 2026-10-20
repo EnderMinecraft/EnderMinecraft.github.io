@@ -1,6 +1,6 @@
 <!doctype html><html>
   <head>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src https://fonts.gstatic.com https://cdn.jsdelivr.net; img-src 'self' data: blob:; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -14,7 +14,17 @@
     <meta name="apple-mobile-web-app-title" content="Navel Desk" />
     <title>Navel Desk (Canary)</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
     <style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}
+.math-block { display: block; margin: 10px 0; overflow-x: auto; overflow-y: hidden; text-align: center; }
+.math-inline { display: inline-block; vertical-align: middle; }
+.tex-fallback { font-family: 'Lora', Georgia, 'Times New Roman', serif; font-style: italic; letter-spacing: 0.02em; }
+.tex-fallback sup, .tex-fallback sub { font-style: normal; font-size: 0.8em; }
+.katex-display { margin: 8px 0 !important; overflow-x: auto; overflow-y: hidden; }
+.katex { font-size: 1.05em; text-rendering: geometricPrecision; }
+.card .katex { font-size: 1.15em; }
+.q-p .katex, .exam-card .katex { font-size: 1.08em; }
 /* ---------- pack editor (merged from editor.html). Every class is prefixed ed- so nothing collides with the app's .card/.bar/.seg/.opt. ---------- */
 .ed { display: grid; gap: 14px; min-width: 0; }
 .ed-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
@@ -3005,7 +3015,84 @@ if (typeof module !== 'undefined' && module.exports) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
     });
   };
-  var rich = function (s) { return esc(s).replace(/\*\*(.+?)\*\*/g, '<mark>$1</mark>'); };
+  var BLOCK_MATH_RE = /\$\$([\s\S]+?)\$\$|\\\[([\s\S]+?)\\\]/g;
+  var INLINE_MATH_RE = /(?<!\\)\$((?!\s)(?:\\\$|[^\$\r\n])+?(?<!\s))\$|\\\(([\s\S]+?)\\\)/g;
+
+  function fallbackMath(tex, isBlock) {
+    var s = String(tex || '');
+    var map = {
+      '\\approx': '≈', '\\ne': '≠', '\\le': '≤', '\\ge': '≥', '\\pm': '±',
+      '\\times': '×', '\\cdot': '·', '\\in': '∈', '\\Rightarrow': '⇒',
+      '\\Leftrightarrow': '⇔', '\\to': '→', '\\circ': '°',
+      '\\alpha': 'α', '\\beta': 'β', '\\gamma': 'γ', '\\delta': 'δ',
+      '\\Delta': 'Δ', '\\pi': 'π', '\\theta': 'θ', '\\varphi': 'φ',
+      '\\phi': 'ϕ', '\\mu': 'μ', '\\sigma': 'σ', '\\Sigma': 'Σ',
+      '\\infty': '∞', '\\mathbb{R}': 'ℝ', '\\mathbb{N}': 'ℕ', '\\mathbb{Z}': 'ℤ',
+      '\\mathbb{Q}': 'ℚ', '\\mathbb{C}': 'ℂ', '\\int': '∫', '\\sum': '∑'
+    };
+    s = s.replace(/\\frac\s*\{([^{}]+)\}\s*\{([^{}]+)\}/g, '($1)/($2)');
+    s = s.replace(/\\sqrt\s*\{([^{}]+)\}/g, '√($1)');
+    s = s.replace(/\\vec\s*\{([^{}]+)\}/g, '$1⃗');
+    Object.keys(map).sort(function (a, b) { return b.length - a.length; }).forEach(function (k) {
+      s = s.split(k).join(map[k]);
+    });
+    s = s.replace(/\\([a-zA-Z]+)/g, '$1');
+    s = esc(s);
+    s = s.replace(/\^\{([^{}]+)\}/g, '<sup>$1</sup>').replace(/\^([a-zA-Z0-9+-])/g, '<sup>$1</sup>');
+    s = s.replace(/_\{([^{}]+)\}/g, '<sub>$1</sub>').replace(/_([a-zA-Z0-9+-])/g, '<sub>$1</sub>');
+    var cls = isBlock ? 'math-block' : 'math-inline';
+    return '<span class="' + cls + ' tex-fallback">' + s + '</span>';
+  }
+
+  function renderMath(tex, isBlock) {
+    if (typeof katex !== 'undefined' && katex.renderToString) {
+      try {
+        return katex.renderToString(tex, {
+          displayMode: !!isBlock,
+          throwOnError: false,
+          strict: false
+        });
+      } catch (e) {
+        /* fallback to simple math */
+      }
+    }
+    return fallbackMath(tex, isBlock);
+  }
+
+  var rich = function (s) {
+    if (s == null) return '';
+    var str = String(s);
+    if (!str) return '';
+
+    var tokens = [];
+    var pfx = '\uFFF9M';
+    var sfx = '\uFFFA';
+
+    str = str.replace(BLOCK_MATH_RE, function (_, a, b) {
+      var idx = tokens.length;
+      tokens.push({ tex: (a || b).trim(), block: true });
+      return pfx + idx + sfx;
+    });
+
+    str = str.replace(INLINE_MATH_RE, function (_, a, b) {
+      var idx = tokens.length;
+      tokens.push({ tex: (a || b).trim(), block: false });
+      return pfx + idx + sfx;
+    });
+
+    var html = esc(str);
+    html = html.replace(/\*\*(.+?)\*\*/g, '<mark>$1</mark>');
+
+    if (tokens.length) {
+      var re = /\uFFF9M(\d+)\uFFFA/g;
+      html = html.replace(re, function (_, i) {
+        var t = tokens[parseInt(i, 10)];
+        return t ? renderMath(t.tex, t.block) : '';
+      });
+    }
+
+    return html;
+  };
   var store = {
     get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
     set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) { /* storage unavailable */ } },
@@ -3657,14 +3744,14 @@ function studyHTML() {
 
   function notesHTML(t) {
     var h = '<div class="notes">';
-    if (t.summary) h += '<p class="sum">' + esc(t.summary) + '</p>';
+    if (t.summary) h += '<p class="sum">' + rich(t.summary) + '</p>';
     t.notes.forEach(function (s) {
-      if (s.heading) h += '<h3>' + esc(s.heading) + '</h3>';
+      if (s.heading) h += '<h3>' + rich(s.heading) + '</h3>';
       h += '<ul>' + s.points.map(function (p) { return '<li>' + rich(p) + '</li>'; }).join('') + '</ul>';
     });
     h += '</div>';
     if (t.terms.length) {
-      h += '<h2 class="sec-h">' + tr('key_terms') + '</h2><dl class="terms">' + t.terms.map(function (k) { return '<dt>' + esc(k.term) + '</dt><dd>' + esc(k.definition) + '</dd>'; }).join('') + '</dl>';
+      h += '<h2 class="sec-h">' + tr('key_terms') + '</h2><dl class="terms">' + t.terms.map(function (k) { return '<dt>' + rich(k.term) + '</dt><dd>' + rich(k.definition) + '</dd>'; }).join('') + '</dl>';
     }
     var done = !!S.prog.notes[t.id];
     h += '<div class="done-row"><button class="btn' + (done ? '' : ' primary') + '" data-act="notesDone" data-id="' + esc(t.id) + '">' + (done ? tr('marked_read') : tr('mark_read')) + '</button>';
@@ -3738,8 +3825,8 @@ function launchConfetti() {
     C.pool.forEach(function (id) { if (cardKnown(S.prog.cards[id])) known++; });
     h += '<div class="prog-line"><span>' + tr('left_n', { n: C.queue.length }) + '</span><span>' + tr('known_of', { k: known, n: C.total }) + '</span></div>';
     h += '<div class="card-wrap" id="cardWrap"><span class="swipe-tag t-right" data-tag="right">' + tr('btn_gotit') + '</span><span class="swipe-tag t-left" data-tag="left">' + tr('btn_again') + '</span><span class="swipe-tag t-up" data-tag="up">' + tr('btn_skip') + '</span><span class="swipe-tag t-down" data-tag="down">' + tr('btn_prev') + '</span><div class="card' + (C.flipped ? ' flipped' : '') + '" id="theCard" role="button" tabindex="0" aria-label="' + esc(tr('flip_aria')) + '" data-act="flip"><div class="inner">';
-    h += '<div class="face"><small>' + (S.scope === 'all' ? esc(c.tt) : tr('face_q')) + (isStar(c.id) ? '<span class="star-flag" aria-hidden="true">★</span>' : '') + '</small>' + esc(c.front) + '</div>';
-    h += '<div class="face back"><small>' + tr('face_a') + (isStar(c.id) ? '<span class="star-flag" aria-hidden="true">★</span>' : '') + '</small>' + esc(c.back) + '</div></div></div></div>';
+    h += '<div class="face"><small>' + (S.scope === 'all' ? esc(c.tt) : tr('face_q')) + (isStar(c.id) ? '<span class="star-flag" aria-hidden="true">★</span>' : '') + '</small>' + rich(c.front) + '</div>';
+    h += '<div class="face back"><small>' + tr('face_a') + (isStar(c.id) ? '<span class="star-flag" aria-hidden="true">★</span>' : '') + '</small>' + rich(c.back) + '</div></div></div></div>';
     h += '<p class="hint">' + tr('card_hint') + '</p>';
     h += '<div class="rate"><button class="btn again" data-act="again">' + tr('btn_again') + '</button><button class="btn primary" data-act="gotit">' + tr('btn_gotit') + '</button></div>';
     h += '<div class="star-row"><button class="btn star-btn' + (isStar(c.id) ? ' on' : '') + '" data-act="nd_star" aria-pressed="' + isStar(c.id) + '" title="S">' + tr(isStar(c.id) ? 'star_on' : 'star_add') + '</button></div>';
@@ -3809,7 +3896,7 @@ function examPromptHTML(item) {
   var q = item.q, h = '';
   if ((q.type === 'mcq' && (q.context || q.quote)) || (q.type === 'tfs' && (q.quote || q.context))) h += '<div style="margin-bottom:14px">' + ctxHTML(q) + '</div>';
   if (q.type === 'cloze') h += '<div style="font-size: 16px; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: var(--ink);">' + clozePrompt(q) + '</div>';
-  else if (q.prompt) h += '<div style="font-size: 16px; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: var(--ink);">' + esc(q.prompt) + '</div>';
+  else if (q.prompt) h += '<div style="font-size: 16px; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: var(--ink);">' + rich(q.prompt) + '</div>';
   return h;
 }
 
@@ -3820,7 +3907,7 @@ function renderExamQuestionInput(item, idx) {
       var on = a === i, letter = ['A', 'B', 'C', 'D', 'E', 'F'][i] || String(i + 1);
       h += '<button role="radio" aria-checked="' + (on ? 'true' : 'false') + '" class="opt exam-opt' + (on ? ' selected' : '') + '" data-act="examSelectAns" data-qidx="' + idx + '" data-val="' + i + '">' +
         '<span class="exam-opt-badge">' + letter + '</span>' +
-        '<span class="exam-opt-text">' + esc(q.options[i]) + '</span></button>';
+        '<span class="exam-opt-text">' + rich(q.options[i]) + '</span></button>';
     }
     return '<div role="radiogroup" aria-label="' + esc(tr('aria_choices')) + '" class="exam-opts">' + h + '</div>';
   }
@@ -3835,7 +3922,7 @@ function renderExamQuestionInput(item, idx) {
   }
   if (q.type === 'tfs') {
     q.items.forEach(function (x, n) {
-      h += '<div class="tfi"><p>' + String.fromCharCode(97 + n) + ') ' + esc(x.text) + '</p><div class="tfb">';
+      h += '<div class="tfi"><p>' + String.fromCharCode(97 + n) + ') ' + rich(x.text) + '</p><div class="tfb">';
       [true, false].forEach(function (b) {
         h += '<button class="tfo' + (Array.isArray(a) && a[n] === b ? ' sel' : '') + '" data-act="examTfs" data-qidx="' + idx + '" data-i="' + n + '" data-v="' + (b ? 1 : 0) + '">' + esc(tfLabel(b)) + '</button>';
       });
@@ -3848,13 +3935,13 @@ function renderExamQuestionInput(item, idx) {
     var mp = a || {}, k;
     h = '<p class="muted" style="margin-bottom:10px">' + tr('mt_hint') + '</p><div class="mt"><div class="mtc">';
     q.pairs.forEach(function (p, n) {
-      h += '<button class="mtb' + (mp[n] != null ? ' paired' : '') + (item.selL === n ? ' sel' : '') + '" data-act="examMatch" data-qidx="' + idx + '" data-s="L" data-i="' + n + '"><span class="k">' + (n + 1) + '</span><span>' + esc(p.left) + '</span></button>';
+      h += '<button class="mtb' + (mp[n] != null ? ' paired' : '') + (item.selL === n ? ' sel' : '') + '" data-act="examMatch" data-qidx="' + idx + '" data-s="L" data-i="' + n + '"><span class="k">' + (n + 1) + '</span><span>' + rich(p.left) + '</span></button>';
     });
     h += '</div><div class="mtc">';
     item.rorder.forEach(function (j) {
       var owner = -1;
       for (k in mp) if (mp[k] === j) owner = parseInt(k, 10);
-      h += '<button class="mtb' + (owner >= 0 ? ' paired' : '') + '" data-act="examMatch" data-qidx="' + idx + '" data-s="R" data-i="' + j + '"><span class="k">' + (owner >= 0 ? owner + 1 : '&middot;') + '</span><span>' + esc(q.pairs[j].right) + '</span></button>';
+      h += '<button class="mtb' + (owner >= 0 ? ' paired' : '') + '" data-act="examMatch" data-qidx="' + idx + '" data-s="R" data-i="' + j + '"><span class="k">' + (owner >= 0 ? owner + 1 : '&middot;') + '</span><span>' + rich(q.pairs[j].right) + '</span></button>';
     });
     return h + '</div></div>';
   }
@@ -3868,7 +3955,7 @@ function renderExamQuestionInput(item, idx) {
 }
 
 function rvRow(text, cls, label) {
-  return '<div class="rv-row' + (cls ? ' ' + cls : '') + '"><span>' + esc(text) + '</span>' + (label ? '<small>' + esc(label) + '</small>' : '') + '</div>';
+  return '<div class="rv-row' + (cls ? ' ' + cls : '') + '"><span>' + rich(text) + '</span>' + (label ? '<small>' + esc(label) + '</small>' : '') + '</div>';
 }
 function examReviewItem(item, i, g) {
   var q = item.q, a = item.userAnswer, rows = '', n;
@@ -3905,7 +3992,7 @@ function examReviewItem(item, i, g) {
   var h = '<div class="res-i" style="gap:10px"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><b>' + icon + ' ' + tr('question') + ' ' + (i + 1) + '</b><span class="muted" style="font-size:12px">' + esc(tr('qt_' + q.type)) + ' \u00b7 ' + esc(lab) + (g.n ? ' (' + g.k + '/' + g.n + ')' : '') + '</span></div>';
   h += examPromptHTML(item);
   h += '<div class="rv-stack">' + rows + '</div>';
-  if (q.explanation) h += '<div style="font-size:14px;color:var(--muted);line-height:1.5">' + esc(q.explanation) + '</div>';
+  if (q.explanation) h += '<div style="font-size:14px;color:var(--muted);line-height:1.5">' + rich(q.explanation) + '</div>';
   return h + '</div>';
 }
 
@@ -4484,7 +4571,7 @@ function formatTime(ms) {
 
   function ctxHTML(t) {
     var body = t.type === 'tfs' ? (t.quote || t.context) : (t.context || t.quote);
-    return '<blockquote class="ctx"><p>' + esc(body) + '</p>' + (t.source ? '<cite>' + esc(t.source) + '</cite>' : '') + '</blockquote>';
+    return '<blockquote class="ctx"><p>' + rich(body) + '</p>' + (t.source ? '<cite>' + esc(t.source) + '</cite>' : '') + '</blockquote>';
   }
   function tfLabel(b) { return tr(b ? 'tf_true' : 'tf_false'); }
   function tfsBody(it, fb) {
@@ -4492,7 +4579,7 @@ function formatTime(ms) {
     if (!fb) h += '<p class="muted">' + tr('tfs_hint') + '</p>';
     t.items.forEach(function (x, i) {
       var v = it.sel ? it.sel[i] : null;
-      h += '<div class="tfi"><p>' + String.fromCharCode(97 + i) + ') ' + esc(x.text) + '</p><div class="tfb">';
+      h += '<div class="tfi"><p>' + String.fromCharCode(97 + i) + ') ' + rich(x.text) + '</p><div class="tfb">';
       [true, false].forEach(function (b) {
         var cls = 'tfo';
         if (fb) { if (x.answer === b) cls += ' ok'; else if (v === b) cls += ' bad'; }
@@ -4504,7 +4591,7 @@ function formatTime(ms) {
     if (!fb) h += '<div><button class="btn primary" data-act="submit">' + tr('chk') + '</button></div>';
     return h + '</div>';
   }
-  function clozePrompt(t) { return esc(t.prompt).replace(/_{3,}/, '<span class="blank">&nbsp;</span>'); }
+  function clozePrompt(t) { return rich(t.prompt).replace(/_{3,}/, '<span class="blank">&nbsp;</span>'); }
   function clozeBody(it, fb) {
     var h = '<input id="cl" class="typed clin' + (fb ? (it.res.correct ? ' ok' : ' bad') : '') + '" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="' + esc(tr('cl_ph')) + '" aria-label="' + esc(tr('ans_aria')) + '" value="' + esc(it.typed) + '"' + (fb ? ' disabled' : '') + '>';
     if (!fb) {
@@ -4519,8 +4606,8 @@ function formatTime(ms) {
     if (fb) {
       t.pairs.forEach(function (p, i) {
         var m = it.mp[i], good = m === i;
-        h += '<div class="mtr ' + (good ? 'ok' : 'bad') + '"><span><b>' + esc(p.left) + '</b> &rarr; ' + (m != null ? esc(t.pairs[m].right) : '<i>' + esc(tr('unanswered')) + '</i>') + '</span>';
-        if (!good) h += '<small>' + tr('mt_correct_is', { a: esc(p.right) }) + '</small>';
+        h += '<div class="mtr ' + (good ? 'ok' : 'bad') + '"><span><b>' + rich(p.left) + '</b> &rarr; ' + (m != null ? rich(t.pairs[m].right) : '<i>' + esc(tr('unanswered')) + '</i>') + '</span>';
+        if (!good) h += '<small>' + tr('mt_correct_is', { a: rich(p.right) }) + '</small>';
         h += '</div>';
       });
       return h;
@@ -4528,13 +4615,13 @@ function formatTime(ms) {
     h = '<div class="mt"><div class="mtc">';
     t.pairs.forEach(function (p, i) {
       var cls = 'mtb' + (it.mp[i] != null ? ' paired' : '') + (it.selL === i ? ' sel' : '');
-      h += '<button class="' + cls + '" data-act="mpick" data-s="L" data-i="' + i + '"><span class="k">' + (i + 1) + '</span><span>' + esc(p.left) + '</span></button>';
+      h += '<button class="' + cls + '" data-act="mpick" data-s="L" data-i="' + i + '"><span class="k">' + (i + 1) + '</span><span>' + rich(p.left) + '</span></button>';
     });
     h += '</div><div class="mtc">';
     it.rorder.forEach(function (j) {
       var owner = -1;
       for (k in it.mp) if (it.mp[k] === j) owner = parseInt(k, 10);
-      h += '<button class="mtb' + (owner >= 0 ? ' paired' : '') + '" data-act="mpick" data-s="R" data-i="' + j + '"><span class="k">' + (owner >= 0 ? owner + 1 : '&middot;') + '</span><span>' + esc(t.pairs[j].right) + '</span></button>';
+      h += '<button class="mtb' + (owner >= 0 ? ' paired' : '') + '" data-act="mpick" data-s="R" data-i="' + j + '"><span class="k">' + (owner >= 0 ? owner + 1 : '&middot;') + '</span><span>' + rich(t.pairs[j].right) + '</span></button>';
     });
     return h + '</div></div>';
   }
@@ -4555,7 +4642,7 @@ function formatTime(ms) {
     var t = it.q, r = it.res, h = '';
     if (t.type === 'tfs') h = '<p>' + tr('tfs_score', { k: r.k, n: r.n, p: fmtN(r.score) }) + '</p>';
     else if (t.type === 'match') h = '<p>' + tr('mt_score', { k: r.k, n: r.n }) + '</p>';
-    else if (t.type === 'cloze' && (!r.correct || r.loose)) h = '<p>' + tr('answer_is', { a: esc(t.answers.join(' / ')) }) + '</p>';
+    else if (t.type === 'cloze' && (!r.correct || r.loose)) h = '<p>' + tr('answer_is', { a: rich(t.answers.join(' / ')) }) + '</p>';
     return h;
   }
   function ansText(t) {
@@ -4724,7 +4811,7 @@ function formatTime(ms) {
     }).join('') + '</div>';
     if ((t.type === 'mcq' && (t.context || t.quote)) || (t.type === 'tfs' && (t.quote || t.context))) h += ctxHTML(t);
     if (t.type === 'cloze') h += '<h2 class="q-p">' + clozePrompt(t) + '</h2>';
-    else if (t.prompt) h += '<h2 class="q-p">' + esc(t.prompt) + '</h2>';
+    else if (t.prompt) h += '<h2 class="q-p">' + rich(t.prompt) + '</h2>';
     if (t.type === 'tfs') h += tfsBody(it, fb);
     else if (t.type === 'cloze') h += clozeBody(it, fb);
     else if (t.type === 'match') h += matchBody(it, fb);
@@ -4739,7 +4826,7 @@ function formatTime(ms) {
           if (o.right) { cls += ' ok'; lab = tr('lab_correct'); }
           else if (it.res && it.res.pos === pos) { cls += ' bad'; lab = tr('lab_yours'); }
         }
-        h += '<button role="radio" aria-checked="' + (isChecked ? 'true' : 'false') + '" class="' + cls + '"' + (fb ? ' disabled' : ' data-act="pick" data-i="' + pos + '"') + '><span class="k">' + (t.type === 'mcq' ? letters[pos] : (pos + 1)) + '</span><span>' + esc(o.text) + '</span><span class="lab">' + lab + '</span></button>';
+        h += '<button role="radio" aria-checked="' + (isChecked ? 'true' : 'false') + '" class="' + cls + '"' + (fb ? ' disabled' : ' data-act="pick" data-i="' + pos + '"') + '><span class="k">' + (t.type === 'mcq' ? letters[pos] : (pos + 1)) + '</span><span>' + rich(o.text) + '</span><span class="lab">' + lab + '</span></button>';
       });
       h += '</div>';
     } else if (!fb) {
@@ -4750,13 +4837,13 @@ function formatTime(ms) {
       if (t.type === 'short') {
         h += '<div class="fb"><h3>' + (it.timedOut ? tr('timesup_compare') : tr('model_answer')) + '</h3>';
         if (it.typed) h += '<p class="muted">' + tr('your_answer_is', { a: esc(it.typed) }) + '</p>';
-        h += '<div class="model">' + esc(t.answer) + '</div>';
-        if (t.explanation) h += '<p>' + esc(t.explanation) + '</p>';
+        h += '<div class="model">' + rich(t.answer) + '</div>';
+        if (t.explanation) h += '<p>' + rich(t.explanation) + '</p>';
         h += '<p class="muted">' + tr('how_did') + '</p><div class="actions"><button class="btn primary" data-act="grade" data-ok="1">' + tr('had_it') + '</button><button class="btn again" data-act="grade" data-ok="0">' + tr('not_yet_btn') + '</button></div></div>';
       } else {
         var ok = it.res.correct;
         h += '<div class="fb ' + (ok ? 'ok' : 'bad') + '" role="status"><h3>' + fbTitle(it) + '</h3>' + fbExtra(it);
-        if (t.explanation) h += '<p>' + esc(t.explanation) + '</p>';
+        if (t.explanation) h += '<p>' + rich(t.explanation) + '</p>';
         h += '<div><button class="btn primary" data-act="next" id="nextBtn">' + (q.i + 1 >= q.items.length ? tr('see_results') : tr('next_q')) + '</button></div></div>';
       }
     }
@@ -4780,7 +4867,7 @@ function formatTime(ms) {
     if (missed.length) {
       h += '<h2 class="sec-h">' + tr('to_review') + '</h2><div class="res-list">' + missed.map(function (it) {
         var t = it.q, ans = ansText(t);
-        return '<div class="res-i"><b>' + esc(qTitle(t)) + '</b><p>' + tr('answer_is', { a: esc(ans) }) + '</p>' + (t.explanation ? '<p>' + esc(t.explanation) + '</p>' : '') + '</div>';
+        return '<div class="res-i"><b>' + rich(qTitle(t)) + '</b><p>' + tr('answer_is', { a: rich(ans) }) + '</p>' + (t.explanation ? '<p>' + rich(t.explanation) + '</p>' : '') + '</div>';
       }).join('') + '</div>';
     }
     return h + '</div>';
@@ -4858,7 +4945,8 @@ var CREDITS = {
   tools: [
     { name: 'Claude', by: 'Anthropic', url: 'https://claude.ai' },
     { name: 'ChatGPT', by: 'OpenAI', url: 'https://chatgpt.com' },
-    { name: 'Gemini', by: 'Google', url: 'https://gemini.google.com' }
+    { name: 'Gemini', by: 'Google', url: 'https://gemini.google.com' },
+    { name: 'KaTeX', by: 'Khan Academy', url: 'https://katex.org' }
   ]
 };
 function creditsHTML() {
@@ -6829,20 +6917,27 @@ document.addEventListener('click', function (e) {
     }
 
     /* ---- preview (learner's view) ---- */
-    var md = function (s) { return String(s == null ? '' : s).split(/\*\*(.+?)\*\*/g).map(function (p, i) { return i % 2 ? h('strong', {}, p) : p; }); };
+    var richNode = function (s) {
+      if (s == null) return document.createTextNode('');
+      if (s && s.nodeType) return s;
+      var span = document.createElement('span');
+      span.innerHTML = rich(s);
+      return span;
+    };
+    var md = function (s) { return richNode(s); };
     function pvNotes(t, p) {
       var a = t.notes || []; if (!a.length) return p.append(empt(T('pv_none')));
-      a.forEach(function (s) { p.append(h('section', { class: 'ed-card pad' }, h('h3', {}, s.heading), h('ul', {}, (s.points || []).map(function (x) { return h('li', {}, md(x)); })))); });
+      a.forEach(function (s) { p.append(h('section', { class: 'ed-card pad' }, h('h3', {}, richNode(s.heading)), h('ul', {}, (s.points || []).map(function (x) { return h('li', {}, md(x)); })))); });
     }
     function pvTerms(t, p) {
       var a = t.key_terms || []; if (!a.length) return p.append(empt(T('pv_none')));
-      p.append(h('dl', { class: 'ed-card pad' }, [].concat.apply([], a.map(function (x) { return [h('dt', { class: 'ed-dt' }, x.term), h('dd', { style: 'margin:0 0 4px' }, md(x.definition))]; }))));
+      p.append(h('dl', { class: 'ed-card pad' }, [].concat.apply([], a.map(function (x) { return [h('dt', { class: 'ed-dt' }, richNode(x.term)), h('dd', { style: 'margin:0 0 4px' }, md(x.definition))]; }))));
     }
     function pvFlash(t, p) {
       var a = t.flashcards || []; if (!a.length) return p.append(empt(T('pv_none')));
       p.append(h('div', { class: 'ed-fcs' }, a.map(function (x) {
-        var b = false, c = h('button', { type: 'button', class: 'ed-fc', 'aria-label': T('flip') }, x.front);
-        c.onclick = function () { b = !b; c.classList.toggle('back', b); c.textContent = b ? x.back : x.front; };
+        var b = false, c = h('button', { type: 'button', class: 'ed-fc', 'aria-label': T('flip') }, richNode(x.front));
+        c.onclick = function () { b = !b; c.classList.toggle('back', b); c.innerHTML = ''; c.append(richNode(b ? x.back : x.front)); };
         return c;
       })));
     }
@@ -6852,22 +6947,23 @@ document.addEventListener('click', function (e) {
         row.append(h('button', { type: 'button', class: 'ed-opt', onclick: function (e) {
           if (fin) return; fin = true; e.currentTarget.classList.add(k === ok ? 'ok' : 'bad');
           if (row.children[ok]) row.children[ok].classList.add('ok'); if (done) done();
-        } }, l));
+        } }, richNode(l)));
       });
       return row;
     }
     function pvQs(t, p) {
       var a = t.questions || []; if (!a.length) return p.append(empt(T('pv_none')));
       a.forEach(function (qq, i) {
-        var ty = qq.type || 'mcq', ex = h('p', { class: 'ed-mut', hidden: true }, qq.explanation || ''), show = function () { ex.hidden = false; };
+        var ty = qq.type || 'mcq', ex = h('p', { class: 'ed-mut', hidden: true }), show = function () { ex.hidden = false; };
+        if (qq.explanation) ex.innerHTML = rich(qq.explanation);
         var c = h('div', { class: 'ed-card pad' }, h('div', { class: 'ed-mut' }, 'Q' + (i + 1) + ' · ' + ty), h('p', { class: 'ed-pq' }, md(qq.prompt)));
-        if (ty === 'mcq') { if (qq.context) c.append(h('p', { class: 'ed-mut' }, qq.context)); c.append(opts(qq.options || [], +qq.answer, show)); }
+        if (ty === 'mcq') { if (qq.context) c.append(h('p', { class: 'ed-mut' }, richNode(qq.context))); c.append(opts(qq.options || [], +qq.answer, show)); }
         else if (ty === 'truefalse') c.append(opts([tr('tf_true'), tr('tf_false')], isT(qq.answer) ? 0 : 1, show, true));
         else if (ty === 'tfs') {
-          c.append(h('blockquote', { style: 'margin:6px 0' }, qq.quote));
-          (qq.items || []).forEach(function (it) { c.append(h('div', {}, it.text), opts([tr('tf_true'), tr('tf_false')], isT(it.answer) ? 0 : 1, show, true)); });
+          c.append(h('blockquote', { style: 'margin:6px 0' }, richNode(qq.quote)));
+          (qq.items || []).forEach(function (it) { c.append(h('div', {}, richNode(it.text)), opts([tr('tf_true'), tr('tf_false')], isT(it.answer) ? 0 : 1, show, true)); });
         } else {
-          var ans = h('p', { hidden: true, style: 'font-weight:500' }, ty === 'short' ? String(qq.answer == null ? '' : qq.answer) : ty === 'cloze' ? (Array.isArray(qq.answers) ? qq.answers.join(', ') : String(qq.answers == null ? '' : qq.answers)) : (qq.pairs || []).map(function (x) { return x.left + ' → ' + x.right; }).join('  |  '));
+          var ans = h('p', { hidden: true, style: 'font-weight:500' }, richNode(ty === 'short' ? String(qq.answer == null ? '' : qq.answer) : ty === 'cloze' ? (Array.isArray(qq.answers) ? qq.answers.join(', ') : String(qq.answers == null ? '' : qq.answers)) : (qq.pairs || []).map(function (x) { return x.left + ' → ' + x.right; }).join('  |  ')));
           c.append(btn(T('show_ans'), function () { ans.hidden = false; show(); }, 'btn sm'), ans);
         }
         c.append(ex); p.append(c);
