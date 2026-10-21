@@ -1,6 +1,6 @@
 <!doctype html><html>
   <head>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src https://fonts.gstatic.com https://cdn.jsdelivr.net; img-src 'self' data: blob:; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src https://fonts.gstatic.com https://cdn.jsdelivr.net; img-src 'self' data: blob:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.jsdelivr.net; manifest-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -3015,8 +3015,94 @@ if (typeof module !== 'undefined' && module.exports) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
     });
   };
-  var BLOCK_MATH_RE = /\$\$([\s\S]+?)\$\$|\\\[([\s\S]+?)\\\]/g;
-  var INLINE_MATH_RE = /(?<!\\)\$((?!\s)(?:\\\$|[^\$\r\n])+?(?<!\s))\$|\\\(([\s\S]+?)\\\)/g;
+  function tokenizeMath(str) {
+    var tokens = [];
+    var out = '';
+    var i = 0, n = str.length;
+    var pfx = '\uFFF9M', sfx = '\uFFFA';
+
+    while (i < n) {
+      if (str.charCodeAt(i) === 36 && str.charCodeAt(i + 1) === 36) {
+        var end = str.indexOf('$$', i + 2);
+        if (end !== -1) {
+          var tex = str.slice(i + 2, end).trim();
+          var idx = tokens.length;
+          tokens.push({ tex: tex, block: true });
+          out += pfx + idx + sfx;
+          i = end + 2;
+          continue;
+        }
+      }
+
+      if (str.charCodeAt(i) === 92 && str.charAt(i + 1) === '[') {
+        var end = str.indexOf('\\]', i + 2);
+        if (end !== -1) {
+          var tex = str.slice(i + 2, end).trim();
+          var idx = tokens.length;
+          tokens.push({ tex: tex, block: true });
+          out += pfx + idx + sfx;
+          i = end + 2;
+          continue;
+        }
+      }
+
+      if (str.charCodeAt(i) === 92 && str.charAt(i + 1) === '(') {
+        var end = str.indexOf('\\)', i + 2);
+        if (end !== -1) {
+          var tex = str.slice(i + 2, end).trim();
+          var idx = tokens.length;
+          tokens.push({ tex: tex, block: false });
+          out += pfx + idx + sfx;
+          i = end + 2;
+          continue;
+        }
+      }
+
+      if (str.charCodeAt(i) === 92 && str.charCodeAt(i + 1) === 36) {
+        out += '$';
+        i += 2;
+        continue;
+      }
+
+      if (str.charCodeAt(i) === 36) {
+        var nextChar = str.charAt(i + 1);
+        if (nextChar && nextChar !== ' ' && nextChar !== '\t' && nextChar !== '\r' && nextChar !== '\n' && nextChar !== '$') {
+          var j = i + 1;
+          var foundEnd = -1;
+          while (j < n) {
+            var c = str.charAt(j);
+            if (c === '\r' || c === '\n') break;
+            if (c === '\\') {
+              j += 2;
+              continue;
+            }
+            if (c === '$') {
+              var prevChar = str.charAt(j - 1);
+              if (prevChar !== ' ' && prevChar !== '\t') {
+                foundEnd = j;
+              }
+              break;
+            }
+            j++;
+          }
+
+          if (foundEnd !== -1) {
+            var tex = str.slice(i + 1, foundEnd).trim();
+            var idx = tokens.length;
+            tokens.push({ tex: tex, block: false });
+            out += pfx + idx + sfx;
+            i = foundEnd + 1;
+            continue;
+          }
+        }
+      }
+
+      out += str.charAt(i);
+      i++;
+    }
+
+    return { text: out, tokens: tokens };
+  }
 
   function fallbackMath(tex, isBlock) {
     var s = String(tex || '');
@@ -3064,29 +3150,14 @@ if (typeof module !== 'undefined' && module.exports) {
     var str = String(s);
     if (!str) return '';
 
-    var tokens = [];
-    var pfx = '\uFFF9M';
-    var sfx = '\uFFFA';
-
-    str = str.replace(BLOCK_MATH_RE, function (_, a, b) {
-      var idx = tokens.length;
-      tokens.push({ tex: (a || b).trim(), block: true });
-      return pfx + idx + sfx;
-    });
-
-    str = str.replace(INLINE_MATH_RE, function (_, a, b) {
-      var idx = tokens.length;
-      tokens.push({ tex: (a || b).trim(), block: false });
-      return pfx + idx + sfx;
-    });
-
-    var html = esc(str);
+    var res = tokenizeMath(str);
+    var html = esc(res.text);
     html = html.replace(/\*\*(.+?)\*\*/g, '<mark>$1</mark>');
 
-    if (tokens.length) {
+    if (res.tokens.length) {
       var re = /\uFFF9M(\d+)\uFFFA/g;
       html = html.replace(re, function (_, i) {
-        var t = tokens[parseInt(i, 10)];
+        var t = res.tokens[parseInt(i, 10)];
         return t ? renderMath(t.tex, t.block) : '';
       });
     }

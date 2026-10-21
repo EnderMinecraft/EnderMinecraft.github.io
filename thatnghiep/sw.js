@@ -1,6 +1,6 @@
 /* Service worker – Revision Desk (offline-first)
  * Đặt sw.js cùng thư mục với file HTML. Đổi VERSION mỗi khi bạn cập nhật HTML để ép làm mới cache. */
-const VERSION = 'v1';
+const VERSION = 'v2';
 const CACHE = 'revision-desk-' + VERSION;
 const FONT_CACHE = 'revision-desk-fonts';
 const PRECACHE = ['./', 'favicon.png'];
