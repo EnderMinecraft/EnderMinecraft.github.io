@@ -51,10 +51,13 @@
 #scratchOverlay {
   position: fixed;
   inset: 0;
-  z-index: 1000;
+  z-index: 2100;
   display: none;
   flex-direction: column;
   background: rgba(255, 255, 255, 0.96);
+}
+body.scratchpad-open #app {
+  z-index: 2000 !important;
 }
 html[data-theme="dark"] #scratchOverlay {
   background: rgba(18, 18, 22, 0.96);
@@ -724,7 +727,7 @@ mark { background: linear-gradient(to top, var(--mark) 0 48%, transparent 48%); 
 @supports (background: color-mix(in srgb, red 50%, transparent)) {
   .top { background: color-mix(in srgb, var(--bg) 84%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
 }
-#app { position: relative; z-index: 1; }
+#app { position: relative; z-index: auto; }
 .logo-bg { fill: var(--ink); }
 .logo-lines { stroke: var(--bg); }
 .logo-mark { fill: var(--mark); }
@@ -1501,16 +1504,525 @@ html, body { max-width: 100%; overflow-x: clip; }
 .exam-card .opt > span { min-width: 0; overflow-wrap: anywhere; }
 .exam-card .opt > span:first-child { flex: none; }
 .exam-card select, .exam-card input, .exam-card textarea { max-width: 100%; }
-.exam-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 20px; align-items: start; }
+.exam-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 20px; align-items: start; width: 100%; }
 .exam-nav { position: sticky; top: calc(76px + env(safe-area-inset-top, 0px)); }
-@media (width > 860px) {
+@media (min-width: 861px) {
   .shell.exam-focus { grid-template-columns: minmax(0, 1fr); }
   .shell.exam-focus .rail { display: none; }
+  .exam-nav-desktop { display: block !important; }
+  .exam-nav-drawer-btn { display: none !important; }
+}
+@media (max-width: 860px) {
+  .exam-layout { grid-template-columns: minmax(0, 1fr) !important; }
+  .exam-nav-desktop { display: none !important; }
+  .exam-nav-drawer-btn { display: inline-flex !important; }
 }
 .nav-i span { min-width: 0; overflow-wrap: anywhere; }
-@media (max-width: 860px) {
-  .exam-layout { grid-template-columns: minmax(0, 1fr); }
-  .exam-nav { position: static; }
+
+/* Text Highlighting System */
+mark.sp-hl {
+  border-radius: 2px;
+  padding: 0 1px;
+  cursor: pointer;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  line-height: inherit;
+  transition: opacity 0.15s ease, filter 0.15s ease;
+}
+mark.sp-hl:hover {
+  filter: brightness(0.92);
+}
+mark.sp-hl[data-hl="yellow"] { background: #ffe066; color: #1a1a1a; }
+mark.sp-hl[data-hl="green"] { background: #b7eb8f; color: #1a1a1a; }
+mark.sp-hl[data-hl="blue"] { background: #91caff; color: #1a1a1a; }
+mark.sp-hl[data-hl="pink"] { background: #ffadd2; color: #1a1a1a; }
+mark.sp-hl[data-hl="underline"] {
+  background: transparent;
+  color: inherit;
+  text-decoration: underline 2.5px var(--accent, #1677ff);
+  text-underline-offset: 3px;
+}
+mark.sp-hl[data-hl="strikethrough"] {
+  background: transparent;
+  color: inherit;
+  text-decoration: line-through 2px var(--bad, #ff4d4f);
+}
+
+/* Floating Highlighter Dock */
+.hl-dock {
+  position: fixed;
+  bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+  right: 18px;
+  z-index: 1020;
+  display: inline-flex;
+  align-items: center;
+  background: var(--surface, #fff);
+  border: 1px solid var(--line, #e2e8f0);
+  border-radius: 999px;
+  padding: 5px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06);
+  user-select: none;
+  overflow: hidden;
+  transition: box-shadow 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hl-tg-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--soft, #f1f5f9);
+  color: var(--ink, #0f172a);
+  border: 1px solid var(--line, #cbd5e1);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hl-tg-btn:active {
+  transform: scale(0.96);
+}
+.hl-tg-btn.active {
+  background: var(--accent, #2563eb);
+  color: #fff;
+  border-color: var(--accent, #2563eb);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
+}
+.hl-options {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  max-width: 0;
+  opacity: 0;
+  transform: scaleX(0.7);
+  transform-origin: left center;
+  overflow: hidden;
+  pointer-events: none;
+  margin-left: 0;
+  padding-left: 0;
+  border-left: 1px solid transparent;
+  white-space: nowrap;
+  transition: 
+    max-width 0.36s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.26s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.36s cubic-bezier(0.16, 1, 0.3, 1),
+    margin 0.36s cubic-bezier(0.16, 1, 0.3, 1),
+    padding 0.36s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hl-dock.open .hl-options,
+.hl-options.open {
+  max-width: 340px;
+  opacity: 1;
+  transform: scaleX(1);
+  pointer-events: auto;
+  margin-left: 6px;
+  padding-left: 6px;
+  border-left-color: var(--line, #e2e8f0);
+}
+.hl-color-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  display: inline-grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 0;
+  background: var(--soft, #f1f5f9);
+  flex-shrink: 0;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hl-color-btn:hover {
+  transform: scale(1.15);
+}
+.hl-color-btn.selected {
+  border-color: var(--ink, #0f172a);
+  transform: scale(1.18);
+  box-shadow: 0 0 0 2px var(--surface, #fff);
+}
+.hl-color-btn[data-color="yellow"] { background: #ffe066; color: #1a1a1a; }
+.hl-color-btn[data-color="green"] { background: #b7eb8f; color: #1a1a1a; }
+.hl-color-btn[data-color="blue"] { background: #91caff; color: #1a1a1a; }
+.hl-color-btn[data-color="pink"] { background: #ffadd2; color: #1a1a1a; }
+.hl-color-btn[data-color="underline"] { color: var(--accent, #2563eb); text-decoration: underline 2px; }
+.hl-color-btn[data-color="strikethrough"] { color: var(--bad, #ff4d4f); text-decoration: line-through 2px; }
+.hl-color-btn[data-color="eraser"] { color: var(--muted, #64748b); font-size: 13px; }
+
+/* Floating Selection Highlighter Bubble */
+.hl-bubble {
+  position: fixed;
+  z-index: 1060;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--surface, #1e293b);
+  border: 1px solid var(--line, #334155);
+  border-radius: 24px;
+  padding: 4px 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), 0 2px 6px rgba(0, 0, 0, 0.2);
+  user-select: none;
+  animation: hlBubblePop 0.15s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+@keyframes hlBubblePop {
+  from { opacity: 0; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1); }
+}
+.hl-bubble-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  cursor: pointer;
+  display: inline-grid;
+  place-items: center;
+  font-size: 13px;
+  padding: 0;
+  background: var(--soft, #334155);
+  color: var(--ink, #f8fafc);
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+.hl-bubble-btn:hover, .hl-bubble-btn:active {
+  transform: scale(1.18);
+  filter: brightness(1.1);
+}
+
+/* Exam & Quiz Bottom Navigation Bar */
+.exam-bottom-nav, .quiz-bottom-nav {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  border-top: 1px solid var(--line) !important;
+  padding-top: 14px !important;
+  margin-top: auto !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+.exam-bottom-nav .btn, .quiz-bottom-nav .btn {
+  height: 40px !important;
+  min-height: 40px !important;
+  max-height: 40px !important;
+  line-height: 38px !important;
+  padding: 0 14px !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  flex: 0 0 auto !important;
+  border-radius: 20px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.exam-bottom-nav .exam-nav-drawer-btn, .quiz-bottom-nav .exam-nav-drawer-btn {
+  flex: 0 1 auto !important;
+  padding: 0 12px !important;
+  gap: 6px !important;
+  font-size: 13px !important;
+  background: var(--soft) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--line) !important;
+}
+html.rb-on.rb-fill .exam-bottom-nav .exam-nav-drawer-btn,
+html.rb-on.rb-fill .quiz-bottom-nav .exam-nav-drawer-btn {
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+  border-color: var(--line) !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+@media (min-width: 861px) {
+  .exam-bottom-nav .exam-nav-drawer-btn,
+  .exam-bottom-nav .exam-nav-drawer-btn.btn {
+    display: none !important;
+  }
+}
+.nav-text-short { display: none; }
+.nav-text-full { display: inline; }
+
+@media (max-width: 520px) {
+  .exam-bottom-nav, .quiz-bottom-nav {
+    gap: 6px !important;
+    padding-top: 12px !important;
+  }
+  .exam-bottom-nav .btn, .quiz-bottom-nav .btn {
+    padding: 0 10px !important;
+    font-size: 12.5px !important;
+    gap: 4px !important;
+  }
+  .exam-bottom-nav .exam-nav-drawer-btn, .quiz-bottom-nav .exam-nav-drawer-btn {
+    padding: 0 8px !important;
+  }
+  .nav-text-short { display: inline; }
+  .nav-text-full { display: none; }
+  .exam-card { padding: 16px 14px !important; }
+}
+
+/* Reading Comprehension 2-Pane Split */
+.rc-container {
+  display: grid;
+  grid-template-columns: minmax(320px, 1.15fr) minmax(320px, 1fr);
+  gap: 18px;
+  align-items: stretch;
+  min-height: 520px;
+}
+.rc-passage-pane {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  border-radius: 12px;
+  background: var(--surface, #fff);
+  border: 1px solid var(--line, #e2e8f0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  max-height: calc(100vh - 170px);
+  overflow-y: auto;
+  position: sticky;
+  top: 76px;
+}
+.rc-passage-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--line, #e2e8f0);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent, #2563eb);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.rc-passage-body {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--ink, #1e293b);
+  flex: 1;
+}
+.rc-passage-body p {
+  margin: 0 0 1em 0;
+  white-space: pre-line;
+}
+.rc-passage-body cite {
+  display: block;
+  font-size: 13px;
+  color: var(--muted, #64748b);
+  margin-top: 10px;
+  font-style: italic;
+}
+.rc-resizer {
+  display: none;
+}
+.rc-question-pane {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px;
+  border-radius: 12px;
+  background: var(--surface, #fff);
+  border: 1px solid var(--line, #e2e8f0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  min-height: 480px;
+}
+
+/* Mobile Split-view Dọc (< 768px) */
+@media (max-width: 767px) {
+  .rc-container {
+    display: flex;
+    flex-direction: column;
+    min-height: auto;
+    gap: 0;
+  }
+  .rc-passage-pane {
+    position: static;
+    max-height: none;
+    height: var(--rc-top-height, 270px);
+    border-bottom: none;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    padding: 16px;
+  }
+  .rc-resizer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 16px;
+    background: var(--soft, #f1f5f9);
+    border-top: 1px solid var(--line, #e2e8f0);
+    border-bottom: 1px solid var(--line, #e2e8f0);
+    cursor: row-resize;
+    touch-action: none;
+    user-select: none;
+  }
+  .rc-resizer::after {
+    content: '';
+    width: 40px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--muted, #94a3b8);
+  }
+  .rc-question-pane {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    padding: 16px;
+    min-height: auto;
+  }
+  .hl-dock {
+    right: 14px;
+    bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
+    padding: 3px;
+    gap: 0;
+  }
+  .hl-dock.open .hl-options,
+  .hl-options.open {
+    max-width: 270px;
+    margin-left: 4px;
+    padding-left: 4px;
+    gap: 3px;
+  }
+  .hl-tg-btn {
+    height: 28px;
+    padding: 0 8px;
+    font-size: 12px;
+  }
+  .hl-color-btn {
+    width: 22px;
+    height: 22px;
+    font-size: 9px;
+  }
+}
+
+/* Question Palette Sidebar Slide-Over */
+.q-slideover-backdrop, .q-drawer-backdrop {
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(15, 23, 42, 0.6) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+  z-index: 1040 !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s !important;
+}
+.q-slideover-backdrop.open, .q-drawer-backdrop.open {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.q-slideover, .q-drawer {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  width: min(340px, 86vw) !important;
+  background: var(--surface, #1e293b) !important;
+  border-left: 1px solid var(--line, #334155) !important;
+  box-shadow: -12px 0 36px rgba(0, 0, 0, 0.45) !important;
+  z-index: 1050 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  transform: translateX(100%) !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.32s !important;
+  overflow: hidden !important;
+  will-change: transform;
+}
+.q-slideover.open, .q-drawer.open {
+  transform: translateX(0) !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.q-slideover-header, .q-drawer-header {
+  padding: 16px 18px !important;
+  border-bottom: 1px solid var(--line) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  flex-shrink: 0 !important;
+}
+.q-slideover-close {
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  min-height: 32px !important;
+  max-width: 32px !important;
+  max-height: 32px !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 8px !important;
+  border: 1px solid var(--line) !important;
+  background: var(--soft) !important;
+  color: var(--ink) !important;
+  cursor: pointer !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  box-sizing: border-box !important;
+  flex: 0 0 32px !important;
+  transition: background 0.15s ease, transform 0.15s ease, color 0.15s ease !important;
+}
+.q-slideover-close:hover {
+  background: var(--line) !important;
+  color: var(--ink) !important;
+  transform: scale(1.06);
+}
+.q-slideover-close:active {
+  transform: scale(0.94);
+}
+.q-slideover-body, .q-drawer-body {
+  padding: 16px 18px !important;
+  overflow-y: auto !important;
+  flex: 1 !important;
+  overscroll-behavior: contain !important;
+}
+.q-slideover-footer, .q-drawer-footer {
+  padding: 14px 18px !important;
+  border-top: 1px solid var(--line) !important;
+  background: var(--soft) !important;
+  flex-shrink: 0 !important;
+}
+
+/* Color dot swatches (replacing cartoon emojis) */
+.hl-dot {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  vertical-align: middle;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+}
+.hl-c-yellow { background: #facc15; }
+.hl-c-green { background: #4ade80; }
+.hl-c-blue { background: #60a5fa; }
+.hl-c-pink { background: #f472b6; }
+.hl-color-btn, .hl-bubble-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 /* Microinteractions Grid */
@@ -2433,6 +2945,16 @@ var I18N = {
     sync_apply: "Apply & Merge",
     sync_success_title: "Progress Synced!",
     sync_success_body: "Study notes, flashcard mastery, and mistake vault records have been merged successfully.",
+    hl_btn: "Highlighter",
+    hl_clear: "Clear highlights",
+    hl_click_remove: "Click to remove highlight",
+    short_prev: "Prev",
+    short_next: "Next",
+    rc_passage: "Reading Passage",
+    rc_resize_hint: "Drag to resize passage view",
+    q_drawer_title: "Question Palette",
+    q_drawer_close: "Close",
+    q_drawer_summary: "{done}/{total} answered",
     box_1_short: "Box 1",
     box_2_short: "Box 2",
     box_3_short: "Box 3",
@@ -2889,6 +3411,16 @@ var I18N = {
     sync_apply: "Áp dụng & Gộp",
     sync_success_title: "Đồng bộ thành công!",
     sync_success_body: "Tiến độ đọc bài, các hộp Leitner ghi nhớ và sổ tay câu sai đã được đồng bộ.",
+    hl_btn: "Bút highlight",
+    hl_clear: "Xóa highlight",
+    hl_click_remove: "Bấm để xóa highlight",
+    short_prev: "Trước",
+    short_next: "Tiếp",
+    rc_passage: "Ngữ liệu đọc hiểu",
+    rc_resize_hint: "Kéo để chỉnh độ cao ngữ liệu",
+    q_drawer_title: "Danh sách câu hỏi",
+    q_drawer_close: "Đóng",
+    q_drawer_summary: "{done}/{total} đã làm",
     box_1_short: "Hộp 1",
     box_2_short: "Hộp 2",
     box_3_short: "Hộp 3",
@@ -3775,7 +4307,9 @@ var S = {
     animateMain: false,
     railOff: store.get('sp:rail') === '1',
     drawerOpen: false,
-    streakView: 'week' // Thêm trạng thái mặc định ('week' hoặc 'month')
+    streakView: 'week', // Thêm trạng thái mặc định ('week' hoặc 'month')
+    qDrawerOpen: false,
+    rcTopHeight: 270
   };
 
   /* ---------- pack + progress ---------- */
@@ -4005,6 +4539,8 @@ function go(where, id, mode) {
     // 1. Active-View Guard: Do nothing if clicking the nav item you're already viewing
     openDebugPopup(false);
     if (typeof SCRATCHPAD !== 'undefined' && SCRATCHPAD.close) SCRATCHPAD.close();
+    if (typeof HIGHLIGHTER !== 'undefined') HIGHLIGHTER.hideBubble();
+    S.qDrawerOpen = false;
     if (where === 'edit' && S.libId && !S.empty) { libEditPrompt(); return; }
     if (S.empty && (where === 'exam' || where === 'topic' || where === 'all')) where = 'overview';
     var wasDrawer = S.drawerOpen; setDrawer(false);
@@ -4089,27 +4625,35 @@ function go(where, id, mode) {
     var scratchHtml = '';
     if (S.view === 'study' || (S.view === 'exam' && S.exam && S.exam.step === 'doing')) {
       var isScratchOpen = SCRATCHPAD.isOpen();
-      scratchHtml = '<button class="scratch-fab' + (isScratchOpen ? ' active' : '') + '" data-act="toggleScratchpad" title="' + esc(tr('scratchpad')) + '" aria-label="' + esc(tr('scratchpad')) + '">' + (isScratchOpen ? '✕ <span>' + esc(tr('scratch_close')) + '</span>' : '✏️ <span>' + esc(tr('scratchpad')) + '</span>') + '</button>' +
+      scratchHtml = '<button class="scratch-fab' + (isScratchOpen ? ' active' : '') + '" data-act="toggleScratchpad" title="' + esc(tr('scratchpad')) + '" aria-label="' + esc(tr('scratchpad')) + '">' + (isScratchOpen ? '✕ <span>' + esc(tr('scratch_close')) + '</span>' : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg> <span>' + esc(tr('scratchpad')) + '</span>') + '</button>' +
         '<div id="scratchOverlay" style="display:' + (isScratchOpen ? 'flex' : 'none') + ';">' +
         '<div class="scratch-tb">' +
         '<div class="scratch-tools">' +
-        '<button type="button" class="btn sm' + (typeof SCRATCHPAD !== 'undefined' && SCRATCHPAD.getMode && SCRATCHPAD.getMode() === 'eraser' ? '' : ' active') + '" data-act="scratchMode" data-val="pen">✏️ ' + esc(tr('scratch_pen')) + '</button>' +
-        '<button type="button" class="btn sm' + (typeof SCRATCHPAD !== 'undefined' && SCRATCHPAD.getMode && SCRATCHPAD.getMode() === 'eraser' ? ' active' : '') + '" data-act="scratchMode" data-val="eraser">🧹 ' + esc(tr('scratch_eraser')) + '</button>' +
+        '<button type="button" class="btn sm' + (typeof SCRATCHPAD !== 'undefined' && SCRATCHPAD.getMode && SCRATCHPAD.getMode() === 'eraser' ? '' : ' active') + '" data-act="scratchMode" data-val="pen">' + esc(tr('scratch_pen')) + '</button>' +
+        '<button type="button" class="btn sm' + (typeof SCRATCHPAD !== 'undefined' && SCRATCHPAD.getMode && SCRATCHPAD.getMode() === 'eraser' ? ' active' : '') + '" data-act="scratchMode" data-val="eraser">' + esc(tr('scratch_eraser')) + '</button>' +
         '<button type="button" class="scratch-dot sel" data-act="scratchColor" data-val="#2563eb" style="background:#2563eb;"></button>' +
         '<button type="button" class="scratch-dot" data-act="scratchColor" data-val="#dc2626" style="background:#dc2626;"></button>' +
         '<button type="button" class="scratch-dot" data-act="scratchColor" data-val="#10b981" style="background:#10b981;"></button>' +
         '<button type="button" class="scratch-dot" data-act="scratchColor" data-val="#111827" style="background:var(--ink);"></button>' +
-        '<button type="button" class="btn sm" data-act="scratchEraseInk" style="margin-left:4px;" title="' + esc(tr('scratch_erase_ink_title')) + '">🗑️ ' + esc(tr('scratch_erase_ink')) + '</button>' +
+        '<button type="button" class="btn sm" data-act="scratchEraseInk" style="margin-left:4px;" title="' + esc(tr('scratch_erase_ink_title')) + '">' + esc(tr('scratch_erase_ink')) + '</button>' +
         '</div>' +
         '<button type="button" class="scratch-close-btn" data-act="closeScratchpad" title="' + esc(tr('scratch_close')) + ' (Esc)" aria-label="' + esc(tr('scratch_close')) + '">✕ <span>' + esc(tr('scratch_close')) + '</span></button>' +
         '</div>' +
         '<canvas id="scratchCanvas"></canvas>' +
         '</div>';
     }
-    $('#app').innerHTML = '<div class="shell' + (S.railOff ? ' rail-off' : '') + (S.view === 'exam' && S.exam && S.exam.step === 'doing' ? ' exam-focus' : '') + (S.drawerOpen ? ' drawer-open' : '') + '">' + navHTML() + '<div class="scrim" data-act="closeDrawer"></div><main class="' + mainClass + '" id="main" tabindex="-1">' + main + '</main></div>' + scratchHtml;
-    if (SCRATCHPAD.isOpen()) SCRATCHPAD.initCanvas();
+    var hlDockHtml = (typeof HIGHLIGHTER !== 'undefined' && HIGHLIGHTER.isAllowed()) ? HIGHLIGHTER.dockHTML() : '';
+    var qSlideOverHtml = typeof renderQSlideOver !== 'undefined' ? renderQSlideOver() : '';
+    $('#app').innerHTML = '<div class="shell' + (S.railOff ? ' rail-off' : '') + (S.view === 'exam' && S.exam && S.exam.step === 'doing' ? ' exam-focus' : '') + (S.drawerOpen ? ' drawer-open' : '') + '">' + navHTML() + '<div class="scrim" data-act="closeDrawer"></div><main class="' + mainClass + '" id="main" tabindex="-1">' + main + '</main></div>' + scratchHtml + hlDockHtml + qSlideOverHtml;
+    if (typeof SCRATCHPAD !== 'undefined') {
+      document.body.classList.toggle('scratchpad-open', !!SCRATCHPAD.isOpen());
+      if (SCRATCHPAD.isOpen()) SCRATCHPAD.initCanvas();
+    }
     if (S.view === 'edit') EDITOR.mount($('#edHost'));
     if (S.view === 'settings') THEMER.mount($('#thHost'));
+    if (typeof HIGHLIGHTER !== 'undefined' && HIGHLIGHTER.isAllowed()) HIGHLIGHTER.applyToContainer($('#main'));
+    var resizer = document.querySelector('.rc-resizer');
+    if (resizer) initRcResizer(resizer);
     updateDebugInfo();
     syncRailAria();
 
@@ -4211,6 +4755,423 @@ function go(where, id, mode) {
     return out;
   }
 
+  /* ---- Text Highlighting System Controller ---- */
+  var HIGHLIGHTER = (function () {
+    var COLORS = ['yellow', 'green', 'blue', 'pink', 'underline', 'strikethrough', 'eraser'];
+    var currentStyle = 'yellow';
+    var isEnabled = false;
+    var bubbleEl = null;
+    var savedRange = null;
+
+    function init() {
+      try {
+        var saved = JSON.parse(store.get('sp:hl_cfg') || '{}');
+        if (saved.style && COLORS.indexOf(saved.style) >= 0) currentStyle = saved.style;
+        if (typeof saved.on === 'boolean') isEnabled = saved.on;
+      } catch (e) {}
+    }
+    init();
+
+    function saveConfig() {
+      store.set('sp:hl_cfg', JSON.stringify({ on: isEnabled, style: currentStyle }));
+    }
+
+    function isHighlightAllowed() {
+      if (S.view === 'exam' && S.exam && S.exam.step === 'doing') return true;
+      if (S.view === 'study' && S.mode === 'quiz' && S.quiz && !S.quiz.done) return true;
+      return false;
+    }
+
+    function toggle(forced) {
+      isEnabled = forced !== undefined ? !!forced : !isEnabled;
+      saveConfig();
+      var dock = document.getElementById('hlDock');
+      if (dock) {
+        dock.classList.toggle('open', isEnabled);
+        var tgBtn = dock.querySelector('.hl-tg-btn');
+        if (tgBtn) tgBtn.classList.toggle('active', isEnabled);
+        var opts = dock.querySelector('.hl-options');
+        if (opts) opts.classList.toggle('open', isEnabled);
+      }
+      if (!isEnabled) hideBubble();
+      return isEnabled;
+    }
+
+    function isWordChar(ch) {
+      return ch && !/[\s.,;:!?()[\]{}"'“”‘’]/.test(ch);
+    }
+
+    function snapRangeToWords(range) {
+      if (!range) return range;
+      try {
+        var sc = range.startContainer, so = range.startOffset;
+        if (sc.nodeType === Node.TEXT_NODE && so > 0) {
+          var sval = sc.nodeValue;
+          if (isWordChar(sval[so]) || (so < sval.length && isWordChar(sval[so]) && isWordChar(sval[so - 1]))) {
+            while (so > 0 && isWordChar(sval[so - 1])) so--;
+            range.setStart(sc, so);
+          }
+        }
+        var ec = range.endContainer, eo = range.endOffset;
+        if (ec.nodeType === Node.TEXT_NODE) {
+          var endVal = ec.nodeValue;
+          if (eo > 0 && isWordChar(endVal[eo - 1]) && eo < endVal.length && isWordChar(endVal[eo])) {
+            while (eo < endVal.length && isWordChar(endVal[eo])) eo++;
+            range.setEnd(ec, eo);
+          }
+        }
+      } catch (e) {}
+      return range;
+    }
+
+    function getScopeKey() {
+      if (S.view === 'exam' && S.exam && S.exam.run) {
+        return 'exam:' + (S.key || 'pack') + ':' + S.exam.run.currentIndex;
+      }
+      if (S.view === 'study' && S.mode === 'quiz' && S.quiz) {
+        return 'quiz:' + (S.key || 'pack') + ':' + S.quiz.i;
+      }
+      if (S.view === 'study' && S.mode === 'cards' && S.cards && S.cards.queue && S.cards.queue[0]) {
+        return 'card:' + (S.key || 'pack') + ':' + S.cards.queue[0].id;
+      }
+      return (S.view || 'app') + ':' + (S.key || 'pack') + ':' + (S.scope || 'all');
+    }
+
+    function getHighlights(key) {
+      key = key || getScopeKey();
+      try {
+        return JSON.parse(store.get('sp:hl:' + key) || '[]');
+      } catch (e) { return []; }
+    }
+
+    function saveHighlights(hls, key) {
+      key = key || getScopeKey();
+      store.set('sp:hl:' + key, JSON.stringify(hls));
+    }
+
+    function addHighlight(text, color, key) {
+      text = (text || '').trim();
+      if (!text || text.length < 2) return;
+      key = key || getScopeKey();
+      var list = getHighlights(key);
+      var existing = list.findIndex(function (item) { return item.text === text; });
+      if (existing >= 0) {
+        list[existing].color = color;
+      } else {
+        list = list.filter(function (item) {
+          return item.text !== text && item.text.indexOf(text) === -1 && text.indexOf(item.text) === -1;
+        });
+        list.push({ id: 'hl_' + Date.now().toString(36) + '_' + Math.random().toString(36).substr(2, 4), text: text, color: color });
+      }
+      saveHighlights(list, key);
+    }
+
+    function removeHighlight(text, key) {
+      key = key || getScopeKey();
+      var list = getHighlights(key).filter(function (item) { return item.text !== text; });
+      saveHighlights(list, key);
+    }
+
+    function clearCurrentScope(key) {
+      key = key || getScopeKey();
+      store.set('sp:hl:' + key, '[]');
+      hideBubble();
+      var marks = document.querySelectorAll('#main .sp-hl');
+      marks.forEach(function (mark) {
+        var parent = mark.parentNode;
+        if (parent) {
+          while (mark.firstChild) parent.insertBefore(mark.firstChild, mark);
+          parent.removeChild(mark);
+          parent.normalize();
+        }
+      });
+    }
+
+    function applyToContainer(container, key) {
+      if (!isHighlightAllowed()) return;
+      if (!container) return;
+      var list = getHighlights(key);
+      if (!list.length) return;
+
+      var existingMarks = container.querySelectorAll('.sp-hl');
+      existingMarks.forEach(function (m) {
+        var t = (m.getAttribute('data-hl-text') || m.textContent).trim();
+        var item = list.find(function (hl) { return hl.text === t; });
+        if (item) {
+          if (m.getAttribute('data-hl') !== item.color) {
+            m.setAttribute('data-hl', item.color);
+          }
+        }
+      });
+
+      list.forEach(function (hl) {
+        if (!hl || !hl.text) return;
+        var walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, {
+          acceptNode: function (node) {
+            if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+            var p = node.parentElement;
+            if (!p) return NodeFilter.FILTER_REJECT;
+            if (p.closest('.sp-hl') || p.closest('.katex') || p.tagName === 'BUTTON' || p.tagName === 'TEXTAREA' || p.tagName === 'INPUT' || p.closest('.scratch-fab') || p.closest('.hl-dock') || p.closest('.q-drawer') || p.closest('.hl-bubble')) {
+              return NodeFilter.FILTER_REJECT;
+            }
+            return NodeFilter.FILTER_ACCEPT;
+          }
+        });
+
+        var nodes = [];
+        var n;
+        while ((n = walker.nextNode())) {
+          if (n.nodeValue.indexOf(hl.text) >= 0) nodes.push(n);
+        }
+
+        nodes.forEach(function (node) {
+          var idx = node.nodeValue.indexOf(hl.text);
+          if (idx < 0) return;
+          var mark = document.createElement('mark');
+          mark.className = 'sp-hl';
+          mark.setAttribute('data-hl', hl.color || 'yellow');
+          mark.setAttribute('data-hl-text', hl.text);
+          mark.setAttribute('title', tr('hl_click_remove') || 'Click to remove');
+          mark.textContent = hl.text;
+
+          var after = node.splitText(idx + hl.text.length);
+          var target = node.splitText(idx);
+          target.parentNode.replaceChild(mark, target);
+        });
+      });
+    }
+
+    function getBubble() {
+      if (!bubbleEl) {
+        bubbleEl = document.createElement('div');
+        bubbleEl.id = 'hlBubble';
+        bubbleEl.className = 'hl-bubble';
+        bubbleEl.style.display = 'none';
+        bubbleEl.innerHTML =
+          '<button type="button" class="hl-bubble-btn" data-act="hlApplyColor" data-color="yellow" title="Vàng"><i class="hl-dot hl-c-yellow"></i></button>' +
+          '<button type="button" class="hl-bubble-btn" data-act="hlApplyColor" data-color="green" title="Xanh lá"><i class="hl-dot hl-c-green"></i></button>' +
+          '<button type="button" class="hl-bubble-btn" data-act="hlApplyColor" data-color="blue" title="Xanh lam"><i class="hl-dot hl-c-blue"></i></button>' +
+          '<button type="button" class="hl-bubble-btn" data-act="hlApplyColor" data-color="pink" title="Hồng"><i class="hl-dot hl-c-pink"></i></button>' +
+          '<button type="button" class="hl-bubble-btn" data-act="hlApplyColor" data-color="underline" title="Gạch chân"><u>U</u></button>' +
+          '<button type="button" class="hl-bubble-btn" data-act="hlApplyColor" data-color="strikethrough" title="Gạch xuyên"><s>S</s></button>' +
+          '<button type="button" class="hl-bubble-btn" data-act="hlCloseBubble" title="Đóng" style="font-size:11px;opacity:0.75;">✕</button>';
+        document.body.appendChild(bubbleEl);
+
+        bubbleEl.addEventListener('click', function (e) {
+          var btn = e.target.closest('button');
+          if (!btn) return;
+          e.preventDefault();
+          e.stopPropagation();
+          var act = btn.dataset.act;
+          if (act === 'hlApplyColor') {
+            applyActiveSelection(btn.dataset.color);
+          } else if (act === 'hlCloseBubble') {
+            hideBubble();
+          }
+        });
+        bubbleEl.addEventListener('mousedown', function (e) { e.preventDefault(); });
+        bubbleEl.addEventListener('touchstart', function (e) { e.stopPropagation(); });
+      }
+      return bubbleEl;
+    }
+
+    function hideBubble() {
+      if (bubbleEl) bubbleEl.style.display = 'none';
+      savedRange = null;
+    }
+
+    function checkSelection(container) {
+      if (!isHighlightAllowed()) {
+        hideBubble();
+        return;
+      }
+      container = container || $('#main');
+      var sel = window.getSelection();
+      if (!sel || sel.isCollapsed) {
+        hideBubble();
+        return;
+      }
+      var text = sel.toString().trim();
+      if (!text || text.length < 2) {
+        hideBubble();
+        return;
+      }
+      var range;
+      try {
+        range = sel.getRangeAt(0);
+      } catch (e) { return; }
+      if (!range) return;
+
+      var anchor = sel.anchorNode;
+      if (!anchor || (container && !container.contains(anchor))) {
+        hideBubble();
+        return;
+      }
+      var p = anchor.parentElement;
+      if (p && (p.closest('.hl-dock') || p.closest('.q-drawer') || p.closest('button') || p.closest('input') || p.closest('textarea') || p.closest('.hl-bubble') || p.closest('.scratch-fab'))) {
+        hideBubble();
+        return;
+      }
+
+      savedRange = range.cloneRange();
+      var rect = range.getBoundingClientRect();
+      if (rect.width === 0 && rect.height === 0) {
+        hideBubble();
+        return;
+      }
+
+      var b = getBubble();
+      b.style.display = 'inline-flex';
+      var bw = b.offsetWidth || 230;
+      var bh = b.offsetHeight || 38;
+
+      var top = rect.top - bh - 8;
+      if (top < 10) top = rect.bottom + 8;
+      var left = rect.left + (rect.width / 2) - (bw / 2);
+      if (left < 10) left = 10;
+      if (left + bw > window.innerWidth - 10) left = window.innerWidth - bw - 10;
+
+      b.style.top = Math.round(top) + 'px';
+      b.style.left = Math.round(left) + 'px';
+    }
+
+    function applyActiveSelection(color) {
+      color = color || currentStyle;
+      var sel = window.getSelection();
+      var range = (sel && !sel.isCollapsed) ? sel.getRangeAt(0) : savedRange;
+      if (!range) return;
+
+      snapRangeToWords(range);
+      var text = range.toString().trim();
+      if (!text || text.length < 2) return;
+
+      var container = $('#main') || document.body;
+      var marks = container.querySelectorAll('.sp-hl');
+      marks.forEach(function (mark) {
+        var markText = (mark.getAttribute('data-hl-text') || mark.textContent).trim();
+        if (!markText) return;
+        if (text.indexOf(markText) >= 0 || markText.indexOf(text) >= 0) {
+          var p = mark.parentNode;
+          if (p) {
+            while (mark.firstChild) p.insertBefore(mark.firstChild, mark);
+            p.removeChild(mark);
+            p.normalize();
+          }
+        }
+      });
+
+      if (color === 'eraser') {
+        removeHighlight(text);
+      } else {
+        addHighlight(text, color);
+        applyToContainer(container);
+      }
+
+      hideBubble();
+      if (sel) {
+        try { sel.removeAllRanges(); } catch (e) {}
+      }
+    }
+
+    function setStyle(st) {
+      if (COLORS.indexOf(st) >= 0) {
+        currentStyle = st;
+        isEnabled = true;
+        saveConfig();
+        var dock = document.getElementById('hlDock');
+        if (dock) {
+          dock.classList.add('open');
+          var tgBtn = dock.querySelector('.hl-tg-btn');
+          if (tgBtn) tgBtn.classList.add('active');
+          var opts = dock.querySelector('.hl-options');
+          if (opts) opts.classList.add('open');
+          dock.querySelectorAll('.hl-color-btn').forEach(function (b) {
+            b.classList.toggle('selected', b.dataset.color === currentStyle);
+          });
+        }
+        var sel = window.getSelection();
+        if (savedRange || (sel && !sel.isCollapsed)) {
+          applyActiveSelection(st);
+        }
+      }
+    }
+
+    function handleClick(e) {
+      var mark = e.target.closest && e.target.closest('.sp-hl');
+      if (mark) {
+        var text = (mark.getAttribute('data-hl-text') || mark.textContent).trim();
+        if (!text) return;
+        if (currentStyle === 'eraser') {
+          e.preventDefault();
+          e.stopPropagation();
+          removeHighlight(text);
+          var parent = mark.parentNode;
+          if (parent) {
+            while (mark.firstChild) parent.insertBefore(mark.firstChild, mark);
+            parent.removeChild(mark);
+            parent.normalize();
+          }
+          hideBubble();
+        } else if (isEnabled) {
+          e.preventDefault();
+          e.stopPropagation();
+          var oldColor = mark.getAttribute('data-hl');
+          if (oldColor === currentStyle) {
+            removeHighlight(text);
+            var parent = mark.parentNode;
+            if (parent) {
+              while (mark.firstChild) parent.insertBefore(mark.firstChild, mark);
+              parent.removeChild(mark);
+              parent.normalize();
+            }
+          } else {
+            mark.setAttribute('data-hl', currentStyle);
+            addHighlight(text, currentStyle);
+          }
+          hideBubble();
+        }
+      }
+    }
+
+    function dockHTML() {
+      if (!isHighlightAllowed()) return '';
+      var activeClass = isEnabled ? ' active' : '';
+      var openClass = isEnabled ? ' open' : '';
+      return '<div class="hl-dock' + openClass + '" id="hlDock" role="toolbar" aria-label="' + esc(tr('hl_btn')) + '">' +
+        '<button type="button" class="hl-tg-btn' + activeClass + '" data-act="toggleHighlighter" title="' + esc(tr('hl_btn')) + '">' +
+        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><path d="M9 11l-6 6v3h9l3-3"></path> <path d="M22 12l-4.6 4.6a2 2 0 01-2.8 0l-5.2-5.2a2 2 0 010-2.8L14 4"></path></svg><span>' + esc(tr('hl_btn')) + '</span>' +
+        '</button>' +
+        '<div class="hl-options' + openClass + '">' +
+        '<button type="button" class="hl-color-btn' + (currentStyle === 'yellow' ? ' selected' : '') + '" data-act="setHlColor" data-color="yellow" title="Vàng"><i class="hl-dot hl-c-yellow"></i></button>' +
+        '<button type="button" class="hl-color-btn' + (currentStyle === 'green' ? ' selected' : '') + '" data-act="setHlColor" data-color="green" title="Xanh lá"><i class="hl-dot hl-c-green"></i></button>' +
+        '<button type="button" class="hl-color-btn' + (currentStyle === 'blue' ? ' selected' : '') + '" data-act="setHlColor" data-color="blue" title="Xanh lam"><i class="hl-dot hl-c-blue"></i></button>' +
+        '<button type="button" class="hl-color-btn' + (currentStyle === 'pink' ? ' selected' : '') + '" data-act="setHlColor" data-color="pink" title="Hồng"><i class="hl-dot hl-c-pink"></i></button>' +
+        '<button type="button" class="hl-color-btn' + (currentStyle === 'underline' ? ' selected' : '') + '" data-act="setHlColor" data-color="underline" title="Gạch chân"><u>U</u></button>' +
+        '<button type="button" class="hl-color-btn' + (currentStyle === 'strikethrough' ? ' selected' : '') + '" data-act="setHlColor" data-color="strikethrough" title="Gạch xuyên"><s>S</s></button>' +
+        '<button type="button" class="hl-color-btn' + (currentStyle === 'eraser' ? ' selected' : '') + '" data-act="setHlColor" data-color="eraser" title="Tẩy / Xóa"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7"/><path d="m5 11 9 9"/></svg></button>' +
+        '<button type="button" class="btn sm" data-act="clearScopeHighlights" style="margin-left:4px;padding:3px 7px;font-size:11px;" title="' + esc(tr('hl_clear')) + '"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg></button>' +
+        '</div></div>';
+    }
+
+    return {
+      toggle: toggle,
+      setStyle: setStyle,
+      isOn: function () { return isEnabled; },
+      isAllowed: isHighlightAllowed,
+      getStyle: function () { return currentStyle; },
+      getHighlights: getHighlights,
+      addHighlight: addHighlight,
+      removeHighlight: removeHighlight,
+      applyToContainer: applyToContainer,
+      checkSelection: checkSelection,
+      applyActiveSelection: applyActiveSelection,
+      hideBubble: hideBubble,
+      handleClick: handleClick,
+      clearCurrentScope: clearCurrentScope,
+      dockHTML: dockHTML
+    };
+  })();
+
   /* ---- Floating Scratchpad Controller ---- */
   var SCRATCHPAD = (function () {
     var open = false;
@@ -4294,6 +5255,7 @@ function go(where, id, mode) {
 
     function toggle(forced) {
       open = forced !== undefined ? !!forced : !open;
+      document.body.classList.toggle('scratchpad-open', open);
       var overlay = document.getElementById('scratchOverlay');
       if (overlay) {
         overlay.style.display = open ? 'flex' : 'none';
@@ -4302,12 +5264,13 @@ function go(where, id, mode) {
       var fab = document.querySelector('.scratch-fab');
       if (fab) {
         fab.classList.toggle('active', open);
-        fab.innerHTML = open ? '✕ <span>' + esc(tr('scratch_close')) + '</span>' : '✏️ <span>' + esc(tr('scratchpad')) + '</span>';
+        fab.innerHTML = open ? '✕ <span>' + esc(tr('scratch_close')) + '</span>' : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg> <span>' + esc(tr('scratchpad')) + '</span>';
       }
     }
 
     function close() {
       if (open) toggle(false);
+      document.body.classList.remove('scratchpad-open');
     }
 
     return {
@@ -4903,6 +5866,254 @@ function computeExamResult(questions, timeUsed) {
   };
 }
 
+function isReadingPassage(q) {
+  if (!q) return false;
+  if (q.type === 'tfs' && (q.quote || q.context || q.passage)) return true;
+  if (q.passage && q.passage.trim().length > 0) return true;
+  if (q.context && q.context.trim().length > 40) return true;
+  if (q.quote && q.quote.trim().length > 40) return true;
+  return false;
+}
+
+function getPassageText(q) {
+  if (!q) return '';
+  return q.passage || q.quote || q.context || '';
+}
+
+function getPassageSource(q) {
+  return (q && q.source) || '';
+}
+
+function initRcResizer(el) {
+  if (!el || el._rcInit) return;
+  el._rcInit = true;
+  var startY = 0, startH = 0;
+  var passagePane = el.previousElementSibling;
+  if (!passagePane) return;
+
+  function onPointerDown(e) {
+    startY = e.clientY || (e.touches && e.touches[0].clientY);
+    startH = passagePane.getBoundingClientRect().height;
+    document.addEventListener('pointermove', onPointerMove);
+    document.addEventListener('pointerup', onPointerUp);
+    document.addEventListener('touchmove', onTouchMove, { passive: false });
+    document.addEventListener('touchend', onPointerUp);
+  }
+  function onPointerMove(e) {
+    var curY = e.clientY || (e.touches && e.touches[0].clientY);
+    if (!curY) return;
+    var delta = curY - startY;
+    var newH = Math.max(120, Math.min(window.innerHeight - 180, startH + delta));
+    passagePane.style.height = newH + 'px';
+    S.rcTopHeight = newH;
+  }
+  function onTouchMove(e) {
+    if (e.cancelable) e.preventDefault();
+    onPointerMove(e);
+  }
+  function onPointerUp() {
+    document.removeEventListener('pointermove', onPointerMove);
+    document.removeEventListener('pointerup', onPointerUp);
+    document.removeEventListener('touchmove', onTouchMove);
+    document.removeEventListener('touchend', onPointerUp);
+  }
+  el.addEventListener('pointerdown', onPointerDown);
+  el.addEventListener('touchstart', onPointerDown, { passive: true });
+}
+
+function examNavCardHTML(run, qList, answeredCount, flaggedCount, submitBtnStyle, submitBtnText) {
+  var parts = [
+    { p: 1, title: tr('examPart1_heading'), items: [] },
+    { p: 2, title: tr('examPart2_heading'), items: [] },
+    { p: 3, title: tr('examPart3_heading'), items: [] }
+  ];
+  qList.forEach(function (item, idx) {
+    var pNum = getExamPart(item.q.type);
+    parts[pNum - 1].items.push({ item: item, idx: idx });
+  });
+  var activeParts = parts.filter(function (g) { return g.items.length > 0; });
+  var multiParts = activeParts.length > 1;
+
+  var partsHTML = activeParts.map(function (grp) {
+    var from = grp.items[0].idx + 1;
+    var to = grp.items[grp.items.length - 1].idx + 1;
+    var rangeStr = from === to ? '(' + from + ')' : '(' + from + '–' + to + ')';
+    var hdr = multiParts ? '<div class="exam-part-header" style="margin-top:10px;margin-bottom:6px;font-size:12px;font-weight:700;color:var(--ink);"><span>' + esc(grp.title) + '</span> <small class="muted">' + rangeStr + '</small></div>' : '';
+
+    var btns = grp.items.map(function (entry) {
+      var item = entry.item;
+      var idx = entry.idx;
+      var answered = examIsAnswered(item);
+      var isFlagged = item.flagged;
+      var isCurrent = idx === run.currentIndex;
+      var filter = S.exam.jumpFilter || 'all';
+
+      if (filter === 'unanswered' && answered) return '';
+      if (filter === 'flagged' && !isFlagged) return '';
+
+      var bg = 'var(--bg)';
+      var color = 'var(--muted)';
+      var border = '1px solid var(--line)';
+
+      if (isFlagged) {
+        bg = 'var(--warn-bg)';
+        color = 'var(--warn)';
+        border = '1px solid var(--warn)';
+      } else if (answered) {
+        bg = 'var(--good-bg)';
+        color = 'var(--good)';
+        border = '1px solid var(--good)';
+      }
+
+      if (isCurrent) {
+        border = '2px solid var(--accent)';
+        if (!isFlagged && !answered) {
+          color = 'var(--accent)';
+          bg = 'var(--soft)';
+        }
+      }
+
+      return '<button class="exam-jump-btn" data-act="examJump" data-idx="' + idx + '" style="padding: 8px 0; font-size: 12px; font-weight: 700; border-radius: 8px; background: ' + bg + '; color: ' + color + '; border: ' + border + '; cursor: pointer; text-align: center;">' + (idx + 1) + '</button>';
+    }).join('');
+
+    return hdr + '<div class="exam-jump-container" style="margin-bottom: 12px;">' + btns + '</div>';
+  }).join('');
+
+  return '<div class="rp-card exam-nav exam-nav-desktop" style="padding: 20px;">' +
+    '<div style="font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 10px; display: flex; flex-direction: column; gap: 4px;">' +
+      '<span>' + esc(tr('list_title')) + '</span>' +
+      '<span style="font-size: 12px;"><span style="color:var(--good);font-weight:700;">✓</span> <b>' + answeredCount + '</b> ' + esc(tr('done_name')) + ' | <span style="color:var(--warn);font-weight:700;">⚑</span> <b>' + flaggedCount + '</b> ' + esc(tr('flag_name')) + '</span>' +
+    '</div>' +
+    '<div class="th-pills" role="group" style="margin-bottom: 12px; gap: 4px;">' +
+      '<button type="button" class="th-pill ' + ((S.exam.jumpFilter || 'all') === 'all' ? 'on' : '') + '" data-act="examSetJumpFilter" data-val="all" style="font-size: 11px; padding: 3px 8px;">' + esc(tr('exam_filter_all')) + '</button>' +
+      '<button type="button" class="th-pill ' + (S.exam.jumpFilter === 'unanswered' ? 'on' : '') + '" data-act="examSetJumpFilter" data-val="unanswered" style="font-size: 11px; padding: 3px 8px;">' + esc(tr('exam_filter_unans')) + ' (' + (qList.length - answeredCount) + ')</button>' +
+      '<button type="button" class="th-pill ' + (S.exam.jumpFilter === 'flagged' ? 'on' : '') + '" data-act="examSetJumpFilter" data-val="flagged" style="font-size: 11px; padding: 3px 8px;">⚑ (' + flaggedCount + ')</button>' +
+    '</div>' +
+    partsHTML +
+    '<button class="btn primary" style="' + submitBtnStyle + '" data-act="examSubmitConfirm">' + esc(submitBtnText) + '</button>' +
+  '</div>';
+}
+
+function renderQSlideOver() {
+  var isExam = S.view === 'exam' && S.exam && S.exam.step === 'doing' && S.exam.run;
+  if (!isExam) return '';
+
+  var openClass = S.qDrawerOpen ? ' open' : '';
+  var bodyContent = '';
+  var footerContent = '';
+  var title = tr('q_drawer_title') || 'Danh sách câu hỏi';
+
+  var run = S.exam.run;
+  var qList = run.questions;
+  var answeredCount = qList.filter(function (it) { return examIsAnswered(it); }).length;
+  var flaggedCount = qList.filter(function (it) { return it.flagged; }).length;
+  var submitBtnStyle = 'width: 100%; margin-top: 10px; font-weight: 600; padding: 10px 14px;';
+  var submitBtnText = run.endedAt ? tr('examViewResult') : tr('examSubmit');
+
+  var parts = [
+    { p: 1, title: tr('examPart1_heading'), items: [] },
+    { p: 2, title: tr('examPart2_heading'), items: [] },
+    { p: 3, title: tr('examPart3_heading'), items: [] }
+  ];
+  qList.forEach(function (item, idx) {
+    var pNum = getExamPart(item.q.type);
+    parts[pNum - 1].items.push({ item: item, idx: idx });
+  });
+  var activeParts = parts.filter(function (g) { return g.items.length > 0; });
+  var multiParts = activeParts.length > 1;
+
+  var partsHTML = activeParts.map(function (grp) {
+    var from = grp.items[0].idx + 1;
+    var to = grp.items[grp.items.length - 1].idx + 1;
+    var rangeStr = from === to ? '(' + from + ')' : '(' + from + '–' + to + ')';
+    var hdr = multiParts ? '<div class="exam-part-header" style="margin-top:10px;margin-bottom:6px;font-size:12px;font-weight:700;color:var(--ink);"><span>' + esc(grp.title) + '</span> <small class="muted">' + rangeStr + '</small></div>' : '';
+
+    var btns = grp.items.map(function (entry) {
+      var item = entry.item;
+      var idx = entry.idx;
+      var answered = examIsAnswered(item);
+      var isFlagged = item.flagged;
+      var isCurrent = idx === run.currentIndex;
+      var filter = S.exam.jumpFilter || 'all';
+
+      if (filter === 'unanswered' && answered) return '';
+      if (filter === 'flagged' && !isFlagged) return '';
+
+      var bg = 'var(--bg)';
+      var color = 'var(--muted)';
+      var border = '1px solid var(--line)';
+
+      if (isFlagged) {
+        bg = 'var(--warn-bg)';
+        color = 'var(--warn)';
+        border = '1px solid var(--warn)';
+      } else if (answered) {
+        bg = 'var(--good-bg)';
+        color = 'var(--good)';
+        border = '1px solid var(--good)';
+      }
+
+      if (isCurrent) {
+        border = '2px solid var(--accent)';
+        if (!isFlagged && !answered) {
+          color = 'var(--accent)';
+          bg = 'var(--soft)';
+        }
+      }
+
+      return '<button class="exam-jump-btn" data-act="examJump" data-idx="' + idx + '" style="padding: 8px 0; font-size: 12px; font-weight: 700; border-radius: 8px; background: ' + bg + '; color: ' + color + '; border: ' + border + '; cursor: pointer; text-align: center;">' + (idx + 1) + '</button>';
+    }).join('');
+
+    return hdr + '<div class="exam-jump-container" style="margin-bottom: 12px;">' + btns + '</div>';
+  }).join('');
+
+  bodyContent =
+    '<div style="font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 12px; display: flex; flex-direction: column; gap: 4px;">' +
+      '<span style="font-size: 12px;"><span style="color:var(--good);font-weight:700;">✓</span> <b>' + answeredCount + '</b> ' + esc(tr('done_name')) + ' | <span style="color:var(--warn);font-weight:700;">⚑</span> <b>' + flaggedCount + '</b> ' + esc(tr('flag_name')) + '</span>' +
+    '</div>' +
+    '<div class="th-pills" role="group" style="margin-bottom: 14px; gap: 4px;">' +
+      '<button type="button" class="th-pill ' + ((S.exam.jumpFilter || 'all') === 'all' ? 'on' : '') + '" data-act="examSetJumpFilter" data-val="all" style="font-size: 11px; padding: 4px 8px;">' + esc(tr('exam_filter_all')) + '</button>' +
+      '<button type="button" class="th-pill ' + (S.exam.jumpFilter === 'unanswered' ? 'on' : '') + '" data-act="examSetJumpFilter" data-val="unanswered" style="font-size: 11px; padding: 4px 8px;">' + esc(tr('exam_filter_unans')) + ' (' + (qList.length - answeredCount) + ')</button>' +
+      '<button type="button" class="th-pill ' + (S.exam.jumpFilter === 'flagged' ? 'on' : '') + '" data-act="examSetJumpFilter" data-val="flagged" style="font-size: 11px; padding: 4px 8px;">⚑ (' + flaggedCount + ')</button>' +
+    '</div>' +
+    partsHTML;
+
+  footerContent = '<button class="btn primary" style="' + submitBtnStyle + '" data-act="examSubmitConfirm">' + esc(submitBtnText) + '</button>';
+
+  return '<div class="q-slideover-backdrop q-drawer-backdrop' + openClass + '" data-act="closeQDrawer"></div>' +
+    '<aside class="q-slideover q-drawer' + openClass + '" id="qPaletteDrawer" role="dialog" aria-modal="true" aria-label="' + esc(title) + '">' +
+      '<div class="q-slideover-header">' +
+        '<div style="font-weight: 700; font-size: 15px; display: flex; align-items: center; gap: 8px;"><span>' + esc(title) + '</span></div>' +
+        '<button type="button" class="q-slideover-close" data-act="closeQDrawer" aria-label="' + esc(tr('q_drawer_close')) + '">✕</button>' +
+      '</div>' +
+      '<div class="q-slideover-body">' + bodyContent + '</div>' +
+      (footerContent ? '<div class="q-slideover-footer">' + footerContent + '</div>' : '') +
+    '</aside>';
+}
+
+function setQDrawer(open) {
+  open = !!open;
+  S.qDrawerOpen = open;
+  var drawer = document.getElementById('qPaletteDrawer');
+  var backdrop = document.querySelector('.q-slideover-backdrop');
+  if (drawer && backdrop) {
+    if (open) {
+      drawer.classList.remove('open');
+      backdrop.classList.remove('open');
+      void drawer.offsetWidth;
+      drawer.classList.add('open');
+      backdrop.classList.add('open');
+      var closeBtn = drawer.querySelector('[data-act="closeQDrawer"]');
+      if (closeBtn) closeBtn.focus();
+    } else {
+      drawer.classList.remove('open');
+      backdrop.classList.remove('open');
+    }
+  } else if (open) {
+    render();
+  }
+}
+
 function examPromptHTML(item) {
   var q = item.q, h = '';
   if ((q.type === 'mcq' && (q.context || q.quote)) || (q.type === 'tfs' && (q.quote || q.context))) h += '<div style="margin-bottom:14px">' + ctxHTML(q) + '</div>';
@@ -5095,7 +6306,7 @@ function renderExam() {
     const remaining = Math.max(0, run.endTime - Date.now());
     const mins = Math.floor(remaining / 60000);
     const secs = Math.floor((remaining % 60000) / 1000);
-    const initialTimeStr = `⏱️ ${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    const initialTimeStr = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
     const answeredCount = qList.filter(examIsAnswered).length;
     const flaggedCount = qList.filter(i => i.flagged).length;
 
@@ -5107,110 +6318,96 @@ function renderExam() {
 
     html += `
       <div style="position: sticky; top: 0; background: var(--surface); padding: 12px 16px; border-radius: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); z-index: 10; border: 1px solid var(--line);">
-        <div style="font-weight: 700; color: var(--accent);" id="examTimer">${initialTimeStr}</div>
+        <div style="font-weight: 700; color: var(--accent); font-family: var(--font-mono, monospace);" id="examTimer">${initialTimeStr}</div>
         <div style="font-size: 13px; color: var(--muted);">${tr('question')} <b style="color: var(--ink);">${run.currentIndex + 1}</b> / ${qList.length}</div>
         <button class="btn sm" data-act="examExit">${tr('examExit')}</button>
       </div>
-
-      <div class="exam-layout">
-
-        <div class="rp-card exam-card" style="padding: 24px; min-height: 400px; display: flex; flex-direction: column; justify-content: space-between;">
-          <div>
-            <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px;">
-              <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
-                ${examPartBadge(currentQ.q.type)}
-                <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent); font-weight: 700;">${esc(currentQ.ttitle || '')} · ${esc(tr('qt_' + currentQ.q.type))}</span>
-              </div>
-              <button class="btn sm" data-act="examToggleFlag" style="background: ${currentQ.flagged ? 'var(--warn)' : 'var(--surface)'}; border-color: ${currentQ.flagged ? 'var(--warn)' : 'var(--line)'}; color: ${currentQ.flagged ? 'var(--bg)' : 'var(--ink)'};">
-                🚩 ${currentQ.flagged ? tr('flagged') : tr('flag')}
-              </button>
-            </div>
-            ${examPromptHTML(currentQ)}
-
-            <div style="margin-bottom: 24px;">
-              ${renderExamQuestionInput(currentQ, run.currentIndex)}
-            </div>
-          </div>
-
-          <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); padding-top: 16px; margin-top: auto;">
-            <button class="btn" data-act="examPrev" ${run.currentIndex === 0 ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>← ${tr('btn_prev2')}</button>
-            <button class="btn primary" data-act="examNext" ${run.currentIndex === qList.length - 1 ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>${tr('btn_next')} →</button>
-          </div>
-        </div>
-
-        <div class="rp-card exam-nav" style="padding: 20px;">
-          <div style="font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 10px; display: flex; flex-direction: column; gap: 4px;">
-            <span>${tr('list_title')}</span>
-            <span style="font-size: 12px;">✅ <b>${answeredCount}</b> ${tr('done_name')} | 🚩 <b>${flaggedCount}</b> ${tr('flag_name')}</span>
-          </div>
-          <div class="th-pills" role="group" style="margin-bottom: 12px; gap: 4px;">
-            <button type="button" class="th-pill ${(S.exam.jumpFilter || 'all') === 'all' ? 'on' : ''}" data-act="examSetJumpFilter" data-val="all" style="font-size: 11px; padding: 3px 8px;">${tr('exam_filter_all')}</button>
-            <button type="button" class="th-pill ${S.exam.jumpFilter === 'unanswered' ? 'on' : ''}" data-act="examSetJumpFilter" data-val="unanswered" style="font-size: 11px; padding: 3px 8px;">${tr('exam_filter_unans')} (${qList.length - answeredCount})</button>
-            <button type="button" class="th-pill ${S.exam.jumpFilter === 'flagged' ? 'on' : ''}" data-act="examSetJumpFilter" data-val="flagged" style="font-size: 11px; padding: 3px 8px;">🚩 (${flaggedCount})</button>
-          </div>
-          ${(function() {
-            var parts = [
-              { p: 1, title: tr('examPart1_heading'), items: [] },
-              { p: 2, title: tr('examPart2_heading'), items: [] },
-              { p: 3, title: tr('examPart3_heading'), items: [] }
-            ];
-            qList.forEach(function(item, idx) {
-              var pNum = getExamPart(item.q.type);
-              parts[pNum - 1].items.push({ item: item, idx: idx });
-            });
-            var activeParts = parts.filter(function(g) { return g.items.length > 0; });
-            var multiParts = activeParts.length > 1;
-
-            return activeParts.map(function(grp) {
-              var from = grp.items[0].idx + 1;
-              var to = grp.items[grp.items.length - 1].idx + 1;
-              var rangeStr = from === to ? '(' + from + ')' : '(' + from + '–' + to + ')';
-              var hdr = multiParts ? '<div class="exam-part-header"><span>' + esc(grp.title) + '</span> <small class="muted">' + rangeStr + '</small></div>' : '';
-
-              var btns = grp.items.map(function(entry) {
-                var item = entry.item;
-                var idx = entry.idx;
-                var answered = examIsAnswered(item);
-                var isFlagged = item.flagged;
-                var isCurrent = idx === run.currentIndex;
-                var filter = S.exam.jumpFilter || 'all';
-
-                if (filter === 'unanswered' && answered) return '';
-                if (filter === 'flagged' && !isFlagged) return '';
-
-                var bg = 'var(--bg)';
-                var color = 'var(--muted)';
-                var border = '1px solid var(--line)';
-
-                if (isFlagged) {
-                  bg = 'var(--warn-bg)';
-                  color = 'var(--warn)';
-                  border = '1px solid var(--warn)';
-                } else if (answered) {
-                  bg = 'var(--good-bg)';
-                  color = 'var(--good)';
-                  border = '1px solid var(--good)';
-                }
-
-                if (isCurrent) {
-                  border = '2px solid var(--accent)';
-                  if (!isFlagged && !answered) {
-                    color = 'var(--accent)';
-                    bg = 'var(--soft)';
-                  }
-                }
-
-                return '<button class="exam-jump-btn" data-act="examJump" data-idx="' + idx + '" style="padding: 8px 0; font-size: 12px; font-weight: 700; border-radius: 8px; background: ' + bg + '; color: ' + color + '; border: ' + border + '; cursor: pointer; text-align: center;">' + (idx + 1) + '</button>';
-              }).join('');
-
-              return hdr + '<div class="exam-jump-container" style="margin-bottom: 12px;">' + btns + '</div>';
-            }).join('');
-          })()}
-          <button class="btn primary" style="${submitBtnStyle}" data-act="examSubmitConfirm">${submitBtnText}</button>
-        </div>
-
-      </div>
     `;
+
+    var isReading = isReadingPassage(currentQ.q);
+    var contentHtml = '';
+
+      var navRowHtml = `
+        <div class="exam-bottom-nav">
+          <button class="btn" data-act="examPrev" ${run.currentIndex === 0 ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>
+            ← <span class="nav-text-full">${tr('btn_prev2')}</span><span class="nav-text-short">${tr('short_prev') || 'Trước'}</span>
+          </button>
+          <button class="btn exam-nav-drawer-btn" data-act="toggleQDrawer" title="${esc(tr('q_drawer_title'))}">
+            <span class="nav-text-full">${tr('question')} ${run.currentIndex + 1}/${qList.length}</span>
+            <span class="nav-text-short">${run.currentIndex + 1}/${qList.length}</span>
+          </button>
+          <button class="btn primary" data-act="examNext" ${run.currentIndex === qList.length - 1 ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>
+            <span class="nav-text-full">${tr('btn_next')}</span><span class="nav-text-short">${tr('short_next') || 'Tiếp'}</span> →
+          </button>
+        </div>
+      `;
+
+      if (isReading) {
+        contentHtml = `
+          <div class="rc-container">
+            <div class="rc-passage-pane">
+              <div class="rc-passage-head">
+                <span>${tr('rc_passage')}</span>
+                ${currentQ.q.source ? `<cite style="font-size:12px;color:var(--muted);font-weight:400;text-transform:none;">${esc(currentQ.q.source)}</cite>` : ''}
+              </div>
+              <div class="rc-passage-body">
+                <p>${rich(getPassageText(currentQ.q))}</p>
+              </div>
+            </div>
+
+            <div class="rc-resizer" title="${tr('rc_resize_hint')}"></div>
+
+            <div class="rc-question-pane">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px;">
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    ${examPartBadge(currentQ.q.type)}
+                    <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent); font-weight: 700;">${esc(currentQ.ttitle || '')} · ${esc(tr('qt_' + currentQ.q.type))}</span>
+                  </div>
+                  <button class="btn sm" data-act="examToggleFlag" style="white-space: nowrap; flex-shrink: 0; background: ${currentQ.flagged ? 'var(--warn)' : 'var(--surface)'}; border-color: ${currentQ.flagged ? 'var(--warn)' : 'var(--line)'}; color: ${currentQ.flagged ? 'var(--bg)' : 'var(--ink)'};">
+                    ⚑ ${currentQ.flagged ? tr('flagged') : tr('flag')}
+                  </button>
+                </div>
+                ${currentQ.q.prompt ? `<div style="font-size: 16px; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: var(--ink);">${rich(currentQ.q.prompt)}</div>` : ''}
+
+                <div style="margin-bottom: 24px;">
+                  ${renderExamQuestionInput(currentQ, run.currentIndex)}
+                </div>
+              </div>
+              ${navRowHtml}
+            </div>
+          </div>
+        `;
+      } else {
+        contentHtml = `
+          <div class="rp-card exam-card" style="padding: 24px; min-height: 400px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px;">
+                <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                  ${examPartBadge(currentQ.q.type)}
+                  <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent); font-weight: 700;">${esc(currentQ.ttitle || '')} · ${esc(tr('qt_' + currentQ.q.type))}</span>
+                </div>
+                <button class="btn sm" data-act="examToggleFlag" style="white-space: nowrap; flex-shrink: 0; background: ${currentQ.flagged ? 'var(--warn)' : 'var(--surface)'}; border-color: ${currentQ.flagged ? 'var(--warn)' : 'var(--line)'}; color: ${currentQ.flagged ? 'var(--bg)' : 'var(--ink)'};">
+                  ⚑ ${currentQ.flagged ? tr('flagged') : tr('flag')}
+                </button>
+              </div>
+              ${examPromptHTML(currentQ)}
+
+              <div style="margin-bottom: 24px;">
+                ${renderExamQuestionInput(currentQ, run.currentIndex)}
+              </div>
+            </div>
+            ${navRowHtml}
+          </div>
+        `;
+      }
+
+      html += `
+        <div class="exam-layout">
+          ${contentHtml}
+          ${examNavCardHTML(run, qList, answeredCount, flaggedCount, submitBtnStyle, submitBtnText)}
+        </div>
+      `;
   } else if (S.exam.step === 'result') {
     const res = S.exam.result, c = res.counts, filt = S.exam.filter || 'all';
     const parts = [['✅', tr('correct'), c.correct], ['🟡', tr('partial'), c.partial], ['❌', tr('notquite'), c.wrong], ['⚪', tr('examStatSkipped'), c.skipped]];
@@ -5873,53 +7070,80 @@ function formatTime(ms) {
   }
   function questionHTML() {
     var q = S.quiz, it = curItem(), t = it.q, fb = q.phase === 'fb', letters = 'ABCD';
-    var h = '<div class="quiz"><div class="q-top"><span>' + tr('q_of', { i: q.i + 1, n: q.items.length }) + '</span>';
-    if (S.scope === 'all') h += '<span>' + esc(it.ttitle) + '</span>';
-    h += '<span class="grow"></span>';
-    if (S.qopts.secs && !fb) h += '<span class="qtimer"><span id="qTime">' + S.qopts.secs + 's</span><span class="bar"><i id="qBar" style="width:100%"></i></span></span>';
-    h += '</div><div class="q-prog" aria-hidden="true">' + q.items.map(function (x, i) {
+    var isReading = isReadingPassage(t);
+
+    var topProgHtml = '<div class="q-top"><span>' + tr('q_of', { i: q.i + 1, n: q.items.length }) + '</span>';
+    if (S.scope === 'all') topProgHtml += '<span>' + esc(it.ttitle) + '</span>';
+    topProgHtml += '<span class="grow"></span>';
+    if (S.qopts.secs && !fb) topProgHtml += '<span class="qtimer"><span id="qTime">' + S.qopts.secs + 's</span><span class="bar"><i id="qBar" style="width:100%"></i></span></span>';
+    topProgHtml += '</div><div class="q-prog" aria-hidden="true">' + q.items.map(function (x, i) {
       return '<i class="' + (x.res ? (x.res.correct ? 'd' : 'w') : (i === q.i ? 'd' : '')) + '"></i>';
     }).join('') + '</div>';
-    if ((t.type === 'mcq' && (t.context || t.quote)) || (t.type === 'tfs' && (t.quote || t.context))) h += ctxHTML(t);
-    if (t.type === 'cloze') h += '<h2 class="q-p">' + clozePrompt(t) + '</h2>';
-    else if (t.prompt) h += '<h2 class="q-p">' + rich(t.prompt) + '</h2>';
-    if (t.type === 'tfs') h += tfsBody(it, fb);
-    else if (t.type === 'cloze') h += clozeBody(it, fb);
-    else if (t.type === 'match') h += matchBody(it, fb);
+
+    var bodyHtml = '';
+    if (!isReading && ((t.type === 'mcq' && (t.context || t.quote)) || (t.type === 'tfs' && (t.quote || t.context)))) {
+      bodyHtml += ctxHTML(t);
+    }
+    if (t.type === 'cloze') bodyHtml += '<h2 class="q-p">' + clozePrompt(t) + '</h2>';
+    else if (t.prompt) bodyHtml += '<h2 class="q-p">' + rich(t.prompt) + '</h2>';
+
+    if (t.type === 'tfs') bodyHtml += tfsBody(it, fb);
+    else if (t.type === 'cloze') bodyHtml += clozeBody(it, fb);
+    else if (t.type === 'match') bodyHtml += matchBody(it, fb);
     else if (t.type === 'mcq' || t.type === 'truefalse') {
       var opts = t.type === 'mcq'
         ? it.order.map(function (oi) { return { text: t.options[oi], right: oi === t.answer }; })
         : [{ text: tr('tf_true'), right: t.answer === true }, { text: tr('tf_false'), right: t.answer === false }];
-      h += '<div class="opts" role="radiogroup" aria-label="' + esc(tr('aria_choices')) + '">';
+      bodyHtml += '<div class="opts" role="radiogroup" aria-label="' + esc(tr('aria_choices')) + '">';
       opts.forEach(function (o, pos) {
         var cls = 'opt', lab = '', isChecked = it.res && it.res.pos === pos;
         if (fb) {
           if (o.right) { cls += ' ok'; lab = tr('lab_correct'); }
           else if (it.res && it.res.pos === pos) { cls += ' bad'; lab = tr('lab_yours'); }
         }
-        h += '<button role="radio" aria-checked="' + (isChecked ? 'true' : 'false') + '" class="' + cls + '"' + (fb ? ' disabled' : ' data-act="pick" data-i="' + pos + '"') + '><span class="k">' + (t.type === 'mcq' ? letters[pos] : (pos + 1)) + '</span><span>' + rich(o.text) + '</span><span class="lab">' + lab + '</span></button>';
+        bodyHtml += '<button role="radio" aria-checked="' + (isChecked ? 'true' : 'false') + '" class="' + cls + '"' + (fb ? ' disabled' : ' data-act="pick" data-i="' + pos + '"') + '><span class="k">' + (t.type === 'mcq' ? letters[pos] : (pos + 1)) + '</span><span>' + rich(o.text) + '</span><span class="lab">' + lab + '</span></button>';
       });
-      h += '</div>';
+      bodyHtml += '</div>';
     } else if (!fb) {
-      h += mathPaletteHTML();
-      h += '<textarea class="typed" id="typed" placeholder="' + esc(tr('ph_typed')) + '" aria-label="' + esc(tr('ans_aria')) + '">' + esc(it.typed) + '</textarea>';
-      h += '<div><button class="btn primary" data-act="reveal">' + tr('show_model') + '</button></div>';
+      bodyHtml += mathPaletteHTML();
+      bodyHtml += '<textarea class="typed" id="typed" placeholder="' + esc(tr('ph_typed')) + '" aria-label="' + esc(tr('ans_aria')) + '">' + esc(it.typed) + '</textarea>';
+      bodyHtml += '<div><button class="btn primary" data-act="reveal">' + tr('show_model') + '</button></div>';
     }
+
     if (fb) {
       if (t.type === 'short') {
-        h += '<div class="fb"><h3>' + (it.timedOut ? tr('timesup_compare') : tr('model_answer')) + '</h3>';
-        if (it.typed) h += '<p class="muted">' + tr('your_answer_is', { a: esc(it.typed) }) + '</p>';
-        h += '<div class="model">' + rich(t.answer) + '</div>';
-        if (t.explanation) h += '<p>' + rich(t.explanation) + '</p>';
-        h += '<p class="muted">' + tr('how_did') + '</p><div class="actions"><button class="btn primary" data-act="grade" data-ok="1">' + tr('had_it') + '</button><button class="btn again" data-act="grade" data-ok="0">' + tr('not_yet_btn') + '</button></div></div>';
+        bodyHtml += '<div class="fb"><h3>' + (it.timedOut ? tr('timesup_compare') : tr('model_answer')) + '</h3>';
+        if (it.typed) bodyHtml += '<p class="muted">' + tr('your_answer_is', { a: esc(it.typed) }) + '</p>';
+        bodyHtml += '<div class="model">' + rich(t.answer) + '</div>';
+        if (t.explanation) bodyHtml += '<p>' + rich(t.explanation) + '</p>';
+        bodyHtml += '<p class="muted">' + tr('how_did') + '</p><div class="actions"><button class="btn primary" data-act="grade" data-ok="1">' + tr('had_it') + '</button><button class="btn again" data-act="grade" data-ok="0">' + tr('not_yet_btn') + '</button></div></div>';
       } else {
-        var ok = it.res.correct;
-        h += '<div class="fb ' + (ok ? 'ok' : 'bad') + '" role="status"><h3>' + fbTitle(it) + '</h3>' + fbExtra(it);
-        if (t.explanation) h += '<p>' + rich(t.explanation) + '</p>';
-        h += '<div><button class="btn primary" data-act="next" id="nextBtn">' + (q.i + 1 >= q.items.length ? tr('see_results') : tr('next_q')) + '</button></div></div>';
+        var ok = it.res && it.res.correct;
+        bodyHtml += '<div class="fb ' + (ok ? 'ok' : 'bad') + '" role="status"><h3>' + fbTitle(it) + '</h3>' + fbExtra(it);
+        if (t.explanation) bodyHtml += '<p>' + rich(t.explanation) + '</p>';
+        bodyHtml += '<div><button class="btn primary" data-act="next" id="nextBtn">' + (q.i + 1 >= q.items.length ? tr('see_results') : tr('next_q')) + ' →</button></div></div>';
       }
     }
-    return h + '</div>';
+
+    var mainContent = '';
+    if (isReading) {
+      mainContent = '<div class="rc-container">' +
+        '<div class="rc-passage-pane">' +
+        '<div class="rc-passage-head"><span>' + tr('rc_passage') + '</span>' +
+        (t.source ? '<cite style="font-size:12px;color:var(--muted);font-weight:400;text-transform:none;">' + esc(t.source) + '</cite>' : '') +
+        '</div>' +
+        '<div class="rc-passage-body"><p>' + rich(getPassageText(t)) + '</p></div>' +
+        '</div>' +
+        '<div class="rc-resizer" title="' + esc(tr('rc_resize_hint')) + '"></div>' +
+        '<div class="rc-question-pane">' +
+        '<div>' + topProgHtml + bodyHtml + '</div>' +
+        '</div>' +
+        '</div>';
+    } else {
+      mainContent = '<div class="quiz">' + topProgHtml + bodyHtml + '</div>';
+    }
+
+    return mainContent;
   }
   function fmtTime(s) { return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
   function quizResultHTML() {
@@ -6523,7 +7747,12 @@ function toggleExamFlag() {
       case 'examExit': exitExam(); break;
       case 'examPrev': prevExamQ(); break;
       case 'examNext': nextExamQ(); break;
-      case 'examJump': jumpExamQ(parseInt(el.dataset.idx, 10)); break;
+      case 'examJump': setQDrawer(false); jumpExamQ(parseInt(el.dataset.idx, 10)); break;
+      case 'toggleQDrawer': setQDrawer(!S.qDrawerOpen); break;
+      case 'closeQDrawer': setQDrawer(false); break;
+      case 'toggleHighlighter': HIGHLIGHTER.toggle(); break;
+      case 'setHlColor': HIGHLIGHTER.setStyle(el.dataset.color); break;
+      case 'clearScopeHighlights': HIGHLIGHTER.clearCurrentScope(); break;
       case 'examToggleFlag': toggleExamFlag(); break;
       case 'examSubmitConfirm': confirmSubmitExam(); break;
       case 'examTfs': examTfsPick(parseInt(el.dataset.qidx, 10), parseInt(el.dataset.i, 10), el.dataset.v === '1'); break;
@@ -6938,7 +8167,10 @@ function toggleExamFlag() {
     });
   }
   window.addEventListener('resize', function () {
-    if (SCRATCHPAD.isOpen()) SCRATCHPAD.initCanvas();
+    if (typeof SCRATCHPAD !== 'undefined') {
+      document.body.classList.toggle('scratchpad-open', !!SCRATCHPAD.isOpen());
+      if (SCRATCHPAD.isOpen()) SCRATCHPAD.initCanvas();
+    }
   });
 
   document.addEventListener('click', function (e) {
@@ -7055,6 +8287,11 @@ document.addEventListener('input', function (e) {
 document.addEventListener('keydown', function (e) {
     /* 1. Modal / Overlay Escape Handling (in order of priority) */
     if (e.key === 'Escape') {
+      if (S.qDrawerOpen) {
+        e.preventDefault();
+        setQDrawer(false);
+        return;
+      }
       if (typeof SCRATCHPAD !== 'undefined' && SCRATCHPAD.isOpen()) {
         e.preventDefault();
         SCRATCHPAD.toggle(false);
@@ -7249,6 +8486,25 @@ document.addEventListener('keydown', function (e) {
       var rect = card.getBoundingClientRect();
       card.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
       card.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
+    }
+  });
+  var hlSelTimer = null;
+  document.addEventListener('selectionchange', function () {
+    if (typeof HIGHLIGHTER === 'undefined' || !HIGHLIGHTER.isAllowed()) return;
+    clearTimeout(hlSelTimer);
+    hlSelTimer = setTimeout(function () {
+      HIGHLIGHTER.checkSelection($('#main'));
+    }, 180);
+  });
+  document.addEventListener('mouseup', function (e) {
+    if (typeof HIGHLIGHTER === 'undefined' || !HIGHLIGHTER.isAllowed()) return;
+    setTimeout(function () {
+      HIGHLIGHTER.checkSelection($('#main'));
+    }, 40);
+  });
+  document.addEventListener('click', function (e) {
+    if (typeof HIGHLIGHTER !== 'undefined') {
+      HIGHLIGHTER.handleClick(e);
     }
   });
 /* ---------- light / dark theme ---------- */
@@ -10279,6 +11535,9 @@ var NDQR = (function () {
   }
   window.THEMER = THEMER;
   window.SCRATCHPAD = SCRATCHPAD;
+  window.HIGHLIGHTER = HIGHLIGHTER;
+  window.isReadingPassage = isReadingPassage;
+  window.setQDrawer = setQDrawer;
   window.S = S;
   window.go = go;
   window.render = render;
