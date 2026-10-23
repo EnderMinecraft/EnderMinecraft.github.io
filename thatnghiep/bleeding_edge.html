@@ -1,6 +1,6 @@
 <!doctype html><html>
   <head>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src https://fonts.gstatic.com https://cdn.jsdelivr.net; img-src 'self' data: blob:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.jsdelivr.net; manifest-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css; font-src https://fonts.gstatic.com https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/fonts/; img-src 'self' data: blob:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.jsdelivr.net/npm/katex@0.16.11/; manifest-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -14,8 +14,8 @@
     <meta name="apple-mobile-web-app-title" content="Navel Desk" />
     <title>Navel Desk (Canary)</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous" onload="if(typeof render==='function')render();"></script>
     <style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}
 .math-block { display: block; margin: 10px 0; overflow-x: auto; overflow-y: hidden; text-align: center; }
 .math-inline { display: inline-block; vertical-align: middle; }
@@ -31,17 +31,22 @@
   right: 18px;
   bottom: calc(18px + env(safe-area-inset-bottom, 0px));
   z-index: 1005;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
   background: var(--surface);
   border: 1.5px solid var(--accent);
   color: var(--accent);
   box-shadow: 0 4px 18px rgba(0,0,0,0.18);
-  border-radius: 999px;
-  padding: 8px 16px;
+  border-radius: 50%;
+  padding: 0;
+  gap: 0;
   font-weight: 600;
-  font-size: 13px;
+  font-size: 14px;
   cursor: pointer;
   transition: transform 0.15s ease, background 0.15s ease;
   touch-action: manipulation;
@@ -95,15 +100,19 @@ html[data-theme="dark"] #scratchOverlay {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
   flex-shrink: 0;
   margin-left: auto;
-  min-height: 36px;
-  padding: 6px 14px;
+  width: 32px;
+  height: 32px;
+  min-height: 32px;
+  min-width: 32px;
+  max-width: 32px;
+  max-height: 32px;
+  padding: 0;
   font-weight: 700;
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1;
-  border-radius: 999px;
+  border-radius: 8px;
   background: var(--bad, #dc2626);
   color: #ffffff !important;
   border: 1px solid rgba(0, 0, 0, 0.12);
@@ -113,6 +122,18 @@ html[data-theme="dark"] #scratchOverlay {
   user-select: none;
   -webkit-user-select: none;
   transition: transform 0.1s ease, filter 0.15s ease;
+}
+.scratch-tools .btn {
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  min-height: 32px !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 8px !important;
+  flex-shrink: 0 !important;
 }
 .scratch-close-btn:hover {
   filter: brightness(1.1);
@@ -1053,7 +1074,7 @@ mark { background: linear-gradient(to top, var(--mark) 0 48%, transparent 48%); 
 .q-prog i.d { background: var(--accent); }
 .q-prog i.w { background: var(--bad); }
 .q-p { font-size: 22px; font-size: clamp(20px, 3.4vw, 26px); line-height: 1.3; letter-spacing: -0.01em; }
-.opts { display: grid; gap: 8px; }
+.opts { display: grid; gap: 8px; margin-bottom: 8px; }
 .opt { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 10px; align-items: center; text-align: left; width: 100%; padding: 13px 14px; border: 1px solid var(--line); border-radius: 11px; background: var(--surface); }
 .opt:hover:not(:disabled) { border-color: var(--accent); }
 .opt:disabled { cursor: default; }
@@ -1064,7 +1085,7 @@ mark { background: linear-gradient(to top, var(--mark) 0 48%, transparent 48%); 
 .opt.bad { border-color: var(--bad); background: var(--bad-bg); }
 .opt.bad .lab { color: var(--bad); }
 .typed { width: 100%; min-height: 96px; padding: 11px 13px; border: 1px solid var(--line); border-radius: 11px; background: var(--surface); resize: vertical; }
-.fb { display: grid; gap: 10px; padding: 14px 16px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); }
+.fb { display: grid; gap: 10px; padding: 14px 16px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); margin-top: 16px !important; }
 .fb.ok { border-color: var(--good); }
 .fb.bad { border-color: var(--bad); }
 .fb h3 { font-size: 16px; }
@@ -1506,18 +1527,245 @@ html, body { max-width: 100%; overflow-x: clip; }
 .exam-card select, .exam-card input, .exam-card textarea { max-width: 100%; }
 .exam-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 20px; align-items: start; width: 100%; }
 .exam-nav { position: sticky; top: calc(76px + env(safe-area-inset-top, 0px)); }
+.exam-container { max-width: 1100px; margin: 0 auto; padding: 16px; width: 100%; box-sizing: border-box; }
+.q-top-topic { max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.q-exit-btn, .exam-exit-btn {
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  min-height: 32px !important;
+  max-width: 32px !important;
+  max-height: 32px !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 8px !important;
+  box-sizing: border-box !important;
+  flex: 0 0 32px !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  margin-left: 8px;
+}
+
 @media (min-width: 861px) {
-  .shell.exam-focus { grid-template-columns: minmax(0, 1fr); }
-  .shell.exam-focus .rail { display: none; }
+  .shell.exam-focus, .shell.quiz-focus { grid-template-columns: minmax(0, 1fr); }
+  .shell.exam-focus .rail, .shell.quiz-focus .rail { display: none; }
+  .exam-layout {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 300px !important;
+    gap: 20px !important;
+    align-items: start !important;
+    width: 100% !important;
+  }
   .exam-nav-desktop { display: block !important; }
   .exam-nav-drawer-btn { display: none !important; }
+  .exam-card {
+    height: auto !important;
+    max-height: none !important;
+  }
+  .exam-q-scroll {
+    max-height: none !important;
+    overflow: visible !important;
+  }
 }
+
 @media (max-width: 860px) {
-  .exam-layout { grid-template-columns: minmax(0, 1fr) !important; }
+  .exam-layout {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 0 !important;
+  }
   .exam-nav-desktop { display: none !important; }
   .exam-nav-drawer-btn { display: inline-flex !important; }
+
+  /* Lock scroll on the page when doing quiz or exam on mobile */
+  body.q-active-lock,
+  html.q-active-lock {
+    height: 100vh !important;
+    height: 100dvh !important;
+    overflow: hidden !important;
+    overscroll-behavior: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  body.q-active-lock header.top {
+    flex-shrink: 0 !important;
+  }
+  body.q-active-lock > .wrap {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    height: auto !important;
+    max-width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+  }
+  body.q-active-lock #app {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+  }
+  body.q-active-lock .shell {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    padding: 6px 12px calc(8px + env(safe-area-inset-bottom, 0px)) 12px !important;
+  }
+  body.q-active-lock .shell .rail {
+    display: none !important;
+  }
+  body.q-active-lock .main {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+  }
+
+  /* Exam Doing mobile layout */
+  body.q-active-lock .exam-container.exam-doing-wrap {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+  }
+  body.q-active-lock .exam-top-bar {
+    flex-shrink: 0 !important;
+    margin-bottom: 6px !important;
+  }
+  body.q-active-lock .exam-layout {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    gap: 0 !important;
+  }
+  body.q-active-lock .exam-card {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    padding: 12px 14px !important;
+    box-sizing: border-box !important;
+    margin-bottom: 0 !important;
+  }
+  body.q-active-lock .exam-header-dock {
+    flex-shrink: 0 !important;
+    margin-bottom: 8px !important;
+  }
+  body.q-active-lock .exam-q-scroll {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-y: contain !important;
+    padding-right: 4px !important;
+    padding-bottom: 44px !important;
+  }
+  body.q-active-lock .exam-bottom-dock {
+    flex-shrink: 0 !important;
+    margin-top: 8px !important;
+  }
+
+  /* Reading Comprehension in Exam on mobile */
+  body.q-active-lock .rc-container {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+  }
+  body.q-active-lock .rc-passage-pane {
+    height: var(--rc-top-height, 210px) !important;
+    max-height: 38% !important;
+    flex-shrink: 0 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  body.q-active-lock .rc-question-pane {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    padding: 12px 14px !important;
+  }
+
+  /* Quiz Doing mobile layout */
+  body.q-active-lock .quiz-active-wrap {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+  }
+  body.q-active-lock .quiz.q-lock-view {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    padding: 8px 12px !important;
+    box-sizing: border-box !important;
+  }
+  body.q-active-lock .q-header-dock {
+    flex-shrink: 0 !important;
+    margin-bottom: 8px !important;
+  }
+  body.q-active-lock .q-scroll-area {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-y: contain !important;
+    padding-right: 4px !important;
+  }
 }
-.nav-i span { min-width: 0; overflow-wrap: anywhere; }
+.exam-header-dock {
+  flex-shrink: 0;
+  margin-bottom: 8px;
+}
+.exam-q-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  padding-right: 4px;
+}
+.exam-bottom-dock {
+  flex-shrink: 0;
+  margin-top: 8px;
+}
 
 /* Text Highlighting System */
 mark.sp-hl {
@@ -1551,34 +1799,41 @@ mark.sp-hl[data-hl="strikethrough"] {
 /* Floating Highlighter Dock */
 .hl-dock {
   position: fixed;
-  bottom: calc(76px + env(safe-area-inset-bottom, 0px));
-  right: 18px;
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  right: 62px;
   z-index: 1020;
   display: inline-flex;
   align-items: center;
-  background: var(--surface, #fff);
-  border: 1px solid var(--line, #e2e8f0);
+  background: transparent;
+  border: none;
   border-radius: 999px;
-  padding: 5px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06);
+  padding: 0;
+  box-shadow: none;
   user-select: none;
-  overflow: hidden;
+  overflow: visible;
   transition: box-shadow 0.32s cubic-bezier(0.16, 1, 0.3, 1),
               border-color 0.32s cubic-bezier(0.16, 1, 0.3, 1),
               background 0.32s cubic-bezier(0.16, 1, 0.3, 1);
 }
+.hl-dock.open {
+  background: var(--surface, #fff);
+  border: 1px solid var(--line, #e2e8f0);
+  padding: 3px 6px 3px 3px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.06);
+}
 .hl-tg-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  height: 32px;
+  gap: 5px;
+  height: 36px;
   padding: 0 12px;
-  border-radius: 16px;
-  font-size: 13px;
+  border-radius: 999px;
+  font-size: 12px;
   font-weight: 600;
-  background: var(--soft, #f1f5f9);
+  background: var(--surface, #fff);
   color: var(--ink, #0f172a);
   border: 1px solid var(--line, #cbd5e1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   cursor: pointer;
   flex-shrink: 0;
   transition: background 0.3s cubic-bezier(0.16, 1, 0.3, 1),
@@ -1660,6 +1915,31 @@ mark.sp-hl[data-hl="strikethrough"] {
 .hl-color-btn[data-color="underline"] { color: var(--accent, #2563eb); text-decoration: underline 2px; }
 .hl-color-btn[data-color="strikethrough"] { color: var(--bad, #ff4d4f); text-decoration: line-through 2px; }
 .hl-color-btn[data-color="eraser"] { color: var(--muted, #64748b); font-size: 13px; }
+.hl-clear-btn {
+  width: 26px !important;
+  height: 26px !important;
+  min-width: 26px !important;
+  min-height: 26px !important;
+  border-radius: 50% !important;
+  padding: 0 !important;
+  margin-left: 4px !important;
+  display: inline-grid !important;
+  place-items: center !important;
+  flex-shrink: 0 !important;
+  font-size: 11px !important;
+  background: var(--soft, #f1f5f9) !important;
+  color: var(--muted, #64748b) !important;
+  border: 1px solid var(--line, #cbd5e1) !important;
+  box-sizing: border-box !important;
+}
+.hl-clear-btn:hover {
+  transform: scale(1.15) !important;
+  color: var(--bad, #dc2626) !important;
+  border-color: var(--bad, #dc2626) !important;
+}
+html.rb-on .hl-clear-btn {
+  border-radius: 50% !important;
+}
 
 /* Floating Selection Highlighter Bubble */
 .hl-bubble {
@@ -1881,28 +2161,68 @@ html.rb-on.rb-fill .quiz-bottom-nav .exam-nav-drawer-btn {
     padding: 16px;
     min-height: auto;
   }
+  .scratch-fab {
+    right: 12px !important;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px)) !important;
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    border-radius: 50% !important;
+    padding: 0 !important;
+    gap: 0 !important;
+    font-size: 13px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important;
+  }
   .hl-dock {
-    right: 14px;
-    bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
-    padding: 3px;
-    gap: 0;
+    right: 50px !important;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px)) !important;
+    padding: 0 !important;
+    gap: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+  }
+  .hl-dock.open {
+    background: var(--surface) !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 999px !important;
+    padding: 2px 4px 2px 2px !important;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.2) !important;
+  }
+  body.exam-active-mode .scratch-fab,
+  body.exam-active-mode .hl-dock {
+    bottom: calc(68px + env(safe-area-inset-bottom, 0px)) !important;
   }
   .hl-dock.open .hl-options,
   .hl-options.open {
-    max-width: 270px;
-    margin-left: 4px;
-    padding-left: 4px;
-    gap: 3px;
+    max-width: 260px;
+    margin-left: 3px;
+    padding-left: 3px;
+    gap: 2px;
   }
   .hl-tg-btn {
-    height: 28px;
-    padding: 0 8px;
-    font-size: 12px;
+    height: 32px !important;
+    padding: 0 8px !important;
+    font-size: 11px !important;
+    gap: 4px !important;
   }
   .hl-color-btn {
-    width: 22px;
-    height: 22px;
-    font-size: 9px;
+    width: 22px !important;
+    height: 22px !important;
+    min-width: 22px !important;
+    min-height: 22px !important;
+    font-size: 9px !important;
+  }
+  .hl-clear-btn {
+    width: 22px !important;
+    height: 22px !important;
+    min-width: 22px !important;
+    min-height: 22px !important;
+    border-radius: 50% !important;
+    padding: 0 !important;
+    margin-left: 3px !important;
   }
 }
 
@@ -2851,6 +3171,7 @@ var I18N = {
     lb_link_unknown: 'This library link points to a subject that is not in the catalog.', lb_link_fail: 'Could not read the library catalog, so this link cannot be opened right now.', lb_link_bad: 'This library link is not valid.',
     lb_edit_h: 'Make your own copy?', lb_edit_body: 'Library subjects cannot be edited in place. You can edit your own copy, and the library subject stays untouched.',
     lb_copy_fresh: 'Make a copy (new progress)', lb_copy_prog: 'Make a copy with my progress', lb_copy_title: '{t} (my copy)',
+    lb_upd_deferred: 'Library update installed; will apply after the current session completes.',
     lb_share_note: 'Library link: the other person installs the same subject from the library.',
     an_title: 'Mastery analytics', an_acc: 'Average accuracy', an_acc_sub: ['last {n} attempt', 'last {n} attempts'], an_attempts: 'Attempts', an_attempts_sub: 'quizzes and exams',
     an_focus_kpi: 'Focus time', an_focus_sub: ['{n} session, all packs', '{n} sessions, all packs'], an_trend: 'Accuracy over time',
@@ -2914,6 +3235,7 @@ var I18N = {
     examTime: "Time (minutes)",
     examStartBtn: "Start Exam",
     examResumeBtn: "Resume Saved Exam",
+    examSubmit: "Submit Exam",
     examSubmitBtn: "Submit Exam",
     examConfirmSubmit: "Are you sure you want to submit? Click again to confirm.",
     examTimeUp: "Time is up! Submitting your exam automatically...",
@@ -3317,6 +3639,7 @@ var I18N = {
     lb_link_unknown: 'Liên kết thư viện này trỏ tới một môn học không có trong danh mục.', lb_link_fail: 'Không đọc được danh mục thư viện nên chưa mở được liên kết này.', lb_link_bad: 'Liên kết thư viện này không hợp lệ.',
     lb_edit_h: 'Tạo bản của riêng bạn?', lb_edit_body: 'Môn học trong thư viện không sửa tại chỗ được. Bạn có thể sửa bản sao của mình, môn trong thư viện giữ nguyên.',
     lb_copy_fresh: 'Tạo bản sao (tiến độ mới)', lb_copy_prog: 'Tạo bản sao kèm tiến độ của tôi', lb_copy_title: '{t} (bản của tôi)',
+    lb_upd_deferred: 'Bản cập nhật thư viện đã cài đặt; sẽ áp dụng sau khi kết thúc phiên học hiện tại.',
     lb_share_note: 'Liên kết thư viện: người nhận cài đúng môn này từ thư viện.',
     an_title: 'Phân tích mức độ nắm vững', an_acc: 'Độ chính xác trung bình', an_acc_sub: '{n} lượt gần nhất', an_attempts: 'Số lượt làm', an_attempts_sub: 'bài quiz và đề thi',
     an_focus_kpi: 'Thời gian tập trung', an_focus_sub: '{n} phiên, mọi bộ', an_trend: 'Độ chính xác theo thời gian',
@@ -3380,6 +3703,7 @@ var I18N = {
     examTime: "Thời gian (phút)",
     examStartBtn: "Bắt đầu làm bài",
     examResumeBtn: "Tiếp tục bài thi dở",
+    examSubmit: "Nộp bài",
     examSubmitBtn: "Nộp bài",
     examConfirmSubmit: "Bạn có chắc chắn muốn nộp bài? Hãy bấm lần nữa để xác nhận.",
     examTimeUp: "Đã hết thời gian làm bài! Hệ thống đang tự động nộp bài...",
@@ -4625,26 +4949,32 @@ function go(where, id, mode) {
     var scratchHtml = '';
     if (S.view === 'study' || (S.view === 'exam' && S.exam && S.exam.step === 'doing')) {
       var isScratchOpen = SCRATCHPAD.isOpen();
-      scratchHtml = '<button class="scratch-fab' + (isScratchOpen ? ' active' : '') + '" data-act="toggleScratchpad" title="' + esc(tr('scratchpad')) + '" aria-label="' + esc(tr('scratchpad')) + '">' + (isScratchOpen ? '✕ <span>' + esc(tr('scratch_close')) + '</span>' : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg> <span>' + esc(tr('scratchpad')) + '</span>') + '</button>' +
+      scratchHtml = '<button class="scratch-fab' + (isScratchOpen ? ' active' : '') + '" data-act="toggleScratchpad" title="' + esc(tr('scratchpad')) + '" aria-label="' + esc(tr('scratchpad')) + '">' + (isScratchOpen ? '✕' : '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>') + '</button>' +
         '<div id="scratchOverlay" style="display:' + (isScratchOpen ? 'flex' : 'none') + ';">' +
         '<div class="scratch-tb">' +
         '<div class="scratch-tools">' +
-        '<button type="button" class="btn sm' + (typeof SCRATCHPAD !== 'undefined' && SCRATCHPAD.getMode && SCRATCHPAD.getMode() === 'eraser' ? '' : ' active') + '" data-act="scratchMode" data-val="pen">' + esc(tr('scratch_pen')) + '</button>' +
-        '<button type="button" class="btn sm' + (typeof SCRATCHPAD !== 'undefined' && SCRATCHPAD.getMode && SCRATCHPAD.getMode() === 'eraser' ? ' active' : '') + '" data-act="scratchMode" data-val="eraser">' + esc(tr('scratch_eraser')) + '</button>' +
+        '<button type="button" class="btn sm' + (typeof SCRATCHPAD !== 'undefined' && SCRATCHPAD.getMode && SCRATCHPAD.getMode() === 'eraser' ? '' : ' active') + '" data-act="scratchMode" data-val="pen" title="' + esc(tr('scratch_pen')) + '" aria-label="' + esc(tr('scratch_pen')) + '"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg></button>' +
+        '<button type="button" class="btn sm' + (typeof SCRATCHPAD !== 'undefined' && SCRATCHPAD.getMode && SCRATCHPAD.getMode() === 'eraser' ? ' active' : '') + '" data-act="scratchMode" data-val="eraser" title="' + esc(tr('scratch_eraser')) + '" aria-label="' + esc(tr('scratch_eraser')) + '"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7"/><path d="m5 11 9 9"/></svg></button>' +
         '<button type="button" class="scratch-dot sel" data-act="scratchColor" data-val="#2563eb" style="background:#2563eb;"></button>' +
         '<button type="button" class="scratch-dot" data-act="scratchColor" data-val="#dc2626" style="background:#dc2626;"></button>' +
         '<button type="button" class="scratch-dot" data-act="scratchColor" data-val="#10b981" style="background:#10b981;"></button>' +
         '<button type="button" class="scratch-dot" data-act="scratchColor" data-val="#111827" style="background:var(--ink);"></button>' +
-        '<button type="button" class="btn sm" data-act="scratchEraseInk" style="margin-left:4px;" title="' + esc(tr('scratch_erase_ink_title')) + '">' + esc(tr('scratch_erase_ink')) + '</button>' +
+        '<button type="button" class="btn sm" data-act="scratchEraseInk" style="margin-left:4px;" title="' + esc(tr('scratch_erase_ink_title')) + '" aria-label="' + esc(tr('scratch_erase_ink_title')) + '"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></button>' +
         '</div>' +
-        '<button type="button" class="scratch-close-btn" data-act="closeScratchpad" title="' + esc(tr('scratch_close')) + ' (Esc)" aria-label="' + esc(tr('scratch_close')) + '">✕ <span>' + esc(tr('scratch_close')) + '</span></button>' +
+        '<button type="button" class="scratch-close-btn" data-act="closeScratchpad" title="' + esc(tr('scratch_close')) + ' (Esc)" aria-label="' + esc(tr('scratch_close')) + '">✕</button>' +
         '</div>' +
         '<canvas id="scratchCanvas"></canvas>' +
         '</div>';
     }
     var hlDockHtml = (typeof HIGHLIGHTER !== 'undefined' && HIGHLIGHTER.isAllowed()) ? HIGHLIGHTER.dockHTML() : '';
     var qSlideOverHtml = typeof renderQSlideOver !== 'undefined' ? renderQSlideOver() : '';
-    $('#app').innerHTML = '<div class="shell' + (S.railOff ? ' rail-off' : '') + (S.view === 'exam' && S.exam && S.exam.step === 'doing' ? ' exam-focus' : '') + (S.drawerOpen ? ' drawer-open' : '') + '">' + navHTML() + '<div class="scrim" data-act="closeDrawer"></div><main class="' + mainClass + '" id="main" tabindex="-1">' + main + '</main></div>' + scratchHtml + hlDockHtml + qSlideOverHtml;
+    var isQActive = (S.view === 'exam' && S.exam && S.exam.step === 'doing') || (S.view === 'study' && S.mode === 'quiz' && S.quiz && !S.quiz.done);
+    var isExamDoing = S.view === 'exam' && S.exam && S.exam.step === 'doing';
+    document.body.classList.toggle('q-active-lock', isQActive);
+    document.documentElement.classList.toggle('q-active-lock', isQActive);
+    document.body.classList.toggle('exam-active-mode', isExamDoing);
+    var focusClass = (S.view === 'exam' && S.exam && S.exam.step === 'doing') ? ' exam-focus' : (S.view === 'study' && S.mode === 'quiz' && S.quiz && !S.quiz.done ? ' quiz-focus' : '');
+    $('#app').innerHTML = '<div class="shell' + (S.railOff ? ' rail-off' : '') + focusClass + (S.drawerOpen ? ' drawer-open' : '') + '">' + navHTML() + '<div class="scrim" data-act="closeDrawer"></div><main class="' + mainClass + '" id="main" tabindex="-1">' + main + '</main></div>' + scratchHtml + hlDockHtml + qSlideOverHtml;
     if (typeof SCRATCHPAD !== 'undefined') {
       document.body.classList.toggle('scratchpad-open', !!SCRATCHPAD.isOpen());
       if (SCRATCHPAD.isOpen()) SCRATCHPAD.initCanvas();
@@ -4785,6 +5115,7 @@ function go(where, id, mode) {
     function toggle(forced) {
       isEnabled = forced !== undefined ? !!forced : !isEnabled;
       saveConfig();
+      document.body.classList.toggle('hl-pen-on', isEnabled);
       var dock = document.getElementById('hlDock');
       if (dock) {
         dock.classList.toggle('open', isEnabled);
@@ -4911,7 +5242,7 @@ function go(where, id, mode) {
             if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
             var p = node.parentElement;
             if (!p) return NodeFilter.FILTER_REJECT;
-            if (p.closest('.sp-hl') || p.closest('.katex') || p.tagName === 'BUTTON' || p.tagName === 'TEXTAREA' || p.tagName === 'INPUT' || p.closest('.scratch-fab') || p.closest('.hl-dock') || p.closest('.q-drawer') || p.closest('.hl-bubble')) {
+            if (p.closest('.sp-hl') || p.closest('.katex') || (p.closest('button') && !p.closest('.opt') && !p.closest('.exam-opt')) || p.tagName === 'TEXTAREA' || p.tagName === 'INPUT' || p.closest('.scratch-fab') || p.closest('.hl-dock') || p.closest('.q-drawer') || p.closest('.hl-bubble')) {
               return NodeFilter.FILTER_REJECT;
             }
             return NodeFilter.FILTER_ACCEPT;
@@ -5149,8 +5480,144 @@ function go(where, id, mode) {
         '<button type="button" class="hl-color-btn' + (currentStyle === 'underline' ? ' selected' : '') + '" data-act="setHlColor" data-color="underline" title="Gạch chân"><u>U</u></button>' +
         '<button type="button" class="hl-color-btn' + (currentStyle === 'strikethrough' ? ' selected' : '') + '" data-act="setHlColor" data-color="strikethrough" title="Gạch xuyên"><s>S</s></button>' +
         '<button type="button" class="hl-color-btn' + (currentStyle === 'eraser' ? ' selected' : '') + '" data-act="setHlColor" data-color="eraser" title="Tẩy / Xóa"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7"/><path d="m5 11 9 9"/></svg></button>' +
-        '<button type="button" class="btn sm" data-act="clearScopeHighlights" style="margin-left:4px;padding:3px 7px;font-size:11px;" title="' + esc(tr('hl_clear')) + '"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg></button>' +
+        '<button type="button" class="btn sm hl-color-btn hl-clear-btn" data-act="clearScopeHighlights" title="' + esc(tr('hl_clear')) + '" aria-label="' + esc(tr('hl_clear')) + '"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg></button>' +
         '</div></div>';
+    }
+
+    function getCaretAtPoint(x, y) {
+      if (document.caretRangeFromPoint) {
+        return document.caretRangeFromPoint(x, y);
+      } else if (document.caretPositionFromPoint) {
+        var pos = document.caretPositionFromPoint(x, y);
+        if (pos && pos.offsetNode) {
+          var r = document.createRange();
+          r.setStart(pos.offsetNode, pos.offset);
+          r.collapse(true);
+          return r;
+        }
+      }
+      return null;
+    }
+
+    function normalizeCaret(r) {
+      if (!r) return null;
+      var node = r.startContainer;
+      var offset = r.startOffset;
+      if (node && node.nodeType === Node.ELEMENT_NODE) {
+        if (offset < node.childNodes.length) {
+          node = node.childNodes[offset];
+          offset = 0;
+        } else if (node.lastChild) {
+          node = node.lastChild;
+          offset = node.nodeValue ? node.nodeValue.length : 0;
+        }
+        while (node && node.nodeType === Node.ELEMENT_NODE && node.firstChild) {
+          node = node.firstChild;
+          offset = 0;
+        }
+      }
+      return { node: node, offset: offset };
+    }
+
+    var touchStartCaret = null;
+    var touchIsSwiping = false;
+    var touchMoved = false;
+    var lastActiveRange = null;
+
+    function handleTouchStart(e) {
+      if (!isHighlightAllowed() || !isEnabled) return;
+      if (e.touches.length !== 1) return;
+      var target = e.target;
+      if (!target) return;
+      if (target.closest('button.btn, input, textarea, select, .scratch-fab, .hl-dock, .hl-bubble, .q-slideover, .q-drawer, .rc-resizer, .scratch-tb, .tfo, .qtimer, .math-palette')) {
+        return;
+      }
+      var main = document.getElementById('main');
+      if (!main || !main.contains(target)) return;
+
+      var touch = e.touches[0];
+      var r = getCaretAtPoint(touch.clientX, touch.clientY);
+      var c = normalizeCaret(r);
+      if (c && c.node && main.contains(c.node)) {
+        touchStartCaret = {
+          node: c.node,
+          offset: c.offset,
+          x: touch.clientX,
+          y: touch.clientY
+        };
+        touchIsSwiping = true;
+        touchMoved = false;
+        lastActiveRange = null;
+      }
+    }
+
+    function handleTouchMove(e) {
+      if (!touchIsSwiping || !touchStartCaret || e.touches.length !== 1) return;
+      var touch = e.touches[0];
+      var dx = touch.clientX - touchStartCaret.x;
+      var dy = touch.clientY - touchStartCaret.y;
+      var absX = Math.abs(dx);
+      var absY = Math.abs(dy);
+      if (!touchMoved) {
+        if (absY > 5 && absY >= absX) {
+          touchIsSwiping = false;
+          touchStartCaret = null;
+          return;
+        }
+        if (absX > 6 && absX > absY) {
+          touchMoved = true;
+        }
+      }
+      if (touchMoved) {
+        if (e.cancelable) e.preventDefault();
+        var curR = getCaretAtPoint(touch.clientX, touch.clientY);
+        var curC = normalizeCaret(curR);
+        var main = document.getElementById('main');
+        if (curC && curC.node && main && main.contains(curC.node)) {
+          try {
+            var range = document.createRange();
+            var pos = touchStartCaret.node.compareDocumentPosition(curC.node);
+            if (pos & Node.DOCUMENT_POSITION_PRECEDING || (touchStartCaret.node === curC.node && touchStartCaret.offset > curC.offset)) {
+              range.setStart(curC.node, curC.offset);
+              range.setEnd(touchStartCaret.node, touchStartCaret.offset);
+            } else {
+              range.setStart(touchStartCaret.node, touchStartCaret.offset);
+              range.setEnd(curC.node, curC.offset);
+            }
+            lastActiveRange = range.cloneRange();
+            var sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+          } catch (err) {}
+        }
+      }
+    }
+
+    function handleTouchEnd(e) {
+      if (touchIsSwiping) {
+        touchIsSwiping = false;
+        if (touchMoved) {
+          var sel = window.getSelection();
+          var rangeToApply = (sel && !sel.isCollapsed) ? sel.getRangeAt(0) : lastActiveRange;
+          if (rangeToApply) {
+            var text = rangeToApply.toString().trim();
+            if (text.length >= 2) {
+              savedRange = rangeToApply;
+              applyActiveSelection(currentStyle);
+            }
+          }
+        }
+        touchStartCaret = null;
+        touchMoved = false;
+        lastActiveRange = null;
+      }
+    }
+
+    function handleTouchCancel() {
+      touchIsSwiping = false;
+      touchStartCaret = null;
+      touchMoved = false;
+      lastActiveRange = null;
     }
 
     return {
@@ -5167,6 +5634,10 @@ function go(where, id, mode) {
       applyActiveSelection: applyActiveSelection,
       hideBubble: hideBubble,
       handleClick: handleClick,
+      handleTouchStart: handleTouchStart,
+      handleTouchMove: handleTouchMove,
+      handleTouchEnd: handleTouchEnd,
+      handleTouchCancel: handleTouchCancel,
       clearCurrentScope: clearCurrentScope,
       dockHTML: dockHTML
     };
@@ -5264,7 +5735,7 @@ function go(where, id, mode) {
       var fab = document.querySelector('.scratch-fab');
       if (fab) {
         fab.classList.toggle('active', open);
-        fab.innerHTML = open ? '✕ <span>' + esc(tr('scratch_close')) + '</span>' : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg> <span>' + esc(tr('scratchpad')) + '</span>';
+        fab.innerHTML = open ? '✕' : '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>';
       }
     }
 
@@ -5660,6 +6131,9 @@ function studyHTML() {
       quiz: topics.some(function (x) { return x.questions.length; })
     };
     if (!has[S.mode]) S.mode = ['notes', 'cards', 'quiz'].filter(function (m) { return has[m]; })[0] || 'notes';
+    if (S.mode === 'quiz' && S.quiz && !S.quiz.done) {
+      return '<div class="quiz-active-wrap">' + quizHTML() + '</div>';
+    }
     var h = crumbsHTML(true) + '<div class="eyebrow">' + (single ? tr('eyebrow_topic') : tr('eyebrow_all')) + '</div>';
     h += '<h1 class="page-h">' + esc(single ? t.title : tr('all_topics')) + '</h1>';
     h += '<div class="tabs" role="tablist">';
@@ -6007,8 +6481,9 @@ function renderQSlideOver() {
   var qList = run.questions;
   var answeredCount = qList.filter(function (it) { return examIsAnswered(it); }).length;
   var flaggedCount = qList.filter(function (it) { return it.flagged; }).length;
+  var isConfirming = S.exam.confirmingSubmit;
   var submitBtnStyle = 'width: 100%; margin-top: 10px; font-weight: 600; padding: 10px 14px;';
-  var submitBtnText = run.endedAt ? tr('examViewResult') : tr('examSubmit');
+  var submitBtnText = run.endedAt ? tr('examViewResult') : (isConfirming ? tr('examConfirmSubmit') : tr('examSubmitBtn'));
 
   var parts = [
     { p: 1, title: tr('examPart1_heading'), items: [] },
@@ -6221,7 +6696,7 @@ function examReviewItem(item, i, g) {
 }
 
 function renderExam() {
-  let html = `<div style="max-width: 1100px; margin: 0 auto; padding: 16px;">`;
+  let html = `<div class="exam-container ${S.exam.step === 'doing' ? 'exam-doing-wrap' : ''}">`;
   const runKey = 'sp:run:' + S.key;
   const savedRun = store.get(runKey);
   const cfg = examCfg();
@@ -6317,10 +6792,10 @@ function renderExam() {
       : 'width: 100%; padding: 12px; font-weight: 600;';
 
     html += `
-      <div style="position: sticky; top: 0; background: var(--surface); padding: 12px 16px; border-radius: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); z-index: 10; border: 1px solid var(--line);">
+      <div class="exam-top-bar" style="position: sticky; top: 0; background: var(--surface); padding: 8px 14px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); z-index: 10; border: 1px solid var(--line); flex-shrink: 0;">
         <div style="font-weight: 700; color: var(--accent); font-family: var(--font-mono, monospace);" id="examTimer">${initialTimeStr}</div>
         <div style="font-size: 13px; color: var(--muted);">${tr('question')} <b style="color: var(--ink);">${run.currentIndex + 1}</b> / ${qList.length}</div>
-        <button class="btn sm" data-act="examExit">${tr('examExit')}</button>
+        <button type="button" class="btn sm exam-exit-btn" data-act="examExit" title="${esc(tr('examExit'))}" aria-label="${esc(tr('examExit'))}">✕</button>
       </div>
     `;
 
@@ -6358,7 +6833,7 @@ function renderExam() {
             <div class="rc-resizer" title="${tr('rc_resize_hint')}"></div>
 
             <div class="rc-question-pane">
-              <div>
+              <div class="exam-header-dock">
                 <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px;">
                   <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
                     ${examPartBadge(currentQ.q.type)}
@@ -6368,20 +6843,23 @@ function renderExam() {
                     ⚑ ${currentQ.flagged ? tr('flagged') : tr('flag')}
                   </button>
                 </div>
-                ${currentQ.q.prompt ? `<div style="font-size: 16px; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: var(--ink);">${rich(currentQ.q.prompt)}</div>` : ''}
-
-                <div style="margin-bottom: 24px;">
+              </div>
+              <div class="exam-q-scroll" id="examRcQScroll">
+                ${currentQ.q.prompt ? `<div style="font-size: 16px; font-weight: 600; margin-bottom: 16px; line-height: 1.5; color: var(--ink);">${rich(currentQ.q.prompt)}</div>` : ''}
+                <div style="margin-bottom: 16px;">
                   ${renderExamQuestionInput(currentQ, run.currentIndex)}
                 </div>
               </div>
-              ${navRowHtml}
+              <div class="exam-bottom-dock">
+                ${navRowHtml}
+              </div>
             </div>
           </div>
         `;
       } else {
         contentHtml = `
-          <div class="rp-card exam-card" style="padding: 24px; min-height: 400px; display: flex; flex-direction: column; justify-content: space-between;">
-            <div>
+          <div class="rp-card exam-card">
+            <div class="exam-header-dock">
               <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px;">
                 <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
                   ${examPartBadge(currentQ.q.type)}
@@ -6391,13 +6869,16 @@ function renderExam() {
                   ⚑ ${currentQ.flagged ? tr('flagged') : tr('flag')}
                 </button>
               </div>
+            </div>
+            <div class="exam-q-scroll" id="examQScroll">
               ${examPromptHTML(currentQ)}
-
-              <div style="margin-bottom: 24px;">
+              <div style="margin-bottom: 16px;">
                 ${renderExamQuestionInput(currentQ, run.currentIndex)}
               </div>
             </div>
-            ${navRowHtml}
+            <div class="exam-bottom-dock">
+              ${navRowHtml}
+            </div>
           </div>
         `;
       }
@@ -7073,9 +7554,10 @@ function formatTime(ms) {
     var isReading = isReadingPassage(t);
 
     var topProgHtml = '<div class="q-top"><span>' + tr('q_of', { i: q.i + 1, n: q.items.length }) + '</span>';
-    if (S.scope === 'all') topProgHtml += '<span>' + esc(it.ttitle) + '</span>';
+    if (S.scope === 'all') topProgHtml += '<span class="q-top-topic">' + esc(it.ttitle) + '</span>';
     topProgHtml += '<span class="grow"></span>';
     if (S.qopts.secs && !fb) topProgHtml += '<span class="qtimer"><span id="qTime">' + S.qopts.secs + 's</span><span class="bar"><i id="qBar" style="width:100%"></i></span></span>';
+    topProgHtml += '<button type="button" class="btn sm q-exit-btn" data-act="newquiz" title="' + esc(tr('examExit')) + '" aria-label="' + esc(tr('examExit')) + '">✕</button>';
     topProgHtml += '</div><div class="q-prog" aria-hidden="true">' + q.items.map(function (x, i) {
       return '<i class="' + (x.res ? (x.res.correct ? 'd' : 'w') : (i === q.i ? 'd' : '')) + '"></i>';
     }).join('') + '</div>';
@@ -7136,11 +7618,15 @@ function formatTime(ms) {
         '</div>' +
         '<div class="rc-resizer" title="' + esc(tr('rc_resize_hint')) + '"></div>' +
         '<div class="rc-question-pane">' +
-        '<div>' + topProgHtml + bodyHtml + '</div>' +
+        '<div class="q-header-dock">' + topProgHtml + '</div>' +
+        '<div class="q-scroll-area">' + bodyHtml + '</div>' +
         '</div>' +
         '</div>';
     } else {
-      mainContent = '<div class="quiz">' + topProgHtml + bodyHtml + '</div>';
+      mainContent = '<div class="quiz q-lock-view">' +
+        '<div class="q-header-dock">' + topProgHtml + '</div>' +
+        '<div class="q-scroll-area" id="qScrollArea">' + bodyHtml + '</div>' +
+        '</div>';
     }
 
     return mainContent;
@@ -7340,6 +7826,10 @@ h += '<a class="ai-btn" href="' + urls.claude + '" target="_blank" rel="noopener
         var done = false, rq;
         var t = setTimeout(function () { if (!done) { done = true; rej(new Error('IndexedDB open timed out')); } }, 4000);
         try { rq = indexedDB.open('navel-desk', 2); } catch (e) { clearTimeout(t); rej(e); return; }
+        rq.onblocked = function () {
+          clearTimeout(t);
+          if (!done) { done = true; rej(new Error('IndexedDB blocked by another tab')); }
+        };
         rq.onupgradeneeded = function () {
           var d = rq.result;
           if (!d.objectStoreNames.contains('packs')) d.createObjectStore('packs', { keyPath: 'id' });
@@ -7351,7 +7841,14 @@ h += '<a class="ai-btn" href="' + urls.claude + '" target="_blank" rel="noopener
           clearTimeout(t);
           if (done) { try { rq.result.close(); } catch (e) { /* ignore */ } return; }
           done = true; h = rq.result; api.ok = true;
-          h.onversionchange = function () { try { h.close(); } catch (e) { /* ignore */ } api.ok = false; };
+          h.onversionchange = function () {
+            try { h.close(); } catch (e) { /* ignore */ }
+            api.ok = false;
+            ST.mode = 'ls';
+            ST.warn = true;
+            ST.err = 'Database upgrade in another tab; using local storage.';
+            if (typeof paintStorage === 'function') paintStorage();
+          };
           res();
         };
         rq.onerror = function () { clearTimeout(t); if (!done) { done = true; rej(rq.error || new Error('IndexedDB open failed')); } };
@@ -7482,12 +7979,39 @@ h += '<a class="ai-btn" href="' + urls.claude + '" target="_blank" rel="noopener
     return db.open().then(migrateToDb).then(function () {
       return Promise.all([db.all('packs'), db.get('meta', 'current')]);
     }).then(function (r) {
+      var idbPacks = r[0] || [];
+      var lsPacks = lsRecents();
+      var idbMap = {};
+      idbPacks.forEach(function (p) { if (p && p.id) idbMap[p.id] = p; });
+      var toRecover = [];
+      if (lsPacks && lsPacks.length) {
+        lsPacks.forEach(function (lp) {
+          if (!lp || !lp.id || typeof lp.text !== 'string') return;
+          var ep = idbMap[lp.id];
+          if (!ep || (lp.updatedAt || 0) > (ep.updatedAt || 0)) {
+            toRecover.push(lp);
+            idbMap[lp.id] = lp;
+          }
+        });
+      }
+      var work = Promise.resolve();
+      if (toRecover.length) {
+        work = db.packsBatch(toRecover, []).then(function () {
+          try { localStorage.removeItem('sp:recent_packs'); } catch (e) {}
+        });
+      }
+      return work.then(function () {
+        var merged = Object.keys(idbMap).map(function (k) { return idbMap[k]; });
+        return [merged, r[1]];
+      });
+    }).then(function (r) {
       RP = r[0].sort(function (a, b) { return (b.updatedAt || 0) - (a.updatedAt || 0); });
       CURPACK = typeof r[1] === 'string' ? r[1] : null; ST.mode = 'idb';
       return resolveLibPointer();
     }).catch(function (e) {
-      db.ok = false; ST.mode = 'ls'; ST.err = String(e && e.message || e);
+      db.ok = false; ST.mode = 'ls'; ST.warn = true; ST.err = String(e && e.message || e);
       RP = lsRecents(); CURPACK = store.get('sp:pack');
+      paintStorage();
     });
   }
   /* ---- storage card (Files page): usage estimate, persistence, mode ---- */
@@ -7692,7 +8216,7 @@ function setLang(l) {
     applyStatic(); 
     syncTheme(); 
     tRender();
-    if (S.pack) $('#packName').textContent = S.pack.title;
+    if (S.pack && $('#packName')) $('#packName').textContent = S.pack.title;
     render(); // Rebuilds DOM with new language text
     if (typeof ZEN !== 'undefined' && ZEN.updateUI) ZEN.updateUI();
 
@@ -8498,9 +9022,36 @@ document.addEventListener('keydown', function (e) {
   });
   document.addEventListener('mouseup', function (e) {
     if (typeof HIGHLIGHTER === 'undefined' || !HIGHLIGHTER.isAllowed()) return;
+    if (HIGHLIGHTER.isOn()) {
+      var sel = window.getSelection();
+      if (sel && !sel.isCollapsed && sel.toString().trim().length >= 2) {
+        HIGHLIGHTER.applyActiveSelection();
+        return;
+      }
+    }
     setTimeout(function () {
       HIGHLIGHTER.checkSelection($('#main'));
     }, 40);
+  });
+  document.addEventListener('touchstart', function (e) {
+    if (typeof HIGHLIGHTER !== 'undefined') {
+      HIGHLIGHTER.handleTouchStart(e);
+    }
+  }, { passive: true });
+  document.addEventListener('touchmove', function (e) {
+    if (typeof HIGHLIGHTER !== 'undefined') {
+      HIGHLIGHTER.handleTouchMove(e);
+    }
+  }, { passive: false });
+  document.addEventListener('touchend', function (e) {
+    if (typeof HIGHLIGHTER !== 'undefined') {
+      HIGHLIGHTER.handleTouchEnd(e);
+    }
+  });
+  document.addEventListener('touchcancel', function (e) {
+    if (typeof HIGHLIGHTER !== 'undefined') {
+      HIGHLIGHTER.handleTouchCancel(e);
+    }
   });
   document.addEventListener('click', function (e) {
     if (typeof HIGHLIGHTER !== 'undefined') {
@@ -10668,6 +11219,9 @@ var NDQR = (function () {
     var b = m.querySelector('.btn.primary') || m.querySelector('.btn'); if (b) b.focus();
   }
   function importFromHash() {
+    var fail = function () {
+      importModal('<h2 id="shT">' + tr('imp_title') + '</h2><p>' + tr('imp_err') + '</p><div class="sh-act"><button class="btn primary" data-act="nd_shClose">' + tr('share_close') + '</button></div>');
+    };
     if (/^#lib=/.test(location.hash)) { libFromHash(); return; }
     if (/^#sync=([zp])([A-Za-z0-9_-]+)$/.test(location.hash)) {
       var sm = /^#sync=([zp])([A-Za-z0-9_-]+)$/.exec(location.hash);
@@ -10675,7 +11229,8 @@ var NDQR = (function () {
       if (sm) {
         decodeShare(sm[1], sm[2]).then(function (json) {
           var data = JSON.parse(json);
-          if (data && data.v === 1) {
+          if (data && data.v === 1 && typeof data.pack === 'string' && /^[A-Za-z0-9_-]{1,80}$/.test(data.pack.trim())) {
+            data.pack = data.pack.trim();
             SH.pendingSync = data;
             var packTitle = data.pack;
             if (data.pack && S.key === data.pack && S.pack && S.pack.title) packTitle = S.pack.title;
@@ -10688,17 +11243,16 @@ var NDQR = (function () {
               '<button class="btn primary" data-act="nd_syncApply">' + tr('sync_apply') + '</button>' +
               '<button class="btn" data-act="nd_shClose">' + tr('imp_cancel') + '</button>' +
               '</div>');
+          } else {
+            fail();
           }
-        }).catch(function () {});
+        }).catch(fail);
       }
       return;
     }
     if (!/^#share=/.test(location.hash)) return;
     var mm = /^#share=([zp])([A-Za-z0-9_-]+)$/.exec(location.hash);
     try { history.replaceState(null, '', location.pathname + location.search); } catch (e) { /* ignore */ }
-    var fail = function () {
-      importModal('<h2 id="shT">' + tr('imp_title') + '</h2><p>' + tr('imp_err') + '</p><div class="sh-act"><button class="btn primary" data-act="nd_shClose">' + tr('share_close') + '</button></div>');
-    };
     if (!mm) { fail(); return; }
     decodeShare(mm[1], mm[2]).then(function (json) {
       var r = spParse(json); if (r.error) throw new Error('parse');
@@ -10865,7 +11419,15 @@ var NDQR = (function () {
       delete LB.busy[id]; LB.msg[id] = { kind: 'info', key: skipped ? 'lb_no_verify' : 'lb_verified' };
       var openNow = LB.openAfter === id || S.libId === id; var stay = S.libId === id && LB.openAfter !== id; LB.openAfter = '';
       lbPaintAll(); refreshStorage(); askPersist();
-      if (openNow) lbOpen(id, stay);
+      if (openNow) {
+        var isSessionActive = (S.view === 'study' && ((S.mode === 'quiz' && S.quiz && !S.quiz.done) || (S.mode === 'cards' && S.cards))) || (S.view === 'exam' && S.exam && S.exam.step === 'doing');
+        if (S.libId === id && isSessionActive) {
+          S.notice = tr('lb_upd_deferred');
+          render();
+        } else {
+          lbOpen(id, stay);
+        }
+      }
     }, function (err) {
       if (err && (err.name === 'AbortError' || err.message === 'cancelled')) { delete LB.busy[id]; LB.msg[id] = { kind: 'info', key: 'lb_cancelled' }; lbPaintRow(id); return; }
       var c = err && err.code;
@@ -10924,11 +11486,15 @@ var NDQR = (function () {
     importModal('<h2 id="shT">' + tr('lb_edit_h') + '</h2><p>' + tr('lb_edit_body') + '</p><div class="sh-act"><button class="btn primary" data-act="nd_lbCopyFresh">' + tr('lb_copy_fresh') + '</button><button class="btn" data-act="nd_lbCopyProg">' + tr('lb_copy_prog') + '</button><button class="btn" data-act="nd_shClose">' + tr('lb_cancel') + '</button></div>');
   }
   function lbMakeCopy(withProgress) {
-    var tree = spSerialise(S.pack), oldKey = S.key, base = S.libId.replace(/[^a-z0-9-]/g, '').slice(0, 24);
+    var tree = spSerialise(S.pack), oldKey = S.key, base = (S.libId || 'pack').replace(/[^a-z0-9-]/g, '').slice(0, 24);
     var newId = 'my_' + base + '_' + Date.now().toString(36);
     tree.id = newId; tree.title = tr('lb_copy_title', { t: S.pack.title });
+    var n = spNormalise(JSON.parse(JSON.stringify(tree)));
+    if (!n.pack) {
+      importModal('<h2 id="shT">' + tr('imp_title') + '</h2><p>' + tr('imp_err') + '</p><div class="sh-act"><button class="btn primary" data-act="nd_shClose">' + tr('share_close') + '</button></div>');
+      return;
+    }
     if (withProgress) { var old = store.get('sp:prog:' + oldKey); if (old) store.set('sp:prog:' + spHash('id:' + newId), old); }
-    var n = spNormalise(JSON.parse(JSON.stringify(tree))); if (!n.pack) return;
     shareClose(); setPack(n.pack);
     saveRecentPackToStorage(n.pack.title, JSON.stringify(tree, null, 2));
     go('edit');
@@ -10967,11 +11533,19 @@ var NDQR = (function () {
     }
     if (p.quiz && typeof p.quiz === 'object') for (k in p.quiz) if (!pgBad(k) && isFinite(+p.quiz[k]) && p.quiz[k] !== null) o.quiz[k] = +p.quiz[k];
     if (p.mistakes && typeof p.mistakes === 'object') {
-      for (k in p.mistakes) {
-        if (pgBad(k)) continue;
-        var mv = p.mistakes[k];
-        if (mv && typeof mv === 'object') {
-          o.mistakes[k] = { misses: Math.max(1, parseInt(mv.misses, 10) || 1), lastAt: isFinite(+mv.lastAt) ? +mv.lastAt : Date.now() };
+      if (Array.isArray(p.mistakes)) {
+        p.mistakes.forEach(function (m) {
+          if (m && m.qid && !pgBad(m.qid)) {
+            o.mistakes[m.qid] = { misses: Math.max(1, parseInt(m.misses, 10) || 1), lastAt: isFinite(+m.lastAt) ? +m.lastAt : Date.now() };
+          }
+        });
+      } else {
+        for (k in p.mistakes) {
+          if (pgBad(k)) continue;
+          var mv = p.mistakes[k];
+          if (mv && typeof mv === 'object') {
+            o.mistakes[k] = { misses: Math.max(1, parseInt(mv.misses, 10) || 1), lastAt: isFinite(+mv.lastAt) ? +mv.lastAt : Date.now() };
+          }
         }
       }
     }
@@ -11079,11 +11653,22 @@ var NDQR = (function () {
     }
     return { data: o };
   }
+  /* Merge semantics:
+   * 1. Notes and mistakes are monotonic union (add-only without tombstones): learned items and mistakes across devices are accumulated.
+   * 2. Flashcards: latest ts (or higher box on tie) determines the box and star; miss count preserves the maximum.
+   */
   function pgMergeProg(a, b, st) {
     st = st || {};
+    st.cards = st.cards || 0;
+    st.hist = st.hist || 0;
+    st.quiz = st.quiz || 0;
+    st.notes = st.notes || 0;
+    st.mistakes = st.mistakes || 0;
     var out = emptyProg(), k;
     for (k in a.notes) out.notes[k] = a.notes[k];
-    for (k in b.notes) if (!out.notes[k]) out.notes[k] = true;
+    for (k in b.notes) {
+      if (!out.notes[k] && b.notes[k]) { out.notes[k] = true; st.notes++; }
+    }
     for (k in a.mistakes) out.mistakes[k] = a.mistakes[k];
     for (k in b.mistakes) {
       if (pgBad(k)) continue;
@@ -11091,13 +11676,15 @@ var NDQR = (function () {
       if (!bm || typeof bm !== 'object') continue;
       if (!(k in out.mistakes)) {
         out.mistakes[k] = { misses: Math.max(1, parseInt(bm.misses, 10) || 1), lastAt: bm.lastAt || Date.now() };
-        st.mistakes = (st.mistakes || 0) + 1;
+        st.mistakes++;
       } else {
         var am = out.mistakes[k];
-        out.mistakes[k] = {
-          misses: Math.max(am.misses || 1, parseInt(bm.misses, 10) || 1),
-          lastAt: Math.max(am.lastAt || 0, bm.lastAt || 0) || Date.now()
-        };
+        var nm = Math.max(am.misses || 1, parseInt(bm.misses, 10) || 1);
+        var nl = Math.max(am.lastAt || 0, bm.lastAt || 0) || Date.now();
+        if (nm !== (am.misses || 1) || nl !== (am.lastAt || 0)) {
+          out.mistakes[k] = { misses: nm, lastAt: nl };
+          st.mistakes++;
+        }
       }
     }
     for (k in a.quiz) out.quiz[k] = a.quiz[k];
@@ -11114,23 +11701,25 @@ var NDQR = (function () {
       var ts = Math.max(tx, ty); if (ts) r.ts = ts;
       if (JSON.stringify(r) !== JSON.stringify(x)) { out.cards[k] = r; st.cards++; }
     }
-    var seen = {}, merged = a.hist.slice();
+    var seen = {}, merged = (a.hist || []).slice();
     merged.forEach(function (e) { seen[e.t + '|' + (e.k || '')] = 1; });
-    b.hist.forEach(function (e) { var id = e.t + '|' + (e.k || ''); if (!seen[id]) { seen[id] = 1; merged.push(e); st.hist++; } });
+    (b.hist || []).forEach(function (e) { var id = e.t + '|' + (e.k || ''); if (!seen[id]) { seen[id] = 1; merged.push(e); st.hist++; } });
     merged.sort(function (p, q) { return p.t - q.t; });
     if (merged.length > 400) merged = merged.slice(merged.length - 400); /* same cap pushHist applies */
     out.hist = merged;
     return out;
   }
   function pgPlan(data) {
-    var plan = { packs: [], timers: {}, settings: data.settings, exportedAt: data.exportedAt, tot: { packs: 0, packsNew: 0, cards: 0, hist: 0, quiz: 0, days: 0 } };
+    var plan = { packs: [], timers: {}, settings: data.settings, exportedAt: data.exportedAt, tot: { packs: 0, packsNew: 0, cards: 0, hist: 0, quiz: 0, notes: 0, mistakes: 0, days: 0 } };
     Object.keys(data.packs).forEach(function (key) {
-      var inc = data.packs[key], st = { cards: 0, hist: 0, quiz: 0 };
+      var inc = data.packs[key], st = { cards: 0, hist: 0, quiz: 0, notes: 0, mistakes: 0 };
       var isNew = key !== S.key && pgLS('sp:prog:' + key) == null;
       var merged = pgMergeProg(pgProgOf(key), inc.prog, st);
-      plan.packs.push({ key: key, title: inc.title, deadline: inc.deadline, isNew: isNew, merged: merged, dirty: isNew || st.cards > 0 || st.hist > 0 || st.quiz > 0 || (!!inc.title && !pgLS('sp:pname:' + key)) });
+      var dirty = isNew || st.cards > 0 || st.hist > 0 || st.quiz > 0 || st.notes > 0 || st.mistakes > 0 || (!!inc.title && !pgLS('sp:pname:' + key));
+      plan.packs.push({ key: key, title: inc.title, deadline: inc.deadline, isNew: isNew, merged: merged, dirty: dirty });
       plan.tot.packs++; if (isNew) plan.tot.packsNew++;
       plan.tot.cards += st.cards; plan.tot.hist += st.hist; plan.tot.quiz += st.quiz;
+      plan.tot.notes += st.notes; plan.tot.mistakes += st.mistakes;
     });
     Object.keys(data.timers).forEach(function (dk) {
       var cur = pgJSON('sp:timer:' + dk), inc = data.timers[dk];
@@ -11170,7 +11759,7 @@ var NDQR = (function () {
       PG.pending = v.data;
       var plan = pgPlan(v.data), tt = plan.tot;
       var when = new Date(v.data.exportedAt); when = isNaN(+when) ? '?' : when.toLocaleDateString();
-      var nothing = !tt.packsNew && !tt.cards && !tt.hist && !tt.quiz && !tt.days && !plan.packs.some(function (p) { return p.dirty; });
+      var nothing = !tt.packsNew && !tt.cards && !tt.hist && !tt.quiz && !tt.notes && !tt.mistakes && !tt.days && !plan.packs.some(function (p) { return p.dirty; });
       var h = '<h2 id="shT">' + tr('pg_imp_h') + '</h2><p>' + tr('pg_imp_sum', { d: esc(when), p: tt.packs, np: tt.packsNew, c: tt.cards, h: tt.hist, q: tt.quiz, t: tt.days }) + '</p>';
       if (nothing) h += '<p class="muted">' + tr('pg_imp_nothing') + '</p>';
       else if (tt.packsNew) h += '<p class="muted">' + tr('pg_imp_unloaded') + '</p>';
@@ -11272,51 +11861,17 @@ var NDQR = (function () {
         var data = SH.pendingSync;
         SH.pendingSync = null;
         shareClose();
-        if (data && data.v === 1) {
-          var targetProg = (data.pack && data.pack !== S.key) ? (pgJSON('sp:prog:' + data.pack) || { notes: {}, cards: {}, hist: [], mistakes: {} }) : S.prog;
-          if (data.notes && typeof data.notes === 'object') {
-            if (!targetProg.notes) targetProg.notes = {};
-            Object.keys(data.notes).forEach(function (k) {
-              if (k !== '__proto__' && k !== 'constructor' && k !== 'prototype') targetProg.notes[k] = true;
-            });
-          }
-          if (data.cards && typeof data.cards === 'object') {
-            if (!targetProg.cards) targetProg.cards = {};
-            Object.keys(data.cards).forEach(function (k) {
-              if (k !== '__proto__' && k !== 'constructor' && k !== 'prototype') {
-                var inc = data.cards[k], cur = targetProg.cards[k];
-                if (!cur || ((inc && inc.box || 1) > (cur && cur.box || 1))) targetProg.cards[k] = inc;
-              }
-            });
-          }
-          if (data.mistakes && typeof data.mistakes === 'object') {
-            if (!targetProg.mistakes || Array.isArray(targetProg.mistakes)) targetProg.mistakes = {};
-            if (Array.isArray(data.mistakes)) {
-              data.mistakes.forEach(function (m) {
-                if (m && m.qid && m.qid !== '__proto__' && m.qid !== 'constructor' && m.qid !== 'prototype') {
-                  var cur = targetProg.mistakes[m.qid];
-                  targetProg.mistakes[m.qid] = {
-                    misses: Math.max((cur && cur.misses) || 0, m.misses || 1),
-                    lastAt: Math.max((cur && cur.lastAt) || 0, m.lastAt || Date.now())
-                  };
-                }
-              });
-            } else {
-              Object.keys(data.mistakes).forEach(function (k) {
-                if (k !== '__proto__' && k !== 'constructor' && k !== 'prototype') {
-                  var inc = data.mistakes[k], cur = targetProg.mistakes[k];
-                  targetProg.mistakes[k] = {
-                    misses: Math.max((cur && cur.misses) || 0, (inc && inc.misses) || 1),
-                    lastAt: Math.max((cur && cur.lastAt) || 0, (inc && inc.lastAt) || Date.now())
-                  };
-                }
-              });
-            }
-          }
-          if (data.pack && data.pack !== S.key) {
-            store.set('sp:prog:' + data.pack, JSON.stringify(targetProg));
-          } else {
+        if (data && data.v === 1 && typeof data.pack === 'string' && /^[A-Za-z0-9_-]{1,80}$/.test(data.pack.trim())) {
+          var packKey = data.pack.trim();
+          var incoming = pgCleanProg(data);
+          var curProg = (packKey === S.key && !S.empty) ? S.prog : pgProgOf(packKey);
+          var st = { cards: 0, hist: 0, quiz: 0, notes: 0, mistakes: 0 };
+          var merged = pgMergeProg(curProg, incoming, st);
+          if (packKey === S.key && !S.empty) {
+            S.prog = merged;
             saveProg();
+          } else {
+            store.set('sp:prog:' + packKey, JSON.stringify(merged));
           }
           if (S.view === 'load' || S.view === 'overview') render();
           importModal('<h2 id="shT">' + tr('sync_success_title') + '</h2><p>' + tr('sync_success_body') + '</p><div class="sh-act"><button class="btn primary" data-act="nd_shClose">' + tr('share_close') + '</button></div>');
@@ -11490,7 +12045,7 @@ var NDQR = (function () {
   function tourKey(e) {
     if (!TOUR.on) return;
     if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); tourClose(); }
-    else if (e.key === 'ArrowRight' && TOUR.i >= -0 && TOUR.i < TOUR_STEPS.length - 1) { e.preventDefault(); TOUR.i++; tourRender(); }
+    else if (e.key === 'ArrowRight' && TOUR.i >= -1 && TOUR.i < TOUR_STEPS.length - 1) { e.preventDefault(); TOUR.i++; tourRender(); }
     else if (e.key === 'ArrowLeft' && TOUR.i > 0) { e.preventDefault(); TOUR.i--; tourRender(); }
     else if (e.key === 'Tab') {
       var f = $('#tour').querySelectorAll('button'); if (!f.length) return;
@@ -11538,6 +12093,7 @@ var NDQR = (function () {
   window.HIGHLIGHTER = HIGHLIGHTER;
   window.isReadingPassage = isReadingPassage;
   window.setQDrawer = setQDrawer;
+  window.setLang = setLang;
   window.S = S;
   window.go = go;
   window.render = render;
@@ -11567,9 +12123,16 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', function () {
     navigator.serviceWorker.register('sw.js').then(function (reg) {
       console.log('Service Worker registered:', reg.scope);
-      // Cache ngay trang hiện tại để lần sau mở offline được
+      // Cache ngay trang hiện tại và tài nguyên KaTeX để lần sau mở offline được
       return navigator.serviceWorker.ready.then(function (r) {
-        if (r.active) r.active.postMessage({ type: 'CACHE_URLS', urls: [location.href.split('#')[0]] });
+        if (r.active) r.active.postMessage({
+          type: 'CACHE_URLS',
+          urls: [
+            location.href.split('#')[0],
+            'https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css',
+            'https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js'
+          ]
+        });
       });
     }).catch(function (err) {
       console.log('Service Worker registration failed:', err);
